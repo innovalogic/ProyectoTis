@@ -8,9 +8,9 @@ const NavbarInicioDeSesion = () => {
         <div className="flex items-center space-x-4">
           <img src="src/Imagenes/LogoUniversidad.jpg" alt="LogoUniversidad" className="h-12 rounded-xl" />
           <div>
-            <span className="text-2xl font-bold text-white">PROYECTRACK</span>
+            <span className="text-2xl font-bold text-custom-bg">PROYECTRACK</span>
             <br />
-            <span className="text-sm font-bold text-white">
+            <span className="text-sm font-bold text-custom-bg">
               By 
               <img 
                 src="src/Imagenes/Logo.PNG" 
@@ -24,8 +24,8 @@ const NavbarInicioDeSesion = () => {
 
         {/* Links de Iniciar Sesión y Registrarse */}
         <div className="flex justify-end items-center space-x-8">
-          <a href="RegistroEstudiante" className="text-white hover:underline text-xl">Registrarse</a>
-          <a href="InicioSesion" className="text-white hover:underline text-xl">Iniciar Sesión</a>
+          <a href="RegistroEstudiante" className="text-custom-bg hover:underline text-xl">Registrarse</a>
+          <a href="InicioSesion" className="text-custom-bg hover:underline text-xl">Iniciar Sesión</a>
         </div>
       </div>
     </nav>

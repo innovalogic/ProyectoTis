@@ -19,14 +19,14 @@ export default function PaginaDeInicio() {
                     <div className="absolute inset-0 flex items-start justify-start">
                         <div className="mt-52 ml-0 bg-custom-bg bg-opacity-70 p-4 rounded-lg w-1/2">
                             <div className="font-sans italic">
-                                <span className="text-5xl font-bold" style={{ color: '#1E3664' }}>
+                                <span className="text-5xl font-plex font-bold" style={{ color: '#1E3664' }}>
                                     EVALUACIÓN
                                 </span>
-                                <span className="text-5xl" style={{ color: '#1E3664' }}>
+                                <span className="text-5xl font-plex" style={{ color: '#1E3664' }}>
                                     &nbsp;basada en&nbsp;
                                 </span>
                                 <br />
-                                <span className="text-5xl font-bold" style={{ color: '#1E3664' }}>
+                                <span className="text-5xl font-plex font-bold" style={{ color: '#1E3664' }}>
                                     PROYECTOS
                                 </span>
                             </div>
