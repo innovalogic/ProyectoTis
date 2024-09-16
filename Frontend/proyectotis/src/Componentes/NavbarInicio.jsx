@@ -25,7 +25,7 @@ const NavbarInicioDeSesion = () => {
         {/* Links de Iniciar Sesión y Registrarse */}
         <div className="flex justify-end items-center space-x-8">
           <a href="RegistroEstudiante" className="text-white hover:underline text-xl">Registrarse</a>
-          <a href="#login" className="text-white hover:underline text-xl">Iniciar Sesión</a>
+          <a href="InicioSesion" className="text-white hover:underline text-xl">Iniciar Sesión</a>
         </div>
       </div>
     </nav>
