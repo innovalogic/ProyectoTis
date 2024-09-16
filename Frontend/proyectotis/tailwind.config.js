@@ -6,6 +6,9 @@ export default {
       colors: {
         'custom-bg': '#EFE7DC',
       },
+      fontFamily: {
+        'plex': ['"IBM Plex Sans"', 'sans-serif'], // Agregamos la fuente IBM Plex Sans
+      },
     },
   },
   plugins: [],
