@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 // src/Paginas/PaginaDeInicio.jsx
 export default function PaginaDeInicio() {
     return (
@@ -6,6 +8,7 @@ export default function PaginaDeInicio() {
           ¡Bienvenido a la Página de Inicio!
         </h1>
         <p className="text-lg text-gray-700">Esta es la página principal de tu aplicación.</p>
+
       </div>
     );
   }
