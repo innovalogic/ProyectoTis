@@ -1,5 +1,5 @@
-.background-image {
-    background-image: url("/src/Imagenes/UMSSENTRADA6.jpg");
+.background-color {
+    background-color: #c2d2e9;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -12,15 +12,18 @@
   }
   
   .form-container {
-    background-color: rgba(192, 205, 222, 0.8);
-    border-radius: 10px;
-    padding: 30px;
-    width: 800px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #c2d2e9;
+    border-radius: 0px;
+    padding: 10px;
+    width: 80%;
+    height: 100%;
+    box-shadow: none !important; 
+    border: none !important;     
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 60px;
+    margin-left: 380px;
   }
   
   .form-grid {
@@ -33,12 +36,15 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+
   }
   
   .input-group {
     display: flex;
     flex-direction: column;
     width: 30%;
+    margin-right: 200px;
+    margin-left: 150px;
   }
   
   .input-field {
