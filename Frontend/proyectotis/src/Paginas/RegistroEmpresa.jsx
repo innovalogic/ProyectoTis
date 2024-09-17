@@ -71,12 +71,15 @@ export default function RegistroEmpresa() {
                                 onChange={handleChange}
                             >
                                 <option value="">Seleccionar Representante</option>
-                                <option value="1">Representante 1</option>
-                                <option value="2">Representante 2</option>
-                                <option value="3">Representante 3</option>
+                                <option value="1">Estudiante 1</option>
+                                <option value="2">Estudiante 2</option>
+                                <option value="3">Estudiante 3</option>
                             </select>
+                            <div className="form-row button-row">
+                                <button type="submit" className="btn-register">Añadir</button>
+                                <button type="submit" className="btn-register">Nuevo</button>
+                            </div>
                         </div>
-
                         <div className="input-group">
                             <label htmlFor="">Lista Grupo Empresa</label>
                             <table className="input-field">
@@ -97,6 +100,11 @@ export default function RegistroEmpresa() {
                                     ))}
                                 </tbody>
                             </table>
+                            <div className="form-row button-row">
+                                <button type="submit" className="btn-register">Retirar</button>
+                                <button type="button" className="btn-cancel">Cancelar</button>
+                                <button type="submit" className="btn-register">Registrar</button>
+                            </div>
                         </div>
                     </div>
                 </form>
