@@ -1,4 +1,5 @@
-.background-image {
+/* Prefijo para las clases específicas de la página de RegistroEstudiante */
+.registro-estudiante-background {
   background-image: url("/src/Imagenes/UMSSENTRADA6.jpg");
   background-size: cover;
   background-position: center;
@@ -11,7 +12,7 @@
   flex-direction: column;
 }
 
-.form-container {
+.registro-estudiante-form-container {
   background-color: rgba(192, 205, 222, 0.8);
   border-radius: 10px;
   padding: 30px;
@@ -23,25 +24,25 @@
   margin-top: 60px;
 }
 
-.form-grid {
+.registro-estudiante-form-grid {
   display: flex;
   flex-direction: column;
   width: 100%;
 }
 
-.form-row {
+.registro-estudiante-form-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.input-group {
+.registro-estudiante-input-group {
   display: flex;
   flex-direction: column;
   width: 30%;
 }
 
-.input-field {
+.registro-estudiante-input-field {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -51,25 +52,26 @@
   margin-bottom: 15px;
 }
 
-.form-row .input-field:last-child {
+.registro-estudiante-form-row .registro-estudiante-input-field:last-child {
   margin-right: 0;
 }
 
-label {
+.registro-estudiante-label {
   font-size: 1rem;
   margin-bottom: 5px;
   color: #1E3664;
-  font-weight: bold; /* Para que las etiquetas sean en negrita */
+  font-weight: bold;
 }
+
 /* Estilos para los botones */
-.button-row {
+.registro-estudiante-button-row {
   display: flex;
   justify-content: center;
   width: 100%;
   margin-top: 20px;
 }
 
-.btn-register, .btn-cancel {
+.registro-estudiante-btn-register, .registro-estudiante-btn-cancel {
   padding: 10px 20px;
   font-size: 1rem;
   border-radius: 5px;
@@ -77,20 +79,18 @@ label {
   margin: 0 10px;
 }
 
-.btn-register {
+.registro-estudiante-btn-register {
   background-color: #1F3765;
   color: white;
   border: none;
 }
 
-.btn-cancel {
+.registro-estudiante-btn-cancel {
   background-color: #ff4d4d;
   color: white;
   border: none;
 }
 
-.btn-register:hover, .btn-cancel:hover {
+.registro-estudiante-btn-register:hover, .registro-estudiante-btn-cancel:hover {
   opacity: 0.8;
 }
-
-
