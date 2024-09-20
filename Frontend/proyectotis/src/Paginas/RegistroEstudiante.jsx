@@ -1,4 +1,5 @@
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
+import BarraCopyright from "../Componentes/BarraCopyright";
 import './RegistroEstudiante.css';
 
 export default function RegistroEstudiante() {
@@ -42,6 +43,10 @@ export default function RegistroEstudiante() {
                                 <label htmlFor="confirmarContrasena" className="registro-estudiante-label">Confirmar Contraseña</label>
                                 <input type="password" id="confirmarContrasena" placeholder="Confirmar Contraseña" className="registro-estudiante-input-field" />
                             </div>
+                            <div className="registro-estudiante-input-group">
+                                <label htmlFor="email" className="registro-estudiante-label">Email</label>
+                                <input type="email" id="email" placeholder="example@est.umss.edu" className="registro-estudiante-input-field" />
+                            </div>
                         </div>
                         <div className="registro-estudiante-form-row registro-estudiante-button-row">
                             <button type="button" className="registro-estudiante-btn-cancel">Cancelar</button>
@@ -50,6 +55,7 @@ export default function RegistroEstudiante() {
                     </form>
                 </div>
             </div>
+            <BarraCopyright/>
         </>
     );
 }
