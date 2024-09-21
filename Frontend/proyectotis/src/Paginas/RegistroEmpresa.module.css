@@ -1,0 +1,81 @@
+.form {
+  background-color: #c2d2e9;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Mínimo 200px por columna, se ajusta a 1fr cuando hay más espacio */
+  gap: 15px; /* Espacio entre los elementos */
+  padding: 20px;
+  padding-top: 80px;
+  width: 100%;
+}
+.form-group {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan si el espacio es limitado */
+  align-items: center;
+  gap: 10px; /* Espacio entre label e input */
+}
+
+.label {
+  color: #32569A;
+  font-weight: bold;
+  margin-bottom: 5px; /* Espacio debajo del label para separar del input */
+}
+
+.required::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+  position: absolute;
+}
+
+.input,
+.select {
+  border: 2px solid #32569A;
+  background-color: #d3d3d3; /* Gris oscuro */
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 1px 1px 3px rgba(50, 86, 154, 0.2);
+  outline: none;
+  font-size: 14px;
+  width: 100%; /* Hace que el input ocupe todo el ancho disponible de su contenedor */
+}
+.input:focus,
+.select:focus {
+  box-shadow: 1px 1px 5px rgba(50, 86, 154, 0.4);
+}
+
+.submit {
+  background-color: #32569A;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  grid-column: span 2; /* Ocupa toda la fila en la última fila */
+  width: 100%;
+}
+
+.submit:hover {
+  background-color: #274780;
+}
+
+/* Media Queries para diseño responsive */
+@media (max-width: 768px) {
+  .form {
+    grid-template-columns: 1fr; /* Una columna en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .label {
+    font-size: 14px; /* Ajusta el tamaño de fuente */
+  }
+
+  .input,
+  .select,
+  .submit {
+    padding: 12px; /* Ajusta el padding */
+    font-size: 16px; /* Ajusta el tamaño de fuente */
+  }
+}

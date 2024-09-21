@@ -1,115 +1,44 @@
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
-import './RegistroEmpresa.css';
-import React, { useState } from 'react';
+import styles from './RegistroEmpresa.module.css'; // Importa el CSS módulo
+import Copyright from '../Componentes/BarraCopyright';
+import { useForm } from 'react-hook-form'; 
+
 export default function RegistroEmpresa() {
-    const [representantes, setRepresentantes] = useState([]);
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => console.log(data);
 
-    const generarNumero = () => {
-        // Retorna el siguiente número secuencial
-        return representantes.length + 1;
-    };
+  return (
+    <>
+      <NavbarInicioDeSesion />
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+  <label htmlFor="nombre" className={`${styles.label} ${styles.required}`}>Nombre de Empresa</label>
+  <input {...register("NombreEmpresa")} className={styles.input} />
 
-    const handleChange = (event) => {
-        const value = event.target.value;
-        if (value) {
-            const selectedOption = event.target.options[event.target.selectedIndex];
-            const nombre = selectedOption.text;
+  <label htmlFor="nombre" className={`${styles.label} ${styles.required}`}>Nombre Corto de la Empresa</label>
+  <input {...register("NombreCorto")} className={styles.input} />
 
-            // Añadir nuevo representante a la lista
-            setRepresentantes(prevRepresentantes => [
-                ...prevRepresentantes,
-                { numero: generarNumero(), nombre }
-            ]);
-        }
-    };
-    return (
-        <>
-        <NavbarInicioDeSesion />
-        <div className="background-color">
-            <div className="form-container">
-                <h1 className="text-4xl font-bold italic" style={{ color: '#1F3765', margin: '15px' }}>Registro Grupo Empresa</h1>
-                <form className="form-grid">
-                    <div className="form-row">
-                        <div className="input-group">
-                            <label htmlFor="nombre">Nombre de Empresa</label>
-                            <input type="text" id="nombreEmpresa" placeholder="Nombre de Empresa" className="input-field" />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="apellido">Nombre corto de la Empresa</label>
-                            <input type="text" id="nombreCorto" placeholder="Nombre corto de la Empresa" className="input-field" />
-                        </div>
-                    </div>
+  <label htmlFor="nombre" className={`${styles.label} ${styles.required}`}>Correo electrónico de la empresa</label>
+  <input {...register("CorreoEmpresa")} className={styles.input} />
 
-                    <div className="form-row">
-                        <div className="input-group">
-                            <label htmlFor="correo">Correo electrónico de la empresa</label>
-                            <input type="text" id="correo" placeholder="Correo electrónico de la empresa" className="input-field" />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="nombreRep">Nombre Representante Legal</label>
-                            <input type="text" id="nombreRep" placeholder="Nombre Representante Legal" className="input-field" />
-                        </div>
-                    </div>    
+  <label htmlFor="nombre" className={`${styles.label} ${styles.required}`}>Nombre Representante Legal</label>
+  <input {...register("NombreRepresentante")} className={styles.input} />
 
-                    <div className="form-row">
-                        <div className="input-group">
-                            <label htmlFor="numeroRep">Número Representante Legal</label>
-                            <input type="text" id="numeroRep" placeholder="Número Representante Legal" className="input-field" />
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="foto">Seleccionar Foto</label>
-                            <input type="file" id="foto" name="foto" className="input-field" accept="image/*" />
-                        </div>
-                    </div> 
+  <label htmlFor="nombre" className={`${styles.label} ${styles.required}`}>Número Representante Legal</label>
+  <input {...register("NumeroRepresentante")} className={styles.input} />
 
-                    <div className="form-row">
-                        <div className="input-group">
-                            <label htmlFor="estudiante">Estudiante</label>
-                            <select
-                                id="estudiante"
-                                className="input-field"
-                                onChange={handleChange}
-                            >
-                                <option value="">Seleccionar Representante</option>
-                                <option value="1">Estudiante 1</option>
-                                <option value="2">Estudiante 2</option>
-                                <option value="3">Estudiante 3</option>
-                            </select>
-                            <div className="form-row button-row">
-                                <button type="submit" className="btn-register">Añadir</button>
-                                <button type="submit" className="btn-register">Nuevo</button>
-                            </div>
-                        </div>
-                        <div className="input-group">
-                            <label htmlFor="">Lista Grupo Empresa</label>
-                            <table className="input-field">
-                                <thead>
-                                    <tr>
-                                        <th>Número</th>
-                                        <th>Nombre</th>
-                                        <th>Número de Teléfono</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {representantes.map((rep, index) => (
-                                        <tr key={index}>
-                                            <td><input type="text" value={rep.numero} readOnly /></td>
-                                            <td><input type="text" value={rep.nombre} readOnly /></td>
-                                            <td><input type="text" placeholder="Número de Teléfono" /></td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                            <div className="form-row button-row">
-                                <button type="submit" className="btn-register">Retirar</button>
-                                <button type="button" className="btn-cancel">Cancelar</button>
-                                <button type="submit" className="btn-register">Registrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+  <label htmlFor="foto" className={`${styles.label} ${styles.required}`}>Logo de la Empresa</label>
+  <input type="file" id="foto" name="foto" accept="image/*"{...register("foto")} className={styles.input} />
+
+  <label htmlFor="foto">Estudiante</label>
+  <select {...register("gender")} className={styles.select}>
+    <option value="female">female</option>
+    <option value="male">male</option>
+    <option value="other">other</option>
+  </select>
+
+  <input type="submit" className={styles.submit} />
+</form>
+      <Copyright/>
     </>
-    );
+  );
 }
