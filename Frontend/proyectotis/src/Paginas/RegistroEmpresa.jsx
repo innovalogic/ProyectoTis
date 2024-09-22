@@ -14,26 +14,26 @@ export default function RegistroEmpresa() {
   return (
     <>
         <NavbarInicioDeSesion />
-        <div style={{ display: 'flex', height: '100vh', marginTop: '70px' }}>
+        <div style={{ display: 'flex', height: '100vh', marginTop: '70px'}}>
         <Sidebar
           collapsed={collapsed}
           className="bg-[#32569A] text-white shadow-lg transition-all duration-300 ease-in-out"
           style={{ width: collapsed ? '80px' : '250px' }} 
         >
           <div className={`${styles.sidebarHeader} bg-[#32569A]`}>
-            <h1 className={`${collapsed ? 'hidden' : 'block'} text-white font-bold text-2xl`}>Menú</h1>
-            <div style={{ marginLeft: '16px', paddingTop: '20px' }}>
+            <div className="flex items-center justify-between p-4">
+              <h1 className={`${collapsed ? 'hidden' : 'block'} text-white font-bold text-2xl`}>Menú</h1>
               <button
                 onClick={() => setCollapsed(!collapsed)}
-                className="bg-blue-500 text-white p-2 rounded flex items-center justify-center"
+                className="bg-[#32569A] text-white p-2 rounded flex items-center justify-center"
               >
                 <img
-                src="/src/Imagenes/Barra.png"
-                alt={collapsed ? 'Expandir' : 'Colapsar'}
-                className="w-6 h-6"
+                  src="/src/Imagenes/Barra.png"
+                  alt={collapsed ? 'Expandir' : 'Colapsar'}
+                  className="w-6 h-6"
                 />
               </button>
-            </div>
+          </div>
             <div className="text-center" style={{marginTop: '15px' }}>
               <img src="/src/Imagenes/Estudiante.png" alt="Logo" className="w-16 h-16 inline-block" />
             </div>
@@ -94,6 +94,15 @@ export default function RegistroEmpresa() {
         </MenuItem>
       </SubMenu>
     </Menu>
+
+    <div className="mt-auto p-4 bg-[#32569A]">
+    <button
+      className="bg-red-500 text-white p-2 rounded w-full"
+      onClick={() => alert('Cerrando sesión...')}
+    >
+      Cerrar sesión
+    </button>
+  </div>
   </Sidebar>
 
   <form onSubmit={handleSubmit(onSubmit)} className={`space-y-4 p-4 flex-1 bg-[#c2d2e9] rounded-md` }>
@@ -206,6 +215,43 @@ export default function RegistroEmpresa() {
       />
     </div>
   </div>
+  
+  <div className="overflow-x-auto p-4">
+  <table className="min-w-full bg-[#c2d2e9] border-collapse rounded-md shadow-md">
+    <thead>
+      <tr className="bg-[#c2d2e9] text-black">
+        <th className="py-2 px-4 border border-[#32569A]">Número</th>
+        <th className="py-2 px-4 border border-[#32569A]">Nombre</th>
+        <th className="py-2 px-4 border border-[#32569A]">Telefono</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td className="py-2 px-4 border border-[#32569A]">1</td>
+        <td className="py-2 px-4 border border-[#32569A]">Juan Pérez</td>
+        <td className="py-2 px-4 border border-[#32569A]">62353522</td>
+      </tr>
+      {/* Puedes agregar más filas aquí */}
+    </tbody>
+  </table>
+  <div className="mt-4 flex justify-end space-x-4">
+  <input
+        type="submit"
+        value="Retirar"
+        className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
+      />
+      <input
+  type="submit"
+  value="Cancelar"
+  className="bg-gray-300 text-black p-2 rounded-md cursor-pointer border-4 border-yellow-400"
+/>
+      <input
+        type="submit"
+        value="Registrar"
+        className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
+      />
+  </div>
+</div>
 
   </form>
 </div>
