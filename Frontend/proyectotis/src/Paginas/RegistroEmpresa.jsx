@@ -14,25 +14,26 @@ export default function RegistroEmpresa() {
   return (
     <>
         <NavbarInicioDeSesion />
-        <div style={{ display: 'flex', height: '100vh', marginTop: '70px'}}>
-        <Sidebar
-          collapsed={collapsed}
-          className="bg-[#32569A] text-white shadow-lg transition-all duration-300 ease-in-out"
-          style={{ width: collapsed ? '80px' : '250px' }} 
-        >
-          <div className={`${styles.sidebarHeader} bg-[#32569A]`}>
-            <div className="flex items-center justify-between p-4">
-              <h1 className={`${collapsed ? 'hidden' : 'block'} text-white font-bold text-2xl`}>Menú</h1>
-              <button
-                onClick={() => setCollapsed(!collapsed)}
-                className="bg-[#32569A] text-white p-2 rounded flex items-center justify-center"
-              >
-                <img
-                  src="/src/Imagenes/Barra.png"
-                  alt={collapsed ? 'Expandir' : 'Colapsar'}
-                  className="w-6 h-6"
-                />
-              </button>
+
+        <div style={{ display: 'flex', height: '100vh', marginTop: '70px', backgroundColor: '#32569A' }}>
+          <Sidebar
+            collapsed={collapsed}
+            className="bg-[#32569A] text-white shadow-lg transition-all duration-300 ease-in-out"
+            style={{ width: collapsed ? '80px' : '250px' }} 
+          >
+            <div className={`${styles.sidebarHeader} bg-[#32569A]`}>
+              <div className="flex items-center justify-between p-4">
+                <h1 className={`${collapsed ? 'hidden' : 'block'} text-white font-bold text-2xl`}>Menú</h1>
+                <button
+                  onClick={() => setCollapsed(!collapsed)}
+                  className="bg-[#32569A] text-white p-2 rounded flex items-center justify-center"
+                >
+                  <img
+                    src="/src/Imagenes/Barra.png"
+                    alt={collapsed ? 'Expandir' : 'Colapsar'}
+                    className="w-6 h-6"
+                  />
+                </button>
           </div>
             <div className="text-center" style={{marginTop: '15px' }}>
               <img src="/src/Imagenes/Estudiante.png" alt="Logo" className="w-16 h-16 inline-block" />
@@ -93,16 +94,17 @@ export default function RegistroEmpresa() {
           Informacion
         </MenuItem>
       </SubMenu>
-    </Menu>
-
-    <div className="mt-auto p-4 bg-[#32569A]">
-    <button
-      className="bg-red-500 text-white p-2 rounded w-full"
-      onClick={() => alert('Cerrando sesión...')}
+      <div className="mt-28">
+    <MenuItem
+      className="text-white font-bold"
+      onClick={() => alert('Has cerrado sesión.')}
+      icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
     >
       Cerrar sesión
-    </button>
+    </MenuItem>
   </div>
+    </Menu>
+
   </Sidebar>
 
   <form onSubmit={handleSubmit(onSubmit)} className={`space-y-4 p-4 flex-1 bg-[#c2d2e9] rounded-md` }>
