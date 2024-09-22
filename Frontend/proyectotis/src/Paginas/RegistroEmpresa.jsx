@@ -15,11 +15,11 @@ export default function RegistroEmpresa() {
     <>
         <NavbarInicioDeSesion />
 
-        <div style={{ display: 'flex', height: '100vh', marginTop: '70px', backgroundColor: '#32569A' }}>
+        <div style={{ display: 'flex', height: '100%', marginTop: '70px', backgroundColor: '#32569A' }}>
           <Sidebar
             collapsed={collapsed}
             className="bg-[#32569A] text-white shadow-lg transition-all duration-300 ease-in-out"
-            style={{ width: collapsed ? '80px' : '250px' }} 
+            style={{ width: collapsed ? '80px' : '250px', height: '100%' }} 
           >
             <div className={`${styles.sidebarHeader} bg-[#32569A]`}>
               <div className="flex items-center justify-between p-4">
