@@ -4,8 +4,10 @@
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Mínimo 200px por columna, se ajusta a 1fr cuando hay más espacio */
   gap: 15px; /* Espacio entre los elementos */
   padding: 20px;
-  padding-top: 80px;
+  padding-top: 150px;
   width: 100%;
+  padding-bottom: 30%;
+  padding-left: 300px;
 }
 .form-group {
   display: flex;
@@ -79,4 +81,53 @@
     padding: 12px; /* Ajusta el padding */
     font-size: 16px; /* Ajusta el tamaño de fuente */
   }
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 250px; 
+  background-color: #32569A; 
+  height: calc(100vh - 95px); 
+  padding-top: 50px; 
+  position: fixed; 
+  left: 0; 
+  top: 0; 
+  margin-top: 70px;
+}
+.menuItem {
+  color: rgb(255, 255, 255); 
+  padding: 10px;  
+  display: block; 
+  font-weight: bold;
+}
+
+.activeMenuItem {
+  background-color: #1d3a6d;
+  color: #b6c8d9; /* Color del texto del ítem activo */
+}
+
+/* Estilos para el SubMenu */
+.subMenu {
+  background-color: #2a5b8d; /* Color de fondo del SubMenu */
+  border-radius: 4px; /* Bordes redondeados para el SubMenu */
+  margin: 5px 0; /* Margen para separar el SubMenu de otros ítems */
+}
+
+/* Estilos para los ítems del SubMenu */
+.subMenu .menuItem {
+  padding: 10px 20px; /* Espaciado interno para los ítems del SubMenu */
+  background-color: #2a5b8d; /* Color de fondo de los ítems del SubMenu */
+  color: white; /* Color del texto de los ítems del SubMenu */
+}
+
+/* Estilo al pasar el ratón sobre los ítems del SubMenu */
+.subMenu .menuItem:hover {
+  background-color: #1d3a6d; /* Color de fondo al pasar el ratón sobre los ítems del SubMenu */
+}
+
+/* Estilo para el ítem activo en el SubMenu */
+.subMenu .activeMenuItem {
+  background-color: #1d3a6d; /* Color de fondo para el ítem activo en el SubMenu */
+  color: #0670d3; /* Color del texto del ítem activo en el SubMenu */
 }
