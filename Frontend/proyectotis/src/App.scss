@@ -1,0 +1,187 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+$crema:#EFE7DC;
+$azulPastel:#32569A;
+$fondoEst:#C2D2E9;
+$azulfuerte:#1E3664;
+
+.flex{
+    display: flex;
+    position: sticky;
+}
+.HomeE{
+    display:flex;
+}
+.Encabezado{
+    background-color: $azulfuerte;
+    padding: 1rem 2rem;
+    border-bottom: 3px solid $azulfuerte;
+}
+.SidebarEst {
+    background: #32569A;
+    .Sidebarboton{
+        position: absolute;
+        top: 1cm;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: $azulPastel;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.1s;
+        color: $crema;
+    }
+    .LogoContent{
+        display: block;
+        .IconoEst{
+            display: flex;
+            img{
+                max-width: 100%;   
+            }
+            cursor:pointer
+        }
+    }
+    .LinkContainer{
+        margin: 8px 0;
+        padding: 0 15%;
+        :hover{
+            background: $azulfuerte;
+        }
+        .link{
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            padding: calc(8px - 2px) 0;
+            .Linkicon{
+                padding: 8px 16px;
+                display: flex;
+            }
+            &.active{
+                background-color: #1E3664;
+                .Linkicon{
+                    svg{
+                        color: #C2D2E9;
+                    }
+                }
+                span{
+                    color: #C2D2E9;
+                }
+            }
+        }
+    }
+}
+.sidebarStateActive {
+    margin-top: 0cm;
+    width: 300px;
+    height: 931px;
+    background: #32569A;
+    .SidebarEst{
+        .Sidebarboton{
+            right:1815px;
+            transform: initial;
+        }
+        .LogoContent{
+            .IconoEst{
+                margin: 0px;
+                img{
+                    scale: 0.6;
+                    height: 300px;
+                }
+            }
+        }
+        .LinkContainer{
+            :hover{
+                background: $azulfuerte;
+                border-radius: 0.5rem;
+            }
+            .link{
+                border-radius: 0.5rem;
+                padding-top: 8px;
+                padding-bottom: 8px;
+                width: 100%;
+                .Linkicon{
+                    svg{
+                        font-size: 30px;
+                        color: $crema;
+                    }
+                }
+                span{
+                    color: #EFE7DC;
+                    font-size: 20px;
+                }
+                &.active{
+                    background-color: #1E3664;
+                    width: 100%;
+                    span{
+                        color: $fondoEst;
+                    }
+                    .Linkicon{
+                        svg{
+                            color: $fondoEst;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.sidebarState {
+    width: 2.5cm;
+    height: 931px;
+    background: #32569A;
+    .SidebarEst{
+        .Sidebarboton{
+            right:2020px;
+            transform: rotate(180deg);
+        }
+        .LogoContent{
+            .IconoEst{
+                
+                img{
+                    margin-top: 1cm;
+                    margin-left: 0.35cm;
+                    scale: 1;
+                    height:70px;;
+                }
+            }
+        }
+        .LinkContainer{
+            :hover{
+                background: $azulfuerte;
+                border-radius: 0.5rem;
+            }
+            .link{
+                border-radius: 0.5rem;
+                padding-top: 8px;
+                padding-bottom: 8px;
+                width: 100%;
+                .Linkicon{
+                    svg{
+                        font-size: 35px;
+                        color: $crema;
+                    }
+                }
+                span{
+                    display: none;
+                }
+                &.active{
+                    background-color: #1E3664;
+                    width: 100%;
+                    .Linkicon{
+                        svg{
+                            color: $fondoEst;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.Planificacion{
+    background-color: #C2D2E9;
+}
