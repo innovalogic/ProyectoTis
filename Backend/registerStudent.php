@@ -1,4 +1,7 @@
 <?php
+// Iniciar un buffer de salida para capturar cualquier salida inesperada
+ob_start();
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
@@ -27,13 +30,19 @@ if (
         $stmt->bindParam(':contrasena', $contrasenaHashed);
 
         if ($stmt->execute()) {
+            // Limpia cualquier salida previa antes de enviar la respuesta JSON
+            ob_end_clean();
             echo json_encode(['success' => true, 'message' => 'Estudiante registrado']);
         } else {
+            ob_end_clean();
             echo json_encode(['success' => false, 'message' => 'Error al registrar el estudiante']);
         }
     } catch (PDOException $e) {
+        ob_end_clean();
         echo json_encode(['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()]);
     }
 } else {
+    ob_end_clean();
     echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
 }
+?>
