@@ -5,7 +5,6 @@ import PaginaDeInicio from './Paginas/PaginaDeInicio';
 import InicioSesion from './Paginas/InicioSesion';
 import RegistroEstudiante from './Paginas/RegistroEstudiante';
 import RegistroEmpresa from './Paginas/RegistroEmpresa';
-import EstRouters from './Paginas/PáginasEst/EstRouters';
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
         <Route path="InicioSesion" element={<InicioSesion/>}/>
         <Route path="RegistroEstudiante" element={<RegistroEstudiante/>}/>
         <Route path="RegistroEmpresa" element={<RegistroEmpresa/>}/>
-        <Route path="/*" element={<EstRouters/>}/>
       </Routes>
     </Router>
   );

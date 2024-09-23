@@ -2,7 +2,7 @@ import React from 'react';
 
 const NavbarInicioDeSesion = () => {
   return (
-    <nav className="bg-[#32569A] p-2 w-full">
+    <nav className="bg-[#32569A] p-2 w-full fixed top-0 left-0 z-10">
       <div className="flex justify-between items-center pl-0 pr-20">
         {/* Imagen con bordes redondos y texto al lado */}
         <div className="flex items-center space-x-4">
@@ -17,14 +17,15 @@ const NavbarInicioDeSesion = () => {
                 alt="InnovalogicLogo" 
                 className="inline-block h-4 w-4 mx-2" 
               /> 
-              INNOVALOGIC</span>
+              INNOVALOGIC
+            </span>
           </div>
         </div>
 
         {/* Links de Iniciar Sesión y Registrarse */}
         <div className="flex justify-end items-center space-x-8">
-          <a href="#register" className="text-custom-bg hover:underline text-xl">Registrarse</a>
-          <a href="#login" className="text-custom-bg hover:underline text-xl">Iniciar Sesión</a>
+          <a href="RegistroEstudiante" className="text-custom-bg hover:underline text-xl">Registrarse</a>
+          <a href="InicioSesion" className="text-custom-bg hover:underline text-xl">Iniciar Sesión</a>
         </div>
       </div>
     </nav>
