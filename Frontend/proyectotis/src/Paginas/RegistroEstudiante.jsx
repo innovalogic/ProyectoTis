@@ -39,10 +39,11 @@ export default function RegistroEstudiante() {
                 body: JSON.stringify(formData),
             });
     
-            const text = await response.text(); // Leer como texto
-            console.log("Respuesta del servidor:", text); // Imprimir la respuesta
+            if (!response.ok) {
+                throw new Error("Error en la respuesta del servidor.");
+            }
     
-            const result = JSON.parse(text); // Luego intenta convertir a JSON
+            const result = await response.json(); // Directamente parsear como JSON
             console.log("Resultado procesado:", result);
             
             if (result.success) {
@@ -55,6 +56,7 @@ export default function RegistroEstudiante() {
             alert("Hubo un problema al registrar el estudiante.");
         }
     };
+    
     
 
     return (
