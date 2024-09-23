@@ -5,7 +5,7 @@ import PaginaDeInicio from './Paginas/PaginaDeInicio';
 import InicioSesion from './Paginas/InicioSesion';
 import RegistroEstudiante from './Paginas/RegistroEstudiante';
 import RegistroEmpresa from './Paginas/RegistroEmpresa';
-import EstRouters from './Paginas/EstRouters';
+import EstRouters from './Paginas/PáginasEst/EstRouters';
 
 function App() {
   return (

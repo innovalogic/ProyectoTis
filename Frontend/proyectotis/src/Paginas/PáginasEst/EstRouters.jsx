@@ -4,18 +4,14 @@ import {HomeEstudiante} from "./HomeEstudiante"
 import {EvaluacionesEst} from "./EvaluacionesEst"
 import {CalendarioEst} from "./CalendarioEst"
 import {PlanificacionGE} from "./PlanificacionGE"
-import { SidebarEst } from "../Componentes/SidebarEst"
-import {Encabezado}from "../Componentes/Encabezado"
-import '../App.scss'
+import { SidebarEst } from "../../Componentes/SidebarEst"
+import {Encabezado}from "../../Componentes/Encabezado"
 const EstRouters = () => {
   
   return (
     <>
     <Encabezado/>    
     <div className="flex">
-      <section>
-        <SidebarEst/>
-      </section>
       <section>
         <div className="content">
           <Routes>
