@@ -26,8 +26,7 @@ if (
         $stmt->bindParam(':apellido', $data->apellido);
         $stmt->bindParam(':codsiss', $data->codsiss);
         $stmt->bindParam(':telefono', $data->telefono);
-        $contrasenaHashed = password_hash($data->contrasena, PASSWORD_BCRYPT);
-        $stmt->bindParam(':contrasena', $contrasenaHashed);
+        $stmt->bindParam(':contrasena', $data->contrasena); 
 
         if ($stmt->execute()) {
             // Limpia cualquier salida previa antes de enviar la respuesta JSON
