@@ -20,19 +20,32 @@ if (
     !empty($data->foto)
 ) {
     try {
-        $query = 'INSERT INTO "GrupoEmpresa" ("nombreEmpresa", "nombreCortoEmpresa","correoEmpresa","nombreRepresentante","numeroRepresentante","logoEmpresa")
-         VALUES (:NombreEmpresa,:NombreCorto,:CorreoEmpresa,:NombreRepresentante,:NumeroRepresentante,:foto)';
+        $query = 'INSERT INTO "GrupoEmpresa" (
+            "nombreEmpresa",
+            "nombreCortoEmpresa",
+            "correoEmpresa",
+            "nombreRepresentante",
+            "numeroRepresentante",
+            "logoEmpresa"
+        ) VALUES (
+            :NombreEmpresa,
+            :NombreCorto,
+            :CorreoEmpresa,
+            :NombreRepresentante,
+            :NumeroRepresentante,
+            :foto
+        )';
 
         $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':nombreEmpresa', $data->NombreEmpresa);
-        $stmt->bindParam(':nombreCortoEmpresa', $data->NombreCorto);
-        $stmt->bindParam(':correoEmpresa', $data->CorreoEmpresa);
-        $stmt->bindParam(':nombreRepresentante', $data->NombreRepresentante);
-        $stmt->bindParam(':numeroRepresentante', $data->NumeroRepresentante);
-        $stmt->bindParam(':logoEmpresa', $data->foto);
+
+        $stmt->bindParam(':NombreEmpresa', $data->NombreEmpresa);
+        $stmt->bindParam(':NombreCorto', $data->NombreCorto);
+        $stmt->bindParam(':CorreoEmpresa', $data->CorreoEmpresa);
+        $stmt->bindParam(':NombreRepresentante', $data->NombreRepresentante);
+        $stmt->bindParam(':NumeroRepresentante', $data->NumeroRepresentante);
+        $stmt->bindParam(':foto', $data->foto);
 
         if ($stmt->execute()) {
-            // Limpia cualquier salida previa antes de enviar la respuesta JSON
             ob_end_clean();
             echo json_encode(['success' => true, 'message' => 'Grupo Empresa registrado']);
         } else {
