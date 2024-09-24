@@ -1,4 +1,5 @@
 // src/App.jsx
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PaginaDeInicio from './Paginas/PaginaDeInicio';
 import InicioSesion from './Paginas/InicioSesion';
