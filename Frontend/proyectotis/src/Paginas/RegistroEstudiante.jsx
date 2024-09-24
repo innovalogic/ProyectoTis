@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importa useNavigate para la redirección
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import BarraCopyright from "../Componentes/BarraCopyright";
+import Modal from "../Componentes/Modal";
 import './RegistroEstudiante.css';
 
 export default function RegistroEstudiante() {
@@ -15,6 +17,14 @@ export default function RegistroEstudiante() {
         email: ''
     });
 
+    const [modal, setModal] = useState({
+        show: false,
+        title: '',
+        message: ''
+    });
+
+    const navigate = useNavigate(); // Hook para redirigir a otra página
+
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData(prevState => ({
@@ -26,7 +36,11 @@ export default function RegistroEstudiante() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.contrasena !== formData.confirmarContrasena) {
-            alert("Las contraseñas no coinciden.");
+            setModal({
+                show: true,
+                title: 'Error',
+                message: 'Las contraseñas no coinciden.'
+            });
             return;
         }
     
@@ -43,21 +57,40 @@ export default function RegistroEstudiante() {
                 throw new Error("Error en la respuesta del servidor.");
             }
     
-            const result = await response.json(); // Directamente parsear como JSON
-            console.log("Resultado procesado:", result);
-            
+            const result = await response.json();
             if (result.success) {
-                alert("Registro exitoso");
+                setModal({
+                    show: true,
+                    title: 'Registro exitoso',
+                    message: 'El estudiante ha sido registrado exitosamente.'
+                });
             } else {
-                alert("Error en el registro: " + result.message);
+                setModal({
+                    show: true,
+                    title: 'Error en el registro',
+                    message: result.message
+                });
             }
         } catch (error) {
-            console.error('Error al registrar estudiante:', error);
-            alert("Hubo un problema al registrar el estudiante.");
+            setModal({
+                show: true,
+                title: 'Error',
+                message: 'Hubo un problema al registrar el estudiante.'
+            });
         }
     };
-    
-    
+
+    const closeModal = () => {
+        setModal({
+            ...modal,
+            show: false
+        });
+
+        // Si el registro fue exitoso, redirigir a otra página
+        if (modal.title === 'Registro exitoso') {
+            navigate('/InicioEstudiante'); // Redirigir a la página que prefieras
+        }
+    };
 
     return (
         <>
@@ -111,6 +144,12 @@ export default function RegistroEstudiante() {
                     </form>
                 </div>
             </div>
+            <Modal
+                show={modal.show}
+                onClose={closeModal}
+                title={modal.title}
+                message={modal.message}
+            />
             <BarraCopyright />
         </>
     );

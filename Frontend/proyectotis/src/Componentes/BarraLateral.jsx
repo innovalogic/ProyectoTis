@@ -50,7 +50,7 @@ export default function BarraLateral(){
             <MenuItem
                 className={`text-white font-bold`}
                 icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
-                component={<Link to="/documentation" />}
+                component={<Link to="/InicioEstudiante" />}
             >
                 Inicio
             </MenuItem>
