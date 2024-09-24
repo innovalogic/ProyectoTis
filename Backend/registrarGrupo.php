@@ -12,22 +12,24 @@ include_once 'db.php';
 $data = json_decode(file_get_contents("php://input"));
 
 if (
-    !empty($data->nombreEmpresa) &&
-    !empty($data->nombreCortoEmpresa) &&
-    !empty($data->correoEmpresa) &&
-    !empty($data->nombreRepresentante) &&
-    !empty($data->numeroRepresentante) &&
-    !empty($data->logoEmpresa)
+    !empty($data->NombreEmpresa) &&
+    !empty($data->NombreCorto) &&
+    !empty($data->CorreoEmpresa) &&
+    !empty($data->NombreRepresentante) &&
+    !empty($data->NumeroRepresentante) &&
+    !empty($data->foto)
 ) {
     try {
-        $query = 'INSERT INTO "GrupoEmpresa" ("nombreEmpresa", "nombreCortoEmpresa", "correoEmpresa", "nombreRepresentante", "numeroRepresentante", "logoEmpresa") 
-        VALUES (:nombreEmpresa, :nombreCortoEmpresa, :correoEmpresa, :nombreRepresentante, :numeroRepresentante, :logoEmpresa)';
-         $stmt->bindParam(':nombreEmpresa', $data->nombreEmpresa);
-         $stmt->bindParam(':nombreCortoEmpresa', $data->nombreCortoEmpresa);
-         $stmt->bindParam(':correoEmpresa', $data->correoEmpresa);
-         $stmt->bindParam(':nombreRepresentante', $data->nombreRepresentante);
-         $stmt->bindParam(':numeroRepresentante', $data->numeroRepresentante);
-         $stmt->bindParam(':logoEmpresa', $data->logoEmpresa);
+        $query = 'INSERT INTO "GrupoEmpresa" ("nombreEmpresa", "nombreCortoEmpresa","correoEmpresa","nombreRepresentante","numeroRepresentante","logoEmpresa")
+         VALUES (:NombreEmpresa,:NombreCorto,:CorreoEmpresa,:NombreRepresentante,:NumeroRepresentante,:foto)';
+
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':nombreEmpresa', $data->NombreEmpresa);
+        $stmt->bindParam(':nombreCortoEmpresa', $data->NombreCorto);
+        $stmt->bindParam(':correoEmpresa', $data->CorreoEmpresa);
+        $stmt->bindParam(':nombreRepresentante', $data->NombreRepresentante);
+        $stmt->bindParam(':numeroRepresentante', $data->NumeroRepresentante);
+        $stmt->bindParam(':logoEmpresa', $data->foto);
 
         if ($stmt->execute()) {
             // Limpia cualquier salida previa antes de enviar la respuesta JSON
