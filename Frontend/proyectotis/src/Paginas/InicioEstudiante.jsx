@@ -8,8 +8,10 @@ export default function InicioEstudiante() {
     return (
         <>
           <NavbarInicioDeSesion/>
-          <BarraLateral/>
-
+          <div>
+            <BarraLateral/>
+            <div></div>
+          </div>
           <BarraCopyright/>
         </>
     );
