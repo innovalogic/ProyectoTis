@@ -8,10 +8,9 @@ export default function InicioEstudiante() {
     return (
         <>
           <NavbarInicioDeSesion/>
-          <div>
+          <div style={{ display: 'flex', height: '100%', marginTop: '70px'}}>
             <BarraLateral/>
-            <div></div>
-          </div>
+            </div> 
           <BarraCopyright/>
         </>
     );
