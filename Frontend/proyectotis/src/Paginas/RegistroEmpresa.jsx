@@ -2,10 +2,31 @@ import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateral';
 import { useForm } from 'react-hook-form'; 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function RegistroEmpresa() {
 
   const { register, handleSubmit } = useForm();
+  const [preview, setPreview] = useState(null);
+
+  const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        // Reemplaza la URL con la ruta a tu archivo PHP
+        axios.get('http://localhost/proyectoris/backend/RecuperarEstudiante.php')
+            .then(response => {
+                if (response.data.success) {
+                    setData(response.data.data);
+                } else {
+                    setError(response.data.message);
+                }
+            })
+            .catch(error => {
+                setError('Error al obtener los datos');
+            });
+    }, []);
 
   const onSubmit = async (data) => {
     console.log(data)
@@ -35,7 +56,17 @@ export default function RegistroEmpresa() {
       alert("Hubo un problema al registrar GrupoEmpresa.");
     }
   };
-  
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      setPreview(objectUrl);
+    } else {
+      setPreview(null);
+    }
+  };
+
   return (
     <>
         <NavbarInicioDeSesion />
@@ -111,17 +142,47 @@ export default function RegistroEmpresa() {
             </div>
 
             <div className="flex flex-col w-full md:w-1/2">
-              <label htmlFor="foto" className="font-bold text-[#32569A]">
-                Logo de la Empresa <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="foto"
-                type="text"
-                {...register("foto")}
-                className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
-              />
-              
-              </div>
+                <label htmlFor="foto" className="font-bold text-[#32569A]">
+                  Logo de la Empresa <span className="text-red-500">*</span>
+                </label>
+                
+                {/* Input file oculto */}
+                <input
+                  id="foto"
+                  type="file"
+                  accept="image/*"
+                  {...register("foto")}
+                  className="hidden"
+                  onChange={handleFileChange}
+                />
+                <div className="flex items-center mt-2">
+                  {preview && (
+                    <div className="flex items-center">
+                      <img 
+                        src={preview} 
+                        alt="Vista previa" 
+                        className="w-32 h-32 object-cover border border-[#32569A] rounded-md"
+                      />
+                      {/* Botón personalizado */}
+                      <label
+                        htmlFor="foto"
+                        className="cursor-pointer bg-[#32569A] text-white p-1 rounded-md text-center ml-4 w-32"
+                      >
+                        Seleccionar archivo
+                      </label>
+                      </div>
+                    )}
+                    {!preview && (
+                      <label
+                        htmlFor="foto"
+                        className="cursor-pointer bg-[#32569A] text-white p-1 rounded-md text-center mt-2"
+                      >
+                        Seleccionar archivo
+                      </label>
+                    )}
+                  </div>
+                </div>
+
             </div>
 
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
@@ -181,7 +242,16 @@ export default function RegistroEmpresa() {
               />
           </div>
         </div>
-
+        <div>
+            {error && <p>Error: {error}</p>}
+            <ul>
+                {data.map(estudiante => (
+                    <li key={estudiante.idEstudiante}>
+                        {estudiante.nombreEstudiante} {estudiante.apellidoEstudiante}
+                    </li>
+                ))}
+            </ul>
+        </div>    
           </form>
         </div>
       <Copyright/>

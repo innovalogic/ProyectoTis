@@ -11,7 +11,7 @@ export default function BarraLateral(){
         <div className="flex h-screen">
             <Sidebar
                 collapsed={collapsed}
-                className="bg-[#32569A] text-white shadow-lg transition-all duration-300 ease-in-out"
+                className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"
                 style={{ width: collapsed ? '80px' : '250px', height: '100vh' }}
             >
                 <div className="flex flex-col h-full bg-[#32569A]">
@@ -81,7 +81,7 @@ export default function BarraLateral(){
                     style={{ backgroundColor: '#32569A', color: 'white' }}
                     icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
                 >
-                    <MenuItem className="text-white font-bold" component={<Link to="/empresa/overview" />}>
+                    <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
                         Registrar
                     </MenuItem>
                     <MenuItem className="text-white font-bold" component={<Link to="/empresa/departments" />}>
