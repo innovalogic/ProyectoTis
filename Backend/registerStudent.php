@@ -16,18 +16,19 @@ if (
     !empty($data->apellido) &&
     !empty($data->codsiss) &&
     !empty($data->telefono) &&
-    !empty($data->contrasena)
+    !empty($data->contrasena) &&
+    !empty($data->email)
 ) {
     try {
-        $query = 'INSERT INTO "Estudiante" ("nombreEstudiante", "apellidoEstudiante", "codSis", "telefonoEstudiante", "contraseñaEstudiante", "idGrupoEmpresa", "idDocente") 
-        VALUES (:nombre, :apellido, :codsiss, :telefono, :contrasena, null, 2)';
+        $query = 'INSERT INTO "Estudiante" ("nombreEstudiante", "apellidoEstudiante", "codSis", "telefonoEstudiante", "contraseñaEstudiante", "idGrupoEmpresa", "idDocente", "emailEstudiante") 
+        VALUES (:nombre, :apellido, :codsiss, :telefono, :contrasena, null, 2,:email)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':nombre', $data->nombre);
         $stmt->bindParam(':apellido', $data->apellido);
         $stmt->bindParam(':codsiss', $data->codsiss);
         $stmt->bindParam(':telefono', $data->telefono);
-        $contrasenaHashed = password_hash($data->contrasena, PASSWORD_BCRYPT);
-        $stmt->bindParam(':contrasena', $contrasenaHashed);
+        $stmt->bindParam(':contrasena', $data->contrasena); 
+        $stmt->bindParam(':email', $data->email);
 
         if ($stmt->execute()) {
             // Limpia cualquier salida previa antes de enviar la respuesta JSON
