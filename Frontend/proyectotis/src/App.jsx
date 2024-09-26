@@ -6,6 +6,7 @@ import InicioSesion from './Paginas/InicioSesion';
 import RegistroEstudiante from './Paginas/RegistroEstudiante';
 import RegistroEmpresa from './Paginas/RegistroEmpresa';
 import InicioEstudiante from './Paginas/InicioEstudiante';
+import RutasEst from './Paginas/RutasEst'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="RegistroEstudiante" element={<RegistroEstudiante/>}/>
         <Route path="RegistroEmpresa" element={<RegistroEmpresa/>}/>
         <Route path="InicioEstudiante" element={<InicioEstudiante/>}/>
+        <Route path="/*" element={<RutasEst/>}/>
       </Routes>
     </Router>
   );
