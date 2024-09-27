@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './EstilosComponentes.scss'; 
 const FormHU = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({
+  const [formDatos, setFormDatos] = useState({
     hu: '',
     responsable: '',
     fecha: '',
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
+    setFormDatos((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -16,14 +16,14 @@ const FormHU = ({ onSubmit }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (formData.hu && formData.responsable && formData.fecha) {
-      onSubmit(formData); // Llama a la función pasada desde el padre
-      setFormData({ hu: '', responsable: '', fecha: '' }); // Reinicia el formulario
+    if (formDatos.hu && formDatos.responsable && formDatos.fecha) {
+      onSubmit(formDatos); // Llama a la función pasada desde el padre
+      setFormDatos({ hu: '', responsable: '', fecha: '' }); // Reinicia el formulario
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='FormularioHU'>
       <div className='formulario'>
         <label>
           Nombre de la HU:
@@ -31,7 +31,7 @@ const FormHU = ({ onSubmit }) => {
         <br></br>
         <input
             type="text"
-            name="hu" value={formData.hu}
+            name="hu" value={formDatos.hu}
             onChange={handleChange}
             required
           />
@@ -44,7 +44,7 @@ const FormHU = ({ onSubmit }) => {
         <input
             type="text"
             name="responsable"
-            value={formData.responsable}
+            value={formDatos.responsable}
             onChange={handleChange}
             required
           />
@@ -57,7 +57,7 @@ const FormHU = ({ onSubmit }) => {
         <input 
           type="date" 
           name="fecha" 
-          value={formData.fecha} 
+          value={formDatos.fecha} 
           onChange={handleChange} 
           required />
       </div>
