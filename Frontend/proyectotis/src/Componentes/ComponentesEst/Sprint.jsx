@@ -12,7 +12,9 @@ const Sprint = ({ title }) => {
   const [startDate, setStartDate] = useState(null);
   const [StartDate, SetStartDate] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const handleOpenModal = () => {
+  const [formLabel, setFormLabel]=useState('');
+  const handleOpenModal = (label) => {
+    setFormLabel(label);
     setIsModalOpen(true);
   };
   const handleCloseModal = () => {
@@ -24,7 +26,6 @@ const Sprint = ({ title }) => {
       hu: formData.hu,
       responsable: formData.responsable,
       fecha: formData.fecha,
-      estado: formData.estado,
     };
     setData((prevData) => [...prevData, newEntry]); // Añade el nuevo dato al array
     handleCloseModal();
@@ -55,20 +56,26 @@ const Sprint = ({ title }) => {
           </div>
         </div>
         <div className='botones'>
-          <button className="añadir" onClick={handleOpenModal}> 
-            <GoPlus/>
-            <span>Añadir HU</span>
-          </button>
           <div>
-          <ModalEst isOpen={isModalOpen} onClose={handleCloseModal} className=''>
-            <h2 className='titu'>Añadir Historia de Usuario</h2>
-            <FormHU onSubmit={handleSubmit} />
-          </ModalEst>
+            <button className="añadir" onClick={() => handleOpenModal('HU')}> 
+              <GoPlus/>
+              <span>Añadir HU</span>
+            </button>
+            <div>
+              <ModalEst isOpen={isModalOpen} onClose={handleCloseModal}>
+                <h2 className='titu'>Añadir actividad</h2>
+                <FormHU onSubmit={handleSubmit}>
+                  {formLabel}
+                </FormHU>
+              </ModalEst>
+            </div>
           </div>
-          <button className="añadir">
-            <GoPlus/>
-            <span>Añadir Tarea</span>
-          </button>
+          <div>
+            <button className="añadir" onClick={() => handleOpenModal('Tarea')}>
+              <GoPlus/>
+              <span>Añadir Tarea</span>
+            </button>
+          </div>
         </div> 
         <div className='tabla'>
           {data.length > 0 ? (

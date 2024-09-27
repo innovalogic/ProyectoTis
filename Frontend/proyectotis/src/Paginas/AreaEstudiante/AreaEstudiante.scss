@@ -19,15 +19,24 @@ $azulfuerte:#1E3664;
     background-color: $azulfuerte;
     padding: 1rem 2rem;
     border-bottom: 3px solid $azulfuerte;
+    width: 100vw;
+    height: 90px;
+}
+.barraOculta{
+    width: calc(100vw - 81px);
+}
+.barraActiva{
+    width: calc(100vw - 251px);
 }
 .Plani{
+    width: calc(100vw - 251px);
+    height:calc(100vh - 132px);
+    background-color: #C2D2E9;
     .Planificacion{
         margin-left: 0%;
         margin-right: 0%;
         background-color: $fondoEst;
         background-size: cover;
-        width: 2053px;
-        height: 889px;
         .titulo{
             display: flex;
             font-size: 40px;

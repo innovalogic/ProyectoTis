@@ -8,7 +8,9 @@ const customStyles = {
         minHeight: '45px', // Altura mínima de las filas
         backgroundColor: '#7ea1d3', // Color de fondo de las filas
         '&:nth-of-type(even)': {
-          backgroundColor: '##7ea1d3', // Color de fondo de filas pares
+          backgroundColor: '#7ea1d3', // Color de fondo de filas pares
+          textAlign: 'center'
+          
         },
       },
       textAlign: 'center',
@@ -17,11 +19,9 @@ const customStyles = {
       style: {
         backgroundColor: '#1E3664', // Color de fondo del encabezado
         color: '#EFE7DC', // Color del texto del encabezado
-        fontWeight: 'bold', // Negrita en el encabezado
         padding: '10px',
         fontSize: '20px',
         textAlign: 'center',
-
       },
     },
     cells: {
@@ -29,26 +29,27 @@ const customStyles = {
         padding: '10px',
         color: '#1E3664', // Color del texto de las celdas
         fontSize: '18px', // Aumentar el tamaño del texto de las celdas
-      fontWeight: '600',
+        fontWeight: '600',
       },
     },
   };
 const TablaHU = ({ data, onDelete }) => {
     const columns = [
       {
+        name: 'ID',
+        selector: (row) => row.id,
+      },
+      {
         name: 'HU',
         selector: (row) => row.hu,
-        sortable: true,
       },
       {
         name: 'Responsable',
         selector: (row) => row.responsable,
-        sortable: true,
       },
       {
         name: 'Fecha',
         selector: (row) => row.fecha,
-        sortable: true,
       },
       {
         name: 'Acciones',
@@ -67,7 +68,6 @@ const TablaHU = ({ data, onDelete }) => {
         data={data}
         highlightOnHover
         customStyles={customStyles}
-        className='tabla'
       />
     );
 };

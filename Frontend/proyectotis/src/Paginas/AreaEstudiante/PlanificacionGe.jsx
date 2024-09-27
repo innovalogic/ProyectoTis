@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GoPlus, GoDash } from "react-icons/go";
 import Sprint from '../../Componentes/ComponentesEst/Sprint';
-import './AreaEstudiante.scss'
+import './AreaEstudiante.scss';
 
 export const PlanificacionGE = () => {
   const [count, setCount] = useState(0)
@@ -17,7 +17,7 @@ export const PlanificacionGE = () => {
     setCount(count - 1)
   };
   return (
-    <>
+    <main>
     <div className='Plani'>
       <div className='Planificacion'>
         <div className='titulo'>
@@ -42,6 +42,6 @@ export const PlanificacionGE = () => {
         </div>
       </div>
     </div>
-    </>
+    </main>
   )
 }

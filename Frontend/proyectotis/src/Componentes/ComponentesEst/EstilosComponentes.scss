@@ -63,15 +63,73 @@ $azulfuerte:#1E3664;
             }
             .titu{
                 font-weight: 600;
+                display: grid;
+                justify-content: center;
+                justify-items: center;
             }
         }
         .tabla{
+            display: flex;
             margin: 15px;
             width: 1650px;
             text-align: center;
             :hover{
                 background-color: $crema;
             }
+            .data-table {
+                display: grid;
+                &.rdt_Table {
+                  width: 100%; // Asegura que la tabla ocupe todo el ancho
+              
+                  th {
+                    text-align: center; // Centra el texto en las celdas del encabezado
+                    font-weight: bold; // Negrita en el encabezado
+                    padding: 10px;
+                    border-right: 1px solid #EFE7DC;
+                    height: 60px;
+                    align-items: center;
+                    align-content: center;
+                    justify-content: center;
+                    justify-items: center;
+                  }
+                  .egMrbW {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    box-sizing: border-box;
+                    line-height: normal;
+                    background-color: #1E3664;
+                    color: #EFE7DC;
+                    padding: 10px;
+                    font-size: 20px;
+                    text-align: center;
+                    justify-content: center;
+                  }
+                  .gQHxVU {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    box-sizing: border-box;
+                    line-height: normal;
+                    word-break: break-word;
+                    padding: 10px;
+                    color: #1E3664;
+                    font-size: 18px;
+                    font-weight: 600;
+                    justify-content: center;
+                    }
+              
+                  td {
+                    text-align: center; // Centra el texto en las celdas
+                    padding: 10px;
+                    border-right: 1px solid #1E3664; // Borde entre columnas
+              
+                    &:last-child {
+                      border-right: none; // Elimina el borde en la última celda
+                    }
+                  }
+                }
+              }
         }
     }
 }
@@ -122,11 +180,15 @@ $azulfuerte:#1E3664;
     justify-content: center;
     justify-items: center;
     input {
+        width: 365px;
         padding: 8px;
-        margin: 25px;
+        margin: 10px;
         border: 3px solid $azulPastel;
         border-radius: 4px;
         color: #C2D2E9;
+        :hover{
+            background-color:transparent;
+        }
     }
     button {
         padding: 10px;
@@ -135,10 +197,11 @@ $azulfuerte:#1E3664;
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        :hover{
+            background-color:$azulPastel;
+        }
     }
-    :hover{
-        background-color:transparent;
-    }
+    
 }  
 .tabla{
     width: 2000px;
