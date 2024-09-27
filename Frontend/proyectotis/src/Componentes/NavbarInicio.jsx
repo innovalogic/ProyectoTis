@@ -35,7 +35,7 @@ const NavbarInicioDeSesion = () => {
         {!shouldHideButtons && (
           <div className="flex justify-end items-center space-x-8">
             <a href="RegistroEstudiante" className="text-custom-bg hover:underline text-xl">Registrarse</a>
-            <a href="InicioSesionEstudiante" className="text-custom-bg hover:underline text-xl">Iniciar Sesión</a>
+            <a href="InicioSesion" className="text-custom-bg hover:underline text-xl">Iniciar Sesión</a>
           </div>
         )}
       </div>
