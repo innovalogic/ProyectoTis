@@ -88,7 +88,7 @@ export default function RegistroEstudiante() {
 
         // Si el registro fue exitoso, redirigir a otra página
         if (modal.title === 'Registro exitoso') {
-            navigate('/HomeEstudiante'); // Redirigir a la página que prefieras
+            navigate('/InicioEstudiante'); // Redirigir a la página que prefieras
         }
     };
 
