@@ -56,7 +56,7 @@ if (
         ob_end_clean();
         echo json_encode(['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()]);
     }
-} else {
+}else{
     ob_end_clean();
     echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
 }
