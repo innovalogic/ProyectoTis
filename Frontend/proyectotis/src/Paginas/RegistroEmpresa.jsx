@@ -1,6 +1,7 @@
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateral';
+import { handleFileUpload } from '../Componentes/SubirImagen';
 import { useForm } from 'react-hook-form'; 
 import React, { useState, useEffect } from 'react';
 
@@ -12,53 +13,34 @@ export default function RegistroEmpresa() {
     const [error, setError] = useState(null);
     const [preview, setPreview] = useState(null);
 
+
+  
+    const handleFileChange = (e) => {
+      const file = e.target.files[0];
+        if (file) {
+          const objectUrl = URL.createObjectURL(file);
+          setPreview(objectUrl); 
+        } else {
+          setPreview(null);
+        }
+   };
+
+   const ObtenerURL = () => {
     const [logoURL, setLogoURL] = React.useState("");
 
-    const handleFileUpload = async(event) => {
-      const files = event.target.files;
-      if (!files || files.length === 0) {
-        console.error("No se seleccionó ningún archivo.");
-        return;
-      }   
-      const file = files[0];
-      const imagen = new FormData();
-      imagen.append("file", file);
-      imagen.append("upload_preset", "Imagenes_Grupos_Tis");
-      imagen.append("cloud_name", "dtgcvktok");
-    
-      try {
-        const res = await fetch("https://api.cloudinary.com/v1_1/dtgcvktok/image/upload", {
-          method: "POST",
-          body: imagen
-        });
-    
-        if (!res.ok) {
-          throw new Error("Error en la respuesta de Cloudinary");
-        }
-    
-        const uploadedImage = await res.json();
-
-        setLogoURL(uploadedImage.url); 
-        console.log("Imagen subida:", uploadedImage.url);
-      } catch (error) {
-        console.error("Error al subir la imagen:", error);
-      }
-      
-    };
-  
-        const handleFileChange = (e) => {
-          const file = e.target.files[0];
-            if (file) {
-              handleFileUpload(file); 
-              const objectUrl = URL.createObjectURL(file);
-              setPreview(objectUrl); 
-            } else {
-              setPreview(null);
-            }
-       };
-
+    const onFileSelect = (event) => {
+        handleFileUpload(event, setLogoURL)
+            .then(url => {
+                setLogoURL(url);
+                console.log("URL de la imagen:", logoURL);
+            })
+            .catch(error => {
+                console.error("Error en el proceso de carga de archivo:", error);
+            });
+    }
+  };
  
-  const onSubmit = async (data) => {
+   const onSubmit = async (data) => {
     console.log(data)
     try {
       const response = await fetch('http://localhost/proyectotis/backend/registrarGrupo.php', {
@@ -66,14 +48,14 @@ export default function RegistroEmpresa() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data), // Usa los datos del formulario aquí
+        body: JSON.stringify(data),
       });
 
       if (!response.ok) {
         throw new Error("Error en la respuesta del servidor.");
       }
 
-      const result = await response.json(); // Directamente parsear como JSON
+      const result = await response.json(); 
       console.log("Resultado procesado:", result);
       
       if (result.success) {
