@@ -1,15 +1,8 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { NavDropdown } from 'react-bootstrap';
 
 const NavbarInicioDeSesion = () => {
-  const location = useLocation();
-
-  // Lista de rutas donde los botones deben desaparecer
-  const hiddenButtonsRoutes = ['/InicioEstudiante', '/Dashboard', '/PerfilEstudiante'];
-
-  // Verificamos si la ruta actual está en la lista de rutas
-  const shouldHideButtons = hiddenButtonsRoutes.includes(location.pathname);
-
   return (
     <nav className="bg-[#32569A] p-2 w-full fixed top-0 left-0 z-10">
       <div className="flex justify-between items-center pl-0 pr-20">
@@ -31,13 +24,30 @@ const NavbarInicioDeSesion = () => {
           </div>
         </div>
 
-        {/* Solo mostramos los botones si la ruta actual no está en hiddenButtonsRoutes */}
-        {!shouldHideButtons && (
-          <div className="flex justify-end items-center space-x-8">
-            <a href="RegistroEstudiante" className="text-custom-bg hover:underline text-xl">Registrarse</a>
-            <a href="InicioSesion" className="text-custom-bg hover:underline text-xl">Iniciar Sesión</a>
-          </div>
-        )}
+        {/* Menú de registro e iniciar sesión */}
+        <div className="flex justify-end items-center space-x-8">
+          {/* Enlace absoluto para "Registrarse" */}
+          <NavLink 
+            to="/RegistroEstudiante"  // Asegúrate de que la ruta es absoluta
+            className="text-custom-bg hover:bg-[#1E3664] hover:text-white p-2 rounded-lg text-xl no-underline transition duration-300"
+          >
+            Registrarse
+          </NavLink>
+
+          {/* Dropdown para Iniciar Sesión con rutas absolutas */}
+          <NavDropdown 
+            title={<span className="text-xl no-underline hover:bg-[#1E3664] hover:text-white p-2 rounded-lg transition duration-300">Iniciar Sesión</span>} 
+            id="basic-nav-dropdown" 
+            className="text-custom-bg no-underline"
+          >
+            <NavDropdown.Item as={NavLink} to="/InicioSesionEstudiante" className="nav-link">
+              Estudiante
+            </NavDropdown.Item>
+            <NavDropdown.Item as={NavLink} to="/InicioSesionDocente" className="nav-link">
+              Docente
+            </NavDropdown.Item>
+          </NavDropdown>
+        </div>
       </div>
     </nav>
   );

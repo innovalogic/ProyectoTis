@@ -4,15 +4,34 @@ import BarraLateral from '../Componentes/BarraLateral';
 import { handleFileUpload } from '../Componentes/SubirImagen';
 import { useForm } from 'react-hook-form'; 
 import React, { useState, useEffect } from 'react';
-
+import axios from 'axios';
 export default function RegistroEmpresa() {
 
   const { register, handleSubmit, setValue } = useForm();
-
+  
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [preview, setPreview] = useState(null);
 
+
+    useEffect(() => {
+      const obtenerEstudiantes = async () => {
+          try {
+              const response = await fetch('http://localhost/proyectoris/backend/RecuperarEstudiante.php');
+              const data = await response.json();
+              
+              if (data.success) {
+                  setEstudiantes(data.datos); // Cambia 'data' a 'datos'
+              } else {
+                  setError(data.message);
+              }
+          } catch (error) {
+              setError('Error al obtener los datos');
+          }
+      };
+
+      obtenerEstudiantes();
+  }, []);
 
   
     const handleFileChange = (e) => {
@@ -32,7 +51,7 @@ export default function RegistroEmpresa() {
         handleFileUpload(event, setLogoURL)
             .then(url => {
                 setLogoURL(url);
-                console.log("URL de la imagen:", logoURL);
+                console.log("URL de la image:", logoURL);
             })
             .catch(error => {
                 console.error("Error en el proceso de carga de archivo:", error);
@@ -68,7 +87,6 @@ export default function RegistroEmpresa() {
       alert("Hubo un problema al registrar GrupoEmpresa.");
     }
   };
-
 
 
   return (
@@ -239,7 +257,7 @@ export default function RegistroEmpresa() {
               <button
                 type="button"
                 className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
-                onClick={onSubmit}
+                onClick={ObtenerURL}
               >
                 Registrar
               </button>
