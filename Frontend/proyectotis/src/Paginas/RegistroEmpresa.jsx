@@ -1,6 +1,7 @@
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateral';
+import SubirImagen from '../Componentes/SubirImagen';
 import { useForm } from 'react-hook-form'; 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -8,7 +9,7 @@ import axios from 'axios';
 export default function RegistroEmpresa() {
 
   const { register, handleSubmit } = useForm();
-  const [preview, setPreview] = useState(null);
+
 
   const [data, setData] = useState([]);
     const [error, setError] = useState(null);
@@ -57,15 +58,7 @@ export default function RegistroEmpresa() {
     }
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const objectUrl = URL.createObjectURL(file);
-      setPreview(objectUrl);
-    } else {
-      setPreview(null);
-    }
-  };
+
 
   return (
     <>
@@ -142,45 +135,8 @@ export default function RegistroEmpresa() {
             </div>
 
             <div className="flex flex-col w-full md:w-1/2">
-                <label htmlFor="foto" className="font-bold text-[#32569A]">
-                  Logo de la Empresa <span className="text-red-500">*</span>
-                </label>
-                
-                {/* Input file oculto */}
-                <input
-                  id="foto"
-                  type="file"
-                  accept="image/*"
-                  {...register("foto")}
-                  className="hidden"
-                  onChange={handleFileChange}
-                />
-                <div className="flex items-center mt-2">
-                  {preview && (
-                    <div className="flex items-center">
-                      <img 
-                        src={preview} 
-                        alt="Vista previa" 
-                        className="w-32 h-32 object-cover border border-[#32569A] rounded-md"
-                      />
-                      {/* Botón personalizado */}
-                      <label
-                        htmlFor="foto"
-                        className="cursor-pointer bg-[#32569A] text-white p-1 rounded-md text-center ml-4 w-32"
-                      >
-                        Seleccionar archivo
-                      </label>
-                      </div>
-                    )}
-                    {!preview && (
-                      <label
-                        htmlFor="foto"
-                        className="cursor-pointer bg-[#32569A] text-white p-1 rounded-md text-center mt-2"
-                      >
-                        Seleccionar archivo
-                      </label>
-                    )}
-                  </div>
+                <SubirImagen/>
+
                 </div>
 
             </div>
