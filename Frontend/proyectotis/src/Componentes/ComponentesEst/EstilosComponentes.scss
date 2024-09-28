@@ -69,67 +69,8 @@ $azulfuerte:#1E3664;
             }
         }
         .tabla{
-            display: flex;
-            margin: 15px;
-            width: 1650px;
-            text-align: center;
-            :hover{
-                background-color: $crema;
-            }
-            .data-table {
-                display: grid;
-                &.rdt_Table {
-                  width: 100%; // Asegura que la tabla ocupe todo el ancho
-              
-                  th {
-                    text-align: center; // Centra el texto en las celdas del encabezado
-                    font-weight: bold; // Negrita en el encabezado
-                    padding: 10px;
-                    border-right: 1px solid #EFE7DC;
-                    height: 60px;
-                    align-items: center;
-                    align-content: center;
-                    justify-content: center;
-                    justify-items: center;
-                  }
-                  .egMrbW {
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-                    box-sizing: border-box;
-                    line-height: normal;
-                    background-color: #1E3664;
-                    color: #EFE7DC;
-                    padding: 10px;
-                    font-size: 20px;
-                    text-align: center;
-                    justify-content: center;
-                  }
-                  .gQHxVU {
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-                    box-sizing: border-box;
-                    line-height: normal;
-                    word-break: break-word;
-                    padding: 10px;
-                    color: #1E3664;
-                    font-size: 18px;
-                    font-weight: 600;
-                    justify-content: center;
-                    }
-              
-                  td {
-                    text-align: center; // Centra el texto en las celdas
-                    padding: 10px;
-                    border-right: 1px solid #1E3664; // Borde entre columnas
-              
-                    &:last-child {
-                      border-right: none; // Elimina el borde en la última celda
-                    }
-                  }
-                }
-              }
+            padding-top: 30px;
+            padding-right: 15px;
         }
     }
 }
@@ -151,6 +92,7 @@ $azulfuerte:#1E3664;
         width: 635px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         max-width: 1500px;
+        position: relative;
         .close-btn {
             border: none;
             cursor: pointer;
@@ -160,11 +102,11 @@ $azulfuerte:#1E3664;
             padding-left: 15px;
             padding-right: 15px;
             svg{
-                color: #C2D2E9;
-                font-size: 90px;
+                color: $azulfuerte;
+                font-size: 50px;
             }
             :hover{
-                background-color: transparent;
+                background-color: rgba(255, 255, 255, 0.2);
             }
         }
     }
@@ -174,18 +116,16 @@ $azulfuerte:#1E3664;
     display: flex;
     flex-direction: column;
     gap: 15px; /* Espaciado entre campos */
-    width: 600px;
     align-items: center;
-    align-content: center;
     justify-content: center;
-    justify-items: center;
+
     input {
-        width: 365px;
-        padding: 8px;
+        width: 450px;
+        padding-left: 8px;
+        padding-right: 8px;
         margin: 10px;
         border: 3px solid $azulPastel;
         border-radius: 4px;
-        color: #C2D2E9;
         :hover{
             background-color:transparent;
         }
@@ -202,14 +142,58 @@ $azulfuerte:#1E3664;
         }
     }
     
-}  
-.tabla{
-    width: 2000px;
+} 
+
+.data-table {
+    display: grid;
+    margin: 20px 0; // Añade un margen arriba y abajo
     justify-content: center;
-    justify-items: center;
-    color: #7ea1d3;
-    text-align: center;
-    :hover{
-        background-color: $crema;
+    
+    &.rdt_Table {
+        width: 100%; // Asegura que la tabla ocupe todo el ancho
+        justify-content: center;
+        
+        th, td {
+            justify-content: center;
+            text-align: center; // Centra el texto en las celdas
+            padding: 10px;
+            border-right: 1px solid #1E3664; // Añadir borde a la derecha de cada columna
+            border-left: 1px solid #1E3664;  // Añadir borde a la izquierda de cada columna
+            
+            &:first-child {
+                border-left: none; // Elimina el borde en la primera columna
+            }
+            
+            &:last-child {
+                border-right: none; // Elimina el borde en la última columna
+            }
+        }
+        
+        th {
+            font-weight: bold; // Negrita en el encabezado
+            padding: 10px;
+            border-bottom: 2px solid #1E3664; // Añadir un borde inferior en el encabezado
+            background-color: #1E3664; // Color de fondo del encabezado
+            color: #EFE7DC; // Color del texto del encabezado
+            justify-content: center;
+        }
+
+        td {
+            color: #1E3664; // Color del texto de las celdas
+            background-color: #7ea1d3; // Color de fondo de las filas
+            font-weight: 600;
+            justify-content: center;
+        }
+
+        // Alternar colores de fondo en filas impares
+        tr:nth-of-type(odd) td {
+            background-color: #7ea1d3;
+            justify-content: center;
+        }
+
+        tr:nth-of-type(even) td {
+            background-color: #d4e1f9;
+            justify-content: center;
+        }
     }
 }

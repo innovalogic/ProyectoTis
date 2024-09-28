@@ -8,12 +8,9 @@ const customStyles = {
         minHeight: '45px', // Altura mínima de las filas
         backgroundColor: '#7ea1d3', // Color de fondo de las filas
         '&:nth-of-type(even)': {
-          backgroundColor: '#7ea1d3', // Color de fondo de filas pares
-          textAlign: 'center'
-          
+          backgroundColor: '#7ea1d3', // Color de fondo de filas pares        
         },
       },
-      textAlign: 'center',
     },
     headCells: {
       style: {
@@ -21,7 +18,6 @@ const customStyles = {
         color: '#EFE7DC', // Color del texto del encabezado
         padding: '10px',
         fontSize: '20px',
-        textAlign: 'center',
       },
     },
     cells: {
@@ -40,8 +36,16 @@ const TablaHU = ({ data, onDelete }) => {
         selector: (row) => row.id,
       },
       {
+        name: 'Actividad',
+        selector: (row) => row.actividad,
+      },
+      {
+        name: 'Pertenece',
+        selector: (row) => row.pertenece,
+      },
+      {
         name: 'HU',
-        selector: (row) => row.hu,
+        selector: (row) => row.titulo,
       },
       {
         name: 'Responsable',
@@ -52,11 +56,17 @@ const TablaHU = ({ data, onDelete }) => {
         selector: (row) => row.fecha,
       },
       {
-        name: 'Acciones',
+        name: 'Eliminar',
         cell: (row) => (
-          <button onClick={() => onDelete(row.id)} style={{background:'none', border:'none', cursor:'pointer', display:'flex'}}>
-            <RiDeleteBin6Fill />
-            Eliminar</button>
+          <button onClick={() => onDelete(row.id)} 
+          style={{
+            background:'none', 
+            border:'none', 
+            cursor:'pointer', 
+            display:'flex',
+            alignItems:'center',}}>
+            <RiDeleteBin6Fill style={{ marginRight: '5px', fontSize: '20px' }}/>
+          </button>
         ),
         center: true,
       },

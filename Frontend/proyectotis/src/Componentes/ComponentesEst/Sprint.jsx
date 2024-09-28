@@ -22,8 +22,10 @@ const Sprint = ({ title }) => {
   };
   const handleSubmit = (formData) => {
     const newEntry = {
-      id: data.length + 1, // Asigna un ID basado en la longitud actual del array
-      hu: formData.hu,
+      id: data.length + 1, 
+      actividad: formData.actividad,
+      pertenece: formData.pertenece,
+      titulo: formData.titulo,
       responsable: formData.responsable,
       fecha: formData.fecha,
     };

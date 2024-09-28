@@ -6,7 +6,7 @@ import InicioSesion from './Paginas/InicioSesion';
 import RegistroEstudiante from './Paginas/RegistroEstudiante';
 import RegistroEmpresa from './Paginas/RegistroEmpresa';
 import InicioEstudiante from './Paginas/InicioEstudiante';
-import RutasEst from './Paginas/RutasEst'
+import { PlanificacionGE } from './Paginas/PlanificacionGe';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Route path="RegistroEstudiante" element={<RegistroEstudiante/>}/>
         <Route path="RegistroEmpresa" element={<RegistroEmpresa/>}/>
         <Route path="InicioEstudiante" element={<InicioEstudiante/>}/>
-        <Route path="/*" element={<RutasEst/>}/>
+        <Route path="Empresa/Planificacion" exact={true} Component={PlanificacionGE} />
       </Routes>
     </Router>
   );
