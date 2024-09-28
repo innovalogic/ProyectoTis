@@ -1,34 +1,63 @@
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateral';
-import SubirImagen from '../Componentes/SubirImagen';
 import { useForm } from 'react-hook-form'; 
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 export default function RegistroEmpresa() {
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
 
-
-  const [data, setData] = useState([]);
+    const [data, setData] = useState([]);
     const [error, setError] = useState(null);
+    const [preview, setPreview] = useState(null);
 
-    useEffect(() => {
-        // Reemplaza la URL con la ruta a tu archivo PHP
-        axios.get('http://localhost/proyectoris/backend/RecuperarEstudiante.php')
-            .then(response => {
-                if (response.data.success) {
-                    setData(response.data.data);
-                } else {
-                    setError(response.data.message);
-                }
-            })
-            .catch(error => {
-                setError('Error al obtener los datos');
-            });
-    }, []);
+    const [logoURL, setLogoURL] = React.useState("");
 
+    const handleFileUpload = async(event) => {
+      const files = event.target.files;
+      if (!files || files.length === 0) {
+        console.error("No se seleccionó ningún archivo.");
+        return;
+      }   
+      const file = files[0];
+      const imagen = new FormData();
+      imagen.append("file", file);
+      imagen.append("upload_preset", "Imagenes_Grupos_Tis");
+      imagen.append("cloud_name", "dtgcvktok");
+    
+      try {
+        const res = await fetch("https://api.cloudinary.com/v1_1/dtgcvktok/image/upload", {
+          method: "POST",
+          body: imagen
+        });
+    
+        if (!res.ok) {
+          throw new Error("Error en la respuesta de Cloudinary");
+        }
+    
+        const uploadedImage = await res.json();
+
+        setLogoURL(uploadedImage.url); 
+        console.log("Imagen subida:", uploadedImage.url);
+      } catch (error) {
+        console.error("Error al subir la imagen:", error);
+      }
+      
+    };
+  
+        const handleFileChange = (e) => {
+          const file = e.target.files[0];
+            if (file) {
+              handleFileUpload(file); 
+              const objectUrl = URL.createObjectURL(file);
+              setPreview(objectUrl); 
+            } else {
+              setPreview(null);
+            }
+       };
+
+ 
   const onSubmit = async (data) => {
     console.log(data)
     try {
@@ -66,10 +95,10 @@ export default function RegistroEmpresa() {
         <div style={{ display: 'flex', height: '100%', marginTop: '70px', backgroundColor: '#32569A' }}>
           <BarraLateral/>
 
-          <form onSubmit={handleSubmit(onSubmit)} className={`space-y-4 p-4 flex-1 bg-[#c2d2e9] rounded-md` }>
-            <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Registro de Empresa</h1>
-            <div className="flex flex-col md:flex-row md:space-x-4">
+        <form onSubmit={handleSubmit(onSubmit)} className={`space-y-4 p-4 flex-1 bg-[#c2d2e9] rounded-md` }>
+          <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Registro de Empresa</h1>
 
+          <div className="flex flex-col md:flex-row md:space-x-4">
             <div className="flex flex-col w-full md:w-1/2">
               <label htmlFor="nombre" className="font-bold text-[#32569A]">
                 Nombre de Empresa <span className="text-red-500">*</span>
@@ -118,7 +147,7 @@ export default function RegistroEmpresa() {
                 {...register("NombreRepresentante")}
                 className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
               />
-            </div>
+            </div>  
           </div>
 
           <div className="flex flex-col md:flex-row md:space-x-4">
@@ -135,8 +164,42 @@ export default function RegistroEmpresa() {
             </div>
 
             <div className="flex flex-col w-full md:w-1/2">
-                <SubirImagen/>
+                  <label htmlFor="foto" className="font-bold text-[#32569A]">
+                    Logo de la Empresa <span className="text-red-500">*</span>
+                  </label>
 
+                  <input
+                    id="foto"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+
+                  <div className="flex items-center mt-2">
+                    {preview && (
+                      <div className="flex items-center">
+                        <img 
+                          src={preview} 
+                          alt="Vista previa" 
+                          className="w-32 h-32 object-cover border border-[#32569A] rounded-md"
+                        />
+                        <label
+                          htmlFor="foto"
+                          className="cursor-pointer bg-[#32569A] text-white p-1 rounded-md text-center ml-4 w-32"
+                        >
+                          Seleccionar archivo
+                        </label>
+                      </div>
+                    )}
+                    {!preview && (
+                      <label
+                        htmlFor="foto"
+                        className="cursor-pointer bg-[#32569A] text-white p-1 rounded-md text-center mt-2"
+                      >
+                        Seleccionar archivo
+                      </label>
+                    )}
+                  </div>
                 </div>
 
             </div>
@@ -181,23 +244,28 @@ export default function RegistroEmpresa() {
             </tbody>
           </table>
           <div className="mt-4 flex justify-end space-x-4">
-          <input
-                type="submit"
-                value="Retirar"
-                className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
-              />
               <input
-          type="submit"
-          value="Cancelar"
-          className="bg-gray-300 text-black p-2 rounded-md cursor-pointer border-4 border-yellow-400"
-        />
+                    type="submit"
+                    value="Retirar"
+                    className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
+                  />
               <input
-                type="submit"
-                value="Registrar"
+                  type="submit"
+                  value="Cancelar"
+                  className="bg-gray-300 text-black p-2 rounded-md cursor-pointer border-4 border-yellow-400"
+                />
+              <button
+                type="button"
                 className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
-              />
+                onClick={onSubmit}
+              >
+                Registrar
+              </button>
+      
           </div>
-        </div>
+          </div>
+
+
         <div>
             {error && <p>Error: {error}</p>}
             <ul>

@@ -17,7 +17,7 @@ if (
     !empty($data->CorreoEmpresa) &&
     !empty($data->NombreRepresentante) &&
     !empty($data->NumeroRepresentante) &&
-    !empty($data->foto)
+    !empty($data->LogoURL)
 ) {
     try {
         $query = 'INSERT INTO "GrupoEmpresa" (
@@ -33,7 +33,7 @@ if (
             :CorreoEmpresa,
             :NombreRepresentante,
             :NumeroRepresentante,
-            :foto
+            :LogoURL
         )';
 
         $stmt = $pdo->prepare($query);
@@ -43,7 +43,7 @@ if (
         $stmt->bindParam(':CorreoEmpresa', $data->CorreoEmpresa);
         $stmt->bindParam(':NombreRepresentante', $data->NombreRepresentante);
         $stmt->bindParam(':NumeroRepresentante', $data->NumeroRepresentante);
-        $stmt->bindParam(':foto', $data->foto);
+        $stmt->bindParam(':foto', $data->LogoURL);
 
         if ($stmt->execute()) {
             ob_end_clean();
