@@ -9,6 +9,7 @@ export default function RegistroEmpresa() {
 
     const { register, handleSubmit, setValue } = useForm();
     const [imageUrl, setImageUrl] = useState('');
+    const [ultimoGrupo, setUltimoGrupo] = useState('');
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -27,11 +28,77 @@ export default function RegistroEmpresa() {
         alert("Este estudiante ya está en la lista.");
       }
     };
+
     const handleRetirarEstudiante = (idEstudiante) => {
       setSelectedEstudiantes((prevEstudiantes) => 
         prevEstudiantes.filter(est => est.idEstudiante !== idEstudiante)
       );
     };
+
+    const handleRegisterGroup = async (data) => {
+      const newData = { ...data, imageUrl: imageUrl };
+      try {
+          const response = await fetch('http://localhost/proyectotis/backend/registrarGrupo.php', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(newData),
+          });
+  
+          if (!response.ok) {
+              throw new Error("Error en la respuesta del servidor.");
+          }
+  
+          const result = await response.json(); 
+          if (result.success) {
+              console.log("ID del último registro:", result.lastUserId);
+              return result.lastUserId; // Devuelve el ID del grupo
+          } else {
+              alert("Error en el registro: " + result.message);
+          }
+      } catch (error) {
+          console.error('Error al registrar GrupoEmpresa:', error);
+          alert("Hubo un problema al registrar GrupoEmpresa.");
+      }
+  };
+
+
+      const asignarGrupoEstudiantes = async (ultimoGrupo) => {
+          const idsEstudiantes = selectedEstudiantes.map(estudiante => estudiante.idEstudiante);
+          
+          const dataToSend = {
+              estudiantes: idsEstudiantes,
+              idGrupo: ultimoGrupo
+          };
+          console.log(idsEstudiantes, ultimoGrupo)
+          try {
+              const response = await fetch('http://localhost/proyectotis/backend/actualizarGrupoEstudiantes.php', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(dataToSend),
+              });
+  
+              if (!response.ok) {
+                  throw new Error("Error en la respuesta del servidor.");
+              }
+  
+              const result = await response.json(); 
+              console.log("Resultado procesado:", result);
+              
+              if (result.success) {
+                  alert("Grupo asignado a los estudiantes");
+              } else {
+                  alert("Error: " + result.message);
+              }
+          } catch (error) {
+              console.error('Error al actualizar estudiantes:', error);
+              alert("Hubo un problema al actualizar los estudiantes.");
+          }
+      };
+
 
     const handleFileUpload = async (event) => {
       const file = event.target.files[0];
@@ -89,36 +156,16 @@ export default function RegistroEmpresa() {
       handleFileUpload(event); 
     };
 
-   const onSubmit = async (data) => {
-    const newData = { ...data, imageUrl: imageUrl };
-    console.log(newData);
-    try {
-      const response = await fetch('http://localhost/proyectotis/backend/registrarGrupo.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newData),
-      });
 
-      if (!response.ok) {
-        throw new Error("Error en la respuesta del servidor.");
-      }
 
-      const result = await response.json(); 
-      console.log("Resultado procesado:", result);
-      
-      if (result.success) {
-        alert("Registro exitoso");
+    const onSubmit = async (data) => {
+      const ultimoGrupo = await handleRegisterGroup(data); // Obtén el ID del grupo registrado
+      if (ultimoGrupo) {
+          asignarGrupoEstudiantes(ultimoGrupo); // Pasa el ID a la función de asignar
       } else {
-        alert("Error en el registro: " + result.message);
+          console.error("No se pudo obtener el ID del grupo.");
       }
-    } catch (error) {
-      console.error('Error al registrar GrupoEmpresa:', error);
-      alert("Hubo un problema al registrar GrupoEmpresa.");
-    }
   };
-
 
   return (
     <>
@@ -257,8 +304,7 @@ export default function RegistroEmpresa() {
                 </select>
           </div>
             <div className="flex space-x-4 mt-4 md:mt-0">
-              
-              
+
             </div>
           </div>
           
