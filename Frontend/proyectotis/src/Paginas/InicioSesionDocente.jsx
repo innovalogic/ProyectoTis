@@ -2,10 +2,13 @@ import { useState } from "react";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio"; // Importa el componente
 import Copyright from "../Componentes/BarraCopyright"; // Importa el componente Copyright
 import UMSS2 from "/src/Imagenes/UMSS2.jpg"; // Importa la imagen desde src
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function InicioSesionDocente() {
   const [correoDocente, setCorreoDocente] = useState("");
   const [Contraseña, setContraseña] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Evita que el formulario se envíe y la página se recargue
@@ -29,6 +32,9 @@ export default function InicioSesionDocente() {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -69,13 +75,16 @@ export default function InicioSesionDocente() {
                 Contraseña <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"} // Alterna entre "password" y "text"
                 className="border-2 border-gray-300 rounded-lg p-3"
                 value={Contraseña}
                 onChange={(e) => setContraseña(e.target.value)}
                 placeholder="••••••••"
                 required
               />
+              <span className="password-toggle" onClick={togglePasswordVisibility}>
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
             </div>
 
             <button
