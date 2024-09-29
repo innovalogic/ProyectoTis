@@ -46,8 +46,9 @@ if (
         $stmt->bindParam(':imageUrl', $data->imageUrl);
 
         if ($stmt->execute()) {
+            $lastUserId = $pdo->lastInsertId();
             ob_end_clean();
-            echo json_encode(['success' => true, 'message' => 'Grupo Empresa registrado']);
+            echo json_encode(['success' => true, 'message' => 'Grupo Empresa registrado', 'lastUserId' => $lastUserId]);
         } else {
             ob_end_clean();
             echo json_encode(['success' => false, 'message' => 'Error al registrar grupoempresa']);

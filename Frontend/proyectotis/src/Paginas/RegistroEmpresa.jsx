@@ -19,15 +19,18 @@ export default function RegistroEmpresa() {
       const selectedId = e.target.value;
       const estudiante = estudiantesData.find(est => est.idEstudiante === Number(selectedId));
     
-      // Verificar si el estudiante ya está en la lista seleccionada
       const isEstudianteDuplicado = selectedEstudiantes.some(est => est.idEstudiante === estudiante.idEstudiante);
     
-      // Solo agregar si no está duplicado y hay espacio para más
       if (estudiante && !isEstudianteDuplicado && selectedEstudiantes.length < 5) {
         setSelectedEstudiantes((prev) => [...prev, estudiante]);
       } else if (isEstudianteDuplicado) {
         alert("Este estudiante ya está en la lista.");
       }
+    };
+    const handleRetirarEstudiante = (idEstudiante) => {
+      setSelectedEstudiantes((prevEstudiantes) => 
+        prevEstudiantes.filter(est => est.idEstudiante !== idEstudiante)
+      );
     };
 
     const handleFileUpload = async (event) => {
@@ -82,8 +85,8 @@ export default function RegistroEmpresa() {
    };
  
     const handleFileSelect = (event) => {
-      handleFileChange(event); // Para la previsualización
-      handleFileUpload(event); // Para subir el archivo
+      handleFileChange(event); 
+      handleFileUpload(event); 
     };
 
    const onSubmit = async (data) => {
@@ -236,7 +239,7 @@ export default function RegistroEmpresa() {
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
           <div className="flex flex-col w-full md:w-1/2">
               <label htmlFor="estudiante" className="font-bold text-[#32569A]">
-                Estudiante
+                Estudiantes del Grupo (Minimo 5)
               </label>
               <select
                   id="estudiante"
@@ -254,68 +257,60 @@ export default function RegistroEmpresa() {
                 </select>
           </div>
             <div className="flex space-x-4 mt-4 md:mt-0">
-              <input
-                type="submit"
-                value="Añadir"
-                className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
-              />
-              <input
-                type="submit"
-                value="Nuevo"
-                className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
-              />
+              
+              
             </div>
           </div>
           
           <div className="overflow-x-auto p-4">
-          <table className="min-w-full bg-[#c2d2e9] border-collapse rounded-md shadow-md">
+            
+          <table className="min-w-full bg-[#c2d2e9] border-collapse rounded-md ">
               <thead>
                 <tr className="bg-[#c2d2e9] text-black">
-                  <th className="py-2 px-4 border border-[#32569A]">Número</th>
-                  <th className="py-2 px-4 border border-[#32569A]">Nombre</th>
-                  <th className="py-2 px-4 border border-[#32569A]">Teléfono</th>
+                  <th className="py-2 px-4 border border-solid  border-[#32569A]">Número</th>
+                  <th className="py-2 px-4 border border-solid  border-[#32569A]">Nombre</th>
+                  <th className="py-2 px-4 border border-solid  border-[#32569A]">Teléfono</th>
+                  <th className="py-2 px-4 border border-solid  border-[#32569A]">Acción</th> 
                 </tr>
               </thead>
               <tbody>
                 {selectedEstudiantes.map((estudiante, index) => (
                   <tr key={estudiante.idEstudiante}>
-                    <td className="py-2 px-4 border border-[#32569A]">{index + 1}</td>
-                    <td className="py-2 px-4 border border-[#32569A]">{`${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`}</td>
-                    <td className="py-2 px-4 border border-[#32569A]">{estudiante.telefonoEstudiante}</td>
+                    <td className="py-2 px-4 border border-solid   border-[#32569A]">{index + 1}</td>
+                    <td className="py-2 px-4 border border-solid  border-[#32569A]">
+                      {`${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`}
+                    </td>
+                    <td className="py-2 px-4 border border-solid r border-[#32569A]">{estudiante.telefonoEstudiante}</td>
+                    <td className="py-2 px-4 border border-solid  border-[#32569A]">
+                      <button
+                        className="bg-red-500 text-white px-2 py-1 rounded"
+                        onClick={() => handleRetirarEstudiante(estudiante.idEstudiante)}
+                      >
+                        Retirar
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           <div className="mt-4 flex justify-end space-x-4">
-              <input
-                    type="submit"
-                    value="Retirar"
-                    className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
-                  />
-              <input
-                  type="submit"
-                  value="Cancelar"
-                  className="bg-gray-300 text-black p-2 rounded-md cursor-pointer border-4 border-yellow-400"
-                />
               <button
                 type="button"
-                className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
+                className="bg-gray-300 text-black p-2 rounded-md cursor-pointer border-4 border-yellow-400"
                 onClick={handleFileUpload}
               >
-                Registrar
+                Cancelar
               </button>
-              <button
-                type="button"
+
+              <input
+                type="submit"
+                value="Registrar"
                 className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
-              >
-                Cargar
-              </button>
+              />
       
           </div>
           </div>
-
-
-        <div>
+          <div>
             {error && <p>Error: {error}</p>}
             <ul>
                 {data.map(estudiante => (
@@ -324,7 +319,7 @@ export default function RegistroEmpresa() {
                     </li>
                 ))}
             </ul>
-        </div>    
+        </div>  
           </form>
         </div>
       <Copyright/>
