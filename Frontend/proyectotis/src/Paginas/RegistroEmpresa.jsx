@@ -3,6 +3,7 @@ import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateral';
 import { useForm } from 'react-hook-form'; 
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function RegistroEmpresa() {
 
@@ -11,6 +12,23 @@ export default function RegistroEmpresa() {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [preview, setPreview] = useState(null);
+    const [estudiantesData, setEstudiantesData] = useState([]); 
+    const [selectedEstudiantes, setSelectedEstudiantes] = useState([]);
+
+    const handleSelectEstudiante = (e) => {
+      const selectedId = e.target.value;
+      const estudiante = estudiantesData.find(est => est.idEstudiante === Number(selectedId));
+    
+      // Verificar si el estudiante ya está en la lista seleccionada
+      const isEstudianteDuplicado = selectedEstudiantes.some(est => est.idEstudiante === estudiante.idEstudiante);
+    
+      // Solo agregar si no está duplicado y hay espacio para más
+      if (estudiante && !isEstudianteDuplicado && selectedEstudiantes.length < 5) {
+        setSelectedEstudiantes((prev) => [...prev, estudiante]);
+      } else if (isEstudianteDuplicado) {
+        alert("Este estudiante ya está en la lista.");
+      }
+    };
 
     const handleFileUpload = async (event) => {
       const file = event.target.files[0];
@@ -34,24 +52,24 @@ export default function RegistroEmpresa() {
     };
 
     useEffect(() => {
-      const obtenerEstudiantes = async () => {
+      const fetchEstudiantes = async () => {
           try {
-              const response = await fetch('http://localhost/proyectoris/backend/RecuperarEstudiante.php');
-              const data = await response.json();
-              
-              if (data.success) {
-                  setEstudiantes(data.datos); // Cambia 'data' a 'datos'
+              const response = await axios.get('http://localhost/proyectotis/backend/RecuperarEstudiante.php');
+              console.log(response.data.success); // Ver toda la respuesta
+              if (response.data.success === true) {
+                  setEstudiantesData(response.data.datos); // Asegúrate de que esto sea un array
+                  console.log(response.data.datos); // Verificar los datos
               } else {
-                  setError(data.message);
+                  setError('No se pudo obtener los datos.');
               }
           } catch (error) {
-              setError('Error al obtener los datos');
+              setError('Error al conectarse al servidor: ' + error.message);
+              console.error(error);
           }
       };
-
-      obtenerEstudiantes();
+  
+      fetchEstudiantes();
   }, []);
-
   
     const handleFileChange = (e) => {
       const file = e.target.files[0];
@@ -216,12 +234,25 @@ export default function RegistroEmpresa() {
             </div>
 
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
-            <div className="flex flex-col w-full md:w-1/2">
+          <div className="flex flex-col w-full md:w-1/2">
               <label htmlFor="estudiante" className="font-bold text-[#32569A]">
                 Estudiante
               </label>
-              
-            </div>
+              <select
+                  id="estudiante"
+                  className="mt-2 p-2 border border-gray-300 rounded"
+                  onChange={handleSelectEstudiante}
+                >
+                  <option value="" disabled selected>
+                    Selecciona un estudiante
+                  </option>
+                  {estudiantesData.map((estudiante) => (
+                    <option key={estudiante.idEstudiante} value={estudiante.idEstudiante}>
+                      {`${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`}
+                    </option>
+                  ))}
+                </select>
+          </div>
             <div className="flex space-x-4 mt-4 md:mt-0">
               <input
                 type="submit"
@@ -238,22 +269,23 @@ export default function RegistroEmpresa() {
           
           <div className="overflow-x-auto p-4">
           <table className="min-w-full bg-[#c2d2e9] border-collapse rounded-md shadow-md">
-            <thead>
-              <tr className="bg-[#c2d2e9] text-black">
-                <th className="py-2 px-4 border border-[#32569A]">Número</th>
-                <th className="py-2 px-4 border border-[#32569A]">Nombre</th>
-                <th className="py-2 px-4 border border-[#32569A]">Telefono</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="py-2 px-4 border border-[#32569A]">1</td>
-                <td className="py-2 px-4 border border-[#32569A]">Juan Pérez</td>
-                <td className="py-2 px-4 border border-[#32569A]">62353522</td>
-              </tr>
-              {/* Puedes agregar más filas aquí */}
-            </tbody>
-          </table>
+              <thead>
+                <tr className="bg-[#c2d2e9] text-black">
+                  <th className="py-2 px-4 border border-[#32569A]">Número</th>
+                  <th className="py-2 px-4 border border-[#32569A]">Nombre</th>
+                  <th className="py-2 px-4 border border-[#32569A]">Teléfono</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedEstudiantes.map((estudiante, index) => (
+                  <tr key={estudiante.idEstudiante}>
+                    <td className="py-2 px-4 border border-[#32569A]">{index + 1}</td>
+                    <td className="py-2 px-4 border border-[#32569A]">{`${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`}</td>
+                    <td className="py-2 px-4 border border-[#32569A]">{estudiante.telefonoEstudiante}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           <div className="mt-4 flex justify-end space-x-4">
               <input
                     type="submit"
@@ -271,6 +303,12 @@ export default function RegistroEmpresa() {
                 onClick={handleFileUpload}
               >
                 Registrar
+              </button>
+              <button
+                type="button"
+                className="bg-[#32569A] text-white p-2 rounded-md cursor-pointer"
+              >
+                Cargar
               </button>
       
           </div>
