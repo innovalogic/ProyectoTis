@@ -4,18 +4,18 @@ import Copyright from "../Componentes/BarraCopyright"; // Importa el componente 
 import UMSS2 from "/src/Imagenes/UMSS2.jpg"; // Importa la imagen desde src
 
 export default function InicioSesionDocente() {
-  const [codSis, setCodSis] = useState("");
+  const [correoDocente, setCorreoDocente] = useState("");
   const [Contraseña, setContraseña] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Evita que el formulario se envíe y la página se recargue
 
     const formData = new FormData();
-    formData.append('codSis', codSis);  // Cambié 'correo' por 'codSis'
+    formData.append('correoDocente', correoDocente);  // Cambié 'codSis' por 'correoDocente'
     formData.append('password', Contraseña);
 
     try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/inicioSesion.php", {
+      const response = await fetch("http://localhost/ProyectoTis/Backend/inicioSesionD.php", {
         method: "POST",
         body: formData,
       });
@@ -39,16 +39,15 @@ export default function InicioSesionDocente() {
           className="bg-custom-bg bg-opacity-90 p-12 flex flex-col items-center justify-center"
           style={{ width: "60%", minWidth: "500px", height: "80%", maxWidth: "600px", borderRadius: "5rem", boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)" }}
         >
-            <div className="text-center mt-0">
+          <div className="text-center mt-0">
             <span className="text-5xl font-plex font-bold" style={{ color: "#1E3664" }}>
-                Inicio Sesión
+              Inicio Sesión
             </span>
             <br /> {/* Salto de línea para separar el texto */}
             <span className="text-5xl font-plex font-bold" style={{ color: "#1E3664" }}>
-                Docente
+              Docente
             </span>
-            </div>
-
+          </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col space-y-6 mt-8 w-full max-w-sm">
             <div className="flex flex-col">
@@ -58,8 +57,8 @@ export default function InicioSesionDocente() {
               <input
                 type="text"
                 className="border-2 border-gray-300 rounded-lg p-3"
-                value={codSis}
-                onChange={(e) => setCodSis(e.target.value)}
+                value={correoDocente}
+                onChange={(e) => setCorreoDocente(e.target.value)}
                 placeholder="docente@gmail.com"
                 required
               />
@@ -78,8 +77,6 @@ export default function InicioSesionDocente() {
                 required
               />
             </div>
-
-            
 
             <button
               type="submit"
