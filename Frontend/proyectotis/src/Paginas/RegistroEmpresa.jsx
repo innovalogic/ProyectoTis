@@ -6,8 +6,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function RegistroEmpresa() {
-
-    const { register, handleSubmit, setValue } = useForm();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [imageUrl, setImageUrl] = useState('');
     const [ultimoGrupo, setUltimoGrupo] = useState('');
     const [data, setData] = useState([]);
@@ -22,10 +21,25 @@ export default function RegistroEmpresa() {
     
       const isEstudianteDuplicado = selectedEstudiantes.some(est => est.idEstudiante === estudiante.idEstudiante);
     
-      if (estudiante && !isEstudianteDuplicado && selectedEstudiantes.length < 5) {
-        setSelectedEstudiantes((prev) => [...prev, estudiante]);
+      // Verifica si el estudiante existe y no está duplicado
+      if (estudiante && !isEstudianteDuplicado) {
+        if (selectedEstudiantes.length < 5) {
+          setSelectedEstudiantes((prev) => [...prev, estudiante]);
+        } else {
+          alert("No puedes seleccionar más de 5 estudiantes.");
+        }
       } else if (isEstudianteDuplicado) {
         alert("Este estudiante ya está en la lista.");
+      }
+    };
+    
+    // Función para verificar si hay menos de 5 estudiantes seleccionados al finalizar
+    const finalizarSeleccion = () => {
+      if (selectedEstudiantes.length < 5) {
+        alert("Debes seleccionar al menos 5 estudiantes.");
+      } else {
+        // Aquí va la lógica para proceder con los estudiantes seleccionados
+        console.log("Selección finalizada con éxito", selectedEstudiantes);
       }
     };
 
@@ -159,13 +173,27 @@ export default function RegistroEmpresa() {
 
 
     const onSubmit = async (data) => {
-      const ultimoGrupo = await handleRegisterGroup(data); // Obtén el ID del grupo registrado
-      if (ultimoGrupo) {
-          asignarGrupoEstudiantes(ultimoGrupo); // Pasa el ID a la función de asignar
-      } else {
-          console.error("No se pudo obtener el ID del grupo.");
+      // Validar si se han seleccionado al menos 5 estudiantes
+      if (selectedEstudiantes.length < 5) {
+        alert("Debes seleccionar al menos 5 estudiantes antes de proceder.");
+        return; // Detener el flujo si no se cumplen los requisitos
       }
-  };
+    
+      try {
+        // Llamar a la función para registrar el grupo y obtener el ID del grupo
+        const ultimoGrupo = await handleRegisterGroup(data);
+        
+        if (ultimoGrupo) {
+          // Si se registró el grupo correctamente, asignar los estudiantes al grupo
+          asignarGrupoEstudiantes(ultimoGrupo); // Pasa el ID del grupo a la función
+          console.log("Estudiantes asignados correctamente al grupo.");
+        } else {
+          console.error("No se pudo obtener el ID del grupo.");
+        }
+      } catch (error) {
+        console.error("Error durante el registro del grupo:", error);
+      }
+    };
 
   return (
     <>
@@ -177,70 +205,106 @@ export default function RegistroEmpresa() {
           <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Registro de Empresa</h1>
 
           <div className="flex flex-col md:flex-row md:space-x-4">
-            <div className="flex flex-col w-full md:w-1/2">
-              <label htmlFor="nombre" className="font-bold text-[#32569A]">
-                Nombre de Empresa <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="nombre"
-                type="text"
-                {...register("NombreEmpresa")}
-                className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
-              />
-            </div>
+              <div className="flex flex-col w-full md:w-1/2">
+                <label htmlFor="nombre" className="font-bold text-[#32569A]">
+                  Nombre de Empresa <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="nombre"
+                  type="text"
+                  {...register("NombreEmpresa", {
+                    required: "Este campo es obligatorio",
+                    pattern: {
+                      value: /^[a-zA-Z0-9\s]*$/,
+                      message: "No se permiten caracteres especiales",
+                    },
+                  })}
+                  className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
+                />
+                {errors.NombreEmpresa && <p className="text-red-500">{errors.NombreEmpresa.message}</p>}
+              </div>
 
-            <div className="flex flex-col w-full md:w-1/2">
-              <label htmlFor="nombreCorto" className="font-bold text-[#32569A]">
-                Nombre Corto de la Empresa <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="nombreCorto"
-                type="text"
-                {...register("NombreCorto")}
-                className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
-              />
+              <div className="flex flex-col w-full md:w-1/2">
+                <label htmlFor="nombreCorto" className="font-bold text-[#32569A]">
+                  Nombre Corto de la Empresa <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="nombreCorto"
+                  type="text"
+                  {...register("NombreCorto", {
+                    required: "Este campo es obligatorio",
+                    pattern: {
+                      value: /^[a-zA-Z0-9\s]*$/,
+                      message: "No se permiten caracteres especiales",
+                    },
+                  })}
+                  className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
+                />
+                 {errors.NombreCorto && <p className="text-red-500">{errors.NombreCorto.message}</p>}
+              </div>
+           </div>
+
+           <div className="flex flex-col md:flex-row md:space-x-4">
+              <div className="flex flex-col w-full md:w-1/2">
+                <label htmlFor="correo" className="font-bold text-[#32569A]">
+                  Correo electrónico de la empresa <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="correo"
+                  type="email"
+                  {...register("CorreoEmpresa", {
+                    required: "Este campo es obligatorio",
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                      message: "Formato de correo electrónico inválido",
+                    },
+                  })}
+                  className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
+                />
+                {errors.CorreoEmpresa && <p className="text-red-500">{errors.CorreoEmpresa.message}</p>}
+              </div>
+
+              <div className="flex flex-col w-full md:w-1/2">
+                <label htmlFor="representante" className="font-bold text-[#32569A]">
+                  Nombre Representante Legal <span className="text-red-500">*</span>
+                </label>
+                <input
+                  id="representante"
+                  type="text"
+                  {...register("NombreRepresentante", {
+                    required: "Este campo es obligatorio",
+                    pattern: {
+                      value: /^[a-zA-Z0-9\s]*$/,
+                      message: "No se permiten caracteres especiales",
+                    },
+                  })}
+                  className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
+                />
+                {errors.NombreRepresentante && <p className="text-red-500">{errors.NombreRepresentante.message}</p>}
+              </div>  
             </div>
-          </div>
 
           <div className="flex flex-col md:flex-row md:space-x-4">
-            <div className="flex flex-col w-full md:w-1/2">
-              <label htmlFor="correo" className="font-bold text-[#32569A]">
-                Correo electrónico de la empresa <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="correo"
-                type="email"
-                {...register("CorreoEmpresa")}
-                className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
-              />
-            </div>
-
-            <div className="flex flex-col w-full md:w-1/2">
-              <label htmlFor="representante" className="font-bold text-[#32569A]">
-                Nombre Representante Legal <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="representante"
-                type="text"
-                {...register("NombreRepresentante")}
-                className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
-              />
-            </div>  
-          </div>
-
-          <div className="flex flex-col md:flex-row md:space-x-4">
-            <div className="flex flex-col w-full md:w-1/2">
+          <div className="flex flex-col w-full md:w-1/2">
               <label htmlFor="numeroRepresentante" className="font-bold text-[#32569A]">
                 Número Representante Legal <span className="text-red-500">*</span>
               </label>
               <input
                 id="numeroRepresentante"
                 type="text"
-                {...register("NumeroRepresentante")}
+                {...register("NumeroRepresentante", {
+                  required: "Este campo es obligatorio",
+                  pattern: {
+                    value: /^\d{8}$/, // Acepta solo números de 8 dígitos
+                    message: "Debe ser un número de 8 dígitos",
+                  },
+                })}
                 className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
               />
+              {errors.NumeroRepresentante && (
+                <p className="text-red-500">{errors.NumeroRepresentante.message}</p>
+              )}
             </div>
-
             <div className="flex flex-col w-full md:w-1/2">
                   <label htmlFor="foto" className="font-bold text-[#32569A]">
                     Logo de la Empresa <span className="text-red-500">*</span>
@@ -286,7 +350,7 @@ export default function RegistroEmpresa() {
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
           <div className="flex flex-col w-full md:w-1/2">
               <label htmlFor="estudiante" className="font-bold text-[#32569A]">
-                Estudiantes del Grupo (Minimo 5)
+                Estudiantes del Grupo (Minimo 5)<span className="text-red-500">*</span>
               </label>
               <select
                   id="estudiante"
