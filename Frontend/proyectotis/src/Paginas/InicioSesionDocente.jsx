@@ -1,20 +1,19 @@
 import { useState } from "react";
-import NavbarInicioDeSesion from "../Componentes/NavbarInicio"; // Importa el componente
-import Copyright from "../Componentes/BarraCopyright"; // Importa el componente Copyright
-import UMSS2 from "/src/Imagenes/UMSS2.jpg"; // Importa la imagen desde src
+import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
+import Copyright from "../Componentes/BarraCopyright";
+import UMSS2 from "/src/Imagenes/UMSS2.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function InicioSesionDocente() {
   const [correoDocente, setCorreoDocente] = useState("");
   const [Contraseña, setContraseña] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
-  
+  const [showPassword, setShowPassword] = useState(false); 
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita que el formulario se envíe y la página se recargue
+    e.preventDefault(); 
 
     const formData = new FormData();
-    formData.append('correoDocente', correoDocente);  // Cambié 'codSis' por 'correoDocente'
+    formData.append('correoDocente', correoDocente);  
     formData.append('password', Contraseña);
 
     try {
@@ -27,12 +26,13 @@ export default function InicioSesionDocente() {
       if (result.includes("Login successful")) {
         alert("Inicio de sesión exitoso!!");
       } else {
-        alert("La kagaste weon :(");  // Puedes cambiar este mensaje por algo más formal
+        alert("La kagaste weon :(");
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -49,7 +49,7 @@ export default function InicioSesionDocente() {
             <span className="text-5xl font-plex font-bold" style={{ color: "#1E3664" }}>
               Inicio Sesión
             </span>
-            <br /> {/* Salto de línea para separar el texto */}
+            <br />
             <span className="text-5xl font-plex font-bold" style={{ color: "#1E3664" }}>
               Docente
             </span>
@@ -70,21 +70,25 @@ export default function InicioSesionDocente() {
               />
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col relative">
               <label className="text-lg font-medium mb-2" style={{ color: "#32569A" }}>
                 Contraseña <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                type={showPassword ? "text" : "password"} // Alterna entre "password" y "text"
-                className="border-2 border-gray-300 rounded-lg p-3"
+                type={showPassword ? "text" : "password"} 
+                className="border-2 border-gray-300 rounded-lg p-3 pr-10" 
                 value={Contraseña}
                 onChange={(e) => setContraseña(e.target.value)}
                 placeholder="••••••••"
                 required
               />
-              <span className="password-toggle" onClick={togglePasswordVisibility}>
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </span>
+              <span
+                className="absolute right-3 top-1/2 transform translate-y-2 cursor-pointer text-gray-600"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+
             </div>
 
             <button
