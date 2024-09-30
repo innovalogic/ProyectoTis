@@ -17,7 +17,7 @@ if (
     !empty($data->CorreoEmpresa) &&
     !empty($data->NombreRepresentante) &&
     !empty($data->NumeroRepresentante) &&
-    !empty($data->foto)
+    !empty($data->imageUrl)
 ) {
     try {
         $query = 'INSERT INTO "GrupoEmpresa" (
@@ -33,7 +33,7 @@ if (
             :CorreoEmpresa,
             :NombreRepresentante,
             :NumeroRepresentante,
-            :foto
+            :imageUrl
         )';
 
         $stmt = $pdo->prepare($query);
@@ -43,11 +43,12 @@ if (
         $stmt->bindParam(':CorreoEmpresa', $data->CorreoEmpresa);
         $stmt->bindParam(':NombreRepresentante', $data->NombreRepresentante);
         $stmt->bindParam(':NumeroRepresentante', $data->NumeroRepresentante);
-        $stmt->bindParam(':foto', $data->foto);
+        $stmt->bindParam(':imageUrl', $data->imageUrl);
 
         if ($stmt->execute()) {
+            $lastUserId = $pdo->lastInsertId();
             ob_end_clean();
-            echo json_encode(['success' => true, 'message' => 'Grupo Empresa registrado']);
+            echo json_encode(['success' => true, 'message' => 'Grupo Empresa registrado', 'lastUserId' => $lastUserId]);
         } else {
             ob_end_clean();
             echo json_encode(['success' => false, 'message' => 'Error al registrar grupoempresa']);
@@ -56,7 +57,7 @@ if (
         ob_end_clean();
         echo json_encode(['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()]);
     }
-} else {
+}else{
     ob_end_clean();
     echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
 }

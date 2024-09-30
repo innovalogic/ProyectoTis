@@ -8,11 +8,11 @@ export default function BarraLateral(){
     const [collapsed, setCollapsed] = useState(false);
     
     return (
-        <div className="flex h-[calc(100vh-131px)]">
+        <div className="flex h-[calc(100vh)]">
             <Sidebar
                 collapsed={collapsed}
-                className="bg-[#32569A] text-[#EFE7DC] shadow-lg transition-all duration-300 ease-in-out"
-                style={{ width: collapsed ? '80px' : '250px', height: '[calc(100vh-131px)]' }}
+                className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"
+                style={{ width: collapsed ? '80px' : '250px', height: '100vh' }}
             >
                 <div className="flex flex-col h-full bg-[#32569A]">
                     <div className="flex items-center justify-between p-4">
@@ -81,7 +81,7 @@ export default function BarraLateral(){
                     style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
                     icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
                 >
-                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="RegistroEmpresa" />}>
+                    <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
                         Registrar
                     </MenuItem>
                     <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/Empresa/Planificacion" />}>

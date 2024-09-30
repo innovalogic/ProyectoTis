@@ -1,12 +1,11 @@
-
 <?php
 
 // Conexión a la base de datos PostgreSQL
 $host = "localhost";
 $port = "5432";
-$dbname = "postgres"; // Cambia esto al nombre de tu base de datos
+$dbname = "p3"; // Cambia esto al nombre de tu base de datos
 $user = "postgres"; // Usuario de la base de datos
-$password = "sammy123"; // Contraseña de PostgreSQL
+$password = ""; // Contraseña de PostgreSQL
 
 try {
     // Crear una nueva conexión PDO
@@ -18,4 +17,4 @@ try {
     die("Error en la conexión: " . $e->getMessage());
 }
 
-?>
+
