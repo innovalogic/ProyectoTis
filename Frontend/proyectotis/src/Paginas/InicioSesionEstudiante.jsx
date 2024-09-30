@@ -4,7 +4,6 @@ import Copyright from "../Componentes/BarraCopyright";
 import UMSS from "/src/Imagenes/UMSS.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-
 export default function InicioSesionEstudiante() {
   const [codSis, setCodSis] = useState("");
   const [Contraseña, setContraseña] = useState("");
@@ -34,10 +33,10 @@ export default function InicioSesionEstudiante() {
       console.error("Error:", error);
     }
   };
+  
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
 
   return (
     <div className="bg-cover bg-center h-screen flex flex-col justify-between" style={{ backgroundImage: `url(${UMSS})` }}>
@@ -74,20 +73,24 @@ export default function InicioSesionEstudiante() {
               <label className="text-lg font-medium mb-2" style={{ color: "#32569A" }}>
                 Contraseña <span style={{ color: "red" }}>*</span>
               </label>
-              <input
-                type={showPassword ? "text" : "password"} // Alterna entre "password" y "text"
-                className="border-2 border-gray-300 rounded-lg p-3"
-                value={Contraseña}
-                onChange={(e) => setContraseña(e.target.value)}
-                placeholder="••••••••"
-                required
-                maxLength={50}
-                minLength={3}
-                
-              />
-              <span className="password-toggle" onClick={togglePasswordVisibility}>
-                      {showPassword ? <FaEyeSlash /> : <FaEye />}
-                    </span>
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"} // Alterna entre "password" y "text"
+                  className="border-2 border-gray-300 rounded-lg p-3 w-full pr-10" // Ajusta el padding de la derecha para dar espacio al ícono
+                  value={Contraseña}
+                  onChange={(e) => setContraseña(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  maxLength={50}
+                  minLength={3}
+                />
+                <span
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer" // Posiciona el ícono a la derecha y centrado verticalmente
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
             </div>
 
             <div className="text-left">
