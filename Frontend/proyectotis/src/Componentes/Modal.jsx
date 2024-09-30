@@ -1,6 +1,4 @@
 // Modal.js
-import './Modal.css';
-
 export default function Modal({ show, onClose, title, message }) {
     if (!show) return null;
 
