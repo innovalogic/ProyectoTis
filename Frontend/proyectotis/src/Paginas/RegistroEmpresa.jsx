@@ -89,7 +89,7 @@ export default function RegistroEmpresa() {
               console.log("Resultado procesado:", result);
               
               if (result.success) {
-                  alert("Grupo asignado a los estudiantes");
+                  console.log("Grupo asignado a los estudiantes");
               } else {
                   alert("Error: " + result.message);
               }
@@ -370,5 +370,6 @@ export default function RegistroEmpresa() {
         </div>
       <Copyright/>
     </>
+    
   );
 }
