@@ -1,11 +1,16 @@
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateral';
+import Modal from "../Componentes/Modal";
 import { useForm } from 'react-hook-form'; 
+import { useNavigate } from "react-router-dom"; 
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
 export default function RegistroEmpresa() {
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [imageUrl, setImageUrl] = useState('');
     const [ultimoGrupo, setUltimoGrupo] = useState('');
@@ -14,6 +19,22 @@ export default function RegistroEmpresa() {
     const [preview, setPreview] = useState(null);
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [selectedEstudiantes, setSelectedEstudiantes] = useState([]);
+    const navigate = useNavigate();
+    const [modal, setModal] = useState({
+      show: false,
+      title: '',
+      message: ''
+    });
+
+    const closeModal = () => {
+      setModal({
+          ...modal,
+          show: false
+      });
+      if (modal.title === 'Exito!!') {
+        navigate('/InicioEstudiante'); // Redirigir a la página que prefieras
+    }
+    };
 
     const handleSelectEstudiante = (e) => {
       const selectedId = e.target.value;
@@ -21,27 +42,17 @@ export default function RegistroEmpresa() {
     
       const isEstudianteDuplicado = selectedEstudiantes.some(est => est.idEstudiante === estudiante.idEstudiante);
     
-      // Verifica si el estudiante existe y no está duplicado
       if (estudiante && !isEstudianteDuplicado) {
-        if (selectedEstudiantes.length < 5) {
-          setSelectedEstudiantes((prev) => [...prev, estudiante]);
-        } else {
-          alert("No puedes seleccionar más de 5 estudiantes.");
-        }
+        setSelectedEstudiantes((prev) => [...prev, estudiante]);
       } else if (isEstudianteDuplicado) {
-        alert("Este estudiante ya está en la lista.");
+        setModal({
+          show: true,
+          title: 'Estudiantes Repetido',
+          message: 'Este estudiante ya está en la lista'
+      });
       }
     };
     
-    // Función para verificar si hay menos de 5 estudiantes seleccionados al finalizar
-    const finalizarSeleccion = () => {
-      if (selectedEstudiantes.length < 5) {
-        alert("Debes seleccionar al menos 5 estudiantes.");
-      } else {
-        // Aquí va la lógica para proceder con los estudiantes seleccionados
-        console.log("Selección finalizada con éxito", selectedEstudiantes);
-      }
-    };
 
     const handleRetirarEstudiante = (idEstudiante) => {
       setSelectedEstudiantes((prevEstudiantes) => 
@@ -66,8 +77,13 @@ export default function RegistroEmpresa() {
   
           const result = await response.json(); 
           if (result.success) {
+              setModal({
+                show: true,
+                title: 'Exito!!',
+                message: 'Grupo Registrado'
+              });
               console.log("ID del último registro:", result.lastUserId);
-              return result.lastUserId; // Devuelve el ID del grupo
+              return result.lastUserId; 
           } else {
               alert("Error en el registro: " + result.message);
           }
@@ -173,20 +189,22 @@ export default function RegistroEmpresa() {
 
 
     const onSubmit = async (data) => {
-      // Validar si se han seleccionado al menos 5 estudiantes
       if (selectedEstudiantes.length < 5) {
-        alert("Debes seleccionar al menos 5 estudiantes antes de proceder.");
-        return; // Detener el flujo si no se cumplen los requisitos
+        setModal({
+          show: true,
+          title: 'Estudiantes Insuficientes',
+          message: 'Selecciona minimo 5 estudiantes'
+      });
+        return; 
       }
     
       try {
-        // Llamar a la función para registrar el grupo y obtener el ID del grupo
         const ultimoGrupo = await handleRegisterGroup(data);
         
         if (ultimoGrupo) {
-          // Si se registró el grupo correctamente, asignar los estudiantes al grupo
-          asignarGrupoEstudiantes(ultimoGrupo); // Pasa el ID del grupo a la función
+          asignarGrupoEstudiantes(ultimoGrupo); 
           console.log("Estudiantes asignados correctamente al grupo.");
+          
         } else {
           console.error("No se pudo obtener el ID del grupo.");
         }
@@ -432,6 +450,12 @@ export default function RegistroEmpresa() {
         </div>  
           </form>
         </div>
+        <Modal
+            show={modal.show}
+            onClose={closeModal}
+            title={modal.title}
+            message={modal.message}
+        />
       <Copyright/>
     </>
     
