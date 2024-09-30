@@ -2,20 +2,23 @@ import { useState } from "react";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio"; // Importa el componente
 import Copyright from "../Componentes/BarraCopyright"; // Importa el componente Copyright
 import UMSS2 from "/src/Imagenes/UMSS2.jpg"; // Importa la imagen desde src
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function InicioSesionDocente() {
-  const [codSis, setCodSis] = useState("");
+  const [correoDocente, setCorreoDocente] = useState("");
   const [Contraseña, setContraseña] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Evita que el formulario se envíe y la página se recargue
 
     const formData = new FormData();
-    formData.append('codSis', codSis);  // Cambié 'correo' por 'codSis'
+    formData.append('correoDocente', correoDocente);  // Cambié 'codSis' por 'correoDocente'
     formData.append('password', Contraseña);
 
     try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/inicioSesion.php", {
+      const response = await fetch("http://localhost/ProyectoTis/Backend/inicioSesionD.php", {
         method: "POST",
         body: formData,
       });
@@ -30,6 +33,9 @@ export default function InicioSesionDocente() {
       console.error("Error:", error);
     }
   };
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <div className="bg-cover bg-center h-screen flex flex-col justify-between" style={{ backgroundImage: `url(${UMSS2})` }}>
@@ -39,16 +45,15 @@ export default function InicioSesionDocente() {
           className="bg-custom-bg bg-opacity-90 p-12 flex flex-col items-center justify-center"
           style={{ width: "60%", minWidth: "500px", height: "80%", maxWidth: "600px", borderRadius: "5rem", boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)" }}
         >
-            <div className="text-center mt-0">
+          <div className="text-center mt-0">
             <span className="text-5xl font-plex font-bold" style={{ color: "#1E3664" }}>
-                Inicio Sesión
+              Inicio Sesión
             </span>
             <br /> {/* Salto de línea para separar el texto */}
             <span className="text-5xl font-plex font-bold" style={{ color: "#1E3664" }}>
-                Docente
+              Docente
             </span>
-            </div>
-
+          </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col space-y-6 mt-8 w-full max-w-sm">
             <div className="flex flex-col">
@@ -58,8 +63,8 @@ export default function InicioSesionDocente() {
               <input
                 type="text"
                 className="border-2 border-gray-300 rounded-lg p-3"
-                value={codSis}
-                onChange={(e) => setCodSis(e.target.value)}
+                value={correoDocente}
+                onChange={(e) => setCorreoDocente(e.target.value)}
                 placeholder="docente@gmail.com"
                 required
               />
@@ -70,16 +75,17 @@ export default function InicioSesionDocente() {
                 Contraseña <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"} // Alterna entre "password" y "text"
                 className="border-2 border-gray-300 rounded-lg p-3"
                 value={Contraseña}
                 onChange={(e) => setContraseña(e.target.value)}
                 placeholder="••••••••"
                 required
               />
+              <span className="password-toggle" onClick={togglePasswordVisibility}>
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
             </div>
-
-            
 
             <button
               type="submit"
