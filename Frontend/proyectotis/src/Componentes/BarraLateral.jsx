@@ -8,7 +8,7 @@ export default function BarraLateral(){
     const [collapsed, setCollapsed] = useState(false);
     
     return (
-        <div className="flex h-[calc(100vh-131px)]">
+        <div className="flex h-[calc(100vh)]">
             <Sidebar
                 collapsed={collapsed}
                 className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"

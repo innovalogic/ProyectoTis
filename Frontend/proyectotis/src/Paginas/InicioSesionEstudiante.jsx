@@ -1,17 +1,21 @@
 import { useState } from "react";
-import NavbarInicioDeSesion from "../Componentes/NavbarInicio"; // Importa el componente
-import Copyright from "../Componentes/BarraCopyright"; // Importa el componente Copyright
-import UMSS from "/src/Imagenes/UMSS.jpg"; // Importa la imagen desde src
+import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
+import Copyright from "../Componentes/BarraCopyright";
+import UMSS from "/src/Imagenes/UMSS.jpg";
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+
 
 export default function InicioSesionEstudiante() {
   const [codSis, setCodSis] = useState("");
   const [Contraseña, setContraseña] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Evita que el formulario se envíe y la página se recargue
 
     const formData = new FormData();
-    formData.append('codSis', codSis);  // Cambié 'correo' por 'codSis'
+    formData.append('codSis', codSis);
     formData.append('password', Contraseña);
 
     try {
@@ -24,12 +28,16 @@ export default function InicioSesionEstudiante() {
       if (result.includes("Login successful")) {
         alert("Inicio de sesión exitoso!!");
       } else {
-        alert("La kagaste weon :(");  // Puedes cambiar este mensaje por algo más formal
+        alert("Error en el inicio de sesión :(");
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
 
   return (
     <div className="bg-cover bg-center h-screen flex flex-col justify-between" style={{ backgroundImage: `url(${UMSS})` }}>
@@ -57,21 +65,29 @@ export default function InicioSesionEstudiante() {
                 onChange={(e) => setCodSis(e.target.value)}
                 placeholder="12345678"
                 required
+                maxLength={50}
+                minLength={3}
               />
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col relative">
               <label className="text-lg font-medium mb-2" style={{ color: "#32569A" }}>
                 Contraseña <span style={{ color: "red" }}>*</span>
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"} // Alterna entre "password" y "text"
                 className="border-2 border-gray-300 rounded-lg p-3"
                 value={Contraseña}
                 onChange={(e) => setContraseña(e.target.value)}
                 placeholder="••••••••"
                 required
+                maxLength={50}
+                minLength={3}
+                
               />
+              <span className="password-toggle" onClick={togglePasswordVisibility}>
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
             </div>
 
             <div className="text-left">
