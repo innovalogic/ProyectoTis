@@ -62,7 +62,7 @@ export default function BarraLateral(){
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
                     icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                    component={<Link to="/calendar" />}
+                    component={<Link to="/InicioEstudiante" />}
                 >
                     Evaluaciones
                 </MenuItem>
@@ -70,7 +70,7 @@ export default function BarraLateral(){
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
                     icon={<img src="/src/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
-                    component={<Link to="/e-commerce" />}
+                    component={<Link to="/InicioEstudiante" />}
                 >
                     Calendario
                 </MenuItem>
@@ -87,7 +87,7 @@ export default function BarraLateral(){
                     <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/PlanificacionGe" />}>
                         Planificación
                     </MenuItem>
-                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/empresa/contact" />}>
+                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
                         Información
                     </MenuItem>
                 </SubMenu>
