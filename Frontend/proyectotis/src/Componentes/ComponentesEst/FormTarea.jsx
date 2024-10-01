@@ -152,7 +152,7 @@ const FormTarea = ({ onSubmit }) => {
         </select>
       </div>
       <div>
-        <label>Título HU:</label>
+        <label>Título Tarea:</label>
         <br></br>
         <input
             type="text"
