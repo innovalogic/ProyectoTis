@@ -1,26 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './EstilosComponentes.scss'; 
 import { TiDelete } from "react-icons/ti";
 
 export const ModalEst = ({ isOpen, onClose, children }) => {
-  // Cerrar el modal con la tecla 'Esc'
+  const handleKeyDownRef = useRef(null)
+
   useEffect(() => {
-    const handleKeyDown = (event) => {
+    handleKeyDownRef.current= (event) => {
       if (event.key === 'Escape') {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-      // Desactivar el scroll en el fondo
+      document.addEventListener('keydown', handleKeyDownRef.current);
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
     }
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDownRef.current);
       document.body.style.overflow = 'auto'; // Rehabilitar scroll al desmontar el componente
     };
   }, [isOpen, onClose]);
@@ -31,7 +29,11 @@ export const ModalEst = ({ isOpen, onClose, children }) => {
   return (
     <div className="Mod-overlay">
       <div className="Mod-content">
-        <button className="close-btn" onClick={onClose}>
+        <button 
+          className="close-btn" 
+          onClick={onClose}
+          aria-label='Cerrar modal'
+        >
           <TiDelete />
         </button>
         {children} {/* Contenido del modal */}

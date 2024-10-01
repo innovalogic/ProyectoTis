@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio"; // Importa el componente
 import Copyright from "../Componentes/BarraCopyright"; // Importa el componente Copyright
 import UMSSENTRADA4 from "/src/Imagenes/UMSSENTRADA4.jpg"; // Importa la imagen desde src
@@ -6,6 +7,7 @@ import UMSSENTRADA4 from "/src/Imagenes/UMSSENTRADA4.jpg"; // Importa la imagen 
 export default function InicioSesion() {
   const [codSis, setCodSis] = useState("");
   const [Contraseña, setContraseña] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Evita que el formulario se envíe y la página se recargue
@@ -23,6 +25,7 @@ export default function InicioSesion() {
       const result = await response.text();
       if (result.includes("Login successful")) {
         alert("Inicio de sesión exitoso!!");
+        navigate('/InicioEstudiante');
       } else {
         alert("La kagaste weon :(");  // Puedes cambiar este mensaje por algo más formal
       }

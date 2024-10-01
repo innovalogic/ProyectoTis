@@ -1,16 +1,15 @@
-import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
+import { Encabezado } from "../Componentes/Encabezado";
 import BarraCopyright from "../Componentes/BarraCopyright";
 import BarraLateral from "../Componentes/BarraLateral";
+import './AreaEstudiante.scss';
 
 export default function InicioEstudiante() {
-    
-
-    return (
+      return (
         <>
-          <NavbarInicioDeSesion/>
-          <div style={{ display: 'flex', height: '100%', marginTop: '70px'}}>
+          <Encabezado />
+          <div className="FLEX">
             <BarraLateral/>
-            </div> 
+          </div> 
           <BarraCopyright/>
         </>
     );

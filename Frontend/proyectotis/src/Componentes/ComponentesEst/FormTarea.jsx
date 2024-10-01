@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './EstilosComponentes.scss'; 
 import Modal from "../Modal";
-
-const FormHU = ({ onSubmit , children}) => {
-  const [Datos, setFormDatos] = useState({
-    sprint: children||'',
+const FormTarea = ({ onSubmit }) => {
+  const [formDatos, setFormDatos] = useState({
+    pertenece:'',
     titulo: '',
     responsable: '',
     fecha: '',
@@ -15,14 +14,7 @@ const FormHU = ({ onSubmit , children}) => {
     message: ''
 });
   const [responsables, setResponsables] = useState([]);
-
-  useEffect(() => {
-    // Actualiza el estado cuando el valor de children cambie
-    setFormDatos((prevData) => ({
-      ...prevData,
-      sprint: children,
-    }));
-  }, [children]);
+  const [historiasdeu, setHistoriasdeU] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,26 +31,41 @@ const FormHU = ({ onSubmit , children}) => {
     fetchData();
   }, []);
 
-  const handleConfirmHU = async (e) => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php');
+        const text = await response.text(); // Obtener la respuesta como texto
+        console.log(text); // Ver el texto que devuelve el servidor
+        const data = JSON.parse(text);
+        setHistoriasdeU(data.historiasdeu);
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleConfirmTarea = async (e) => {
     e.preventDefault();
-    console.log('formData:', Datos);
-    if (Datos.fecha) {
+    console.log('formData:', formDatos);
+    if (formDatos.fecha) {
       try {
 
-        const formattedDate = new Date(Datos.fecha).toISOString().split('T')[0];
+        const formattedDate = new Date(formDatos.fecha).toISOString().split('T')[0];
 
         // Actualiza formDatos con la fecha formateada
         const dataToSend = {
-          ...Datos,
+          ...formDatos,
           fecha: formattedDate // Usar la fecha formateada
         };
 
-        const response = await fetch('http://localhost/ProyectoTis/Backend/guardarHU.php', {
+        const response = await fetch('http://localhost/ProyectoTis/Backend/guardarTarea.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(Datos)
+          body: JSON.stringify(formDatos)
         });
 
         if (!response.ok) {
@@ -71,13 +78,13 @@ const FormHU = ({ onSubmit , children}) => {
         if (result.success) {
           setModal({
             show: true,
-            title: 'HU añadida',
-            message: 'La HU fue añadida.'
+            title: 'Tarea añadida',
+            message: 'La Tarea fue añadida.'
         });
         } else {
           setModal({
             show: true,
-            title: 'Error al añadir la HU',
+            title: 'Error al añadir Tarea',
             message: result.message
         });
         }
@@ -86,7 +93,7 @@ const FormHU = ({ onSubmit , children}) => {
         setModal({
           show: true,
           title: 'Error',
-          message: 'Hubo un problema al añadir HU.'
+          message: 'Hubo un problema al añadir Tarea.'
         });
       }
     } else {
@@ -98,14 +105,13 @@ const FormHU = ({ onSubmit , children}) => {
       return;
     }
   };
-
-  const handleSubmit = async (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    if (Datos.sprint && Datos.titulo && Datos.responsable && Datos.fecha) {
-      console.log(Datos); // Debugging
-      await handleConfirmHU({ preventDefault: () => {} });
-      onSubmit(Datos); // Llama a la función pasada desde el padre
-      setFormDatos({ sprint:children, titulo: '', responsable: '', fecha: '' }); // Reinicia el formulario
+    if (formDatos.pertenece && formDatos.titulo && formDatos.responsable && formDatos.fecha) {
+      console.log(formDatos); // Debugging
+      await handleConfirmTarea({preventDefault: () => {}});
+      onSubmit(formDatos); // Llama a la función pasada desde el padre
+      setFormDatos({ pertenece: '', titulo: '', responsable: '', fecha: '' }); // Reinicia el formulario
     }
   };
 
@@ -117,7 +123,6 @@ const FormHU = ({ onSubmit , children}) => {
     }));
   };
 
-  
   const closeModal = () => {
     setModal(prevModal => ({
       ...prevModal,
@@ -127,18 +132,38 @@ const FormHU = ({ onSubmit , children}) => {
 
   return (
     <form onSubmit={handleSubmit} className='FormularioHU'>
+      <div style={{width:'470px' }}>
+        <label>
+          Pertene a la HU:
+        </label>
+        <br></br>
+        <select
+          name="pertenece"
+          value={formDatos.pertenece}
+          onChange={handleChange}
+          style={{width:'450px', paddingLeft:'8px', paddingRight:'8px', height:'50px', margin:'10px' }}
+        >
+          <option value="">Selecciona una HU</option>
+          {historiasdeu.map((historiasdeu, index) => (
+            <option key={index} value={historiasdeu.titulo}>
+              {historiasdeu.titulo}
+            </option>
+          ))}
+        </select>
+      </div>
       <div>
         <label>Título HU:</label>
         <br></br>
         <input
             type="text"
             name="titulo" 
-            value={Datos.titulo}
+            value={formDatos.titulo}
             onChange={handleChange}
             placeholder="Ingresa nombre de tu HU..."
             required
           />
       </div>
+
       <div style={{width:'470px' }}>
         <label>
           Responsable:
@@ -146,7 +171,7 @@ const FormHU = ({ onSubmit , children}) => {
         <br></br>
         <select
           name="responsable"
-          value={Datos.responsable}
+          value={formDatos.responsable}
           onChange={handleChange}
           style={{width:'450px', paddingLeft:'8px', paddingRight:'8px', height:'50px', margin:'10px' }}
         >
@@ -166,7 +191,7 @@ const FormHU = ({ onSubmit , children}) => {
         <input 
           type="date" 
           name="fecha" 
-          value={Datos.fecha} 
+          value={formDatos.fecha} 
           onChange={handleChange}
           min={new Date().toISOString().split("T")[0]}
           required />
@@ -182,4 +207,4 @@ const FormHU = ({ onSubmit , children}) => {
   );
 };
 
-export default FormHU;
+export default FormTarea;

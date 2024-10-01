@@ -39,6 +39,21 @@ $azulfuerte:#1E3664;
                 }
             }
         }
+        .dat{
+            margin-left: 20px;
+            align-items: center;
+            display: flex;
+            border-radius: 5px;
+            background-color: #1E3664;                
+            color: #EFE7DC;
+            font-size: 20px;
+            justify-content: center;
+            padding-left: 10px;
+            padding-right: 10px;
+            :hover{
+                cursor: pointer;
+            }            
+        }
         .botones{
             display: flex;
             .añadir{
@@ -69,7 +84,7 @@ $azulfuerte:#1E3664;
             }
         }
         .tabla{
-            padding-top: 30px;
+            padding-top: 20px;
             padding-right: 15px;
         }
     }
@@ -195,5 +210,80 @@ $azulfuerte:#1E3664;
             background-color: #d4e1f9;
             justify-content: center;
         }
+        .button-no-bg {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            svg{
+                margin-right: 5px;
+                font-size: 20px;
+            }
+          }
     }
 }
+
+.hu-container {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    margin-right: 25px;
+    justify-content: center;
+    padding-right: 30px;
+    padding: 15px;
+  }
+  .titHU{
+    align-items: center;
+    display: inline-flex;
+    padding-bottom: 15px;
+    .T{
+        padding: 0 15px;
+        font-weight: 500;
+    }
+    .btn-add-hu {
+        display: flex;
+        background-color: $azulfuerte;
+        color: $crema;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 20px;
+        width: auto;
+        svg{
+            font-size: 30px;
+        }
+      }
+  }
+
+  
+  .huc {
+    font-size: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    background-color: #7ea1d3;
+    border-radius: 10px;
+    margin-right: 50pxpx;
+    width: 100%;
+    gap: 10px;
+    padding-left: 25px;
+    .hu-grid-header {
+        font-weight: 700;
+        background-color: #799ecf;
+        display: contents; /* Hace que los hijos se comporten como elementos grid */
+      }
+    .hu-grid-row {
+        display: contents;
+        font-weight: 300;
+        color: black;
+      }
+    
+
+  }
+  
+  
+  
