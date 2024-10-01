@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { GoPlus, GoDash } from "react-icons/go";
 import Sprint from '../Componentes/ComponentesEst/Sprint';
 import './AreaEstudiante.scss';
-import { Encabezado } from '../Componentes/Encabezado';
 import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateral';
 
@@ -20,7 +19,7 @@ export const PlanificacionGE = () => {
   };
   return (
     <>
-      <Encabezado/> 
+    
       <main className="FLEX">   
         <div className='Plani'>
           <BarraLateral/>

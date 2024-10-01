@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importa useNavigate para la redirección
+import { useNavigate } from "react-router-dom";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import BarraCopyright from "../Componentes/BarraCopyright";
 import Modal from "../Componentes/Modal";
-import './RegistroEstudiante.css';
 
 export default function RegistroEstudiante() {
     const [formData, setFormData] = useState({
@@ -23,10 +22,28 @@ export default function RegistroEstudiante() {
         message: ''
     });
 
-    const navigate = useNavigate(); // Hook para redirigir a otra página
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { id, value } = e.target;
+
+        // Validación para nombre y apellido (solo letras y espacios)
+        if (id === "nombre" || id === "apellido") {
+            const regex = /^[a-zA-Z\s]*$/; // Permite solo letras y espacios
+            if (!regex.test(value)) {
+                return; // Si el valor no cumple la regex, no hace nada
+            }
+        }
+
+        // Validación para CodSISS y teléfono (solo números)
+        if (id === "codsiss" || id === "telefono" ||id==="codigoGrupo") {
+            const regex = /^[0-9]*$/; // Permite solo números
+            if (!regex.test(value)) {
+                return; // Si el valor no cumple la regex, no hace nada
+            }
+        }
+
+
         setFormData(prevState => ({
             ...prevState,
             [id]: value
@@ -35,15 +52,56 @@ export default function RegistroEstudiante() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.contrasena !== formData.confirmarContrasena) {
-            setModal({
-                show: true,
-                title: 'Error',
-                message: 'Las contraseñas no coinciden.'
-            });
-            return;
-        }
-    
+        // Validación de longitud de CodSISS
+    if (formData.codsiss.length < 9) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'El CodSISS debe tener al menos 9 dígitos.'
+        });
+        return;
+    }
+
+    // Validación de longitud de Teléfono
+    if (formData.telefono.length !== 8) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'El teléfono debe tener exactamente 8 dígitos.'
+        });
+        return;
+    }
+
+    // Validación de longitud de Contraseña
+    if (formData.contrasena.length < 8 || formData.contrasena.length > 20) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'La contraseña debe tener entre 8 y 20 caracteres.'
+        });
+        return;
+    }
+
+    // Validación de Confirmar Contraseña
+    if (formData.contrasena !== formData.confirmarContrasena) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'Las contraseñas no coinciden.'
+        });
+        return;
+    }
+
+    // Validación de Código de Grupo
+    if (formData.codigoGrupo.length !== 4) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'El código de grupo debe tener exactamente 4 dígitos.'
+        });
+        return;
+    }
+
         try {
             const response = await fetch('http://localhost/proyectotis/backend/registerStudent.php', {
                 method: 'POST',
@@ -52,11 +110,11 @@ export default function RegistroEstudiante() {
                 },
                 body: JSON.stringify(formData),
             });
-    
+
             if (!response.ok) {
                 throw new Error("Error en la respuesta del servidor.");
             }
-    
+
             const result = await response.json();
             if (result.success) {
                 setModal({
@@ -86,70 +144,89 @@ export default function RegistroEstudiante() {
             show: false
         });
 
-        // Si el registro fue exitoso, redirigir a otra página
         if (modal.title === 'Registro exitoso') {
-            navigate('/InicioEstudiante'); // Redirigir a la página que prefieras
+            navigate('/InicioEstudiante');
         }
+    };
+    // Función para limpiar los campos del formulario
+    const handleCancel = () => {
+        setFormData({
+            nombre: '',
+            apellido: '',
+            codsiss: '',
+            codigoGrupo: '',
+            telefono: '',
+            contrasena: '',
+            confirmarContrasena: '',
+            email: ''
+        });
     };
 
     return (
         <>
             <NavbarInicioDeSesion />
-            <div className="registro-estudiante-background">
-                <div className="registro-estudiante-form-container">
-                    <h1 className="text-4xl font-bold italic" style={{ color: '#1F3765', margin: '15px' }}>Registro Estudiante</h1>
-                    <form className="registro-estudiante-form-grid" onSubmit={handleSubmit}>
-                        <div className="registro-estudiante-form-row">
-                            <div className="registro-estudiante-input-group">
-                                <label htmlFor="nombre" className="registro-estudiante-label">Nombre</label>
-                                <input type="text" id="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre" className="registro-estudiante-input-field" />
+            <div className="bg-cover bg-center bg-no-repeat w-screen h-screen flex justify-center items-center flex-col" style={{ backgroundImage: "url('/src/Imagenes/UMSSENTRADA6.jpg')" }}>
+                <div className="bg-opacity-80 bg-gray-200 rounded-lg p-8 w-full max-w-4xl shadow-lg flex flex-col items-center mt-10">
+                    <h1 className="text-4xl font-bold italic text-[#1E3664] mb-6">Registro Estudiante</h1>
+                    <form className="w-full flex flex-col" onSubmit={handleSubmit}>
+                        <div className="flex flex-wrap justify-between mb-6">
+                            <div className="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                                <label htmlFor="nombre" className="text-base mb-1 text-[#1E3664] font-bold">Nombre</label>
+                                <input type="text" id="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre" className="w-full p-2 border border-gray-300 rounded-lg" />
                             </div>
-                            <div className="registro-estudiante-input-group">
-                                <label htmlFor="apellido" className="registro-estudiante-label">Apellido</label>
-                                <input type="text" id="apellido" value={formData.apellido} onChange={handleChange} placeholder="Apellido" className="registro-estudiante-input-field" />
+                            <div className="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                                <label htmlFor="apellido" className="text-base mb-1 text-[#1E3664] font-bold">Apellido</label>
+                                <input type="text" id="apellido" value={formData.apellido} onChange={handleChange} placeholder="Apellido" className="w-full p-2 border border-gray-300 rounded-lg" />
                             </div>
-                            <div className="registro-estudiante-input-group">
-                                <label htmlFor="codsiss" className="registro-estudiante-label">CodSISS</label>
-                                <input type="text" id="codsiss" value={formData.codsiss} onChange={handleChange} placeholder="CodSISS" className="registro-estudiante-input-field" />
-                            </div>
-                        </div>
-                        <div className="registro-estudiante-form-row">
-                            <div className="registro-estudiante-input-group">
-                                <label htmlFor="codigoGrupo" className="registro-estudiante-label">Código de Grupo Docente</label>
-                                <input type="text" id="codigoGrupo" value={formData.codigoGrupo} onChange={handleChange} placeholder="Código de Grupo" className="registro-estudiante-input-field" />
-                            </div>
-                            <div className="registro-estudiante-input-group">
-                                <label htmlFor="telefono" className="registro-estudiante-label">Número de Teléfono</label>
-                                <input type="tel" id="telefono" value={formData.telefono} onChange={handleChange} placeholder="Número de Teléfono" className="registro-estudiante-input-field" />
-                            </div>
-                            <div className="registro-estudiante-input-group">
-                                <label htmlFor="contrasena" className="registro-estudiante-label">Contraseña</label>
-                                <input type="password" id="contrasena" value={formData.contrasena} onChange={handleChange} placeholder="Contraseña" className="registro-estudiante-input-field" />
+                            <div className="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                                <label htmlFor="codsiss" className="text-base mb-1 text-[#1E3664] font-bold">CodSISS</label>
+                                <input type="text" id="codsiss" value={formData.codsiss} onChange={handleChange} placeholder="CodSISS" className="w-full p-2 border border-gray-300 rounded-lg" />
                             </div>
                         </div>
-                        <div className="registro-estudiante-form-row">
-                            <div className="registro-estudiante-input-group">
-                                <label htmlFor="confirmarContrasena" className="registro-estudiante-label">Confirmar Contraseña</label>
-                                <input type="password" id="confirmarContrasena" value={formData.confirmarContrasena} onChange={handleChange} placeholder="Confirmar Contraseña" className="registro-estudiante-input-field" />
+                        <div className="flex flex-wrap justify-between mb-6">
+                            <div className="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                                <label htmlFor="codigoGrupo" className="text-base mb-1 text-[#1E3664] font-bold">Código de Grupo</label>
+                                <input type="text" id="codigoGrupo" value={formData.codigoGrupo} onChange={handleChange} placeholder="Código de Grupo" className="w-full p-2 border border-gray-300 rounded-lg" />
                             </div>
-                            <div className="registro-estudiante-input-group">
-                                <label htmlFor="email" className="registro-estudiante-label">Email</label>
-                                <input type="email" id="email" value={formData.email} onChange={handleChange} placeholder="example@est.umss.edu" className="registro-estudiante-input-field" />
+                            <div className="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                                <label htmlFor="contrasena" className="text-base mb-1 text-[#1E3664] font-bold">Contraseña</label>
+                                <input type="password" id="contrasena" value={formData.contrasena} onChange={handleChange} placeholder="Contraseña" className="w-full p-2 border border-gray-300 rounded-lg" />
+                            </div>
+                            <div className="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                                <label htmlFor="confirmarContrasena" className="text-base mb-1 text-[#1E3664] font-bold">Confirmar Contraseña</label>
+                                <input type="password" id="confirmarContrasena" value={formData.confirmarContrasena} onChange={handleChange} placeholder="Confirmar Contraseña" className="w-full p-2 border border-gray-300 rounded-lg" />
                             </div>
                         </div>
-                        <div className="registro-estudiante-form-row registro-estudiante-button-row">
-                            <button type="button" className="registro-estudiante-btn-cancel">Cancelar</button>
-                            <button type="submit" className="registro-estudiante-btn-register">Registrar</button>
+                        <div className="flex flex-wrap justify-between mb-6">
+                            <div className="w-full md:w-1/2 px-2 mb-6 md:mb-0">
+                                <label htmlFor="telefono" className="text-base mb-1 text-[#1E3664] font-bold">Teléfono</label>
+                                <input type="tel" id="telefono" value={formData.telefono} onChange={handleChange} placeholder="Teléfono" className="w-full p-2 border border-gray-300 rounded-lg" />
+                            </div>
+                            <div className="w-full md:w-1/2 px-2 mb-6 md:mb-0">
+                                <label htmlFor="email" className="text-base mb-1 text-[#1E3664] font-bold">Email</label>
+                                <input type="email" id="email" value={formData.email} onChange={handleChange} placeholder="example@est.umss.edu" className="w-full p-2 border border-gray-300 rounded-lg" />
+                            </div>
                         </div>
+                        <div className="flex justify-center space-x-6 mt-5">
+                        <button
+                            type="button"
+                            className="bg-red-500 text-white py-3 px-8 rounded-lg hover:bg-red-600"
+                            onClick={handleCancel} 
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="bg-[#1E3664] text-white py-3 px-8 rounded-lg hover:bg-[#1A2F56]"
+                        >
+                            Registrar
+                        </button>
+                        </div>
+
                     </form>
                 </div>
             </div>
-            <Modal
-                show={modal.show}
-                onClose={closeModal}
-                title={modal.title}
-                message={modal.message}
-            />
+            <Modal show={modal.show} onClose={closeModal} title={modal.title} message={modal.message} />
             <BarraCopyright />
         </>
     );

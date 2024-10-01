@@ -8,13 +8,13 @@ export default function BarraLateral(){
     const [collapsed, setCollapsed] = useState(false);
     
     return (
-        <div className="flex h-[calc(100vh-131px)]">
+        <div className="flex h-[calc(100vh)]">
             <Sidebar
                 collapsed={collapsed}
-                className="bg-[#32569A] text-[#EFE7DC] shadow-lg transition-all duration-300 ease-in-out"
-                style={{ width: collapsed ? '80px' : '250px', height: '[calc(100vh-131px)]' }}
+                className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"
+                style={{ width: collapsed ? '80px' : '250px', height: '100vh' }}
             >
-                <div className="flex flex-col h-[calc(100vh-131px)] bg-[#32569A]">
+                <div className="flex flex-col h-full bg-[#32569A]">
                     <div className="flex items-center justify-between p-4">
                         <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl`}>Menú</h1>
                         <button
@@ -54,7 +54,7 @@ export default function BarraLateral(){
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
                     icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
-                    component={<Link to="/InicioEstudiante" />}
+                    component={<Link to="InicioEstudiante" />}
                 >
                     Inicio
                 </MenuItem>
@@ -81,7 +81,7 @@ export default function BarraLateral(){
                     style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
                     icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
                 >
-                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/RegistroEmpresa" />}>
+                    <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
                         Registrar
                     </MenuItem>
                     <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/Empresa/Planificacion" />}>
@@ -95,7 +95,6 @@ export default function BarraLateral(){
                 <div className="mt-auto">
                     <MenuItem
                         className="text-[#EFE7DC] font-bold"
-                        component={<Link to="/" />}
                         onClick={() => alert('Has cerrado sesión.')}
                         icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
                     >

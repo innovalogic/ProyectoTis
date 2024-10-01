@@ -17,7 +17,7 @@ export default function PaginaDeInicio() {
                     />
                     {/* Rectángulo transparente con color sobre la imagen */}
                     <div className="absolute inset-0 flex items-start justify-start">
-                        <div className="mt-52 ml-0 bg-custom-bg bg-opacity-70 p-4 rounded-lg w-1/2">
+                        <div className="mt-40 ml-0 bg-custom-bg bg-opacity-70 p-4 rounded-lg w-1/2">
                             <div className="font-sans italic">
                                 <span className="text-5xl font-plex font-bold" style={{ color: '#1E3664' }}>
                                     EVALUACIÓN

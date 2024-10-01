@@ -20,8 +20,23 @@ if (
     !empty($data->email)
 ) {
     try {
+        // Verificar si el CodSISS ya existe
+        $checkQuery = 'SELECT COUNT(*) FROM "Estudiante" WHERE "codSis" = :codsiss';
+        $checkStmt = $pdo->prepare($checkQuery);
+        $checkStmt->bindParam(':codsiss', $data->codsiss);
+        $checkStmt->execute();
+        $exists = $checkStmt->fetchColumn();
+
+        if ($exists > 0) {
+            // Si el CodSISS ya existe, devolver un error
+            ob_end_clean();
+            echo json_encode(['success' => false, 'message' => 'El CodSISS ya está registrado.']);
+            exit;
+        }
+
+        // Si no existe, proceder con la inserción
         $query = 'INSERT INTO "Estudiante" ("nombreEstudiante", "apellidoEstudiante", "codSis", "telefonoEstudiante", "contraseñaEstudiante", "idGrupoEmpresa", "idDocente", "emailEstudiante") 
-        VALUES (:nombre, :apellido, :codsiss, :telefono, :contrasena, null, 2,:email)';
+                  VALUES (:nombre, :apellido, :codsiss, :telefono, :contrasena, null, 2, :email)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':nombre', $data->nombre);
         $stmt->bindParam(':apellido', $data->apellido);
@@ -33,10 +48,10 @@ if (
         if ($stmt->execute()) {
             // Limpia cualquier salida previa antes de enviar la respuesta JSON
             ob_end_clean();
-            echo json_encode(['success' => true, 'message' => 'Estudiante registrado']);
+            echo json_encode(['success' => true, 'message' => 'Estudiante registrado exitosamente.']);
         } else {
             ob_end_clean();
-            echo json_encode(['success' => false, 'message' => 'Error al registrar el estudiante']);
+            echo json_encode(['success' => false, 'message' => 'Error al registrar el estudiante.']);
         }
     } catch (PDOException $e) {
         ob_end_clean();
