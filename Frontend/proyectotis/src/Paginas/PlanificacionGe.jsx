@@ -5,7 +5,7 @@ import './AreaEstudiante.scss';
 import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateral';
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
-export const PlanificacionGE = () => {
+ export default function PlanificacionGE () {
   const [sprints, setSprints] = useState([]); // Estado para almacenar los sprints
 
   const addSprint = () => {
@@ -20,9 +20,9 @@ export const PlanificacionGE = () => {
   return (
     <>
       <NavbarInicioDeSesion />
-      <div className="FLEX">   
+      <div style={{ display: 'flex', height: '100%', marginTop: '70px'}}>   
+      <BarraLateral/>
         <div className='Plani'>
-          <BarraLateral/>
           <div className='Planificacion'>
             <div className='titulo'>
               <h2>Planificación de Actividades</h2>
@@ -47,9 +47,10 @@ export const PlanificacionGE = () => {
           </div>
         </div>
       </div> 
-      <section className='copy'>
+      
           <Copyright />
-          </section> 
+           
     </>
   )
 }
+

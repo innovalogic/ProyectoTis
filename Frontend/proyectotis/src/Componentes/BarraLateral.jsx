@@ -54,7 +54,7 @@ export default function BarraLateral(){
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
                     icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
-                    component={<Link to="InicioEstudiante" />}
+                    component={<Link to="/InicioEstudiante" />}
                 >
                     Inicio
                 </MenuItem>
@@ -84,7 +84,7 @@ export default function BarraLateral(){
                     <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
                         Registrar
                     </MenuItem>
-                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/Empresa/Planificacion" />}>
+                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/PlanificacionGe" />}>
                         Planificación
                     </MenuItem>
                     <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/empresa/contact" />}>

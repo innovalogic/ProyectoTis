@@ -7,7 +7,7 @@ import RegistroEstudiante from './Paginas/RegistroEstudiante';
 import RegistroEmpresa from './Paginas/RegistroEmpresa';
 import InicioEstudiante from './Paginas/InicioEstudiante';
 import InicioSesionDocente from './Paginas/InicioSesionDocente';
-import { PlanificacionGE } from './Paginas/PlanificacionGe';
+import PlanificacionGe  from './Paginas/PlanificacionGe';
 function App() {
   return (
     <Router>
@@ -18,8 +18,7 @@ function App() {
         <Route path="RegistroEmpresa" element={<RegistroEmpresa/>}/>
         <Route path="InicioEstudiante" element={<InicioEstudiante/>}/>
         <Route path="InicioSesionDocente" element={<InicioSesionDocente/>}/>
-        <Route path="Pl" element={<InicioSesionDocente/>}/>
-        <Route path="Empresa/Planificacion" exact={true} Component={PlanificacionGE} />
+        <Route path="PlanificacionGe" element={<PlanificacionGe/>}/>
       </Routes>
     </Router>
   );

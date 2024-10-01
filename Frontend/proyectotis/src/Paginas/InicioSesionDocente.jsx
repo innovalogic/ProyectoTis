@@ -26,7 +26,7 @@ export default function InicioSesionDocente() {
       if (result.includes("Login successful")) {
         alert("Inicio de sesión exitoso!!");
       } else {
-        alert("La kagaste weon :(");
+        alert("Credenciaes Incorrectas");
       }
     } catch (error) {
       console.error("Error:", error);
