@@ -3,12 +3,13 @@ import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from "../Componentes/BarraCopyright";
 import UMSS from "/src/Imagenes/UMSS.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
 
 export default function InicioSesionEstudiante() {
   const [codSis, setCodSis] = useState("");
   const [Contraseña, setContraseña] = useState("");
   const [showPassword, setShowPassword] = useState(false); // Estado para controlar la visibilidad de la contraseña
-  
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Evita que el formulario se envíe y la página se recargue
@@ -26,6 +27,7 @@ export default function InicioSesionEstudiante() {
       const result = await response.text();
       if (result.includes("Login successful")) {
         alert("Inicio de sesión exitoso!!");
+        navigate('/InicioEstudiante');
       } else {
         alert("Error en el inicio de sesión :(");
       }
