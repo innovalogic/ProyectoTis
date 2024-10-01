@@ -26,6 +26,24 @@ export default function RegistroEstudiante() {
 
     const handleChange = (e) => {
         const { id, value } = e.target;
+
+        // Validación para nombre y apellido (solo letras y espacios)
+        if (id === "nombre" || id === "apellido") {
+            const regex = /^[a-zA-Z\s]*$/; // Permite solo letras y espacios
+            if (!regex.test(value)) {
+                return; // Si el valor no cumple la regex, no hace nada
+            }
+        }
+
+        // Validación para CodSISS y teléfono (solo números)
+        if (id === "codsiss" || id === "telefono" ||id==="codigoGrupo") {
+            const regex = /^[0-9]*$/; // Permite solo números
+            if (!regex.test(value)) {
+                return; // Si el valor no cumple la regex, no hace nada
+            }
+        }
+
+
         setFormData(prevState => ({
             ...prevState,
             [id]: value
@@ -34,14 +52,55 @@ export default function RegistroEstudiante() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.contrasena !== formData.confirmarContrasena) {
-            setModal({
-                show: true,
-                title: 'Error',
-                message: 'Las contraseñas no coinciden.'
-            });
-            return;
-        }
+        // Validación de longitud de CodSISS
+    if (formData.codsiss.length < 9) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'El CodSISS debe tener al menos 9 dígitos.'
+        });
+        return;
+    }
+
+    // Validación de longitud de Teléfono
+    if (formData.telefono.length !== 8) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'El teléfono debe tener exactamente 8 dígitos.'
+        });
+        return;
+    }
+
+    // Validación de longitud de Contraseña
+    if (formData.contrasena.length < 8 || formData.contrasena.length > 20) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'La contraseña debe tener entre 8 y 20 caracteres.'
+        });
+        return;
+    }
+
+    // Validación de Confirmar Contraseña
+    if (formData.contrasena !== formData.confirmarContrasena) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'Las contraseñas no coinciden.'
+        });
+        return;
+    }
+
+    // Validación de Código de Grupo
+    if (formData.codigoGrupo.length !== 4) {
+        setModal({
+            show: true,
+            title: 'Error',
+            message: 'El código de grupo debe tener exactamente 4 dígitos.'
+        });
+        return;
+    }
 
         try {
             const response = await fetch('http://localhost/proyectotis/backend/registerStudent.php', {
@@ -88,6 +147,19 @@ export default function RegistroEstudiante() {
         if (modal.title === 'Registro exitoso') {
             navigate('/InicioEstudiante');
         }
+    };
+    // Función para limpiar los campos del formulario
+    const handleCancel = () => {
+        setFormData({
+            nombre: '',
+            apellido: '',
+            codsiss: '',
+            codigoGrupo: '',
+            telefono: '',
+            contrasena: '',
+            confirmarContrasena: '',
+            email: ''
+        });
     };
 
     return (
@@ -139,6 +211,7 @@ export default function RegistroEstudiante() {
                         <button
                             type="button"
                             className="bg-red-500 text-white py-3 px-8 rounded-lg hover:bg-red-600"
+                            onClick={handleCancel} 
                         >
                             Cancelar
                         </button>
