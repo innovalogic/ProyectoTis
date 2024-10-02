@@ -8,8 +8,10 @@ import RegistroEmpresa from './Paginas/RegistroEmpresa';
 import InicioEstudiante from './Paginas/InicioEstudiante';
 import InicioSesionDocente from './Paginas/InicioSesionDocente';
 import PlanificacionGe  from './Paginas/PlanificacionGe';
+import { UserProvider } from './Componentes/UserContext'; 
 function App() {
   return (
+    <UserProvider>
     <Router>
       <Routes>
         <Route path="/" element={<PaginaDeInicio />} />
@@ -21,6 +23,7 @@ function App() {
         <Route path="PlanificacionGe" element={<PlanificacionGe/>}/>
       </Routes>
     </Router>
+    </UserProvider>
   );
 }
 

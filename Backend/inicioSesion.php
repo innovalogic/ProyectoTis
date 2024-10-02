@@ -15,15 +15,14 @@ try {
     // Verifica si la solicitud es POST
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Recoger los datos enviados desde el frontend
-        $codSis = $_POST["codSis"] ?? '';  // Cambié a 'codSis'
+        $codSis = $_POST["codSis"] ?? '';  
         $contraseña = $_POST['password'] ?? '';
 
-        // Consulta para verificar si el codSis y la contraseña coinciden con un usuario en la base de datos
-        $sql = 'SELECT * FROM "Estudiante" WHERE "codSis" = :codSis AND "contraseñaEstudiante" = :password
-        '; // Actualicé la consulta
+        // Consulta para verificar si el codSis y la contraseña coinciden
+        $sql = 'SELECT * FROM "Estudiante" WHERE "codSis" = :codSis AND "contraseñaEstudiante" = :password';
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':codSis', $codSis);  // Actualicé el parámetro
+        $stmt->bindParam(':codSis', $codSis);
         $stmt->bindParam(':password', $contraseña);
 
         // Ejecutar la consulta
@@ -31,12 +30,15 @@ try {
 
         // Verificar si se encontró un usuario
         if ($stmt->rowCount() > 0) {
-            echo "Login successful";
+            // Obtener los datos del estudiante
+            $estudiante = $stmt->fetch(PDO::FETCH_ASSOC);
+            // Devolver los datos del estudiante como JSON
+            echo json_encode($estudiante);
         } else {
-            echo "Login failed: Invalid codSis or password";  // Mensaje actualizado
+            echo json_encode(["message" => "Login failed: Invalid codSis or password"]);
         }
     }
 } catch (PDOException $e) {
-    echo "Error en la conexión: " . $e->getMessage();
+    echo json_encode(["message" => "Error en la conexión: " . $e->getMessage()]);
 }
 ?>

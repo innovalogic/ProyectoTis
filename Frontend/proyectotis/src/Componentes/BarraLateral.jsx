@@ -2,10 +2,12 @@ import React from 'react';
 import { Sidebar, Menu, MenuItem,SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { useUser } from "../Componentes/UserContext";
 
 export default function BarraLateral(){
     
     const [collapsed, setCollapsed] = useState(false);
+    const { user } = useUser();
     
     return (
         <div className="flex h-[calc(100vh)]">
@@ -33,6 +35,10 @@ export default function BarraLateral(){
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Estudiante</h1>
+                    {/* Mostrar el nombre del estudiante si existe */}
+                    {!collapsed && user && (
+                        <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreEstudiante+" "+user.apellidoEstudiante}</h3>
+                    )}
 
             <Menu
                 menuItemStyles={{
