@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './EstilosComponentes.scss'; 
 import Modal from "../Modal";
+import { useUser } from '../UserContext';  // Importa el contexto
 
 const FormHU = ({ onSubmit , children}) => {
+
+  const { user } = useUser();  // Accede al contexto de usuario para obtener el idGrupoEmpresa
+  const idGrupoEmpresa = user ? user.idGrupoEmpresa : null;  // Extrae el idGrupoEmpresa
   const [Datos, setFormDatos] = useState({
     sprint: children||'',
     titulo: '',
     responsable: '',
     fecha: '',
+    idGrupoEmpresa:idGrupoEmpresa
   });
   const [modal, setModal] = useState({
     show: false,
@@ -27,7 +32,13 @@ const FormHU = ({ onSubmit , children}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php');
+        const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ idGrupoEmpresa: idGrupoEmpresa }) // Enviar idGrupoEmpresa
+        });
         const text = await response.text(); // Obtener la respuesta como texto
         console.log(text); // Ver el texto que devuelve el servidor
         const data = JSON.parse(text);

@@ -3,33 +3,38 @@ import './EstilosComponentes.scss';
 import { GoPlus } from "react-icons/go";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import {ModalEst} from './ModalEst'
-import FormHU from './FormHU'
+import { ModalEst } from './ModalEst';
+import FormHU from './FormHU';
 import Modal from "../Modal";
 import HU from './HU';
+import { useUser } from '../UserContext';  // Importa el contexto
 
 const Sprint = ({ title }) => {
+  const { user } = useUser();  // Accede al contexto de usuario para obtener el idGrupoEmpresa
+  const idGrupoEmpresa = user ? user.idGrupoEmpresa : null;  // Extrae el idGrupoEmpresa
+
   const [formData, setFormData] = useState({
     fechaInicio: '',
     fechaFin:  '',
-    nomSprint: title||''
+    nomSprint: title || '',
+    idGrupoEmpresa: idGrupoEmpresa || ''  // Añadir el idGrupoEmpresa a formData
   });
 
   const [modal, setModal] = useState({
     show: false,
     title: '',
     message: ''
-});
+  });
 
   const [data, setData] = useState([]);
   const [HUs, setHUs] = useState([]); 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [formLabel, setFormLabel]=useState('');
+  const [formLabel, setFormLabel] = useState('');
   const [datesConfirmed, setDatesConfirmed] = useState(false);
-  console.log('Estado de fechas:', { startDate, endDate, datesConfirmed });
   const [huVisible, setHuVisible] = useState(false); 
+
   const handleOpenModal = (label) => {
     setFormLabel(label);
     setIsModalOpen(true);
@@ -38,8 +43,6 @@ const Sprint = ({ title }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-
-  
 
   const handleSubmit = (Data) => {
     const newHU = {
@@ -56,7 +59,6 @@ const Sprint = ({ title }) => {
 
   const areDatesValid = () => {
     const valid = startDate !== null && endDate !== null && endDate >= startDate;
-    console.log('Fechas válidas:', valid);
     return valid;
   };
 
@@ -74,12 +76,17 @@ const Sprint = ({ title }) => {
         fechaFin: date ? date.toISOString().split('T')[0] : '',
       }));
     }
-    console.log('start Date:', startDate, 'end date:', endDate);
   };
 
   const handleConfirmDates = async (e) => {
     e.preventDefault();
-    console.log('formData:', formData);
+
+    // Actualiza formData con idGrupoEmpresa antes de enviar
+    const updatedFormData = {
+      ...formData,
+      idGrupoEmpresa: idGrupoEmpresa  // Incluye el idGrupoEmpresa en los datos a enviar
+    };
+
     if (areDatesValid()) {
       try {
         const response = await fetch('http://localhost/ProyectoTis/Backend/guardarSprint.php', {
@@ -87,11 +94,11 @@ const Sprint = ({ title }) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(updatedFormData)  // Enviar los datos con idGrupoEmpresa
         });
 
         if (!response.ok) {
-          const errorText = await response.text(); // Obtener el texto de error
+          const errorText = await response.text();
           console.error('Error en la respuesta del servidor:', errorText);
           throw new Error("Error en la respuesta del servidor.");
         }
@@ -102,17 +109,17 @@ const Sprint = ({ title }) => {
             show: true,
             title: 'Sprint añadido',
             message: 'El Sprint fue añadido exitosamente.'
-        });
-        setDatesConfirmed(true);
+          });
+          setDatesConfirmed(true);
         } else {
           setModal({
             show: true,
             title: 'Error al añadir Sprint',
             message: result.message
-        });
+          });
         }
       } catch (error) {
-        console.error('Error en la solicitud:', error); 
+        console.error('Error en la solicitud:', error);
         setModal({
           show: true,
           title: 'Error',
@@ -188,7 +195,7 @@ const Sprint = ({ title }) => {
           </div>
         </div> 
         <div>
-        {huVisible && ( // Mostrar el componente HU solo si huVisible es true
+        {huVisible && (
           <div>
             <HU hus={HUs} nomHU={formData.titulo}/>        
           </div>

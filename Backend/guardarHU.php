@@ -15,15 +15,17 @@ if (
     !empty($data->sprint) &&
     !empty($data->titulo) &&
     !empty($data->responsable) &&
-    !empty($data->fecha)
+    !empty($data->fecha) &&
+    !empty($data->idGrupoEmpresa)
 ) {
     try {
 
         $querySprint = 'SELECT "idSprint"
 	                    FROM "Sprint"
-	                    where  "GrupoEmpresa_idGrupoEmpresa" = 1 and "nomSprint" = :sprint';
+	                    where  "GrupoEmpresa_idGrupoEmpresa" = :idGrupoEmpresa and "nomSprint" = :sprint';
         $stmtSprint = $pdo->prepare($querySprint);
         $stmtSprint->bindParam(':sprint', $data->sprint);
+        $stmtSprint->bindParam(':idGrupoEmpresa', $data->idGrupoEmpresa);
         $stmtSprint->execute();
 
         // Verificar si se encontró el sprint
@@ -39,12 +41,13 @@ if (
 
 
         $query = 'INSERT INTO "HU"( titulo, responsable, "fechaEntrega", "Sprint_idSprint", "Sprint_GrupoEmpresa_idGrupoEmpresa")
-	                            VALUES (:titulo, :responsable, :fecha, :sprintId, 1)';
+	                            VALUES (:titulo, :responsable, :fecha, :sprintId, :idGrupoEmpresa)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':titulo', $data->titulo);
         $stmt->bindParam(':responsable', $data->responsable);
         $stmt->bindParam(':fecha', $data->fecha);
         $stmt->bindParam(':sprintId', $sprintId);
+        $stmt->bindParam(':idGrupoEmpresa', $data->idGrupoEmpresa);
 
         if ($stmt->execute()) {
             // Limpia cualquier salida previa antes de enviar la respuesta JSON

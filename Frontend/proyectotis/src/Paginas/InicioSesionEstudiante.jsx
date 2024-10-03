@@ -31,6 +31,7 @@ export default function InicioSesionEstudiante() {
       if (result.codSis) {
         // Guarda los datos completos del estudiante en el contexto
         setUser(result); // Aquí se almacenan todos los datos del estudiante
+        console.log(result);
         alert("Inicio de sesión exitoso!!");
         navigate('/InicioEstudiante');
       } else {

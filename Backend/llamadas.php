@@ -8,23 +8,38 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 // Conexión a la base de datos
 include_once 'db.php';
 
+// Recibir el cuerpo de la solicitud JSON
+$data = json_decode(file_get_contents("php://input"));
+
+// Verificar si el idGrupoEmpresa fue enviado
+if (!isset($data->idGrupoEmpresa)) {
+    echo json_encode(['error' => 'Falta idGrupoEmpresa']);
+    exit();
+}
+
+$idGrupoEmpresa = $data->idGrupoEmpresa;
+
 try {
-    // Consulta para obtener los responsables
-    $stmt1 = $pdo->query('SELECT CONCAT("nombreEstudiante", \' \', "apellidoEstudiante") AS nombre_completo
-                      FROM "Estudiante"
-                      WHERE "idGrupoEmpresa" = 1');
+    // Consulta para obtener los responsables filtrados por idGrupoEmpresa
+    $stmt1 = $pdo->prepare('SELECT CONCAT("nombreEstudiante", \' \', "apellidoEstudiante") AS nombre_completo
+                            FROM "Estudiante"
+                            WHERE "idGrupoEmpresa" = :idGrupoEmpresa');
+    $stmt1->bindParam(':idGrupoEmpresa', $idGrupoEmpresa, PDO::PARAM_INT);
+    $stmt1->execute();
     $responsables = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
-    // Consulta para obtener las actividades
-    $stmt2 = $pdo->query('SELECT titulo, "Sprint_idSprint"
-                        FROM "HU"
-                        WHERE "Sprint_GrupoEmpresa_idGrupoEmpresa" = 1');
+    // Consulta para obtener las actividades filtradas por idGrupoEmpresa
+    $stmt2 = $pdo->prepare('SELECT titulo, "Sprint_idSprint"
+                            FROM "HU"
+                            WHERE "Sprint_GrupoEmpresa_idGrupoEmpresa" = :idGrupoEmpresa');
+    $stmt2->bindParam(':idGrupoEmpresa', $idGrupoEmpresa, PDO::PARAM_INT);
+    $stmt2->execute();
     $historiasdeu = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
     // Respuesta en formato JSON
     echo json_encode([
         'responsables' => $responsables,
-        'historiasdeu' => $historiasdeu  // Cambio realizado aquí
+        'historiasdeu' => $historiasdeu
     ]);
 } catch (PDOException $e) {
     echo json_encode(['error' => $e->getMessage()]);

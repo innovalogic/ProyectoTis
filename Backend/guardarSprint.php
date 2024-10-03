@@ -14,18 +14,19 @@ var_dump($data); // Para verificar qué datos están llegando
 if (
     !empty($data->fechaInicio) &&
     !empty($data->fechaFin) &&
-    !empty($data->nomSprint)
+    !empty($data->nomSprint) &&
+    !empty($data->idGrupoEmpresa)
 ) {
     try {
         $query = 'INSERT INTO public."Sprint"("fechaInicio", "fechaFin", "GrupoEmpresa_idGrupoEmpresa", "nomSprint")
-	                            VALUES (:startDate, :endDate, 1, :nomSprint)';
+                  VALUES (:startDate, :endDate, :idGrupoEmpresa, :nomSprint)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':startDate', $data->fechaInicio);
         $stmt->bindParam(':endDate', $data->fechaFin);
         $stmt->bindParam(':nomSprint', $data->nomSprint);
+        $stmt->bindParam(':idGrupoEmpresa', $data->idGrupoEmpresa); // Aquí se enlaza el idGrupoEmpresa dinámico
 
         if ($stmt->execute()) {
-            // Limpia cualquier salida previa antes de enviar la respuesta JSON
             ob_end_clean();
             echo json_encode(['success' => true, 'message' => 'Sprint registrada']);
         } else {
@@ -40,4 +41,5 @@ if (
     ob_end_clean();
     echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
 }
+
 ?>
