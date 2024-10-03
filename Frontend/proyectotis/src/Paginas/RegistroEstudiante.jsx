@@ -145,7 +145,7 @@ export default function RegistroEstudiante() {
         });
 
         if (modal.title === 'Registro exitoso') {
-            navigate('/InicioEstudiante');
+            navigate('/InicioSesionEstudiante');
         }
     };
     // Función para limpiar los campos del formulario
