@@ -41,7 +41,7 @@ if (
 
 
         $query = 'INSERT INTO "HU"( titulo, responsable, "fechaEntrega", "Sprint_idSprint", "Sprint_GrupoEmpresa_idGrupoEmpresa")
-	                            VALUES (:titulo, :responsable, :fecha, :sprintId, :idGrupoEmpresa)';
+	                VALUES (:titulo, :responsable, :fecha, :sprintId, :idGrupoEmpresa)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':titulo', $data->titulo);
         $stmt->bindParam(':responsable', $data->responsable);
@@ -50,7 +50,7 @@ if (
         $stmt->bindParam(':idGrupoEmpresa', $data->idGrupoEmpresa);
 
         if ($stmt->execute()) {
-            // Limpia cualquier salida previa antes de enviar la respuesta JSON
+            echo 'Mensaje enviado';// Limpia cualquier salida previa antes de enviar la respuesta JSON
             ob_end_clean();
             echo json_encode(['success' => true, 'message' => 'HU registrada']);
         } else {

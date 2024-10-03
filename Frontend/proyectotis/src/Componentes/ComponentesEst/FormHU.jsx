@@ -69,7 +69,7 @@ const FormHU = ({ onSubmit , children}) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(Datos)
+          body: JSON.stringify(dataToSend)
         });
 
         if (!response.ok) {
