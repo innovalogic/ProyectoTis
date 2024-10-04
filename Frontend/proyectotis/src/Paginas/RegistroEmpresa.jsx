@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useUser } from "../Componentes/UserContext";
 
 
 export default function RegistroEmpresa() {
+    const { setUser } = useUser(); 
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [imageUrl, setImageUrl] = useState('');
@@ -83,6 +85,10 @@ export default function RegistroEmpresa() {
                 message: 'Grupo Registrado'
               });
               console.log("ID del último registro:", result.lastUserId);
+              setUser(prevUser => ({
+                ...prevUser,
+                idGrupoEmpresa: result.lastUserId
+              }));
               return result.lastUserId; 
           } else {
               alert("Error en el registro: " + result.message);
