@@ -49,8 +49,7 @@ if (
         $stmtHU->bindParam(':sprintId', $sprintId);
         $stmtHU->bindParam(':idGrupoEmpresa', $data->idGrupoEmpresa);
 
-        if ($stmtHU->execute()) {
-            echo 'Mensaje enviado';// Limpia cualquier salida previa antes de enviar la respuesta JSON
+        if ($stmtHU->execute()) {// Limpia cualquier salida previa antes de enviar la respuesta JSON
             ob_end_clean();
             echo json_encode(['success' => true, 'message' => 'HU registrada']);
         } else {
