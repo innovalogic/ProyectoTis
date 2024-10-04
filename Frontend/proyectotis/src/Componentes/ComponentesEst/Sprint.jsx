@@ -183,7 +183,9 @@ const Sprint = ({ title }) => {
               placeholderText="Elige una fecha..." 
               minDate={startDate}/>
           </div>
-          <button className="dat" onClick={handleConfirmDates}>Confirmar fechas</button>
+          <button className="dat" onClick={handleConfirmDates}
+          disabled={datesConfirmed}
+          style={{ backgroundColor: datesConfirmed ? '#ccc' : '' }}>Confirmar fechas</button>
         </div>
         {!areDatesValid() && (
           <p style={{ color: 'red', marginTop: '10px', fontSize:'20px', width:'auto' }}>
