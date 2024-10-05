@@ -89,7 +89,7 @@ const Sprint = ({ title }) => {
 
     if (areDatesValid()) {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/guardarSprint.php', {
+        const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/guardarSprint.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -17,7 +17,7 @@ export default function InicioSesionDocente() {
     formData.append('password', Contraseña);
 
     try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/inicioSesionD.php", {
+      const response = await fetch("https://tis-1d05d6f982d1.herokuapp.com/inicioSesionD.php", {
         method: "POST",
         body: formData,
       });

@@ -32,7 +32,7 @@ const FormHU = ({ onSubmit , children}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php', {
+        const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/llamadas.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -64,7 +64,7 @@ const FormHU = ({ onSubmit , children}) => {
           fecha: formattedDate // Usar la fecha formateada
         };
 
-        const response = await fetch('http://localhost/ProyectoTis/Backend/guardarHU.php', {
+        const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/guardarHU.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

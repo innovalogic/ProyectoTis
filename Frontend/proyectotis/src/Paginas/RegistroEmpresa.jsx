@@ -65,7 +65,7 @@ export default function RegistroEmpresa() {
     const handleRegisterGroup = async (data) => {
       const newData = { ...data, imageUrl: imageUrl };
       try {
-          const response = await fetch('http://localhost/proyectotis/backend/registrarGrupo.php', {
+          const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/registrarGrupo.php', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export default function RegistroEmpresa() {
           };
           console.log(idsEstudiantes, ultimoGrupo)
           try {
-              const response = await fetch('http://localhost/proyectotis/backend/actualizarGrupoEstudiantes.php', {
+              const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/actualizarGrupoEstudiantes.php', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',
@@ -160,7 +160,7 @@ export default function RegistroEmpresa() {
     useEffect(() => {
       const fetchEstudiantes = async () => {
           try {
-              const response = await axios.get('http://localhost/proyectotis/backend/RecuperarEstudiante.php');
+              const response = await axios.get('https://tis-1d05d6f982d1.herokuapp.com/RecuperarEstudiante.php');
               console.log(response.data.success); // Ver toda la respuesta
               if (response.data.success === true) {
                   setEstudiantesData(response.data.datos); // Asegúrate de que esto sea un array

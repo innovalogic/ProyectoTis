@@ -23,7 +23,7 @@ const FormTarea = ({ onSubmit }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php', {
+        const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/llamadas.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const FormTarea = ({ onSubmit }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php', {
+        const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/llamadas.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ const FormTarea = ({ onSubmit }) => {
           fecha: formattedDate // Usar la fecha formateada
         };
 
-        const response = await fetch('http://localhost/ProyectoTis/Backend/guardarTarea.php', {
+        const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/guardarTarea.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
