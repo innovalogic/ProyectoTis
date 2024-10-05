@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from "../Componentes/BarraCopyright";
-import UMSS2 from "/src/Imagenes/UMSS2.jpg";
+import UMSS2 from "/Imagenes/UMSS2.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 export default function InicioSesionDocente() {

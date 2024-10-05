@@ -165,7 +165,7 @@ export default function RegistroEstudiante() {
     return (
         <>
             <NavbarInicioDeSesion />
-            <div className="bg-cover bg-center bg-no-repeat w-screen h-screen flex justify-center items-center flex-col" style={{ backgroundImage: "url('/src/Imagenes/UMSSENTRADA6.jpg')" }}>
+            <div className="bg-cover bg-center bg-no-repeat w-screen h-screen flex justify-center items-center flex-col" style={{ backgroundImage: "url('/Imagenes/UMSSENTRADA6.jpg')" }}>
                 <div className="bg-opacity-80 bg-gray-200 rounded-lg p-8 w-full max-w-4xl shadow-lg flex flex-col items-center mt-10">
                     <h1 className="text-4xl font-bold italic text-[#1E3664] mb-6">Registro Estudiante</h1>
                     <form className="w-full flex flex-col" onSubmit={handleSubmit}>

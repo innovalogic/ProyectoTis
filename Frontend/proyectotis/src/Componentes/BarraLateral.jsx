@@ -24,14 +24,14 @@ export default function BarraLateral(){
                             className="bg-[#32569A] text-[#EFE7DC] p-2 rounded flex items-center justify-center"
                         >
                             <img
-                                src="/src/Imagenes/Barra.png"
+                                src="/Imagenes/Barra.png"
                                 alt={collapsed ? 'Expandir' : 'Colapsar'}
                                 className="w-6 h-6"
                             />
                         </button>
                     </div>
                     <div className="text-center mt-4">
-                        <img src="/src/Imagenes/Estudiante.png" alt="Logo" className="w-16 h-16 inline-block" />
+                        <img src="/Imagenes/Estudiante.png" alt="Logo" className="w-16 h-16 inline-block" />
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Estudiante</h1>
@@ -59,7 +59,7 @@ export default function BarraLateral(){
             >
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
-                    icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
+                    icon={<img src="/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
                     component={<Link to="/InicioEstudiante" />}
                 >
                     Inicio
@@ -67,7 +67,7 @@ export default function BarraLateral(){
 
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
-                    icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
+                    icon={<img src="/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
                     component={<Link to="/InicioEstudiante" />}
                 >
                     Evaluaciones
@@ -75,7 +75,7 @@ export default function BarraLateral(){
 
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
-                    icon={<img src="/src/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
+                    icon={<img src="/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
                     component={<Link to="/InicioEstudiante" />}
                 >
                     Calendario
@@ -85,7 +85,7 @@ export default function BarraLateral(){
                     title="Empresa"
                     className="bg-[#32569A] text-[#EFE7DC] font-bold"
                     style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
-                    icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
+                    icon={<img src="/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
                 >
                     {user.idGrupoEmpresa === null && (
                         <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
@@ -106,7 +106,7 @@ export default function BarraLateral(){
                     <MenuItem
                         className="text-[#EFE7DC] font-bold"
                         onClick={() => alert('Has cerrado sesión.')}
-                        icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
+                        icon={<img src="/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
                     >
                         Cerrar sesión
                     </MenuItem>
