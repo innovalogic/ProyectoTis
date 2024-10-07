@@ -9,6 +9,7 @@ import InicioEstudiante from './Paginas/InicioEstudiante';
 import InicioSesionDocente from './Paginas/InicioSesionDocente';
 import PlanificacionGe  from './Paginas/PlanificacionGe';
 import { UserProvider } from './Componentes/UserContext'; 
+import RecuperarEvaluacion from './Paginas/RecuperarEvaluacion';
 function App() {
   return (
     <UserProvider>
@@ -21,6 +22,7 @@ function App() {
         <Route path="InicioEstudiante" element={<InicioEstudiante/>}/>
         <Route path="InicioSesionDocente" element={<InicioSesionDocente/>}/>
         <Route path="PlanificacionGe" element={<PlanificacionGe/>}/>
+        <Route path="RecuperarEvaluacion" element={<RecuperarEvaluacion/>}/>
       </Routes>
     </Router>
     </UserProvider>
