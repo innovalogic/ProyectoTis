@@ -29,7 +29,7 @@ export default function RecuperarEvaluacion() {
                 const response = await axios.get('http://localhost/proyectotis/backend/CargarEstudiantes.php');
                 if (response.data.success === true) {
                     setEstudiantesData(response.data.datos);
-                    setFilteredData(response.data.datos); // Inicialmente, sin filtros
+                    setFilteredData(response.data.datos); 
                 } else {
                     setError('No se pudo obtener los datos.');
                 }
@@ -41,7 +41,6 @@ export default function RecuperarEvaluacion() {
         fetchEstudiantes();
     }, []);
 
-    // Función para aplicar los filtros
     const applyFilters = () => {
         let filtered = estudiantesData;
 
