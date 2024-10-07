@@ -31,7 +31,7 @@ export default function BarraLateral(){
                         </button>
                     </div>
                     <div className="text-center mt-4">
-                        <img src="/src/Imagenes/Teacher.png" alt="Logo" className="w-32 h-16 inline-block" />
+                        <img src="/src/Imagenes/Teacher.png" alt="Logo" className="w-32 h-auto inline-block" />
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Docente</h1>
