@@ -10,13 +10,11 @@ export default function RecuperarEvaluacion() {
     const [limit, setLimit] = useState(25);
     const [filteredData, setFilteredData] = useState([]);
     
-    // Filtros
     const [grupoFilter, setGrupoFilter] = useState('');
     const [estudianteFilter, setEstudianteFilter] = useState('');
     const [fechaFilter, setFechaFilter] = useState('');
     const [calificacionFilter, setCalificacionFilter] = useState('');
 
-    // Limitar los estudiantes que se mostrarán según el límite
     const estudiantesDataLimited = filteredData.slice(0, limit);
 
     const handleLoadMore = () => {
@@ -65,7 +63,6 @@ export default function RecuperarEvaluacion() {
         setFilteredData(filtered);
     };
 
-    // Efecto para aplicar los filtros cuando los inputs cambien
     useEffect(() => {
         applyFilters();
     }, [grupoFilter, estudianteFilter, fechaFilter, calificacionFilter]);
@@ -78,7 +75,6 @@ export default function RecuperarEvaluacion() {
             <form className={`space-y-4 p-4 flex-1 bg-[#efe7dc] rounded-md` }>
                 <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones</h1>
 
-                {/* Filtros */}
                 <div className="flex space-x-4 mb-4">
                     <input 
                         type="text" 
@@ -96,7 +92,6 @@ export default function RecuperarEvaluacion() {
                         <option value="">Seleccionar Grupo</option>
                         <option value="Grupo 1">Grupo 1</option>
                         <option value="Grupo 2">Grupo 2</option>
-                        {/* Agrega más opciones según los grupos disponibles */}
                     </select>
 
                     <input 
@@ -115,11 +110,9 @@ export default function RecuperarEvaluacion() {
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>
-                        {/* Agrega más opciones según las calificaciones disponibles */}
                     </select>
                 </div>
 
-                {/* Tabla de Evaluaciones */}
                 <table className="min-w-full bg-[#efe7dc] border-collapse rounded-lg">
                     <thead>
                         <tr className="bg-[#efe7dc] text-black">
