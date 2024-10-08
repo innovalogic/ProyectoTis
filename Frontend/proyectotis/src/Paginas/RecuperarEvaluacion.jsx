@@ -14,6 +14,7 @@ export default function RecuperarEvaluacion() {
     const [estudianteFilter, setEstudianteFilter] = useState('');
     const [fechaFilter, setFechaFilter] = useState('');
     const [calificacionFilter, setCalificacionFilter] = useState('');
+    const [estadoFilter, setEstadoFilter] = useState(''); // <--- Aquí se agrega el estado para estadoFilter
 
     const estudiantesDataLimited = filteredData.slice(0, limit);
 
@@ -24,7 +25,7 @@ export default function RecuperarEvaluacion() {
     useEffect(() => {
         const fetchEstudiantes = async () => {
             try {
-                const response = await axios.get('http://localhost/proyectotis/backend/CargarEstudiantes.php');
+                const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluaciones.php');
                 if (response.data.success === true) {
                     setEstudiantesData(response.data.datos);
                     setFilteredData(response.data.datos); 
@@ -60,99 +61,126 @@ export default function RecuperarEvaluacion() {
             filtered = filtered.filter(estudiante => estudiante.calificacion === calificacionFilter);
         }
 
+        if (estadoFilter) { // <--- Aplicar filtro de estado
+            filtered = filtered.filter(estudiante => estudiante.estado === estadoFilter);
+        }
+
         setFilteredData(filtered);
     };
 
     useEffect(() => {
         applyFilters();
-    }, [grupoFilter, estudianteFilter, fechaFilter, calificacionFilter]);
+    }, [grupoFilter, estudianteFilter, fechaFilter, calificacionFilter, estadoFilter]); // <--- Asegúrate de incluir estadoFilter aquí
 
     return (
-    <>
-        <NavbarInicioDeSesion />
-        <div style={{ display: 'flex', height: '100%', marginTop: '70px', backgroundColor: '#32569A' }}>
-            <BarraLateralDocente/>
-            <form className={`space-y-4 p-4 flex-1 bg-[#efe7dc] rounded-md` }>
-                <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones</h1>
+        <>
+            <NavbarInicioDeSesion />
+            <div style={{ display: 'flex', height: '100%', marginTop: '70px', backgroundColor: '#32569A' }}>
+                    <BarraLateralDocente/>
+                    <form   className={`space-y-4 p-4 flex-1 bg-[#efe7dc] rounded-md`}>
+                        <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones</h1>
 
-                <div className="flex space-x-4 mb-4">
-                    <input 
-                        type="text" 
-                        placeholder="Buscar estudiante..." 
-                        value={estudianteFilter} 
-                        onChange={e => setEstudianteFilter(e.target.value)}
-                        className="px-4 py-2 border rounded"
-                    />
+                        <div className="flex flex-col sm:flex-row sm:space-x-4 mb-4">
+                            <input 
+                                type="text" 
+                                placeholder="Buscar estudiante..." 
+                                value={estudianteFilter} 
+                                onChange={e => setEstudianteFilter(e.target.value)}
+                                className="flex-1 px-4 py-2 bg-[#efe7dc] text-black border rounded"
+                            />
 
-                    <select 
-                        value={grupoFilter} 
-                        onChange={e => setGrupoFilter(e.target.value)}
-                        className="px-4 py-2 border rounded"
-                    >
-                        <option value="">Seleccionar Grupo</option>
-                        <option value="Grupo 1">Grupo 1</option>
-                        <option value="Grupo 2">Grupo 2</option>
-                    </select>
+                            <select 
+                                value={grupoFilter} 
+                                onChange={e => setGrupoFilter(e.target.value)}
+                                className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
+                            >
+                                <option value="">Grupo</option>
+                                <option value="Grupo 1">Grupo 1</option>
+                                <option value="Grupo 2">Grupo 2</option>
+                            </select>
 
-                    <input 
-                        type="date" 
-                        value={fechaFilter} 
-                        onChange={e => setFechaFilter(e.target.value)}
-                        className="px-4 py-2 border rounded"
-                    />
+                            <select 
+                                value={calificacionFilter} 
+                                onChange={e => setCalificacionFilter(e.target.value)}
+                                className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
+                            >
+                                <option value="">Calificación</option>
+                                <option value="Cualitativa">Cualitativa</option>
+                                <option value="Cuantitativa">Cuantitativa</option>
+                            </select>
 
-                    <select 
-                        value={calificacionFilter} 
-                        onChange={e => setCalificacionFilter(e.target.value)}
-                        className="px-4 py-2 border rounded"
-                    >
-                        <option value="">Seleccionar Calificación</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="C">C</option>
-                    </select>
+                            <select 
+                                value={estadoFilter} 
+                                onChange={e => setEstadoFilter(e.target.value)}
+                                className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
+                            >
+                                <option value="">Estado</option>
+                                <option value="Revisada">Revisada</option>
+                                <option value="Sin Entregar">Sin Entregar</option>
+                            </select>
+
+                            <input 
+                                type="date" 
+                                value={fechaFilter} 
+                                onChange={e => setFechaFilter(e.target.value)}
+                                className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
+                            />
+
+                            <input 
+                                type="date" 
+                                value={fechaFilter} 
+                                onChange={e => setFechaFilter(e.target.value)}
+                                className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
+                            />
+                        </div>
+
+                        <div className="bg-[#e1d7b7] border border-[#32569A] rounded-lg p-4">
+                            <table className="min-w-full bg-[#e1d7b7] border-collapse rounded-lg">
+                                <thead>
+                                    <tr className="bg-[#e1d7b7] text-black">
+                                        <th className="py-2 px-4 border border-solid border-black">Fecha</th>
+                                        <th className="py-2 px-4 border border-solid border-black">Estudiante</th>
+                                        <th className="py-2 px-4 border border-solid border-black">Grupo</th>
+                                        <th className="py-2 px-4 border border-solid border-black">Actividad</th> 
+                                        <th className="py-2 px-4 border border-solid border-black">Calificación</th> 
+                                        <th className="py-2 px-4 border border-solid border-black">Detalle</th> 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {estudiantesDataLimited.map((estudiante) => (
+                                        <tr key={estudiante.idEvaluacion}>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.fechaEvaluacion}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.nombreEstudiante}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.nombreGrupo}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.Actividad}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.Calificacion}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.Detalle}
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                            <div className="flex justify-center w-full mt-4">
+                                <button onClick={handleLoadMore} className="py-2 px-4 bg-[#32569A] text-white rounded">
+                                    Cargar más
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
-                <table className="min-w-full bg-[#efe7dc] border-collapse rounded-lg">
-                    <thead>
-                        <tr className="bg-[#efe7dc] text-black">
-                            <th className="py-2 px-4 border border-solid border-black">Fecha</th>
-                            <th className="py-2 px-4 border border-solid border-black">Estudiante</th>
-                            <th className="py-2 px-4 border border-solid border-black">Semestre</th>
-                            <th className="py-2 px-4 border border-solid border-black">Grupo</th> 
-                            <th className="py-2 px-4 border border-solid border-black">Calificación</th> 
-                            <th className="py-2 px-4 border border-solid border-black">Detalles</th> 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {estudiantesDataLimited.map((estudiante) => (
-                            <tr key={estudiante.idEstudiante}>
-                                <td className="py-2 px-4 border border-solid border-black">{estudiante.fecha}</td>
-                                <td className="py-2 px-4 border border-solid border-black">
-                                    {`${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`}
-                                </td>
-                                <td className="py-2 px-4 border border-solid border-black">
-                                    {`${estudiante.nombreDocente} ${estudiante.apellidoDocente}`}
-                                </td>
-                                <td className="py-2 px-4 border border-solid border-black">
-                                    {estudiante.grupo}
-                                </td>
-                                <td className="py-2 px-4 border border-solid border-black">
-                                    {estudiante.calificacion}
-                                </td>
-                                <td className="py-2 px-4 border border-solid border-black">
-                                    {estudiante.detalles}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <button onClick={handleLoadMore} className="mt-4 py-2 px-4 bg-blue-500 text-white rounded">
-                    Cargar más
-                </button>
-            </form>
-        </div>
-        <Copyright/>
-    </>
+            <Copyright />
+        </>
     );
 }
