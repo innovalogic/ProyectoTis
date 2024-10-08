@@ -64,10 +64,8 @@ export default function RecuperarEvaluacion() {
 
         if (calificacionFilter) {
             if (calificacionFilter === "Cualitativa") {
-                // Filtrar solo calificaciones cualitativas (sin números)
                 filtered = filtered.filter(estudiante => isNaN(estudiante.calificacion));
             } else if (calificacionFilter === "Cuantitativa") {
-                // Filtrar solo calificaciones cuantitativas (números)
                 filtered = filtered.filter(estudiante => !isNaN(estudiante.calificacion));
             }
         }
@@ -83,7 +81,6 @@ export default function RecuperarEvaluacion() {
         applyFilters();
     }, [grupoFilter, estudianteFilter, fechaInicioFilter, fechaFinFilter, calificacionFilter, estadoFilter]);
 
-    // Cargar grupos dinámicamente
     const gruposUnicos = [...new Set(estudiantesData.map(estudiante => estudiante.grupo))];
 
     return (
