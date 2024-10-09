@@ -367,7 +367,7 @@ export default function RegistroEmpresa() {
                       Seleccionar archivo
                     </label>
                   )}
-                </div>
+                </div>     
               </div>
             </div>
 
