@@ -121,7 +121,7 @@ export default function BarraLateral(){
                 </MenuItem>
 
                 <SubMenu
-                    title="Empresa"
+                    label="Empresa"
                     className="bg-[#32569A] text-[#EFE7DC] font-bold"
                     style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
                     icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
