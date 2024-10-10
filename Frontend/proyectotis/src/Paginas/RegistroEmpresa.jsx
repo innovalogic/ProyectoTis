@@ -4,7 +4,6 @@ import BarraLateral from '../Componentes/BarraLateral';
 import Modal from "../Componentes/Modal";
 import { useForm } from 'react-hook-form'; 
 import { useNavigate } from "react-router-dom"; 
-import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from "../Componentes/UserContext";
@@ -21,6 +20,7 @@ export default function RegistroEmpresa() {
     const [preview, setPreview] = useState(null);
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [selectedEstudiantes, setSelectedEstudiantes] = useState([]);
+    const [jefeActual, setJefeActual] = useState(null);
     const navigate = useNavigate();
     const [modal, setModal] = useState({
       show: false,
@@ -34,24 +34,31 @@ export default function RegistroEmpresa() {
           show: false
       });
       if (modal.title === 'Exito!!') {
-        navigate('/InicioEstudiante'); // Redirigir a la página que prefieras
+        navigate('/InicioEstudiante'); 
     }
     };
 
     const handleSelectEstudiante = (e) => {
       const selectedId = e.target.value;
       const estudiante = estudiantesData.find(est => est.idEstudiante === Number(selectedId));
-    
+      
       const isEstudianteDuplicado = selectedEstudiantes.some(est => est.idEstudiante === estudiante.idEstudiante);
     
       if (estudiante && !isEstudianteDuplicado) {
-        setSelectedEstudiantes((prev) => [...prev, estudiante]);
+        const nuevoEstudiante = { ...estudiante, rol: jefeActual === null ? 'Jefe' : 'Miembro' };
+    
+        setSelectedEstudiantes((prev) => [...prev, nuevoEstudiante]);
+    
+        if (nuevoEstudiante.rol === 'Jefe') {
+          setJefeActual(nuevoEstudiante.idEstudiante); 
+        }
+    
       } else if (isEstudianteDuplicado) {
         setModal({
           show: true,
-          title: 'Estudiantes Repetido',
+          title: 'Estudiante Repetido',
           message: 'Este estudiante ya está en la lista'
-      });
+        });
       }
     };
     
@@ -61,9 +68,10 @@ export default function RegistroEmpresa() {
         prevEstudiantes.filter(est => est.idEstudiante !== idEstudiante)
       );
     };
+    
 
     const handleRegisterGroup = async (data) => {
-      const newData = { ...data, imageUrl: imageUrl };
+      const newData = { ...data, imageUrl: imageUrl , jefeId: jefeActual};
       try {
           const response = await fetch('http://localhost/proyectotis/backend/registrarGrupo.php', {
               method: 'POST',
@@ -161,10 +169,10 @@ export default function RegistroEmpresa() {
       const fetchEstudiantes = async () => {
           try {
               const response = await axios.get('http://localhost/proyectotis/backend/RecuperarEstudiante.php');
-              console.log(response.data.success); // Ver toda la respuesta
+              console.log(response.data.success); 
               if (response.data.success === true) {
-                  setEstudiantesData(response.data.datos); // Asegúrate de que esto sea un array
-                  console.log(response.data.datos); // Verificar los datos
+                  setEstudiantesData(response.data.datos); 
+                  console.log(response.data.datos); 
               } else {
                   setError('No se pudo obtener los datos.');
               }
@@ -193,17 +201,26 @@ export default function RegistroEmpresa() {
     };
 
 
-
     const onSubmit = async (data) => {
       if (selectedEstudiantes.length < 5) {
-        setModal({
-          show: true,
-          title: 'Estudiantes Insuficientes',
-          message: 'Selecciona minimo 5 estudiantes'
-      });
-        return; 
+          setModal({
+              show: true,
+              title: 'Estudiantes Insuficientes',
+              message: 'Selecciona mínimo 5 estudiantes'
+          });
+          return;
       }
-    
+  
+      const jefeExiste = selectedEstudiantes.some(est => est.rol === 'Jefe');
+      
+      if (!jefeExiste) {
+          setModal({
+              show: true,
+              title: 'Jefe de Grupo Requerido',
+              message: 'Debes seleccionar un jefe de grupo antes de continuar.'
+          });
+          return;
+      }
       try {
         const ultimoGrupo = await handleRegisterGroup(data);
         
@@ -217,7 +234,37 @@ export default function RegistroEmpresa() {
       } catch (error) {
         console.error("Error durante el registro del grupo:", error);
       }
+  };
+
+    const cambiarRol = (idEstudiante, nuevoRol) => {
+      if (nuevoRol === 'Miembro' && jefeActual === idEstudiante && selectedEstudiantes.length > 1) {
+        const nuevoJefe = selectedEstudiantes.find(est => est.idEstudiante !== jefeActual);
+        if (nuevoJefe) {
+          setSelectedEstudiantes(prevEstudiantes =>
+            prevEstudiantes.map(est => 
+              est.idEstudiante === nuevoJefe.idEstudiante ? { ...est, rol: 'Jefe' } : est
+            )
+          );
+          setJefeActual(nuevoJefe.idEstudiante);
+        }
+      }
+    
+      setSelectedEstudiantes(prevEstudiantes =>
+        prevEstudiantes.map(est => 
+          est.idEstudiante === idEstudiante ? { ...est, rol: nuevoRol } : est
+        )
+      );
+    
+      if (nuevoRol === 'Jefe') {
+        setJefeActual(idEstudiante); 
+        setSelectedEstudiantes(prevEstudiantes =>
+          prevEstudiantes.map(est => 
+            est.idEstudiante === jefeActual ? { ...est, rol: 'Miembro' } : est
+          )
+        );
+      }
     };
+
 
   return (
     <>
@@ -289,86 +336,44 @@ export default function RegistroEmpresa() {
               </div>
 
               <div className="flex flex-col w-full md:w-1/2">
-                <label htmlFor="representante" className="font-bold text-[#32569A]">
-                  Nombre Representante Legal <span className="text-red-500">*</span>
+                <label htmlFor="foto" className="font-bold text-[#32569A]">
+                  Logo de la Empresa <span className="text-red-500">*</span>
                 </label>
+
                 <input
-                  id="representante"
-                  type="text"
-                  {...register("NombreRepresentante", {
-                    required: "Este campo es obligatorio",
-                    pattern: {
-                      value: /^[a-zA-Z0-9\s]*$/,
-                      message: "No se permiten caracteres especiales",
-                    },
-                  })}
-                  className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
+                  id="foto"
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleFileSelect}
                 />
-                {errors.NombreRepresentante && <p className="text-red-500">{errors.NombreRepresentante.message}</p>}
-              </div>  
-            </div>
 
-          <div className="flex flex-col md:flex-row md:space-x-4">
-          <div className="flex flex-col w-full md:w-1/2">
-              <label htmlFor="numeroRepresentante" className="font-bold text-[#32569A]">
-                Número Representante Legal <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="numeroRepresentante"
-                type="text"
-                {...register("NumeroRepresentante", {
-                  required: "Este campo es obligatorio",
-                  pattern: {
-                    value: /^\d{8}$/, // Acepta solo números de 8 dígitos
-                    message: "Debe ser un número de 8 dígitos",
-                  },
-                })}
-                className="border-2 border-[#32569A] bg-gray-200 p-2 rounded-md w-full"
-              />
-              {errors.NumeroRepresentante && (
-                <p className="text-red-500">{errors.NumeroRepresentante.message}</p>
-              )}
-            </div>
-            <div className="flex flex-col w-full md:w-1/2">
-                  <label htmlFor="foto" className="font-bold text-[#32569A]">
-                    Logo de la Empresa <span className="text-red-500">*</span>
-                  </label>
-
-                  <input
-                    id="foto"
-                    type="file"
-                    accept="image/*"
-                    className ="hidden"
-                    onChange={handleFileSelect}
-                  />
-
-                  <div className="flex items-center mt-2">
-                    {preview && (
-                      <div className="flex items-center">
-                        <img 
-                          src={preview} 
-                          alt="Vista previa" 
-                          className="w-32 h-32 object-cover border border-[#32569A] rounded-md"
-                        />
-                        <label
-                          htmlFor="foto"
-                          className="cursor-pointer bg-[#32569A] text-white p-1 rounded-md text-center ml-4 w-32"
-                        >
-                          Seleccionar archivo
-                        </label>
-                      </div>
-                    )}
-                    {!preview && (
+                <div className="flex items-center mt-2 ">
+                  {preview && (
+                    <div className="flex items-center">
+                      <img 
+                        src={preview} 
+                        alt="Vista previa" 
+                        className="w-32 h-32 object-cover border border-[#32569A] rounded-md"
+                      />
                       <label
                         htmlFor="foto"
-                        className="cursor-pointer bg-[#32569A] text-white p-1 rounded-md text-center mt-2"
+                        className="cursor-pointer bg-[#32569A] text-white p-2 rounded-md text-center ml-4 w-full md:w-32"
                       >
-                        Seleccionar archivo
+                        Seleccionar Logo
                       </label>
-                    )}
-                  </div>
-                </div>
-
+                    </div>
+                  )}
+                  {!preview && (
+                    <label
+                      htmlFor="foto"
+                      className="cursor-pointer bg-[#32569A] text-white p-2 rounded-md text-center w-full"
+                    >
+                      Seleccionar archivo
+                    </label>
+                  )}
+                </div>     
+              </div>
             </div>
 
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
@@ -401,21 +406,32 @@ export default function RegistroEmpresa() {
           <table className="min-w-full bg-[#c2d2e9] border-collapse rounded-md ">
               <thead>
                 <tr className="bg-[#c2d2e9] text-black">
-                  <th className="py-2 px-4 border border-solid  border-[#32569A]">Número</th>
-                  <th className="py-2 px-4 border border-solid  border-[#32569A]">Nombre</th>
-                  <th className="py-2 px-4 border border-solid  border-[#32569A]">Teléfono</th>
-                  <th className="py-2 px-4 border border-solid  border-[#32569A]">Acción</th> 
+                  <th className="py-2 px-4 border border-solid border-black">Número</th>
+                  <th className="py-2 px-4 border border-solid border-black">Nombre</th>
+                  <th className="py-2 px-4 border border-solid border-black">Teléfono</th>
+                  <th className="py-2 px-4 border border-solid border-black">Rol</th> {/* Nueva columna de rol */}
+                  <th className="py-2 px-4 border border-solid border-black">Acción</th>
                 </tr>
               </thead>
               <tbody>
                 {selectedEstudiantes.map((estudiante, index) => (
                   <tr key={estudiante.idEstudiante}>
-                    <td className="py-2 px-4 border border-solid   border-[#32569A]">{index + 1}</td>
-                    <td className="py-2 px-4 border border-solid  border-[#32569A]">
+                    <td className="py-2 px-4 border border-solid border-black">{index + 1}</td>
+                    <td className="py-2 px-4 border border-solid border-black">
                       {`${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`}
                     </td>
-                    <td className="py-2 px-4 border border-solid r border-[#32569A]">{estudiante.telefonoEstudiante}</td>
-                    <td className="py-2 px-4 border border-solid  border-[#32569A]">
+                    <td className="py-2 px-4 border border-solid border-black">{estudiante.telefonoEstudiante}</td>
+                    <td className="py-2 px-4 border border-solid border-black">
+                      <select
+                        value={estudiante.rol}
+                        onChange={(e) => cambiarRol(estudiante.idEstudiante, e.target.value)}
+                        className="border-2 border-gray-300 rounded p-1"
+                      >
+                        <option value="Jefe">Jefe</option>
+                        <option value="Miembro">Miembro</option>
+                      </select>
+                    </td>
+                    <td className="py-2 px-4 border border-solid border-black">
                       <button
                         className="bg-red-500 text-white px-2 py-1 rounded"
                         onClick={() => handleRetirarEstudiante(estudiante.idEstudiante)}

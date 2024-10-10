@@ -15,8 +15,7 @@ if (
     !empty($data->NombreEmpresa) &&
     !empty($data->NombreCorto) &&
     !empty($data->CorreoEmpresa) &&
-    !empty($data->NombreRepresentante) &&
-    !empty($data->NumeroRepresentante) &&
+    !empty($data->jefeId) &&
     !empty($data->imageUrl)
 ) {
     try {
@@ -24,16 +23,14 @@ if (
             "nombreEmpresa",
             "nombreCortoEmpresa",
             "correoEmpresa",
-            "nombreRepresentante",
-            "numeroRepresentante",
-            "logoEmpresa"
+            "logoEmpresa",
+            "idEstudianteScrum"
         ) VALUES (
             :NombreEmpresa,
             :NombreCorto,
             :CorreoEmpresa,
-            :NombreRepresentante,
-            :NumeroRepresentante,
-            :imageUrl
+            :imageUrl,
+            :jefeId
         )';
 
         $stmt = $pdo->prepare($query);
@@ -41,9 +38,8 @@ if (
         $stmt->bindParam(':NombreEmpresa', $data->NombreEmpresa);
         $stmt->bindParam(':NombreCorto', $data->NombreCorto);
         $stmt->bindParam(':CorreoEmpresa', $data->CorreoEmpresa);
-        $stmt->bindParam(':NombreRepresentante', $data->NombreRepresentante);
-        $stmt->bindParam(':NumeroRepresentante', $data->NumeroRepresentante);
         $stmt->bindParam(':imageUrl', $data->imageUrl);
+        $stmt->bindParam(':jefeId', $data->jefeId);
 
         if ($stmt->execute()) {
             $lastUserId = $pdo->lastInsertId();

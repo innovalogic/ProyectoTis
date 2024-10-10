@@ -1,52 +1,13 @@
-
-import { Sidebar, Menu, MenuItem,SubMenu } from 'react-pro-sidebar';
+import React from 'react';
+import { Sidebar, Menu, MenuItem } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useUser } from "../Componentes/UserContext";
-import React, { useEffect } from 'react';
-import axios from 'axios';
 
 export default function BarraLateral(){
-
-    const { setUser } = useUser();
+    
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useUser();
-    const [estudiantesData, setEstudiantesData] = useState([]); 
-    const [grupoData, setGrupoData] = useState([]); 
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [responseEstudiantes, responseEvaluaciones] = await Promise.all([
-                    axios.get('http://localhost/proyectotis/backend/ObtenerEstudiante.php', {
-                        params: { idEstudiante: user.idEstudiante },
-                    }),
-                    axios.get('http://localhost/proyectotis/backend/ObtenerGrupo.php', {
-                        params: { idEstudiante: user.idEstudiante },
-                    })
-                ]);
-    
-                if (responseEstudiantes.data.success) {
-                    setEstudiantesData(responseEstudiantes.data.datos);
-                } else {
-                    setError('No se pudo obtener los datos de estudiantes.');
-                }
-    
-                if (responseEvaluaciones.data.success) {
-                    setGrupoData(responseEvaluaciones.data.datos);
-                } else {
-                    setError('No se pudo obtener los datos de evaluaciones.');
-                }
-            } catch (error) {
-                setError('Error al conectarse al servidor: ' + error.message);
-                console.error(error);
-            }
-        };
-    
-        fetchData();
-    }, [user.idEstudiante]);
-
     
     return (
         <div className="flex h-[calc(100vh)]">
@@ -70,10 +31,10 @@ export default function BarraLateral(){
                         </button>
                     </div>
                     <div className="text-center mt-4">
-                        <img src="/src/Imagenes/Estudiante.png" alt="Logo" className="w-16 h-16 inline-block" />
+                        <img src="/src/Imagenes/Teacher.png" alt="Logo" className="w-32 h-auto inline-block" />
                     </div>
 
-                    <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Estudiante</h1>
+                    <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Docente</h1>
                     {/* Mostrar el nombre del estudiante si existe */}
                     {!collapsed && user && (
                         <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreEstudiante+" "+user.apellidoEstudiante}</h3>
@@ -88,7 +49,7 @@ export default function BarraLateral(){
                         transition: 'background-color 0.3s ease',
                         [`&:hover`]: {
                             backgroundColor: '#1F3A75', 
-                            color: 'white',  
+                            color: '#efe7dc',  
                         },
                         [`&.active`]: {
                             backgroundColor: '#1E3664',
@@ -119,27 +80,14 @@ export default function BarraLateral(){
                 >
                     Calendario
                 </MenuItem>
-
-                <SubMenu
-                    title="Empresa"
-                    className="bg-[#32569A] text-[#EFE7DC] font-bold"
-                    style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
-                    icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
+                <MenuItem
+                    className="text-[#EFE7DC] font-bold"
+                    icon={<img src="/src/Imagenes/Grupo.png" alt="Calendario" className="w-8 h-8 inline-block" />}
+                    component={<Link to="/RecuperarEvaluacion" />}
                 >
-                    {user.idGrupoEmpresa === null && (
-                        <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
-                            Registrar
-                        </MenuItem>
-                    )}
-                    {user.idGrupoEmpresa !== null && (
-                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/PlanificacionGe" />}>
-                        Planificación
-                    </MenuItem>
-                    )}
-                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
-                        Información
-                    </MenuItem>
-                </SubMenu>
+                    Empresa
+                </MenuItem>
+
 
                 <div className="mt-auto">
                     <MenuItem
