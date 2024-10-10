@@ -1,13 +1,41 @@
-import React from 'react';
+
 import { Sidebar, Menu, MenuItem,SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useUser } from "../Componentes/UserContext";
+import React, { useEffect } from 'react';
+import axios from 'axios';
 
 export default function BarraLateral(){
-    
+
+    const { setUser } = useUser();
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useUser();
+    const [estudiantesData, setEstudiantesData] = useState([]); 
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchEstudiantes = async () => {
+            try {
+                const response = await axios.get('http://localhost/proyectotis/backend/ObtenerEstudiante.php', {
+                    params: { idEstudiante: user.idEstudiante}, 
+                });
+                console.log(response.data.success); 
+                if (response.data.success === true) {
+                    setEstudiantesData(response.data.datos); 
+                    console.log(response.data.datos); 
+                } else {
+                    setError('No se pudo obtener los datos.');
+                }
+            } catch (error) {
+                setError('Error al conectarse al servidor: ' + error.message);
+                console.error(error);
+            }
+        };
+    
+        fetchEstudiantes();
+    }, []);
+
     
     return (
         <div className="flex h-[calc(100vh)]">
