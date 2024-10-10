@@ -137,7 +137,7 @@ export default function BarraLateral(){
                                 Planificación
                             </MenuItem>
                             {/* Nueva opción "Avance" */}
-                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/Avance" />}>
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvanceEstudiante" />}>
                                 Avance
                             </MenuItem>
                         </>
