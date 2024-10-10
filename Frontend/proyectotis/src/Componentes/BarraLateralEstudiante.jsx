@@ -133,7 +133,7 @@ export default function BarraLateral(){
                     )}
                     {user.idGrupoEmpresa !== null && (
                         <>
-                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/PlanificacionGe" />}>
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/PlanificacionEstudiante" />}>
                                 Planificación
                             </MenuItem>
                             {/* Nueva opción "Avance" */}
