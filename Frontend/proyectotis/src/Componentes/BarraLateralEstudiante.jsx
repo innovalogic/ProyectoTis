@@ -132,14 +132,21 @@ export default function BarraLateral(){
                         </MenuItem>
                     )}
                     {user.idGrupoEmpresa !== null && (
-                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/PlanificacionGe" />}>
-                        Planificación
-                    </MenuItem>
+                        <>
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/PlanificacionGe" />}>
+                                Planificación
+                            </MenuItem>
+                            {/* Nueva opción "Avance" */}
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/Avance" />}>
+                                Avance
+                            </MenuItem>
+                        </>
                     )}
                     <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
                         Información
                     </MenuItem>
                 </SubMenu>
+
 
                 <div className="mt-auto">
                     <MenuItem
