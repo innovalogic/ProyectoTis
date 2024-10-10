@@ -53,4 +53,3 @@ import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
     </>
   )
 }
-

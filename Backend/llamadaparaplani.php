@@ -20,22 +20,6 @@ if (!isset($data->idGrupoEmpresa)) {
 $idGrupoEmpresa = $data->idGrupoEmpresa;
 
 try {
-    // Consulta para obtener los responsables filtrados por idGrupoEmpresa
-    $stmt1 = $pdo->prepare('SELECT CONCAT("nombreEstudiante", \' \', "apellidoEstudiante") AS nombre_completo
-                            FROM "Estudiante"
-                            WHERE "idGrupoEmpresa" = :idGrupoEmpresa');
-    $stmt1->bindParam(':idGrupoEmpresa', $idGrupoEmpresa, PDO::PARAM_INT);
-    $stmt1->execute();
-    $responsables = $stmt1->fetchAll(PDO::FETCH_ASSOC);
-
-    // Consulta para obtener las actividades filtradas por idGrupoEmpresa
-    $stmt2 = $pdo->prepare('SELECT "idHU", titulo, responsable, "fechaEntrega" 
-                            FROM "HU"
-                            WHERE "Sprint_GrupoEmpresa_idGrupoEmpresa" = :idGrupoEmpresa');
-    $stmt2->bindParam(':idGrupoEmpresa', $idGrupoEmpresa, PDO::PARAM_INT);
-    $stmt2->execute();
-    $historiasdeu = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
     // Consulta para obtener los Sprints filtradas por idGrupoEmpresa
     $stmt3 = $pdo->prepare('SELECT "idSprint", "nomSprint"
                             FROM "Sprint"
@@ -44,14 +28,18 @@ try {
     $stmt3->execute();
     $sprint = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
+    if (!$sprint) {
+        echo json_encode(['success' => false, 'message' => 'No se encontraron sprints']);
+        exit();
+    }
+
     // Respuesta en formato JSON
     echo json_encode([
-        'responsables' => $responsables,
-        'historiasdeu' => $historiasdeu,
-        'sprints'=> $sprint
+        'success' => true, // Aquí incluimos la clave success
+        'sprint'=> $sprint
     ]);
 } catch (PDOException $e) {
-    echo json_encode(['error' => $e->getMessage()]);
+    echo json_encode(['success'=> false, 'error' => $e->getMessage()]);
     exit();
 }
 ?>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './EstilosComponentes.scss'; 
 import { GoPlus } from "react-icons/go";
 import DatePicker from 'react-datepicker';
@@ -10,14 +10,13 @@ import HU from './HU';
 import { useUser } from '../UserContext';  // Importa el contexto
 
 const Sprint = ({ title }) => {
-  const { user } = useUser();  // Accede al contexto de usuario para obtener el idGrupoEmpresa
-  const idGrupoEmpresa = user ? user.idGrupoEmpresa : null;  // Extrae el idGrupoEmpresa
+  const { user } = useUser();  // Extrae el idGrupoEmpresa
 
   const [formData, setFormData] = useState({
     fechaInicio: '',
     fechaFin:  '',
     nomSprint: title || '',
-    idGrupoEmpresa: idGrupoEmpresa || ''  // Añadir el idGrupoEmpresa a formData
+    codSis: '' ,
   });
 
   const [modal, setModal] = useState({
@@ -78,15 +77,30 @@ const Sprint = ({ title }) => {
     }
   };
 
+  useEffect(() => {
+    if (user && user.codSis) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        codSis: String(user.codSis)  // Actualizar codSis cuando esté disponible
+      }));
+      console.log('formData actualizado:', formData);
+    }
+  }, [user]); 
+
   const handleConfirmDates = async (e) => {
     e.preventDefault();
-
-    // Actualiza formData con idGrupoEmpresa antes de enviar
-    const updatedFormData = {
-      ...formData,
-      idGrupoEmpresa: idGrupoEmpresa  // Incluye el idGrupoEmpresa en los datos a enviar
-    };
-
+    
+    if (!formData.codSis || !formData.fechaInicio || !formData.fechaFin || !formData.nomSprint) {
+      setModal({
+        show: true,
+        title: 'Error',
+        message: 'Los datos están incompletos. Asegúrate de seleccionar las fechas y que codSis esté presente.'
+      });
+      return;
+    }
+  
+    console.log(formData);  // Verificar que el formData contiene todos los valores
+  
     if (areDatesValid()) {
       try {
         const response = await fetch('http://localhost/ProyectoTis/Backend/guardarSprint.php', {
@@ -94,7 +108,7 @@ const Sprint = ({ title }) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(updatedFormData)  // Enviar los datos con idGrupoEmpresa
+          body: JSON.stringify(formData)  // Enviar los datos con idGrupoEmpresa
         });
 
         if (!response.ok) {
@@ -104,6 +118,7 @@ const Sprint = ({ title }) => {
         }
 
         const result = await response.json();
+        console.log(result);
         if (result.success) {
           setModal({
             show: true,
@@ -168,7 +183,9 @@ const Sprint = ({ title }) => {
               placeholderText="Elige una fecha..." 
               minDate={startDate}/>
           </div>
-          <button className="dat" onClick={handleConfirmDates}>Confirmar fechas</button>
+          <button className="dat" onClick={handleConfirmDates}
+          disabled={datesConfirmed}
+          style={{ backgroundColor: datesConfirmed ? '#ccc' : '' }}>Confirmar fechas</button>
         </div>
         {!areDatesValid() && (
           <p style={{ color: 'red', marginTop: '10px', fontSize:'20px', width:'auto' }}>
