@@ -1,6 +1,6 @@
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from '../Componentes/BarraCopyright';
-import BarraLateral from '../Componentes/BarraLateral';
+import BarraLateral from '../Componentes/BarraLateralEstudiante';
 import Modal from "../Componentes/Modal";
 import { useForm } from 'react-hook-form'; 
 import { useNavigate } from "react-router-dom"; 

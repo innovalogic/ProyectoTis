@@ -3,7 +3,7 @@ import { GoPlus, GoDash } from "react-icons/go";
 import Sprint from '../Componentes/ComponentesEst/Sprint';
 import './AreaEstudiante.scss';
 import Copyright from '../Componentes/BarraCopyright';
-import BarraLateral from '../Componentes/BarraLateral';
+import BarraLateral from '../Componentes/BarraLateralEstudiante';
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
  export default function PlanificacionGE () {
   const [sprints, setSprints] = useState([]); // Estado para almacenar los sprints
