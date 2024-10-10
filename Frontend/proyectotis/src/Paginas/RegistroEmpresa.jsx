@@ -70,7 +70,7 @@ export default function RegistroEmpresa() {
     
 
     const handleRegisterGroup = async (data) => {
-      const newData = { ...data, imageUrl: imageUrl };
+      const newData = { ...data, imageUrl: imageUrl , jefeId: jefeActual};
       try {
           const response = await fetch('http://localhost/proyectotis/backend/registrarGrupo.php', {
               method: 'POST',
