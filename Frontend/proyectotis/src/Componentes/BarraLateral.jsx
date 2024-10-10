@@ -12,20 +12,31 @@ export default function BarraLateral(){
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useUser();
     const [estudiantesData, setEstudiantesData] = useState([]); 
+    const [grupoData, setGrupoData] = useState([]); 
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchEstudiantes = async () => {
+        const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost/proyectotis/backend/ObtenerEstudiante.php', {
-                    params: { idEstudiante: user.idEstudiante}, 
-                });
-                console.log(response.data.success); 
-                if (response.data.success === true) {
-                    setEstudiantesData(response.data.datos); 
-                    console.log(response.data.datos); 
+                const [responseEstudiantes, responseEvaluaciones] = await Promise.all([
+                    axios.get('http://localhost/proyectotis/backend/ObtenerEstudiante.php', {
+                        params: { idEstudiante: user.idEstudiante },
+                    }),
+                    axios.get('http://localhost/proyectotis/backend/ObtenerGrupo.php', {
+                        params: { idEstudiante: user.idEstudiante },
+                    })
+                ]);
+    
+                if (responseEstudiantes.data.success) {
+                    setEstudiantesData(responseEstudiantes.data.datos);
                 } else {
-                    setError('No se pudo obtener los datos.');
+                    setError('No se pudo obtener los datos de estudiantes.');
+                }
+    
+                if (responseEvaluaciones.data.success) {
+                    setGrupoData(responseEvaluaciones.data.datos);
+                } else {
+                    setError('No se pudo obtener los datos de evaluaciones.');
                 }
             } catch (error) {
                 setError('Error al conectarse al servidor: ' + error.message);
@@ -33,8 +44,8 @@ export default function BarraLateral(){
             }
         };
     
-        fetchEstudiantes();
-    }, []);
+        fetchData();
+    }, [user.idEstudiante]);
 
     
     return (
