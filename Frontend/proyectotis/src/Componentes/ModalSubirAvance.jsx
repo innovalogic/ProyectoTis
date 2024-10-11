@@ -4,6 +4,13 @@ import React from "react";
 export default function ModalSubirAvance({ modalVisible, handleCloseModal }) {
   if (!modalVisible) return null; // No renderizar si el modal no está visible
 
+  // Función para manejar el envío del formulario
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Evitar que el formulario recargue la página
+    // Aquí puedes añadir la lógica para manejar la subida del archivo o enlace
+    console.log("Formulario enviado");
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div className="relative bg-custom-bg p-8 rounded-lg shadow-lg w-96">
@@ -15,6 +22,7 @@ export default function ModalSubirAvance({ modalVisible, handleCloseModal }) {
         >
           X
         </button>
+        
         {/* Título centrado */}
         <h2
           className="text-2xl font-bold mb-4 text-center"
@@ -22,8 +30,29 @@ export default function ModalSubirAvance({ modalVisible, handleCloseModal }) {
         >
           SUBIR AVANCE
         </h2>
+
+        {/* Nuevo Combobox para seleccionar Tarea */}
+        <div className="mb-4">
+          <label
+            htmlFor="tarea-select"
+            className="block mb-2 text-lg font-medium"
+            style={{ color: "#1E3664" }}
+          >
+            Seleccionar Tarea:
+          </label>
+          <select
+            id="tarea-select"
+            className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">Seleccionar Tarea</option>
+            <option value="tarea1">Tarea 1</option>
+            <option value="tarea2">Tarea 2</option>
+            <option value="tarea3">Tarea 3</option>
+          </select>
+        </div>
+
         {/* Formulario para subir archivos o enlaces */}
-        <form>
+        <form onSubmit={handleSubmit}> {/* Añadido el evento onSubmit */}
           {/* Input para subir archivos */}
           <div className="mb-4">
             <label
@@ -40,6 +69,7 @@ export default function ModalSubirAvance({ modalVisible, handleCloseModal }) {
               className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+          
           {/* Input para añadir enlace */}
           <div className="mb-4">
             <label
@@ -56,6 +86,7 @@ export default function ModalSubirAvance({ modalVisible, handleCloseModal }) {
               className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+
           {/* Botón de subir avance */}
           <div className="mt-4 flex justify-end">
             <button
