@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import BarraCopyright from "../Componentes/BarraCopyright";
 import BarraLateral from "../Componentes/BarraLateralEstudiante";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
-import ModalSubirAvance from "../Componentes/ModalSubirAvance"; 
 import { useUser } from '../Componentes/UserContext'; 
 
 export default function InicioEstudiante() {
@@ -11,7 +10,6 @@ export default function InicioEstudiante() {
   const [Sprint, setSprint] = useState([]); // Estado para almacenar los sprints
   const [historiasDeUsuario, setHistoriasDeUsuario] = useState([]); // Estado para las HUs
   const [selectedSprint, setSelectedSprint] = useState(""); // Estado para el Sprint seleccionado
- 
 
   const idEstudiante = user ? user.idEstudiante : null;
 
@@ -80,6 +78,13 @@ export default function InicioEstudiante() {
     setModalVisible(false);
   };
 
+  // Función para manejar el envío del formulario
+  const handleSubmit = (event) => {
+    event.preventDefault(); // Evitar que el formulario recargue la página
+    // Aquí puedes añadir la lógica para manejar la subida del archivo o enlace
+    console.log("Formulario enviado");
+  };
+
   return (
     <>
       <NavbarInicioDeSesion />
@@ -142,8 +147,93 @@ export default function InicioEstudiante() {
 
       <BarraCopyright />
 
-      {/* Modal */}
-      <ModalSubirAvance modalVisible={modalVisible} handleCloseModal={handleCloseModal} />
+      {/* Modal directamente implementado aquí */}
+      {modalVisible && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="relative bg-custom-bg p-8 rounded-lg shadow-lg w-96">
+            {/* Botón de cerrar como una "X" en la parte superior derecha */}
+            <button
+              className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#1E3664] text-white flex items-center justify-center hover:bg-blue-700 transition duration-200"
+              onClick={handleCloseModal}
+              aria-label="Cerrar"
+            >
+              X
+            </button>
+            
+            {/* Título centrado */}
+            <h2
+              className="text-2xl font-bold mb-4 text-center"
+              style={{ color: "#1E3664" }}
+            >
+              SUBIR AVANCE
+            </h2>
+
+            {/* Nuevo Combobox para seleccionar Tarea */}
+            <div className="mb-4">
+              <label
+                htmlFor="tarea-select"
+                className="block mb-2 text-lg font-medium"
+                style={{ color: "#1E3664" }}
+              >
+                Seleccionar Tarea:
+              </label>
+              <select
+                id="tarea-select"
+                className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Seleccionar Tarea</option>
+                <option value="tarea1">Tarea 1</option>
+                <option value="tarea2">Tarea 2</option>
+                <option value="tarea3">Tarea 3</option>
+              </select>
+            </div>
+
+            {/* Formulario para subir archivos o enlaces */}
+            <form onSubmit={handleSubmit}> {/* Añadido el evento onSubmit */}
+              {/* Input para subir archivos */}
+              <div className="mb-4">
+                <label
+                  htmlFor="file-upload"
+                  className="block mb-2 text-lg font-medium"
+                  style={{ color: "#1E3664" }}
+                >
+                  Subir archivo (PDF o DOC):
+                </label>
+                <input
+                  type="file"
+                  id="file-upload"
+                  accept=".pdf,.doc,.docx"
+                  className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              {/* Input para subir enlace */}
+              <div className="mb-4">
+                <label
+                  htmlFor="link-upload"
+                  className="block mb-2 text-lg font-medium"
+                  style={{ color: "#1E3664" }}
+                >
+                  Subir enlace:
+                </label>
+                <input
+                  type="text"
+                  id="link-upload"
+                  className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              {/* Botón para enviar */}
+              <button
+                type="submit"
+                className="bg-[#1E3664] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-200"
+              >
+                SUBIR
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }
