@@ -3,8 +3,9 @@ import Copyright from '../Componentes/BarraCopyright';
 import BarraLateralEstudiante from '../Componentes/BarraLateralEstudiante';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 
-export default function RecuperarEvaluacionScrum() {
+export default function RecuperarEvaluacionMiembro() {
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [error, setError] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
@@ -16,6 +17,8 @@ export default function RecuperarEvaluacionScrum() {
     const [calificacionFilter, setCalificacionFilter] = useState('');
     const [estadoFilter, setEstadoFilter] = useState('');
 
+    const location = useLocation();
+    const { mensaje } = location.state || {};
     // Paginación
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 25; // Puedes ajustar cuántos elementos mostrar por página
@@ -43,7 +46,7 @@ export default function RecuperarEvaluacionScrum() {
                 setError('Error al conectarse al servidor: ' + error.message);
             }
         };
-        console.log(user)
+    
         fetchEstudiantes();
     }, []);
 
@@ -101,14 +104,6 @@ export default function RecuperarEvaluacionScrum() {
                     <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones Scrum</h1>
 
                     <div className="flex flex-col sm:flex-row sm:space-x-4 mb-4">
-                        <input 
-                            type="text" 
-                            placeholder="Buscar estudiante..." 
-                            value={estudianteFilter} 
-                            onChange={e => setEstudianteFilter(e.target.value)}
-                            className="flex-1 px-4 py-2 bg-[#efe7dc] text-black border border-black rounded" 
-                        />
-
                         <select 
                             value={calificacionFilter} 
                             onChange={e => setCalificacionFilter(e.target.value)}
