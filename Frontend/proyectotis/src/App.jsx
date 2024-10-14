@@ -10,6 +10,7 @@ import InicioSesionDocente from './Paginas/InicioSesionDocente';
 import PlanificacionEstudiante  from './Paginas/PlanificacionEstudiante';
 import { UserProvider } from './Componentes/UserContext'; 
 import RecuperarEvaluacion from './Paginas/RecuperarEvaluacion';
+import RecuperarEvaluacionScrum from './Paginas/RecuperarEvaluacionScrum';
 import AvancesEstudiante from './Paginas/AvancesEstudiante';
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="InicioSesionDocente" element={<InicioSesionDocente/>}/>
         <Route path="PlanificacionEstudiante" element={<PlanificacionEstudiante/>}/>
         <Route path="RecuperarEvaluacion" element={<RecuperarEvaluacion/>}/>
+        <Route path="RecuperarEvaluacionScrum" element={<RecuperarEvaluacionScrum/>}/>
         <Route path="AvancesEstudiante" element={<AvancesEstudiante/>}/>
       </Routes>
     </Router>
