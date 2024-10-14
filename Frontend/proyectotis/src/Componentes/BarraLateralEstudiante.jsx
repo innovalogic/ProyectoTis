@@ -19,37 +19,22 @@ export default function BarraLateral(){
 
     const handleMenuClick = async () => {
         try {
-            const [responseEstudiantes, responseGrupo] = await Promise.all([
-                axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
-                    params: { idEstudiante: user.idEstudiante },
-                }),
-                axios.get('http://localhost/proyectotis/backend/ObtenerGrupo.php', {
-                    params: { idEstudiante: user.idEstudiante },
-                })
-            ]);
-            if (responseEstudiantes.data.success) {
-                const esJefe = responseEstudiantes.data.datos.some(
-                    estudiante => estudiante.idEstudianteScrum === user.idEstudiante
-                );
-                
-                if (esJefe) {
-                    navigate('/RutaJefe');  
-                } else {
-                    navigate('/RutaNoJefe');  
-                }
+            const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
+                params: { idEstudiante: user.idEstudiante },
+            });
+    
+            if (responseEstudiantes.data.success && responseEstudiantes.data.datos.length > 0) {
+                // Es jefe de grupo
+                navigate('/RecuperarEvaluacionScrum');
             } else {
-                setError('No se pudo obtener los datos de estudiantes.');
-            }
-
-            if (!responseGrupo.data.success) {
-                setError('No se pudo obtener los datos del grupo.');
+                // No es jefe de grupo
+                navigate('/RutaNoJefe');
             }
         } catch (error) {
-            setError('Error al conectarse al servidor: ' + error.message);
-            console.error(error);
-        } 
+            console.error('Error al conectarse al servidor:', error.message);
+        }
     };
-
+    
     
     return (
         <div className="flex h-[calc(100vh)]">
@@ -110,10 +95,10 @@ export default function BarraLateral(){
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
                     icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                    onClick={handleMenuClick}  // Ejecuta la consulta cuando se hace clic
+                    onClick={handleMenuClick} 
                 >
                     Evaluaciones
-                    {error && <span>{error}</span>} {/* Muestra errores opcionales */}
+                    {error && <span>{error}</span>} 
                 </MenuItem>
 
                 <MenuItem
