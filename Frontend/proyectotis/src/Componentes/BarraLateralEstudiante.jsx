@@ -12,8 +12,6 @@ export default function BarraLateral(){
     const { setUser } = useUser();
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useUser();
-    const [estudiantesData, setEstudiantesData] = useState([]); 
-    const [grupoData, setGrupoData] = useState([]); 
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
@@ -24,11 +22,9 @@ export default function BarraLateral(){
             });
     
             if (responseEstudiantes.data.success && responseEstudiantes.data.datos.length > 0) {
-                // Es jefe de grupo
-                navigate('/RecuperarEvaluacionScrum');
+                navigate('/RecuperarEvaluacionScrum', { state: { datosGrupo: responseEstudiantes.data.datos } });
             } else {
-                // No es jefe de grupo
-                navigate('/RutaNoJefe');
+                navigate('/RecuperarEvaluacionMiembro', { state: { mensaje: 'El estudiante no es jefe de grupo' } });
             }
         } catch (error) {
             console.error('Error al conectarse al servidor:', error.message);
