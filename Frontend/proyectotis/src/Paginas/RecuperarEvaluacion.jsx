@@ -7,9 +7,8 @@ import axios from 'axios';
 export default function RecuperarEvaluacion() {
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [error, setError] = useState(null);
-    const [limit, setLimit] = useState(25);
     const [filteredData, setFilteredData] = useState([]);
-    
+
     const [grupoFilter, setGrupoFilter] = useState('');
     const [estudianteFilter, setEstudianteFilter] = useState('');
     const [fechaInicioFilter, setFechaInicioFilter] = useState('');
@@ -17,10 +16,17 @@ export default function RecuperarEvaluacion() {
     const [calificacionFilter, setCalificacionFilter] = useState('');
     const [estadoFilter, setEstadoFilter] = useState('');
 
-    const estudiantesDataLimited = filteredData.slice(0, limit);
+    // Paginación
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 25; // Puedes ajustar cuántos elementos mostrar por página
 
-    const handleLoadMore = () => {
-        setLimit(prevLimit => prevLimit + 25);
+    // Calcular los datos filtrados para la página actual
+    const startIdx = (currentPage - 1) * itemsPerPage;
+    const endIdx = startIdx + itemsPerPage;
+    const estudiantesDataPaginated = filteredData.slice(startIdx, endIdx);
+
+    const handlePageChange = (pageNumber, event) => {
+        setCurrentPage(pageNumber);
     };
 
     useEffect(() => {
@@ -75,6 +81,7 @@ export default function RecuperarEvaluacion() {
         }
 
         setFilteredData(filtered);
+        setCurrentPage(1); // Resetear a la primera página cuando se aplican filtros
     };
 
     useEffect(() => {
@@ -82,6 +89,8 @@ export default function RecuperarEvaluacion() {
     }, [grupoFilter, estudianteFilter, fechaInicioFilter, fechaFinFilter, calificacionFilter, estadoFilter]);
 
     const gruposUnicos = [...new Set(estudiantesData.map(estudiante => estudiante.grupo))];
+
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage); // Total de páginas
 
     return (
         <>
@@ -92,13 +101,13 @@ export default function RecuperarEvaluacion() {
                     <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones</h1>
 
                     <div className="flex flex-col sm:flex-row sm:space-x-4 mb-4">
-                    <input 
-                        type="text" 
-                        placeholder="Buscar estudiante..." 
-                        value={estudianteFilter} 
-                        onChange={e => setEstudianteFilter(e.target.value)}
-                        className="flex-1 px-4 py-2 bg-[#efe7dc] text-black border border-black rounded" 
-                    />
+                        <input 
+                            type="text" 
+                            placeholder="Buscar estudiante..." 
+                            value={estudianteFilter} 
+                            onChange={e => setEstudianteFilter(e.target.value)}
+                            className="flex-1 px-4 py-2 bg-[#efe7dc] text-black border border-black rounded" 
+                        />
 
                         <select 
                             value={grupoFilter} 
@@ -159,7 +168,7 @@ export default function RecuperarEvaluacion() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {estudiantesDataLimited.map((estudiante) => (
+                                {estudiantesDataPaginated.map((estudiante) => (
                                     <tr key={estudiante.idEvaluacion}>
                                         <td className="py-2 px-4 border border-solid border-black">
                                             {estudiante.fechaEvaluacion}
@@ -183,14 +192,20 @@ export default function RecuperarEvaluacion() {
                                 ))}
                             </tbody>
                         </table>
+
                         <div className="flex justify-center w-full mt-4">
-                            <button 
-                                onClick={handleLoadMore} 
-                                className="py-2 px-4 bg-[#32569A] text-white rounded"
-                                disabled={estudiantesDataLimited.length >= filteredData.length} 
-                            >
-                                Cargar más
-                            </button>
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <button 
+                            key={page} 
+                            onClick={(e) => {
+                                e.preventDefault(); // Evitar recarga
+                                handlePageChange(page);
+                            }} 
+                            className={`py-2 px-4 ${page === currentPage ? 'bg-[#32569A] text-white' : 'bg-[#e1d7b7] text-black'} rounded mx-1`}
+                        >
+                                    {page}
+                                </button>
+                            ))}
                         </div>
                     </div>
                 </form>
