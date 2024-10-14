@@ -16,14 +16,14 @@ const NavbarInicioDeSesion = () => {
       <div className="flex justify-between items-center pl-0 pr-20">
         {/* Imagen con bordes redondos y texto al lado */}
         <div className="flex items-center space-x-4">
-          <img src="src/Imagenes/LogoUniversidad.jpg" alt="LogoUniversidad" className="h-12 rounded-xl" />
+          <img src="/Imagenes/LogoUniversidad.jpg" alt="LogoUniversidad" className="h-12 rounded-xl" />
           <div>
             <span className="text-2xl font-bold text-custom-bg">PROYECTRACK</span>
             <br />
             <span className="text-sm font-bold text-custom-bg">
               By 
               <img 
-                src="src/Imagenes/Logo.PNG" 
+                src="/Imagenes/Logo.PNG" 
                 alt="InnovalogicLogo" 
                 className="inline-block h-4 w-4 mx-2" 
               /> 
