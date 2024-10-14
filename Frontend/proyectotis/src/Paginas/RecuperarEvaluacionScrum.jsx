@@ -1,6 +1,6 @@
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from '../Componentes/BarraCopyright';
-import BarraLateralDocente from '../Componentes/BarraLateralDocente';
+import BarraLateralEstudiante from '../Componentes/BarraLateralEstudiante';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -96,7 +96,7 @@ export default function RecuperarEvaluacionScrum() {
         <>
             <NavbarInicioDeSesion />
             <div style={{ display: 'flex', height: '100%', marginTop: '70px', backgroundColor: '#32569A' }}>
-                <BarraLateralDocente/>
+                <BarraLateralEstudiante/>
                 <form className={`space-y-4 p-4 flex-1 bg-[#efe7dc] rounded-md`}>
                     <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones</h1>
 

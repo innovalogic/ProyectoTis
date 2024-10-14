@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useUser } from "./UserContext";
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom"; 
 
 export default function BarraLateral(){
 
@@ -14,38 +15,40 @@ export default function BarraLateral(){
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [grupoData, setGrupoData] = useState([]); 
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [responseEstudiantes, responseEvaluaciones] = await Promise.all([
-                    axios.get('http://localhost/proyectotis/backend/ObtenerEstudiante.php', {
-                        params: { idEstudiante: user.idEstudiante },
-                    }),
-                    axios.get('http://localhost/proyectotis/backend/ObtenerGrupo.php', {
-                        params: { idEstudiante: user.idEstudiante },
-                    })
-                ]);
-    
-                if (responseEstudiantes.data.success) {
-                    setEstudiantesData(responseEstudiantes.data.datos);
+    const handleMenuClick = async () => {
+        try {
+            const [responseEstudiantes, responseGrupo] = await Promise.all([
+                axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
+                    params: { idEstudiante: user.idEstudiante },
+                }),
+                axios.get('http://localhost/proyectotis/backend/ObtenerGrupo.php', {
+                    params: { idEstudiante: user.idEstudiante },
+                })
+            ]);
+            if (responseEstudiantes.data.success) {
+                const esJefe = responseEstudiantes.data.datos.some(
+                    estudiante => estudiante.idEstudianteScrum === user.idEstudiante
+                );
+                
+                if (esJefe) {
+                    navigate('/RutaJefe');  
                 } else {
-                    setError('No se pudo obtener los datos de estudiantes.');
+                    navigate('/RutaNoJefe');  
                 }
-    
-                if (responseEvaluaciones.data.success) {
-                    setGrupoData(responseEvaluaciones.data.datos);
-                } else {
-                    setError('No se pudo obtener los datos de evaluaciones.');
-                }
-            } catch (error) {
-                setError('Error al conectarse al servidor: ' + error.message);
-                console.error(error);
+            } else {
+                setError('No se pudo obtener los datos de estudiantes.');
             }
-        };
-    
-        fetchData();
-    }, [user.idEstudiante]);
+
+            if (!responseGrupo.data.success) {
+                setError('No se pudo obtener los datos del grupo.');
+            }
+        } catch (error) {
+            setError('Error al conectarse al servidor: ' + error.message);
+            console.error(error);
+        } 
+    };
 
     
     return (
@@ -107,9 +110,10 @@ export default function BarraLateral(){
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
                     icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                    component={<Link to="/InicioEstudiante" />}
+                    onClick={handleMenuClick}  // Ejecuta la consulta cuando se hace clic
                 >
                     Evaluaciones
+                    {error && <span>{error}</span>} {/* Muestra errores opcionales */}
                 </MenuItem>
 
                 <MenuItem
