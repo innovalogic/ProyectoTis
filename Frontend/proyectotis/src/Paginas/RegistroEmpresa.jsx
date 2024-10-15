@@ -11,7 +11,6 @@ import { useUser } from "../Componentes/UserContext";
 
 export default function RegistroEmpresa() {
     const { setUser } = useUser(); 
-
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [imageUrl, setImageUrl] = useState('');
     const [ultimoGrupo, setUltimoGrupo] = useState('');

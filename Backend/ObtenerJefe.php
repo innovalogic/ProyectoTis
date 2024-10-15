@@ -11,9 +11,9 @@ $idEstudiante = isset($_GET['idEstudiante']) ? $_GET['idEstudiante'] : null;
 
 if (!empty($idEstudiante)) {
     try {
-        $query = 'SELECT idGrupoEmpresa, nombreEmpresa, nombreCortoEmpresa, correoEmpresa, logoEmpresa, idDocente, idEstudianteScrum 
-                  FROM GrupoEmpresa 
-                  WHERE idEstudianteScrum = :idEstudiante';
+        $query = 'SELECT "idGrupoEmpresa", "nombreEmpresa", "nombreCortoEmpresa", "correoEmpresa", "logoEmpresa", "idDocente", "idEstudianteScrum"
+                  FROM "GrupoEmpresa" 
+                  WHERE "idEstudianteScrum" = :idEstudiante';
 
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':idEstudiante', $idEstudiante, PDO::PARAM_INT);

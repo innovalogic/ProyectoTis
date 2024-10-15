@@ -20,10 +20,11 @@ export default function BarraLateral(){
             const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
                 params: { idEstudiante: user.idEstudiante },
             });
-            console.log(responseEstudiantes.data.datos[0])
-            if (responseEstudiantes.data.success && responseEstudiantes.data.datos.length > 0) {
+    
+            console.log('Respuesta del servidor:', responseEstudiantes.data); // Verificar qué llega aquí
+    
+            if (responseEstudiantes.data && responseEstudiantes.data.success && Array.isArray(responseEstudiantes.data.datos) && responseEstudiantes.data.datos.length > 0) {
                 const grupoDatos = responseEstudiantes.data.datos[0];
-                
                 if (grupoDatos.idEstudianteScrum === user.idEstudiante) {
                     navigate('/RecuperarEvaluacionScrum', { state: { datosGrupo: grupoDatos } });
                 } else {

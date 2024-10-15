@@ -4,12 +4,13 @@ import BarraLateralEstudiante from '../Componentes/BarraLateralEstudiante';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { useUser } from "../Componentes/UserContext";
 
 export default function RecuperarEvaluacionMiembro() {
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [error, setError] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
-
+    const { setUser } = useUser();
     const [grupoFilter, setGrupoFilter] = useState('');
     const [estudianteFilter, setEstudianteFilter] = useState('');
     const [fechaInicioFilter, setFechaInicioFilter] = useState('');

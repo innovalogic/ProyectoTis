@@ -3,12 +3,13 @@ import Copyright from '../Componentes/BarraCopyright';
 import BarraLateralEstudiante from '../Componentes/BarraLateralEstudiante';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useUser } from "../Componentes/UserContext";
 
 export default function RecuperarEvaluacionScrum() {
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [error, setError] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
-
+    const { setUser } = useUser();
     const [grupoFilter, setGrupoFilter] = useState('');
     const [estudianteFilter, setEstudianteFilter] = useState('');
     const [fechaInicioFilter, setFechaInicioFilter] = useState('');
@@ -16,11 +17,9 @@ export default function RecuperarEvaluacionScrum() {
     const [calificacionFilter, setCalificacionFilter] = useState('');
     const [estadoFilter, setEstadoFilter] = useState('');
 
-    // Paginación
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 25; // Puedes ajustar cuántos elementos mostrar por página
+    const itemsPerPage = 25; 
 
-    // Calcular los datos filtrados para la página actual
     const startIdx = (currentPage - 1) * itemsPerPage;
     const endIdx = startIdx + itemsPerPage;
     const estudiantesDataPaginated = filteredData.slice(startIdx, endIdx);
@@ -43,7 +42,6 @@ export default function RecuperarEvaluacionScrum() {
                 setError('Error al conectarse al servidor: ' + error.message);
             }
         };
-        console.log(user)
         fetchEstudiantes();
     }, []);
 
