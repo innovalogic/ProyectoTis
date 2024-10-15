@@ -101,7 +101,7 @@ export default function RecuperarEvaluacionMiembro() {
             <div style={{ display: 'flex', height: '100%', marginTop: '70px', backgroundColor: '#32569A' }}>
                 <BarraLateralEstudiante/>
                 <form className={`space-y-4 p-4 flex-1 bg-[#efe7dc] rounded-md`}>
-                    <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones Scrum</h1>
+                    <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones Miembro</h1>
 
                     <div className="flex flex-col sm:flex-row sm:space-x-4 mb-4">
                         <select 

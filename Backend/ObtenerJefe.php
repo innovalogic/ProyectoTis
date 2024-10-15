@@ -7,7 +7,6 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once 'db.php';
 
-// Suponiendo que los datos son enviados mediante GET
 $idEstudiante = isset($_GET['idEstudiante']) ? $_GET['idEstudiante'] : null;
 
 if (!empty($idEstudiante)) {
@@ -17,12 +16,11 @@ if (!empty($idEstudiante)) {
                   WHERE idEstudianteScrum = :idEstudiante';
 
         $stmt = $pdo->prepare($query);
-
         $stmt->bindParam(':idEstudiante', $idEstudiante, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            if ($result) {
+            if (!empty($result)) {
                 ob_end_clean();
                 echo json_encode(['success' => true, 'datos' => $result]);
             } else {

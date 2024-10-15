@@ -20,16 +20,23 @@ export default function BarraLateral(){
             const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
                 params: { idEstudiante: user.idEstudiante },
             });
-    
+            console.log(responseEstudiantes.data.datos[0])
             if (responseEstudiantes.data.success && responseEstudiantes.data.datos.length > 0) {
-                navigate('/RecuperarEvaluacionScrum', { state: { datosGrupo: responseEstudiantes.data.datos } });
+                const grupoDatos = responseEstudiantes.data.datos[0];
+                
+                if (grupoDatos.idEstudianteScrum === user.idEstudiante) {
+                    navigate('/RecuperarEvaluacionScrum', { state: { datosGrupo: grupoDatos } });
+                } else {
+                    navigate('/RecuperarEvaluacionMiembro', { state: { mensaje: 'El estudiante no es jefe de grupo' } });
+                }
             } else {
-                navigate('/RecuperarEvaluacionMiembro', { state: { mensaje: 'El estudiante no es jefe de grupo' } });
+                navigate('/RecuperarEvaluacionMiembro', { state: { mensaje: 'No se encontraron datos para el estudiante.' } });
             }
         } catch (error) {
             console.error('Error al conectarse al servidor:', error.message);
         }
     };
+    
     
     
     return (
