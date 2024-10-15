@@ -10,6 +10,8 @@ export default function InicioEstudiante() {
   const [Sprint, setSprint] = useState([]); // Estado para almacenar los sprints
   const [historiasDeUsuario, setHistoriasDeUsuario] = useState([]); // Estado para las HUs
   const [selectedSprint, setSelectedSprint] = useState(""); // Estado para el Sprint seleccionado
+  const [tarea, setTareas] = useState([]);// Estado para almacenar los tareas
+  const [selectedHu,setSelectedHu] = useState("");// Estado para el HU seleccionado
 
   const idEstudiante = user ? user.idEstudiante : null;
 
@@ -69,6 +71,43 @@ export default function InicioEstudiante() {
       setHistoriasDeUsuario([]); // Resetear las HUs si no hay Sprint seleccionado
     }
   };
+  const handleHuChange = async (event) => {
+    const HuSeleccionado = event.target.value;
+    setSelectedHu(HuSeleccionado);
+    const sprintSeleccionado = selectedSprint; // Usa el sprint seleccionado previamente
+    setSelectedSprint(sprintSeleccionado);
+    console.log("HuSeleccionado:", HuSeleccionado);
+    console.log("sprintSeleccionado:", sprintSeleccionado);
+    console.log("idEstudiante:", idEstudiante);
+  
+    if (HuSeleccionado && sprintSeleccionado) {
+      try {
+        const response = await fetch('http://localhost/ProyectoTis/Backend/TareaAvances.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            HuSeleccionado,
+            sprintSeleccionado,
+            idEstudiante
+          })
+        });
+  
+        const text = await response.text();
+        console.log(text); // Aquí debes ver el texto completo de la respuesta
+  
+        const data = JSON.parse(text);
+        setTareas(data.tarea || []); // Verifica que 'tarea' es la propiedad correcta
+      } catch (error) {
+        console.error('Error al obtener las Tareas:', error);
+      }
+    } else {
+      setTareas([]); // Resetear las Tareas si no hay HU o Sprint seleccionado
+    }
+  };
+  
+  
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -115,10 +154,10 @@ export default function InicioEstudiante() {
               <label htmlFor="tarea-select" className="block mb-2 text-lg font-medium" style={{ color: "#1E3664" }}>
                 Historia de usuario:
               </label>
-              <select id="tarea-select" className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select id="tarea-select" className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"  onChange={handleHuChange}> 
               <option value="">Seleccionar HU</option>
                 {historiasDeUsuario.map((hu, index) => (
-                  <option key={index} value={hu.idHU}> {/* Asegúrate de que 'idHU' es el identificador correcto */}
+                  <option key={index} value={hu.titulo0}> {/* Asegúrate de que 'idHU' es el identificador correcto */}
                     {hu.titulo} {/* Asegúrate de que 'nombreHU' es el nombre que deseas mostrar */}
                   </option>
                 ))}
@@ -182,9 +221,11 @@ export default function InicioEstudiante() {
                 className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Seleccionar Tarea</option>
-                <option value="tarea1">Tarea 1</option>
-                <option value="tarea2">Tarea 2</option>
-                <option value="tarea3">Tarea 3</option>
+                {tarea.map((tareas, index) => (
+                  <option key={index} value={tareas.titulo}>
+                    {tareas.titulo}
+                  </option>
+                ))}
               </select>
             </div>
 
