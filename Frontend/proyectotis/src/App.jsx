@@ -11,6 +11,7 @@ import PlanificacionEstudiante  from './Paginas/PlanificacionEstudiante';
 import { UserProvider } from './Componentes/UserContext'; 
 import RecuperarEvaluacion from './Paginas/RecuperarEvaluacion';
 import AvancesEstudiante from './Paginas/AvancesEstudiante';
+import RegistroEvSemanales from './Paginas/RegistroEvSemanales';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="PlanificacionEstudiante" element={<PlanificacionEstudiante/>}/>
         <Route path="RecuperarEvaluacion" element={<RecuperarEvaluacion/>}/>
         <Route path="AvancesEstudiante" element={<AvancesEstudiante/>}/>
+        <Route path="RegistroEvSemanales" element={<RegistroEvSemanales/>}/>
       </Routes>
     </Router>
     </UserProvider>
