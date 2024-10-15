@@ -25,7 +25,7 @@ $idGrupoEmpresa = $data->idGrupoEmpresa;
 $Sprint_idSprint = $data->Sprint_idSprint;
 
 try {
-    // Consulta para obtener los Sprints filtradas por idGrupoEmpresa
+    // Consulta para obtener los HU filtradas por idGrupoEmpresa
     $stmt3 = $pdo->prepare('SELECT "idHU", titulo, responsable, "fechaEntrega"
 	                            FROM "HU"
 	                            where "Sprint_idSprint"= :Sprint_idSprint and "Sprint_GrupoEmpresa_idGrupoEmpresa"= :idGrupoEmpresa');

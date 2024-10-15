@@ -25,7 +25,7 @@ if (
         $stmtcodSis->bindParam(':codSis', $data->codSis);
         $stmtcodSis->execute();
 
-        // Verificar si se encontró el sprint
+        // Verificar si se encontró el codigosis
         $codSisData = $stmtcodSis->fetch(PDO::FETCH_ASSOC);
         if (!$codSisData) {
             ob_end_clean();
