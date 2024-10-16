@@ -12,6 +12,9 @@ export default function InicioEstudiante() {
   const [selectedSprint, setSelectedSprint] = useState(""); // Estado para el Sprint seleccionado
   const [tarea, setTareas] = useState([]);// Estado para almacenar los tareas
   const [selectedHu,setSelectedHu] = useState("");// Estado para el HU seleccionado
+  const [selectedTarea, setSelectedTarea] = useState("");
+  const [nombreArchivo, setNombreArchivo] = useState(""); // Estado para almacenar el nombre del archivo
+
 
   const idEstudiante = user ? user.idEstudiante : null;
 
@@ -106,6 +109,18 @@ export default function InicioEstudiante() {
       setTareas([]); // Resetear las Tareas si no hay HU o Sprint seleccionado
     }
   };
+  const handleTareaChange = async (event) => {
+    const tareaSeleccionada = event.target.value;
+    setSelectedTarea(tareaSeleccionada);
+    const HuSeleccionado = selectedHu;
+    setSelectedHu(HuSeleccionado);
+    const sprintSeleccionado = selectedSprint; // Usa el sprint seleccionado previamente
+    setSelectedSprint(sprintSeleccionado);
+    console.log("tareaSeleccionada:", tareaSeleccionada);
+    console.log("HuSeleccionado:", HuSeleccionado);
+    console.log("sprintSeleccionado:", sprintSeleccionado);
+    console.log("idEstudiante:", idEstudiante)
+  };
   
   
 
@@ -117,12 +132,76 @@ export default function InicioEstudiante() {
     setModalVisible(false);
   };
 
-  // Función para manejar el envío del formulario
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Evitar que el formulario recargue la página
-    // Aquí puedes añadir la lógica para manejar la subida del archivo o enlace
-    console.log("Formulario enviado");
-  };
+ // Función para manejar el envío del formulario
+ const handleSubmit = async (event) => {
+  event.preventDefault(); // Evitar la recarga de la página
+
+  const formData = new FormData();
+
+  // Obtener el archivo del input 'file-upload'
+  const fileInput = document.querySelector('#file-upload');
+  let archivoSubido = false;
+  
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    const allowedExtensions = /(\.pdf|\.doc|\.docx)$/i;
+    if (!allowedExtensions.exec(file.name)) {
+      alert('Por favor selecciona un archivo válido (PDF o DOC)');
+      return;
+    }
+    formData.append("archivo", file); // Agregar el archivo solo una vez
+    archivoSubido = true; // Marcamos que se ha subido un archivo
+  }
+
+  // Obtener el enlace del input 'link-upload'
+  const linkInput = document.querySelector('#link-upload').value;
+  let enlaceProporcionado = false;
+  
+  if (linkInput.trim() !== "") {
+    formData.append("enlace", linkInput); // Agregar el enlace al FormData
+    enlaceProporcionado = true; // Marcamos que se ha proporcionado un enlace
+  }
+
+  // Verificar que al menos uno (archivo o enlace) esté presente
+  if (!archivoSubido && !enlaceProporcionado) {
+    alert('Por favor selecciona un archivo o proporciona un enlace.');
+    return;
+  }
+
+  // Verificar que los otros datos están completos
+  if (!selectedTarea || !selectedHu || !selectedSprint || !idEstudiante) {
+    alert('Por favor completa todos los campos requeridos.');
+    return;
+  }
+
+  formData.append("tareaSeleccionada", selectedTarea);
+  formData.append("HuSeleccionado", selectedHu);
+  formData.append("sprintSeleccionado", selectedSprint);
+  formData.append("idEstudiante", idEstudiante);
+
+  try {
+    const response = await fetch('http://localhost/ProyectoTis/Backend/subirArchivos.php', {
+      method: 'POST',
+      body: formData, // Enviar FormData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la respuesta del servidor: ' + response.status);
+    }
+
+    const text = await response.text();
+    console.log(text); // Ver la respuesta del servidor
+
+    // Cerrar el modal si la carga fue exitosa
+    setModalVisible(false);
+  } catch (error) {
+    console.error('Error al subir el archivo o enlace:', error);
+    alert('Ocurrió un error al intentar subir el archivo o enlace. Por favor, inténtalo de nuevo.');
+  }
+};
+
+
+  
 
   return (
     <>
@@ -219,7 +298,7 @@ export default function InicioEstudiante() {
               <select
                 id="tarea-select"
                 className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
+                onChange={handleTareaChange} > 
                 <option value="">Seleccionar Tarea</option>
                 {tarea.map((tareas, index) => (
                   <option key={index} value={tareas.titulo}>
@@ -241,12 +320,25 @@ export default function InicioEstudiante() {
                   Subir archivo (PDF o DOC):
                 </label>
                 <input
-                  type="file"
-                  id="file-upload"
-                  accept=".pdf,.doc,.docx"
-                  className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
+    type="file"
+    id="file-upload"
+    accept=".pdf,.doc,.docx"
+    className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+    onChange={(event) => {
+      const file = event.target.files[0];
+      if (file) {
+        setNombreArchivo(file.name); // Actualiza el estado con el nombre del archivo
+      } else {
+        setNombreArchivo(""); // Resetea el nombre si no hay archivo
+      }
+    }}
+  />
+  {nombreArchivo && (
+    <div className="mt-2 text-gray-700">
+      <strong>Archivo seleccionado:</strong> {nombreArchivo}
+    </div>
+  )}
+</div>
 
               {/* Input para subir enlace */}
               <div className="mb-4">
@@ -258,10 +350,12 @@ export default function InicioEstudiante() {
                   Subir enlace:
                 </label>
                 <input
-                  type="text"
-                  id="link-upload"
-                  className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+  type="text"
+  id="link-upload"
+  className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+  placeholder="Ingresa un enlace"
+/>
+
               </div>
 
               {/* Botón para enviar */}
