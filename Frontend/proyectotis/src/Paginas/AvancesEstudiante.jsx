@@ -245,14 +245,44 @@ export default function InicioEstudiante() {
             </div>
           </div>
 
-          {/* Muro de noticias de avances */}
           <div className="mt-8">
             <h2 className="text-2xl font-semibold mb-4" style={{ color: "#1E3664" }}>
-              Noticias de Avances:
+              Tabla de Avances:
             </h2>
             <div className="w-full h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm" style={{ height: "350px", backgroundColor: "#1E3664", borderRadius: "45px" }}>
-              {/* Aquí puedes agregar el contenido de las noticias */}
+              {/* Tabla de Avances */}
+              <table className="w-full text-white">
+                <thead>
+                  <tr>
+                    <th className="p-2 border-b">Sprint</th>
+                    <th className="p-2 border-b">Historia de Usuario</th>
+                    <th className="p-2 border-b">Tarea</th>
+                    <th className="p-2 border-b">Archivo</th>
+                    <th className="p-2 border-b">Link</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="p-2 border-b">1</td>
+                    <td className="p-2 border-b">Crear Login</td>
+                    <td className="p-2 border-b">Diseñar la interfaz</td>
+                    <td className="p-2 border-b">login.png</td>
+                    <td className="p-2 border-b">www.drive.com</td>
+                  </tr>
+                  
+                  <tr>
+                  <td className="p-2 border-b">2</td>
+                    <td className="p-2 border-b">Crear Login</td>
+                    <td className="p-2 border-b">Diseñar la interfaz</td>
+                    <td className="p-2 border-b">login.png</td>
+                    <td className="p-2 border-b">www.drive.com</td>
+                  </tr>
+                  
+                  {/* Agrega más filas aquí */}
+                </tbody>
+              </table>
             </div>
+
 
             {/* Botón para subir avance */}
             <div className="mt-4 flex justify-end" style={{ marginRight: "15px" }}>
