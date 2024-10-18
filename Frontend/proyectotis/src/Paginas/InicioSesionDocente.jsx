@@ -4,13 +4,14 @@ import Copyright from "../Componentes/BarraCopyright";
 import UMSS2 from "/src/Imagenes/UMSS2.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-
+import { useUser } from "../Componentes/UserContext";
 
 export default function InicioSesionDocente() {
   const navigate = useNavigate();
   const [correoDocente, setCorreoDocente] = useState("");
   const [Contraseña, setContraseña] = useState("");
   const [showPassword, setShowPassword] = useState(false); 
+  const { setUser } = useUser(); // Obtén la función setUser del contexto
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -25,12 +26,16 @@ export default function InicioSesionDocente() {
         body: formData,
       });
 
-      const result = await response.text();
-      if (result.includes("Login successful")) {
+      const result = await response.json(); // Cambiado a json()
+      
+      if (result.message) {
+        alert(result.message);
+      } else {
+        // Guarda los datos completos del docente en el contexto
+        setUser(result); // Almacena todos los datos del docente en el contexto
+        console.log(result); // Para verificar los datos del docente
         alert("Inicio de sesión exitoso!!");
         navigate("/InicioDocente");
-      } else {
-        alert("Credenciaes Incorrectas");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -109,4 +114,3 @@ export default function InicioSesionDocente() {
     </div>
   );
 }
-
