@@ -16,7 +16,8 @@ if (
     !empty($data->NombreCorto) &&
     !empty($data->CorreoEmpresa) &&
     !empty($data->jefeId) &&
-    !empty($data->imageUrl)
+    !empty($data->imageUrl) &&
+    !empty($data->idDocente) // Verificar que el idDocente esté presente
 ) {
     try {
         $query = 'INSERT INTO "GrupoEmpresa" (
@@ -24,13 +25,15 @@ if (
             "nombreCortoEmpresa",
             "correoEmpresa",
             "logoEmpresa",
-            "idEstudianteScrum"
+            "idEstudianteScrum",
+            "idDocente"  
         ) VALUES (
             :NombreEmpresa,
             :NombreCorto,
             :CorreoEmpresa,
             :imageUrl,
-            :jefeId
+            :jefeId,
+            :idDocente  
         )';
 
         $stmt = $pdo->prepare($query);
@@ -40,6 +43,7 @@ if (
         $stmt->bindParam(':CorreoEmpresa', $data->CorreoEmpresa);
         $stmt->bindParam(':imageUrl', $data->imageUrl);
         $stmt->bindParam(':jefeId', $data->jefeId);
+        $stmt->bindParam(':idDocente', $data->idDocente); // Asegurarse de que el idDocente se registre
 
         if ($stmt->execute()) {
             $lastUserId = $pdo->lastInsertId();
@@ -53,7 +57,7 @@ if (
         ob_end_clean();
         echo json_encode(['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()]);
     }
-}else{
+} else {
     ob_end_clean();
     echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
 }

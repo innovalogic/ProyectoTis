@@ -3,8 +3,11 @@ import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from "../Componentes/BarraCopyright";
 import UMSS2 from "/src/Imagenes/UMSS2.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function InicioSesionDocente() {
+  const navigate = useNavigate();
   const [correoDocente, setCorreoDocente] = useState("");
   const [Contraseña, setContraseña] = useState("");
   const [showPassword, setShowPassword] = useState(false); 
@@ -25,6 +28,7 @@ export default function InicioSesionDocente() {
       const result = await response.text();
       if (result.includes("Login successful")) {
         alert("Inicio de sesión exitoso!!");
+        navigate("/InicioDocente");
       } else {
         alert("Credenciaes Incorrectas");
       }

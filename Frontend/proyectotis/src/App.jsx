@@ -12,6 +12,7 @@ import { UserProvider } from './Componentes/UserContext';
 import RecuperarEvaluacion from './Paginas/RecuperarEvaluacion';
 import AvancesEstudiante from './Paginas/AvancesEstudiante';
 import RegistroEvSemanales from './Paginas/RegistroEvSemanales';
+import InicioDocente from './Paginas/InicioDocente';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="RecuperarEvaluacion" element={<RecuperarEvaluacion/>}/>
         <Route path="AvancesEstudiante" element={<AvancesEstudiante/>}/>
         <Route path="RegistroEvSemanales" element={<RegistroEvSemanales/>}/>
+        <Route path="InicioDocente" element={<InicioDocente/>}/>
       </Routes>
     </Router>
     </UserProvider>
