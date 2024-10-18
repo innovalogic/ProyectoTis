@@ -57,20 +57,27 @@ try {
         $stmtEnlace->execute();
     }
 
-    // Verificar que se ha cargado un archivo y proceder solo si existe
     if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] === UPLOAD_ERR_OK) {
         // Verificar el tipo MIME del archivo
         $mimeType = mime_content_type($_FILES['archivo']['tmp_name']);
         if (!in_array($mimeType, ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])) {
             throw new Exception('El archivo debe ser un PDF o DOC.');
         }
-
+    
         // Convertir el archivo a binario
         $archivoBinario = file_get_contents($_FILES['archivo']['tmp_name']);
-
-        // Preparar la consulta para actualizar el archivo
+        
+        // Obtener el nombre del archivo
+        $nombreArchivo = $_FILES['archivo']['name']; // Nombre del archivo subido
+        // Log para depuración
+error_log("Archivo subido: " . $nombreArchivo);
+    
+        // Log para depuración
+        error_log("Archivo subido: " . $nombreArchivo);
+    
+        // Preparar la consulta para actualizar el archivo y el nombre del archivo
         $stmtArchivo = $pdo->prepare('UPDATE "Tarea"
-        SET "archivos" = :archivo
+        SET "archivos" = :archivo, "nombreArchivo" = :nombreArchivo
         WHERE "Tarea"."HU_idHU" IN (
             SELECT "HU"."idHU"
             FROM "HU", "Sprint", "Estudiante"
@@ -82,15 +89,19 @@ try {
         )
         AND "Tarea"."titulo" = :tareaNombre;
         ');
-
+    
+        // Vincular parámetros
         $stmtArchivo->bindParam(':archivo', $archivoBinario, PDO::PARAM_LOB);
+        $stmtArchivo->bindParam(':nombreArchivo', $nombreArchivo, PDO::PARAM_STR); // Nombre del archivo
         $stmtArchivo->bindParam(':sprintNombre', $sprintSeleccionado, PDO::PARAM_STR);
         $stmtArchivo->bindParam(':HuNombre', $HuSeleccionado, PDO::PARAM_STR);
         $stmtArchivo->bindParam(':tareaNombre', $tareaSeleccionada, PDO::PARAM_STR);
         $stmtArchivo->bindParam(':idEstudiante', $idEstudiante, PDO::PARAM_INT);
-
+    
+        // Ejecutar la consulta
         $stmtArchivo->execute();
     }
+    
 
     // Respuesta de éxito
     http_response_code(200);

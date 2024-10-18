@@ -42,7 +42,7 @@ const ModalSubirAvance = ({ modalVisible, handleCloseModal, tarea, handleTareaCh
         </div>
 
         {/* Formulario para subir archivos o enlaces */}
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(event) => handleSubmit(event, nombreArchivo)}>
           {/* Input para subir archivos */}
           <div className="mb-4">
             <label htmlFor="file-upload" className="block mb-2 text-lg font-medium" style={{ color: "#1E3664" }}>
