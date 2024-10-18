@@ -3,9 +3,9 @@
 // Conexión a la base de datos PostgreSQL
 $host = "localhost";
 $port = "5432";
-$dbname = "innovalogic"; // Cambia esto al nombre de tu base de datos
+$dbname = "AmadeoBaseDatos"; // Cambia esto al nombre de tu base de datos
 $user = "postgres"; // Usuario de la base de datos
-$password = "admin"; // Contraseña de PostgreSQL
+$password = ""; // Contraseña de PostgreSQL
 
 try {
     // Crear una nueva conexión PDO
