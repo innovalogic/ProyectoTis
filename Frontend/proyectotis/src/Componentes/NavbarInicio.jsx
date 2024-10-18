@@ -1,12 +1,14 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { NavDropdown } from 'react-bootstrap';
+import { useUser } from "../Componentes/UserContext"; // Importa el contexto de usuario
 
 const NavbarInicioDeSesion = () => {
   const location = useLocation(); // Obtener la ubicación actual
+  const { user } = useUser(); // Obtén el usuario del contexto
 
   // Definir las rutas donde no se deben mostrar los enlaces de "Registrarse" e "Iniciar Sesión"
-  const hideLinksOnRoutes = ['/InicioEstudiante', '/registroEmpresa','/PlanificacionGe']; // Añade más rutas si es necesario
+  const hideLinksOnRoutes = ['/InicioEstudiante', '/registroEmpresa', '/PlanificacionGe']; // Añade más rutas si es necesario
 
   // Verifica si la ruta actual está en la lista de rutas donde ocultar los enlaces
   const shouldHideLinks = hideLinksOnRoutes.includes(location.pathname);
@@ -33,7 +35,7 @@ const NavbarInicioDeSesion = () => {
         </div>
 
         {/* Menú de registro e iniciar sesión */}
-        {!shouldHideLinks && ( // Condicional para ocultar los enlaces en las páginas especificadas
+        {!shouldHideLinks && !user && ( // Solo muestra los enlaces si el user es null
           <div className="flex justify-end items-center space-x-8">
             {/* Enlace absoluto para "Registrarse" */}
             <NavLink 
