@@ -278,7 +278,7 @@ export default function InicioEstudiante() {
           </div>
 
           <div className="mt-8">
-          <h2 className="text-lg font-semibold text-white">Tabla de Avances:</h2>
+          <h2 className="font-semibold text-3xl"style={{ color: "#1E3664" }}>Tabla de Avances:</h2>
 <div
     className="w-full h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm"
     style={{ height: "350px", backgroundColor: "#1E3664", borderRadius: "45px" }}
