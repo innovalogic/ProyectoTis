@@ -125,8 +125,7 @@ export default function InicioEstudiante() {
     console.log("idEstudiante:", idEstudiante)
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
+    const fetchTablaAvances = async () => {
       if (idEstudiante) {
         try {
           const response = await fetch('http://localhost/ProyectoTis/Backend/tablaAvances.php', {
@@ -147,8 +146,10 @@ export default function InicioEstudiante() {
       }
     };
 
-    fetchData();
-}, [idEstudiante]);
+    useEffect(() => {
+      fetchTablaAvances();
+    }, [idEstudiante]);
+
 
 
 
@@ -227,6 +228,7 @@ export default function InicioEstudiante() {
 
     // Cerrar el modal si la carga fue exitosa
     setModalVisible(false);
+    fetchTablaAvances();
   } catch (error) {
     console.error('Error al subir el archivo o enlace:', error);
     alert('Ocurrió un error al intentar subir el archivo o enlace. Por favor, inténtalo de nuevo.');
