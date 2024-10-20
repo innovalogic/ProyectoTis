@@ -7,6 +7,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"; 
 
+
 export default function BarraLateral(){
 
     const { setUser } = useUser();
@@ -28,7 +29,7 @@ export default function BarraLateral(){
                 if (grupoDatos.idEstudianteScrum === user.idEstudiante) {
                     navigate('/RecuperarEvaluacionScrum', { state: { datosGrupo: grupoDatos } });
                 } else {
-                    navigate('/RecuperarEvaluacionMiembro', { state: { mensaje: 'El estudiante no es jefe de grupo' } });
+                    navigate('/RecuperarEvaluacionMiembro', { state: { datosGrupo: grupoDatos } });
                 }
             } else {
                 navigate('/RecuperarEvaluacionMiembro', { state: { mensaje: 'No se encontraron datos para el estudiante.' } });

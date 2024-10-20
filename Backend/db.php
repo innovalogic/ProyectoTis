@@ -3,7 +3,7 @@
 // Conexión a la base de datos PostgreSQL
 $host = "localhost";
 $port = "5432";
-$dbname = "p3"; // Cambia esto al nombre de tu base de datos
+$dbname = "Tis"; // Cambia esto al nombre de tu base de datos
 $user = "postgres"; // Usuario de la base de datos
 $password = ""; // Contraseña de PostgreSQL
 
