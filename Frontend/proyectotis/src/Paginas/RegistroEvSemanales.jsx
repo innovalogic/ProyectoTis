@@ -3,6 +3,7 @@ import Copyright from '../Componentes/BarraCopyright';
 import BarraLateralDocente from '../Componentes/BarraLateralDocente';
 import React, { useEffect, useState } from 'react';
 import { useUser } from "../Componentes/UserContext";
+import ModalLinks from '../Componentes/ModalLinks';
 
 export default function RegistroEvSemanales() {
     const [grupos, setGrupos] = useState([]);
@@ -12,6 +13,9 @@ export default function RegistroEvSemanales() {
     const [semanas, setSemanas] = useState([]); // Nuevo estado para las semanas
     const [selectedSprint, setSelectedSprint] = useState('');
     const [selectedSemana, setSelectedSemana] = useState('');
+    const [estudiantes, setEstudiantes] = useState([]);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [estudianteSeleccionado, setEstudianteSeleccionado] = useState(null);
 
     useEffect(() => {
         // Hacer una solicitud al backend para obtener los grupos empresa
@@ -109,7 +113,36 @@ export default function RegistroEvSemanales() {
     
         return semanasConFechas;
     };
+
+    useEffect(() => {
+        if (selectedGrupo && selectedSprint && selectedSemana) {
+            console.log(selectedGrupo, selectedSprint, selectedSemana);
+            
+            fetch(`http://localhost/proyectotis/backend/buscarEstudiantesdelgrupo.php?grupo=${selectedGrupo}&sprint=${selectedSprint}&semana=${selectedSemana}`)
+                .then(response => {
+                    console.log("Respuesta del servidor:", response); // Añade esta línea
+                    if (!response.ok) {
+                        throw new Error('Error al obtener los estudiantes');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    setEstudiantes(data);
+                })
+                .catch(error => {
+                    console.error("Hubo un error al obtener los estudiantes:", error);
+                });
+        } else {
+            setEstudiantes([]); // Limpiar evaluaciones si no se seleccionan todos los valores
+        }
+    }, [selectedGrupo, selectedSprint, selectedSemana]);
     
+    
+    const handleOpenModal = (estudiante) => {
+        setEstudianteSeleccionado(estudiante);
+        setModalOpen(true);
+    };
     
 
     return (
@@ -147,7 +180,7 @@ export default function RegistroEvSemanales() {
                     <select className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded" onChange={e => setSelectedSemana(e.target.value)}>
                         <option value="" hidden>Seleccionar Semana</option>
                         {semanas.map((semana, index) => (
-                            <option key={index} value={`semana${index + 1}`} className="bg-white text-black border-2 border--[#32569A] rounded-md">
+                            <option key={index} value={semana.inicio} className="bg-white text-black border-2 border--[#32569A] rounded-md">
                                 {semana.nombre} (Desde: {semana.inicio} - Hasta: {semana.fin})
                             </option>
                         ))}
@@ -156,15 +189,18 @@ export default function RegistroEvSemanales() {
 
                     <div className="flex justify-between mt-10 -mb-4 ml-4 mr-4 relative">
                         <div className="flex w-2/4 p-2 bg-[#32569A] text-white border border-[#32569A] rounded">
-                            <div className="ml-2">Grupo Empresa: {grupos.find(grupo => grupo.idGrupoEmpresa === Number(selectedGrupo))?.nombreEmpresa || ' '} </div>
-                            <div className="ml-2">Sprint: {sprints.find(sprint => sprint.idSprint === Number(selectedSprint))?.nomSprint || ' '} </div>
-                            <div className="ml-2">Semana: {selectedSemana ? semanas.find((_, i) => `semana${i + 1}` === selectedSemana)?.nombre : ' '} </div>
+                            <div className="ml-2">Grupo Empresa: {grupos.find(grupo => grupo.idGrupoEmpresa === Number(selectedGrupo))?.nombreEmpresa || ' '}</div>
+                            <div className="ml-2">Sprint: {sprints.find(sprint => sprint.idSprint === Number(selectedSprint))?.nomSprint || ' '}</div>
+                            <div className="ml-2">
+                                Semana: {selectedSemana ? semanas.find(semana => semana.inicio === selectedSemana)?.nombre : ' '}
+                            </div>
                         </div>
                         <div className="w-1/3 p-2 bg-[#32569A] text-white border border-[#32569A] rounded">
-                            Fecha Inicio: {selectedSemana ? semanas.find((_, i) => `semana${i + 1}` === selectedSemana)?.inicio : ' '} - 
-                            Fecha Fin: {selectedSemana ? semanas.find((_, i) => `semana${i + 1}` === selectedSemana)?.fin : ' '}
+                            Fecha Inicio: {selectedSemana ? semanas.find(semana => semana.inicio === selectedSemana)?.inicio : ' '} - 
+                            Fecha Fin: {selectedSemana ? semanas.find(semana => semana.inicio === selectedSemana)?.fin : ' '}
                         </div>
                     </div>
+
 
                     <div className="bg-[#e1d7b7] border-4 border-[#32569A] rounded-lg p-4">
                         <table className="min-w-full bg-[#e1d7b7] border-collapse rounded-lg">
@@ -175,34 +211,62 @@ export default function RegistroEvSemanales() {
                                     <th className="py-2 px-4 border border-solid border-black">HU</th>
                                     <th className="py-2 px-4 border border-solid border-black">Tarea</th>
                                     <th className="py-2 px-4 border border-solid border-black">Links</th>
-                                    <th className="py-2 px-4 border border-solid border-black">Estado tareas</th>
+                                    <th className="py-2 px-4 border border-solid border-black">Fecha Entrega</th>
                                     <th className="py-2 px-4 border border-solid border-black">Calificación</th>
                                     <th className="py-2 px-4 border border-solid border-black">Detalle</th>
                                     <th className="py-2 px-4 border border-solid border-black">Edición</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr className="bg-white text-black">
-                                    <td className="py-2 px-4 border border-solid border-black">Semana 1</td>
-                                    <td className="py-2 px-4 border border-solid border-black">Juan Pérez</td>
-                                    <td className="py-2 px-4 border border-solid border-black">HU01</td>
-                                    <td className="py-2 px-4 border border-solid border-black">Tarea A</td>
-                                    <td className="py-2 px-4 border border-solid border-black">
-                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">Links</button>
-                                    </td>
-                                    <td className="py-2 px-4 border border-solid border-black">Completado</td>
-                                    <td className="py-2 px-4 border border-solid border-black">80/100</td>
-                                    <td className="py-2 px-4 border border-solid border-black">Buen trabajo</td>
-                                    <td className="py-2 px-4 border border-solid border-black">
-                                        <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">Editar</button>
-                                    </td>
-                                </tr>
-                                {/* Otros registros */}
+                                {estudiantes.length > 0 ? (
+                                    estudiantes.map((estudiante, index) => (
+                                        <tr key={index} className="bg-white text-black">
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {selectedSemana} {/* Asegúrate de que este campo exista en los datos */}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.responsable} {/* Cambia esto según la estructura de tu API */}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.HU_idHU} {/* Asegúrate de que este campo exista en los datos */}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.titulo} {/* Asegúrate de que este campo exista en los datos */}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                <button 
+                                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                                onClick={() => handleOpenModal(estudiante)}
+                                                >Links</button>
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {estudiante.fechaEntrega}
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                
+                                            </td>
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">Editar</button>
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="9" className="py-2 px-4 text-center border border-solid border-black">
+                                            No hay estudiantes disponibles para esta semana.
+                                        </td>
+                                    </tr>
+                                )}
                             </tbody>
+
                         </table>
                     </div>
                 </div>
             </div>
+            <ModalLinks isOpen={modalOpen} onClose={() => setModalOpen(false)} estudiante={estudianteSeleccionado} />
             <Copyright />
         </>
     );
