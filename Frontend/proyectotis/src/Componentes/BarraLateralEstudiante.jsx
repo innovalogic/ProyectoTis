@@ -21,8 +21,7 @@ export default function BarraLateral(){
             const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
                 params: { idEstudiante: user.idEstudiante },
             });
-    
-            console.log('Respuesta del servidor:', responseEstudiantes.data); // Verificar qué llega aquí
+            console.log('Respuesta del servidor:', responseEstudiantes.data);
     
             if (responseEstudiantes.data && responseEstudiantes.data.success && Array.isArray(responseEstudiantes.data.datos) && responseEstudiantes.data.datos.length > 0) {
                 const grupoDatos = responseEstudiantes.data.datos[0];
@@ -67,7 +66,6 @@ export default function BarraLateral(){
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Estudiante</h1>
-                    {/* Mostrar el nombre del estudiante si existe */}
                     {!collapsed && user && (
                         <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreEstudiante+" "+user.apellidoEstudiante}</h3>
                     )}
@@ -103,7 +101,6 @@ export default function BarraLateral(){
                     onClick={handleMenuClick} 
                 >
                     Evaluaciones
-                    {error && <span>{error}</span>} 
                 </MenuItem>
 
                 <MenuItem

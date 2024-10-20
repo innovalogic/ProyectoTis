@@ -7,14 +7,17 @@ import { useUser } from "../Componentes/UserContext";
 import { useLocation } from 'react-router-dom';
 
 export default function RecuperarEvaluacionScrum() {
+
+    const { setUser } = useUser();
+    
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [filteredData, setFilteredData] = useState([]);
-    const { setUser } = useUser();
     const [grupoFilter, setGrupoFilter] = useState('');
     const [estudianteFilter, setEstudianteFilter] = useState('');
     const [fechaInicioFilter, setFechaInicioFilter] = useState('');
     const [calificacionFilter, setCalificacionFilter] = useState('');
     const [estadoFilter, setEstadoFilter] = useState('');
+
     const location = useLocation();
     const { datosGrupo } = location.state || {}; 
 
@@ -46,39 +49,48 @@ export default function RecuperarEvaluacionScrum() {
         fetchEstudiantes();
     }, []);
 
+
     const applyFilters = () => {
         let filtered = estudiantesData;
-
-        if (grupoFilter) {
-            filtered = filtered.filter(estudiante => estudiante.grupo === grupoFilter);
-        }
-
+    
         if (estudianteFilter) {
             filtered = filtered.filter(estudiante => 
                 `${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`.toLowerCase().includes(estudianteFilter.toLowerCase())
             );
         }
-
+    
         if (fechaInicioFilter) {
-            filtered = filtered.filter(estudiante => new Date(estudiante.fechaEvaluacion) >= new Date(fechaInicioFilter));
+            filtered = filtered.filter(estudiante => {
+                const fechaEvaluacion = new Date(estudiante.fechaEvaluacion).toDateString();
+                const fechaSeleccionada = new Date(fechaInicioFilter).toDateString();
+                return fechaEvaluacion === fechaSeleccionada;
+            });
         }
-
+    
         if (calificacionFilter) {
-            filtered = filtered.filter(estudiante => 
-                calificacionFilter === "Cualitativa" ? isNaN(estudiante.calificacion) : !isNaN(estudiante.calificacion)
-            );
+            filtered = filtered.filter(estudiante => {
+                const calificacion = parseFloat(estudiante.Calificacion);
+                if (calificacionFilter === "menor_51") {
+                    return calificacion < 51;
+                } else if (calificacionFilter === "mayor_51") {
+                    return calificacion > 51 && calificacion <= 80;
+                } else if (calificacionFilter === "mayor_80") {
+                    return calificacion > 80;
+                }
+                return true;
+            });
         }
-
+    
         if (estadoFilter) {
             if (estadoFilter === "Sin Entregar") {
-                filtered = filtered.filter(estudiante => estudiante.estado === "Sin Entregar");
+                filtered = filtered.filter(estudiante => estudiante.Calificacion === "Sin Entregar"); 
             } else if (estadoFilter === "Entregada") {
-                filtered = filtered.filter(estudiante => !isNaN(estudiante.calificacion));
+                filtered = filtered.filter(estudiante => !isNaN(estudiante.Calificacion)); 
             }
         }
-
+    
         setFilteredData(filtered);
-        setCurrentPage(1);
+        setCurrentPage(1);  
     };
 
     useEffect(() => {
@@ -94,22 +106,19 @@ export default function RecuperarEvaluacionScrum() {
                 <BarraLateralEstudiante />
                 <form className="flex-1 p-4 bg-[#c2d2e9] rounded-md space-y-4">
                     <h1 className="text-2xl font-bold text-center text-[#32569A] mb-4">Recuperar Evaluaciones Scrum</h1>
+
                     <div className="flex items-center gap-4 mb-4">
-                        {/* Imagen */}
                         <img 
                             src={datosGrupo.logoEmpresa} 
                             alt={datosGrupo.nombreCortoEmpresa} 
-                            className="w-24 h-24"  // Tamaño de la imagen ajustado
+                            className="w-24 h-24" 
                         />
 
-                        {/* Contenedor de texto al lado de la imagen */}
                         <div className="flex flex-col">
-                            {/* Nombre Completo más grande */}
                             <p className="text-2xl font-bold">
                                 {datosGrupo.nombreEmpresa}
                             </p>
                             
-                            {/* Nombre Corto más pequeño */}
                             <p className="text-sm text-gray-600">
                                 {datosGrupo.nombreCortoEmpresa}
                             </p>
@@ -130,8 +139,9 @@ export default function RecuperarEvaluacionScrum() {
                             className="px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded w-full"
                         >
                             <option value="">Calificación</option>
-                            <option value="Cualitativa">Cualitativa</option>
-                            <option value="Cuantitativa">Cuantitativa</option>
+                            <option value="menor_51">Menor a 51</option>
+                            <option value="mayor_51">Mayor a 51</option>
+                            <option value="mayor_80">Mayor a 80</option>
                         </select>
 
                         <select 

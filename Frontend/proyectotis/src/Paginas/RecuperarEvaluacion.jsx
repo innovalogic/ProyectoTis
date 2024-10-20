@@ -7,22 +7,19 @@ import axios from 'axios';
 export default function RecuperarEvaluacion() {
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [error, setError] = useState(null);
-    const [filteredData, setFilteredData] = useState([]);
 
+    const [filteredData, setFilteredData] = useState([]);
     const [grupoFilter, setGrupoFilter] = useState('');
     const [estudianteFilter, setEstudianteFilter] = useState('');
     const [fechaInicioFilter, setFechaInicioFilter] = useState('');
-    const [fechaFinFilter, setFechaFinFilter] = useState('');
     const [calificacionFilter, setCalificacionFilter] = useState('');
     const [estadoFilter, setEstadoFilter] = useState('');
 
-    // Paginación
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 25; // Puedes ajustar cuántos elementos mostrar por página
+    const itemsPerPage = 25; 
 
-    // Calcular los datos filtrados para la página actual
     const startIdx = (currentPage - 1) * itemsPerPage;
-    const endIdx = startIdx + itemsPerPage;
+    const endIdx = startIdx + itemsPerPage; 
     const estudiantesDataPaginated = filteredData.slice(startIdx, endIdx);
 
     const handlePageChange = (pageNumber, event) => {
@@ -62,10 +59,6 @@ export default function RecuperarEvaluacion() {
 
         if (fechaInicioFilter) {
             filtered = filtered.filter(estudiante => new Date(estudiante.fechaEvaluacion) >= new Date(fechaInicioFilter));
-        }
-
-        if (fechaFinFilter) {
-            filtered = filtered.filter(estudiante => new Date(estudiante.fechaEvaluacion) <= new Date(fechaFinFilter));
         }
 
         if (calificacionFilter) {
@@ -147,12 +140,6 @@ export default function RecuperarEvaluacion() {
                             className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
                         />
 
-                        <input 
-                            type="date" 
-                            value={fechaFinFilter} 
-                            onChange={e => setFechaFinFilter(e.target.value)}
-                            className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
-                        />
                     </div>
 
                     <div className="bg-[#e1d7b7] border border-[#32569A] rounded-lg p-4">
