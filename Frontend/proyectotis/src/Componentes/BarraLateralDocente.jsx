@@ -68,7 +68,7 @@ export default function BarraLateral(){
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
                     icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                    component={<Link to="/InicioEstudiante" />}
+                    component={<Link to="/RecuperarEvaluacion" />}
                 >
                     Evaluaciones
                 </MenuItem>

@@ -23,6 +23,7 @@ export default function RecuperarEvaluacion() {
     const estudiantesDataPaginated = filteredData.slice(startIdx, endIdx);
 
     const handlePageChange = (pageNumber, event) => {
+        event.preventDefault();
         setCurrentPage(pageNumber);
     };
 
@@ -46,40 +47,50 @@ export default function RecuperarEvaluacion() {
 
     const applyFilters = () => {
         let filtered = estudiantesData;
-
-        if (grupoFilter) {
-            filtered = filtered.filter(estudiante => estudiante.grupo === grupoFilter);
-        }
-
+    
         if (estudianteFilter) {
             filtered = filtered.filter(estudiante => 
                 `${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`.toLowerCase().includes(estudianteFilter.toLowerCase())
             );
         }
-
+    
         if (fechaInicioFilter) {
-            filtered = filtered.filter(estudiante => new Date(estudiante.fechaEvaluacion) >= new Date(fechaInicioFilter));
+            filtered = filtered.filter(estudiante => {
+                const fechaEvaluacion = new Date(estudiante.fechaEvaluacion).toDateString();
+                const fechaSeleccionada = new Date(fechaInicioFilter).toDateString();
+                return fechaEvaluacion === fechaSeleccionada;
+            });
         }
-
+    
         if (calificacionFilter) {
-            if (calificacionFilter === "Cualitativa") {
-                filtered = filtered.filter(estudiante => isNaN(estudiante.calificacion));
-            } else if (calificacionFilter === "Cuantitativa") {
-                filtered = filtered.filter(estudiante => !isNaN(estudiante.calificacion));
+            filtered = filtered.filter(estudiante => {
+                const calificacion = parseFloat(estudiante.Calificacion);
+                if (calificacionFilter === "menor_51") {
+                    return calificacion < 51;
+                } else if (calificacionFilter === "mayor_51") {
+                    return calificacion > 51 && calificacion <= 80;
+                } else if (calificacionFilter === "mayor_80") {
+                    return calificacion > 80;
+                }
+                return true;
+            });
+        }
+    
+        if (estadoFilter) {
+            if (estadoFilter === "Sin Entregar") {
+                filtered = filtered.filter(estudiante => estudiante.Calificacion === "Sin Entregar"); 
+            } else if (estadoFilter === "Entregada") {
+                filtered = filtered.filter(estudiante => !isNaN(estudiante.Calificacion)); 
             }
         }
-
-        if (estadoFilter) {
-            filtered = filtered.filter(estudiante => estudiante.estado === estadoFilter);
-        }
-
+    
         setFilteredData(filtered);
-        setCurrentPage(1); // Resetear a la primera página cuando se aplican filtros
+        setCurrentPage(1);  
     };
 
     useEffect(() => {
         applyFilters();
-    }, [grupoFilter, estudianteFilter, fechaInicioFilter, fechaFinFilter, calificacionFilter, estadoFilter]);
+    }, [grupoFilter, estudianteFilter, fechaInicioFilter, calificacionFilter, estadoFilter]);
 
     const gruposUnicos = [...new Set(estudiantesData.map(estudiante => estudiante.grupo))];
 
@@ -146,34 +157,34 @@ export default function RecuperarEvaluacion() {
                         <table className="min-w-full bg-[#e1d7b7] border-collapse rounded-lg">
                             <thead>
                                 <tr className="bg-[#e1d7b7] text-black">
-                                    <th className="py-2 px-4 border border-solid border-black">Fecha</th>
+                                    <th className="py-2 px-4 border border-solid border-black">Fecha Entrega</th>
                                     <th className="py-2 px-4 border border-solid border-black">Estudiante</th>
-                                    <th className="py-2 px-4 border border-solid border-black">Grupo</th>
-                                    <th className="py-2 px-4 border border-solid border-black">Actividad</th> 
+                                    <th className="py-2 px-4 border border-solid border-black">HU</th>
+                                    <th className="py-2 px-4 border border-solid border-black">Tarea</th> 
                                     <th className="py-2 px-4 border border-solid border-black">Calificación</th> 
-                                    <th className="py-2 px-4 border border-solid border-black">Detalle</th> 
+                                    <th className="py-2 px-4 border border-solid border-black">Comentario</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                 {estudiantesDataPaginated.map((estudiante) => (
-                                    <tr key={estudiante.idEvaluacion}>
+                                    <tr key={estudiante.idevaluacion}>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.fechaEvaluacion}
+                                            {estudiante.fechaEntrega}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.nombreEstudiante}
+                                            {estudiante.estudiante}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.nombreGrupo}
+                                            {estudiante.HU_idHU}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.Actividad}
+                                            {estudiante.tarea}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.Calificacion}
+                                            {estudiante.calificacion}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.Detalle}
+                                            {estudiante.comentario}
                                         </td>
                                     </tr>
                                 ))}
