@@ -14,6 +14,8 @@ export default function InicioEstudiante() {
   const [tarea, setTareas] = useState([]);// Estado para almacenar los tareas
   const [selectedHu,setSelectedHu] = useState("");// Estado para el HU seleccionado
   const [selectedTarea, setSelectedTarea] = useState("");
+  const [tabla, setTabla] = useState([]);
+
   
 
 
@@ -122,8 +124,34 @@ export default function InicioEstudiante() {
     console.log("sprintSeleccionado:", sprintSeleccionado);
     console.log("idEstudiante:", idEstudiante)
   };
-  
-  
+
+    const fetchTablaAvances = async () => {
+      if (idEstudiante) {
+        try {
+          const response = await fetch('http://localhost/ProyectoTis/Backend/tablaAvances.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ idEstudiante })
+          });
+   
+          const text = await response.text();
+          const data = JSON.parse(text);
+          console.log(data); // Verifica qué datos recibes
+          setTabla(data.tabla || []); // Usa data.tabla aquí
+        } catch (error) {
+          console.error('Error al obtener los datos:', error);
+        }
+      }
+    };
+
+    useEffect(() => {
+      fetchTablaAvances();
+    }, [idEstudiante]);
+
+
+
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -134,7 +162,7 @@ export default function InicioEstudiante() {
   };
 
  // Función para manejar el envío del formulario
- const handleSubmit = async (event) => {
+ const handleSubmit = async (event, nombreArchivo) => {
   event.preventDefault(); // Evitar la recarga de la página
 
   const formData = new FormData();
@@ -153,6 +181,11 @@ export default function InicioEstudiante() {
     formData.append("archivo", file); // Agregar el archivo solo una vez
     archivoSubido = true; // Marcamos que se ha subido un archivo
   }
+  // Adjunta el nombre del archivo si está disponible
+  if (nombreArchivo) {
+    formData.append("nombreArchivo", nombreArchivo);
+  }
+
 
   // Obtener el enlace del input 'link-upload'
   const linkInput = document.querySelector('#link-upload').value;
@@ -195,6 +228,7 @@ export default function InicioEstudiante() {
 
     // Cerrar el modal si la carga fue exitosa
     setModalVisible(false);
+    fetchTablaAvances();
   } catch (error) {
     console.error('Error al subir el archivo o enlace:', error);
     alert('Ocurrió un error al intentar subir el archivo o enlace. Por favor, inténtalo de nuevo.');
@@ -246,42 +280,55 @@ export default function InicioEstudiante() {
           </div>
 
           <div className="mt-8">
-            <h2 className="text-2xl font-semibold mb-4" style={{ color: "#1E3664" }}>
-              Tabla de Avances:
-            </h2>
-            <div className="w-full h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm" style={{ height: "350px", backgroundColor: "#1E3664", borderRadius: "45px" }}>
-              {/* Tabla de Avances */}
-              <table className="w-full text-white">
-                <thead>
-                  <tr>
-                    <th className="p-2 border-b">Sprint</th>
-                    <th className="p-2 border-b">Historia de Usuario</th>
-                    <th className="p-2 border-b">Tarea</th>
-                    <th className="p-2 border-b">Archivo</th>
-                    <th className="p-2 border-b">Link</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="p-2 border-b">1</td>
-                    <td className="p-2 border-b">Crear Login</td>
-                    <td className="p-2 border-b">Diseñar la interfaz</td>
-                    <td className="p-2 border-b">login.png</td>
-                    <td className="p-2 border-b">www.drive.com</td>
-                  </tr>
-                  
-                  <tr>
-                  <td className="p-2 border-b">2</td>
-                    <td className="p-2 border-b">Crear Login</td>
-                    <td className="p-2 border-b">Diseñar la interfaz</td>
-                    <td className="p-2 border-b">login.png</td>
-                    <td className="p-2 border-b">www.drive.com</td>
-                  </tr>
-                  
-                  {/* Agrega más filas aquí */}
-                </tbody>
-              </table>
-            </div>
+          <h2 className="font-semibold text-3xl"style={{ color: "#1E3664" }}>Tabla de Avances:</h2>
+<div
+    className="w-full h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm"
+    style={{ height: "350px", backgroundColor: "#1E3664", borderRadius: "45px" }}
+>
+    {/* Tabla de Avances */}
+    <table className="w-full text-white">
+        <thead>
+            <tr>
+                <th className="p-2 border-b">Sprint</th>
+                <th className="p-2 border-b">Historia de Usuario</th>
+                <th className="p-2 border-b">Tarea</th>
+                <th className="p-2 border-b">Archivo</th>
+                <th className="p-2 border-b">Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            {tabla.length > 0 ? (
+                tabla.map((sprint, index) => (
+                    <tr key={index}>
+                        <td className="p-2 border-b">{sprint.Sprint}</td> {/* Nombre del sprint */}
+                        <td className="p-2 border-b">{sprint.HistoriaUsuario}</td> {/* Título de la historia de usuario */}
+                        <td className="p-2 border-b">{sprint.Tarea}</td> {/* Título de la tarea */}
+                        <td className="p-2 border-b">
+    <a 
+        href={`data:application/pdf;base64,${sprint.Archivo}`} 
+        download={sprint.NombreArchivo || 'archivo.pdf'} 
+        target="_blank" 
+        rel="noopener noreferrer"
+    >
+        {sprint.NombreArchivo }
+    </a>
+</td>
+                        <td className="p-2 border-b">
+                            <a href={sprint.Link} target="_blank" rel="noopener noreferrer">
+                                {sprint.Link} {/* Enlace al archivo o recurso */}
+                            </a>
+                        </td>
+                    </tr>
+                ))
+            ) : (
+                <tr>
+                    <td colSpan="5" className="p-2 border-b text-center">No hay datos disponibles</td>
+                </tr>
+            )}
+        </tbody>
+    </table>
+</div>
+
 
 
             {/* Botón para subir avance */}
