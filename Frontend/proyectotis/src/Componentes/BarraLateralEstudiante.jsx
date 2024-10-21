@@ -22,23 +22,6 @@ export default function BarraLateral(){
         alert('Has cerrado sesión.');
     };
 
-    const cargarDatosMiembro = async (idEstudiante) => {
-        try {
-            const response = await axios.get('http://localhost/proyectotis/backend/CargarGrupo.php', {
-                params: { idEstudiante }
-            });
-    
-            if (response.data && response.data.success && Array.isArray(response.data.datos) && response.data.datos.length > 0) {
-                return response.data.datos[0]; 
-            } else {
-                return null; 
-            }
-        } catch (error) {
-            console.error('Error al cargar los datos del grupo:', error.message);
-            return null; 
-        }
-    };
-
     const handleMenuClick = async () => {
         try {
             const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {

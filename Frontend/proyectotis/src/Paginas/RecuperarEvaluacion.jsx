@@ -55,18 +55,17 @@ export default function RecuperarEvaluacion() {
             });
 
             if (response.data && response.data.success && Array.isArray(response.data.datos)) {
-                // Asignamos tanto idGrupoEmpresa como nombreCortoEmpresa
                 setGrupos(response.data.datos.map(dato => ({
                     idGrupoEmpresa: dato.idGrupoEmpresa,
                     nombreCortoEmpresa: dato.nombreCortoEmpresa
                 })));
                 console.log(grupos)
             } else {
-                setGrupos([]); // Limpiamos si no hay datos
+                setGrupos([]); 
             }
         } catch (error) {
             console.error('Error al cargar los datos del grupo:', error.message);
-            setGrupos([]); // Limpiamos en caso de error
+            setGrupos([]); 
         }
     };
 
