@@ -15,7 +15,7 @@ export default function RecuperarEvaluacion() {
     const [fechaInicioFilter, setFechaInicioFilter] = useState('');
     const [calificacionFilter, setCalificacionFilter] = useState('');
     const [estadoFilter, setEstadoFilter] = useState('');
-
+    const [grupos, setGrupos] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 25; 
 
@@ -32,7 +32,7 @@ export default function RecuperarEvaluacion() {
         const fetchEstudiantes = async () => {
             try {
                 const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluaciones.php', {
-                    params: { idDocente: 1 },
+                    params: { idDocente: 2 },
                 });
                 if (response.data.success === true) {
                     setEstudiantesData(response.data.datos);
@@ -48,14 +48,39 @@ export default function RecuperarEvaluacion() {
         fetchEstudiantes();
     }, []);
 
+    const cargarDatosGrupo = async (idDocente) => {
+        try {
+            const response = await axios.get('http://localhost/proyectotis/backend/CargarGrupoDocente.php', {
+                params: { idDocente }
+            });
+
+            if (response.data && response.data.success && Array.isArray(response.data.datos)) {
+                // Asignamos tanto idGrupoEmpresa como nombreCortoEmpresa
+                setGrupos(response.data.datos.map(dato => ({
+                    idGrupoEmpresa: dato.idGrupoEmpresa,
+                    nombreCortoEmpresa: dato.nombreCortoEmpresa
+                })));
+                console.log(grupos)
+            } else {
+                setGrupos([]); // Limpiamos si no hay datos
+            }
+        } catch (error) {
+            console.error('Error al cargar los datos del grupo:', error.message);
+            setGrupos([]); // Limpiamos en caso de error
+        }
+    };
+
+    useEffect(() => {
+        cargarDatosGrupo(2); 
+    }, []);
+
     const applyFilters = () => {
         let filtered = estudiantesData;
 
         if (grupoFilter) {
-            filtered = filtered.filter(estudiante => 
-                estudiante.grupo?.trim().toLowerCase() === grupoFilter.trim().toLowerCase()
-            );
+            filtered = filtered.filter(estudiante => estudiante.grupo === Number(grupoFilter)); // Convertir a número si es necesario
         }
+    
     
         if (estudianteFilter) {
             filtered = filtered.filter(estudiante => 
@@ -103,7 +128,6 @@ export default function RecuperarEvaluacion() {
         }
     }, [grupoFilter, estudianteFilter, fechaInicioFilter, calificacionFilter, estadoFilter, estudiantesData]);
 
-    const gruposUnicos = [...new Set(estudiantesData.map(estudiante => estudiante.grupo))];
 
     const totalPages = Math.ceil(filteredData.length / itemsPerPage); 
 
@@ -124,15 +148,17 @@ export default function RecuperarEvaluacion() {
                             className="flex-1 px-4 py-2 bg-[#efe7dc] text-black border border-black rounded" 
                         />
 
-                        <select 
-                            value={grupoFilter} 
-                            onChange={e => setGrupoFilter(e.target.value)}
+                        <select
+                            value={grupoFilter}
+                            onChange={e => setGrupoFilter(Number(e.target.value))}
                             className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
                             aria-label="Seleccionar grupo"
                         >
                             <option value="">Grupo</option>
-                            {gruposUnicos.map((grupo, index) => (
-                                <option key={index} value={grupo}>{grupo}</option>
+                            {grupos.map((grupo) => (
+                                <option key={grupo.idGrupoEmpresa} value={grupo.idGrupoEmpresa}>
+                                    {grupo.nombreCortoEmpresa}
+                                </option>
                             ))}
                         </select>
 
