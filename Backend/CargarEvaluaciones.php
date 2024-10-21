@@ -1,49 +1,42 @@
 <?php
-// Habilitar la visualización de errores
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
+ob_start();
 header("Access-Control-Allow-Origin:*"); 
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json; charset=UTF-8");
 
-// Iniciar un buffer de salida para capturar cualquier salida inesperada
-ob_start();
-
 include_once 'db.php';
 
-// Manejar solicitudes OPTIONS preflight
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(204);
-    exit;
-}
+$idDocente = isset($_GET['idDocente']) ? $_GET['idDocente'] : null;
 
-/**
- * Obtener estudiantes desde la base de datos.
- *
- * @param PDO $pdo Instancia de PDO para la conexión a la base de datos.
- * @return array Resultado de la consulta.
- */
-function getEstudiantes($pdo) {
-    $query = 'SELECT "idevaluacion", "semana", "idEstudiante", "estudiante", "tarea", "calificacion", "comentario", "grupo", "fechaEntrega", "idTarea", "HU_idHU", "HU_Sprint_idSprint", "HU_Sprint_GrupoEmpresa_idGrupoEmpresa","idDocente" FROM "evaluacionsemanal"';
-    $stmt = $pdo->prepare($query);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+if (!empty($idDocente)) {
+    try {
+        $query = 'SELECT "idevaluacion", "semana", "idEstudiante", "estudiante", "tarea", "calificacion", "comentario", "grupo", "fechaEntrega", "idTarea", "HU_idHU", "HU_Sprint_idSprint", "HU_Sprint_GrupoEmpresa_idGrupoEmpresa", "idDocente" 
+                  FROM "evaluacionsemanal" 
+                  WHERE "idDocente" = :idDocente';
 
-// Ejecutar la lógica principal
-try {
-    ob_clean(); // Limpiar el buffer de salida antes de enviar la respuesta
-    $result = getEstudiantes($pdo);
-    echo json_encode(['success' => true, 'datos' => $result]); // Cambia 'data' a 'datos'
-} catch (PDOException $e) {
-    // Devolver error detallado para fines de depuración (puedes cambiar esto en producción)
-    http_response_code(500); // Código de estado HTTP 500 para error interno del servidor
-    echo json_encode(['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()]);
-} catch (Exception $e) {
-    // Manejo de excepciones generales
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Error inesperado: ' . $e->getMessage()]);
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':idDocente', $idDocente, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if (!empty($result)) {
+                ob_end_clean();
+                echo json_encode(['success' => true, 'datos' => $result]);
+            } else {
+                ob_end_clean();
+                echo json_encode(['success' => false, 'message' => 'No se encontraron evaluaciones para el docente.']);
+            }
+        } else {
+            ob_end_clean();
+            echo json_encode(['success' => false, 'message' => 'Error al ejecutar la consulta']);
+        }
+    } catch (PDOException $e) {
+        ob_end_clean();
+        echo json_encode(['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()]);
+    }
+} else {
+    ob_end_clean();
+    echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
 }
 ?>

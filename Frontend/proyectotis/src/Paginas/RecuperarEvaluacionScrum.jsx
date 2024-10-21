@@ -55,13 +55,13 @@ export default function RecuperarEvaluacionScrum() {
     
         if (estudianteFilter) {
             filtered = filtered.filter(estudiante => 
-                `${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`.toLowerCase().includes(estudianteFilter.toLowerCase())
+                `${estudiante.estudiante}`.toLowerCase().includes(estudianteFilter.toLowerCase())
             );
         }
     
         if (fechaInicioFilter) {
             filtered = filtered.filter(estudiante => {
-                const fechaEvaluacion = new Date(estudiante.fechaEvaluacion).toDateString();
+                const fechaEvaluacion = new Date(estudiante.fechaEntrega).toDateString();
                 const fechaSeleccionada = new Date(fechaInicioFilter).toDateString();
                 return fechaEvaluacion === fechaSeleccionada;
             });
@@ -69,7 +69,7 @@ export default function RecuperarEvaluacionScrum() {
     
         if (calificacionFilter) {
             filtered = filtered.filter(estudiante => {
-                const calificacion = parseFloat(estudiante.Calificacion);
+                const calificacion = parseFloat(estudiante.calificacion);
                 if (calificacionFilter === "menor_51") {
                     return calificacion < 51;
                 } else if (calificacionFilter === "mayor_51") {
@@ -83,9 +83,9 @@ export default function RecuperarEvaluacionScrum() {
     
         if (estadoFilter) {
             if (estadoFilter === "Sin Entregar") {
-                filtered = filtered.filter(estudiante => estudiante.Calificacion === "Sin Entregar"); 
+                filtered = filtered.filter(estudiante => estudiante.calificacion === "Sin Entregar"); 
             } else if (estadoFilter === "Entregada") {
-                filtered = filtered.filter(estudiante => !isNaN(estudiante.Calificacion)); 
+                filtered = filtered.filter(estudiante => !isNaN(estudiante.calificacion)); 
             }
         }
     
@@ -163,37 +163,37 @@ export default function RecuperarEvaluacionScrum() {
                     </div>
 
                     <div className="bg-[#c2d2e9] border border-[#c2d2e9] rounded-lg p-4">
-                        <table className="min-w-full bg-[#c2d2e9] border-collapse rounded-lg">
+                    <table className="min-w-full bg-[#e1d7b7] border-collapse rounded-lg">
                             <thead>
-                                <tr className="text-black">
-                                    <th className="py-2 px-4 border border-solid border-black">Fecha</th>
+                                <tr className="bg-[#e1d7b7] text-black">
+                                    <th className="py-2 px-4 border border-solid border-black">Fecha Entrega</th>
                                     <th className="py-2 px-4 border border-solid border-black">Estudiante</th>
-                                    <th className="py-2 px-4 border border-solid border-black">Grupo</th>
-                                    <th className="py-2 px-4 border border-solid border-black">Actividad</th> 
+                                    <th className="py-2 px-4 border border-solid border-black">HU</th>
+                                    <th className="py-2 px-4 border border-solid border-black">Tarea</th> 
                                     <th className="py-2 px-4 border border-solid border-black">Calificación</th> 
-                                    <th className="py-2 px-4 border border-solid border-black">Detalle</th> 
+                                    <th className="py-2 px-4 border border-solid border-black">Comentario</th> 
                                 </tr>
                             </thead>
                             <tbody>
                                 {estudiantesDataPaginated.map((estudiante) => (
-                                    <tr key={estudiante.idEvaluacion}>
+                                    <tr key={estudiante.idevaluacion}>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.fechaEvaluacion}
+                                            {estudiante.fechaEntrega}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.nombreEstudiante}
+                                            {estudiante.estudiante}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.nombreGrupo}
+                                            {estudiante.HU_idHU}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.Actividad}
+                                            {estudiante.tarea}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.Calificacion}
+                                            {estudiante.calificacion}
                                         </td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                            {estudiante.Detalle}
+                                            {estudiante.comentario}
                                         </td>
                                     </tr>
                                 ))}

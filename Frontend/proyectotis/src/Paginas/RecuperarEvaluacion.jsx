@@ -3,6 +3,7 @@ import Copyright from '../Componentes/BarraCopyright';
 import BarraLateralDocente from '../Componentes/BarraLateralDocente';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useUser } from "../Componentes/UserContext";
 
 export default function RecuperarEvaluacion() {
     const [estudiantesData, setEstudiantesData] = useState([]); 
@@ -30,7 +31,9 @@ export default function RecuperarEvaluacion() {
     useEffect(() => {
         const fetchEstudiantes = async () => {
             try {
-                const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluaciones.php');
+                const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluaciones.php', {
+                    params: { idDocente: 1 },
+                });
                 if (response.data.success === true) {
                     setEstudiantesData(response.data.datos);
                     setFilteredData(response.data.datos); 
@@ -47,16 +50,20 @@ export default function RecuperarEvaluacion() {
 
     const applyFilters = () => {
         let filtered = estudiantesData;
+
+        if (grupoFilter) {
+            filtered = filtered.filter(estudiante => estudiante.grupo === grupoFilter);
+        }
     
         if (estudianteFilter) {
             filtered = filtered.filter(estudiante => 
-                `${estudiante.nombreEstudiante} ${estudiante.apellidoEstudiante}`.toLowerCase().includes(estudianteFilter.toLowerCase())
+                `${estudiante.estudiante} `.toLowerCase().includes(estudianteFilter.toLowerCase())
             );
         }
     
         if (fechaInicioFilter) {
             filtered = filtered.filter(estudiante => {
-                const fechaEvaluacion = new Date(estudiante.fechaEvaluacion).toDateString();
+                const fechaEvaluacion = new Date(estudiante.fechaEntrega).toDateString();
                 const fechaSeleccionada = new Date(fechaInicioFilter).toDateString();
                 return fechaEvaluacion === fechaSeleccionada;
             });
@@ -64,7 +71,7 @@ export default function RecuperarEvaluacion() {
     
         if (calificacionFilter) {
             filtered = filtered.filter(estudiante => {
-                const calificacion = parseFloat(estudiante.Calificacion);
+                const calificacion = parseFloat(estudiante.calificacion);
                 if (calificacionFilter === "menor_51") {
                     return calificacion < 51;
                 } else if (calificacionFilter === "mayor_51") {
@@ -94,7 +101,7 @@ export default function RecuperarEvaluacion() {
 
     const gruposUnicos = [...new Set(estudiantesData.map(estudiante => estudiante.grupo))];
 
-    const totalPages = Math.ceil(filteredData.length / itemsPerPage); // Total de páginas
+    const totalPages = Math.ceil(filteredData.length / itemsPerPage); 
 
     return (
         <>
@@ -113,25 +120,27 @@ export default function RecuperarEvaluacion() {
                             className="flex-1 px-4 py-2 bg-[#efe7dc] text-black border border-black rounded" 
                         />
 
-                        <select 
-                            value={grupoFilter} 
-                            onChange={e => setGrupoFilter(e.target.value)}
-                            className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
-                        >
-                            <option value="">Grupo</option>
-                            {gruposUnicos.map((grupo, index) => (
-                                <option key={index} value={grupo}>{grupo}</option>
-                            ))}
-                        </select>
+                            <select 
+                                value={grupoFilter} 
+                                onChange={e => setGrupoFilter(e.target.value)}
+                                className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
+                                aria-label="Seleccionar grupo"
+                            >
+                                <option value="">Grupo</option>
+                                {gruposUnicos.map((grupo, index) => (
+                                    <option key={index} value={grupo}>{grupo}</option>
+                                ))}
+                            </select>
 
                         <select 
                             value={calificacionFilter} 
                             onChange={e => setCalificacionFilter(e.target.value)}
-                            className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
+                            className="px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded "
                         >
                             <option value="">Calificación</option>
-                            <option value="Cualitativa">Cualitativa</option>
-                            <option value="Cuantitativa">Cuantitativa</option>
+                            <option value="menor_51">Menor a 51</option>
+                            <option value="mayor_51">Mayor a 51</option>
+                            <option value="mayor_80">Mayor a 80</option>
                         </select>
 
                         <select 
@@ -140,7 +149,7 @@ export default function RecuperarEvaluacion() {
                             className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
                         >
                             <option value="">Estado</option>
-                            <option value="Revisada">Revisada</option>
+                            <option value="Revisada">Entregada</option>
                             <option value="Sin Entregar">Sin Entregar</option>
                         </select>
 
@@ -196,7 +205,7 @@ export default function RecuperarEvaluacion() {
                         <button 
                             key={page} 
                             onClick={(e) => {
-                                e.preventDefault(); // Evitar recarga
+                                e.preventDefault(); 
                                 handlePageChange(page);
                             }} 
                             className={`py-2 px-4 ${page === currentPage ? 'bg-[#32569A] text-white' : 'bg-[#e1d7b7] text-black'} rounded mx-1`}
