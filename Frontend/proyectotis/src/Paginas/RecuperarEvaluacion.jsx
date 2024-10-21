@@ -52,7 +52,9 @@ export default function RecuperarEvaluacion() {
         let filtered = estudiantesData;
 
         if (grupoFilter) {
-            filtered = filtered.filter(estudiante => estudiante.grupo === grupoFilter);
+            filtered = filtered.filter(estudiante => 
+                estudiante.grupo?.trim().toLowerCase() === grupoFilter.trim().toLowerCase()
+            );
         }
     
         if (estudianteFilter) {
@@ -96,8 +98,10 @@ export default function RecuperarEvaluacion() {
     };
 
     useEffect(() => {
-        applyFilters();
-    }, [grupoFilter, estudianteFilter, fechaInicioFilter, calificacionFilter, estadoFilter]);
+        if (estudiantesData.length > 0) {
+            applyFilters();
+        }
+    }, [grupoFilter, estudianteFilter, fechaInicioFilter, calificacionFilter, estadoFilter, estudiantesData]);
 
     const gruposUnicos = [...new Set(estudiantesData.map(estudiante => estudiante.grupo))];
 
@@ -120,17 +124,17 @@ export default function RecuperarEvaluacion() {
                             className="flex-1 px-4 py-2 bg-[#efe7dc] text-black border border-black rounded" 
                         />
 
-                            <select 
-                                value={grupoFilter} 
-                                onChange={e => setGrupoFilter(e.target.value)}
-                                className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
-                                aria-label="Seleccionar grupo"
-                            >
-                                <option value="">Grupo</option>
-                                {gruposUnicos.map((grupo, index) => (
-                                    <option key={index} value={grupo}>{grupo}</option>
-                                ))}
-                            </select>
+                        <select 
+                            value={grupoFilter} 
+                            onChange={e => setGrupoFilter(e.target.value)}
+                            className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"
+                            aria-label="Seleccionar grupo"
+                        >
+                            <option value="">Grupo</option>
+                            {gruposUnicos.map((grupo, index) => (
+                                <option key={index} value={grupo}>{grupo}</option>
+                            ))}
+                        </select>
 
                         <select 
                             value={calificacionFilter} 
