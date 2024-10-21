@@ -34,32 +34,55 @@ const NavbarInicioDeSesion = () => {
           </div>
         </div>
 
-        {/* Menú de registro e iniciar sesión */}
-        {!shouldHideLinks && !user && ( // Solo muestra los enlaces si el user es null
-          <div className="flex justify-end items-center space-x-8">
-            {/* Enlace absoluto para "Registrarse" */}
-            <NavLink 
-              to="/RegistroEstudiante"  // Asegúrate de que la ruta es absoluta
-              className="text-custom-bg hover:bg-[#1E3664] hover:text-white p-2 rounded-lg text-xl no-underline transition duration-300"
-            >
-              Registrarse
-            </NavLink>
+        {/* Menú de registro e iniciar sesión o links según el usuario */}
+        <div className="flex justify-end items-center space-x-8">
+          {!shouldHideLinks && !user && ( // Mostrar "Registrarse" e "Iniciar Sesión" si no hay usuario logueado
+            <>
+              <NavLink 
+                to="/RegistroEstudiante"  // Asegúrate de que la ruta es absoluta
+                className="text-custom-bg hover:bg-[#1E3664] hover:text-white p-2 rounded-lg text-xl no-underline transition duration-300"
+              >
+                Registrarse
+              </NavLink>
 
-            {/* Dropdown para Iniciar Sesión con rutas absolutas */}
-            <NavDropdown 
-              title={<span className="text-xl no-underline hover:bg-[#1E3664] hover:text-white p-2 rounded-lg transition duration-300">Iniciar Sesión</span>} 
-              id="basic-nav-dropdown" 
-              className="text-custom-bg no-underline"
-            >
-              <NavDropdown.Item as={NavLink} to="/InicioSesionEstudiante" className="nav-link">
-                Estudiante
-              </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/InicioSesionDocente" className="nav-link">
-                Docente
-              </NavDropdown.Item>
-            </NavDropdown>
-          </div>
-        )}
+              <NavDropdown 
+                title={<span className="text-xl no-underline hover:bg-[#1E3664] hover:text-white p-2 rounded-lg transition duration-300">Iniciar Sesión</span>} 
+                id="basic-nav-dropdown" 
+                className="text-custom-bg no-underline"
+              >
+                <NavDropdown.Item as={NavLink} to="/InicioSesionEstudiante" className="nav-link">
+                  Estudiante
+                </NavDropdown.Item>
+                <NavDropdown.Item as={NavLink} to="/InicioSesionDocente" className="nav-link">
+                  Docente
+                </NavDropdown.Item>
+              </NavDropdown>
+            </>
+          )}
+
+          {user?.idEstudiante && ( // Mostrar enlaces para el estudiante si está logueado como estudiante
+            <>
+              <NavLink 
+                to="/InicioEstudiante" 
+                className="text-custom-bg hover:bg-[#1E3664] hover:text-white p-2 rounded-lg text-xl no-underline transition duration-300"
+              >
+                Mi Área de Estudiante
+              </NavLink>
+            </>
+          )}
+
+          {user?.nombreDocente && ( // Mostrar enlaces para el docente si está logueado como docente
+            <>
+              <NavLink 
+                to="/InicioDocente" 
+                className="text-custom-bg hover:bg-[#1E3664] hover:text-white p-2 rounded-lg text-xl no-underline transition duration-300"
+              >
+                Mi Área de Docente
+              </NavLink>
+            </>
+          )}
+
+        </div>
       </div>
     </nav>
   );

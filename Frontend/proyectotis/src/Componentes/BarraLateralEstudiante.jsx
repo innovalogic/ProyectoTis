@@ -6,6 +6,7 @@ import { useUser } from "./UserContext";
 import React, { useEffect } from 'react';
 import axios from 'axios';
 
+
 export default function BarraLateral(){
 
     const { setUser } = useUser();
@@ -14,6 +15,12 @@ export default function BarraLateral(){
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [grupoData, setGrupoData] = useState([]); 
     const [error, setError] = useState(null);
+
+    const handleLogout = () => {
+        setUser(null); // Borra el contexto de usuario
+        alert('Has cerrado sesión.');
+    };
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -149,13 +156,14 @@ export default function BarraLateral(){
 
 
                 <div className="mt-auto">
-                    <MenuItem
-                        className="text-[#EFE7DC] font-bold"
-                        onClick={() => alert('Has cerrado sesión.')}
-                        icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
-                    >
-                        Cerrar sesión
-                    </MenuItem>
+                            <MenuItem
+                                className="text-[#EFE7DC] font-bold"
+                                onClick={handleLogout} // Llama a la función de cierre de sesión
+                                icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
+                                component={<Link to="/" />}
+                            >
+                                Cerrar sesión
+                            </MenuItem>
                     </div>
                 </Menu>
              </div>
