@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom"; 
 
 
+
 export default function BarraLateral(){
 
     const { setUser } = useUser();
@@ -15,6 +16,11 @@ export default function BarraLateral(){
     const { user } = useUser();
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+    const handleLogout = () => {
+        setUser(null); // Borra el contexto de usuario
+        alert('Has cerrado sesión.');
+    };
 
     const cargarDatosMiembro = async (idEstudiante) => {
         try {
@@ -38,7 +44,7 @@ export default function BarraLateral(){
             const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
                 params: { idEstudiante: user.idEstudiante },
             });
-            console.log('Respuesta del servidor:', responseEstudiantes.data);
+            console.log('Respuesta del servidor:', responseEstudiantes.data, user.idEstudiante);
     
             if (responseEstudiantes.data && responseEstudiantes.data.success && Array.isArray(responseEstudiantes.data.datos) && responseEstudiantes.data.datos.length > 0) {
                 const grupoDatos = responseEstudiantes.data.datos[0];
@@ -47,6 +53,7 @@ export default function BarraLateral(){
                 } else {
                     const datosMiembro = await cargarDatosMiembro(user.idEstudiante);
                     navigate('/RecuperarEvaluacionMiembro', { state: { datosGrupo: datosMiembro } });
+                    console.log('Respuesta del servidor:', { state: { datosGrupo: datosMiembro } });
                 }
             } else {
                 const datosMiembro = await cargarDatosMiembro(user.idEstudiante);
@@ -159,13 +166,14 @@ export default function BarraLateral(){
 
 
                 <div className="mt-auto">
-                    <MenuItem
-                        className="text-[#EFE7DC] font-bold"
-                        onClick={() => alert('Has cerrado sesión.')}
-                        icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
-                    >
-                        Cerrar sesión
-                    </MenuItem>
+                            <MenuItem
+                                className="text-[#EFE7DC] font-bold"
+                                onClick={handleLogout} // Llama a la función de cierre de sesión
+                                icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
+                                component={<Link to="/" />}
+                            >
+                                Cerrar sesión
+                            </MenuItem>
                     </div>
                 </Menu>
              </div>

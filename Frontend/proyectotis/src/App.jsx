@@ -14,6 +14,7 @@ import RecuperarEvaluacionScrum from './Paginas/RecuperarEvaluacionScrum';
 import RecuperarEvaluacionMiembro from './Paginas/RecuperarEvaluacionMiembro';
 import AvancesEstudiante from './Paginas/AvancesEstudiante';
 import RegistroEvSemanales from './Paginas/RegistroEvSemanales';
+import InicioDocente from './Paginas/InicioDocente';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="RecuperarEvaluacionMiembro" element={<RecuperarEvaluacionMiembro/>}/>
         <Route path="AvancesEstudiante" element={<AvancesEstudiante/>}/>
         <Route path="RegistroEvSemanales" element={<RegistroEvSemanales/>}/>
+        <Route path="InicioDocente" element={<InicioDocente/>}/>
       </Routes>
     </Router>
     </UserProvider>

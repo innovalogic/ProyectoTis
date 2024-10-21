@@ -53,12 +53,6 @@ export default function RecuperarEvaluacionScrum() {
     const applyFilters = () => {
         let filtered = estudiantesData;
     
-        if (estudianteFilter) {
-            filtered = filtered.filter(estudiante => 
-                `${estudiante.estudiante}`.toLowerCase().includes(estudianteFilter.toLowerCase())
-            );
-        }
-    
         if (fechaInicioFilter) {
             filtered = filtered.filter(estudiante => {
                 const fechaEvaluacion = new Date(estudiante.fechaEntrega).toDateString();
@@ -125,13 +119,6 @@ export default function RecuperarEvaluacionScrum() {
                         </div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                        <input 
-                            type="text" 
-                            placeholder="Buscar estudiante..." 
-                            value={estudianteFilter} 
-                            onChange={e => setEstudianteFilter(e.target.value)}
-                            className="px-4 py-2 bg-[#efe7dc] text-black border border-black rounded w-full" 
-                        />
 
                         <select 
                             value={calificacionFilter} 

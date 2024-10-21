@@ -13,7 +13,7 @@ if (!empty($idEstudiante)) {
     try {
         $query = 'SELECT "idevaluacion", "semana", "idEstudiante", "estudiante", "tarea", "calificacion", "comentario", "grupo", "fechaEntrega", "idTarea", "HU_idHU", "HU_Sprint_idSprint", "HU_Sprint_GrupoEmpresa_idGrupoEmpresa", "idDocente" 
                   FROM "evaluacionsemanal" 
-                  WHERE "idEstudiante" = :idEs';
+                  WHERE "idEstudiante" = :idEstudiante';
 
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':idEstudiante', $idEstudiante, PDO::PARAM_INT);

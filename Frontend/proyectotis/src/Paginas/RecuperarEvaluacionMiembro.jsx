@@ -4,7 +4,6 @@ import BarraLateralEstudiante from '../Componentes/BarraLateralEstudiante';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser } from "../Componentes/UserContext";
-import { useLocation } from 'react-router-dom';
 
 export default function RecuperarEvaluacionMiembro() {
 
@@ -18,9 +17,7 @@ export default function RecuperarEvaluacionMiembro() {
     const [fechaInicioFilter, setFechaInicioFilter] = useState('');
     const [calificacionFilter, setCalificacionFilter] = useState('');
     const [estadoFilter, setEstadoFilter] = useState('');
-
-    const location = useLocation();
-    const { datosMiembro } = location.state || {}; 
+    const [DatosGrupo, setDatosGrupo] = useState([]); 
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 25; 
@@ -34,35 +31,52 @@ export default function RecuperarEvaluacionMiembro() {
         setCurrentPage(pageNumber);
     };
 
+
+
     useEffect(() => {
-        const fetchEstudiantes = async () => {
+        const fetchEstudiantesYMiembro = async () => {
             try {
-                const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluacionesEstudiante.php', {
+                const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/CargarEvaluacionEstudiante.php', {
                     params: { idEstudiante: user.idEstudiante },
                 });
-                if (response.data.success === true) {
-                    setEstudiantesData(response.data.datos);
-                    setFilteredData(response.data.datos); 
+    
+                if (responseEstudiantes.data.success === true) {
+                    setEstudiantesData(responseEstudiantes.data.datos);
+                    setFilteredData(responseEstudiantes.data.datos);
                 } else {
-                    setError('No se pudo obtener los datos.');
+                    setError('No se pudo obtener los datos de estudiantes.');
                 }
+                setDatosGrupo (await cargarDatosMiembro(user.idEstudiante));
+                console.log('Respuesta del servidor (grupo):', { datosGrupo: DatosGrupo  });
+    
             } catch (error) {
                 setError('Error al conectarse al servidor: ' + error.message);
             }
         };
     
-        fetchEstudiantes();
+        fetchEstudiantesYMiembro();
     }, []);
+    
+    const cargarDatosMiembro = async (idEstudiante) => {
+        try {
+            const response = await axios.get('http://localhost/proyectotis/backend/CargarGrupo.php', {
+                params: { idEstudiante }
+            });
+    
+            if (response.data && response.data.success && Array.isArray(response.data.datos) && response.data.datos.length > 0) {
+                return response.data.datos[0];
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Error al cargar los datos del grupo:', error.message);
+            return null;
+        }
+    };
 
 
     const applyFilters = () => {
         let filtered = estudiantesData;
-    
-        if (estudianteFilter) {
-            filtered = filtered.filter(estudiante => 
-                `${estudiante.estudiante}`.toLowerCase().includes(estudianteFilter.toLowerCase())
-            );
-        }
     
         if (fechaInicioFilter) {
             filtered = filtered.filter(estudiante => {
@@ -114,29 +128,23 @@ export default function RecuperarEvaluacionMiembro() {
 
                     <div className="flex items-center gap-4 mb-4">
                         <img 
-                            src={datosMiembro.logoEmpresa} 
-                            alt={datosMiembro.nombreCortoEmpresa} 
+                            src={DatosGrupo.logoEmpresa} 
+                            alt={DatosGrupo.nombreCortoEmpresa} 
                             className="w-24 h-24" 
                         />
 
                         <div className="flex flex-col">
                             <p className="text-2xl font-bold">
-                                {datosMiembro.nombreEmpresa}
+                                {DatosGrupo.nombreEmpresa}
                             </p>
                             
                             <p className="text-sm text-gray-600">
-                                {datosMiembro.nombreCortoEmpresa}
+                                {DatosGrupo.nombreCortoEmpresa}
                             </p>
                         </div>
                     </div>
+                    
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-                        <input 
-                            type="text" 
-                            placeholder="Buscar estudiante..." 
-                            value={estudianteFilter} 
-                            onChange={e => setEstudianteFilter(e.target.value)}
-                            className="px-4 py-2 bg-[#efe7dc] text-black border border-black rounded w-full" 
-                        />
 
                         <select 
                             value={calificacionFilter} 
@@ -168,9 +176,9 @@ export default function RecuperarEvaluacionMiembro() {
                     </div>
 
                     <div className="bg-[#c2d2e9] border border-[#c2d2e9] rounded-lg p-4">
-                    <table className="min-w-full bg-[#e1d7b7] border-collapse rounded-lg">
+                    <table className="min-w-full bg-[#c2d2e9] border-collapse rounded-lg">
                             <thead>
-                                <tr className="bg-[#e1d7b7] text-black">
+                                <tr className="bg-[#c2d2e9] text-black">
                                     <th className="py-2 px-4 border border-solid border-black">Fecha Entrega</th>
                                     <th className="py-2 px-4 border border-solid border-black">Estudiante</th>
                                     <th className="py-2 px-4 border border-solid border-black">HU</th>
