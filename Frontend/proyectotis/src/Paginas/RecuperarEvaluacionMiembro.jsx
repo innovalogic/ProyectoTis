@@ -9,7 +9,8 @@ import { useLocation } from 'react-router-dom';
 export default function RecuperarEvaluacionMiembro() {
 
     const { setUser } = useUser();
-    
+    const { user } = useUser();
+    const [error, setError] = useState(null);
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [filteredData, setFilteredData] = useState([]);
     const [grupoFilter, setGrupoFilter] = useState('');
@@ -19,7 +20,7 @@ export default function RecuperarEvaluacionMiembro() {
     const [estadoFilter, setEstadoFilter] = useState('');
 
     const location = useLocation();
-    const { datosGrupo } = location.state || {}; 
+    const { datosMiembro } = location.state || {}; 
 
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 25; 
@@ -36,15 +37,20 @@ export default function RecuperarEvaluacionMiembro() {
     useEffect(() => {
         const fetchEstudiantes = async () => {
             try {
-                const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluaciones.php');
-                if (response.data.success) {
+                const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluacionesEstudiante.php', {
+                    params: { idEstudiante: user.idEstudiante },
+                });
+                if (response.data.success === true) {
                     setEstudiantesData(response.data.datos);
-                    setFilteredData(response.data.datos);
+                    setFilteredData(response.data.datos); 
+                } else {
+                    setError('No se pudo obtener los datos.');
                 }
             } catch (error) {
-                console.error('Error al conectarse al servidor:', error.message);
+                setError('Error al conectarse al servidor: ' + error.message);
             }
         };
+    
         fetchEstudiantes();
     }, []);
 
@@ -108,18 +114,18 @@ export default function RecuperarEvaluacionMiembro() {
 
                     <div className="flex items-center gap-4 mb-4">
                         <img 
-                            src={datosGrupo.logoEmpresa} 
-                            alt={datosGrupo.nombreCortoEmpresa} 
+                            src={datosMiembro.logoEmpresa} 
+                            alt={datosMiembro.nombreCortoEmpresa} 
                             className="w-24 h-24" 
                         />
 
                         <div className="flex flex-col">
                             <p className="text-2xl font-bold">
-                                {datosGrupo.nombreEmpresa}
+                                {datosMiembro.nombreEmpresa}
                             </p>
                             
                             <p className="text-sm text-gray-600">
-                                {datosGrupo.nombreCortoEmpresa}
+                                {datosMiembro.nombreCortoEmpresa}
                             </p>
                         </div>
                     </div>
