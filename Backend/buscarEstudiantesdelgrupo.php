@@ -44,12 +44,16 @@ if (isset($_GET['grupo']) && isset($_GET['sprint']) && isset($_GET['semana'])) {
                     ROW_NUMBER() OVER (PARTITION BY \"Tarea\".\"responsable\" ORDER BY \"Tarea\".\"fechaEntrega\" ASC) AS fila
                 FROM \"Tarea\"
                 WHERE \"HU_Sprint_GrupoEmpresa_idGrupoEmpresa\" = :grupo
-                  AND \"fechaEntrega\" > :semana
-                  AND \"HU_Sprint_idSprint\" = :sprint
+                AND \"fechaEntrega\" > :semana
+                AND \"HU_Sprint_idSprint\" = :sprint
             )
-            SELECT *
-            FROM TareasConRanking
-            WHERE fila = 1;
+            SELECT 
+                T.*,
+                E.\"idEstudiante\"
+            FROM TareasConRanking T
+            JOIN \"Estudiante\" E ON E.\"nombreEstudiante\" || ' ' || E.\"apellidoEstudiante\" = T.\"responsable\"
+            WHERE T.fila = 1
+            AND E.\"idGrupoEmpresa\" = :grupo;
         ";
 
         // Preparar la consulta

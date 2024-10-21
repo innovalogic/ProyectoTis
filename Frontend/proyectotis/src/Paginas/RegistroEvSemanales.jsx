@@ -4,6 +4,7 @@ import BarraLateralDocente from '../Componentes/BarraLateralDocente';
 import React, { useEffect, useState } from 'react';
 import { useUser } from "../Componentes/UserContext";
 import ModalLinks from '../Componentes/ModalLinks';
+import Modal from "../Componentes/Modal";
 
 export default function RegistroEvSemanales() {
     const [grupos, setGrupos] = useState([]);
@@ -16,6 +17,9 @@ export default function RegistroEvSemanales() {
     const [estudiantes, setEstudiantes] = useState([]);
     const [modalOpen, setModalOpen] = useState(false);
     const [estudianteSeleccionado, setEstudianteSeleccionado] = useState(null);
+    const [editingIndex, setEditingIndex] = useState(null); // Estado para controlar qué fila se está editando
+    const [editedValues, setEditedValues] = useState({});
+    const [evaluaciones, setEvaluaciones] = useState([]);
 
     useEffect(() => {
         // Hacer una solicitud al backend para obtener los grupos empresa
@@ -144,6 +148,81 @@ export default function RegistroEvSemanales() {
         setModalOpen(true);
     };
     
+    const handleEdit = (index) => {
+        setEditingIndex(index); // Activa el modo de edición para esta fila
+        setEditedValues({
+            calificacion: estudiantes[index].calificacion || '',
+            comentario: estudiantes[index].comentario || ''
+        });
+    };
+
+    const handleSave = (index) => {
+        // Aquí puedes manejar la lógica para guardar los cambios en la base de datos o en el estado
+        const updatedEstudiantes = [...estudiantes];
+        updatedEstudiantes[index].calificacion = editedValues.calificacion;
+        updatedEstudiantes[index].comentario = editedValues.comentario;
+        //setEstudiantes(updatedEstudiantes); // Actualiza la lista de estudiantes con los cambios
+        setEditingIndex(null); // Sale del modo de edición
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedValues((prevValues) => ({
+            ...prevValues,
+            [name]: value
+        }));
+    };
+
+    const handleGuardarEvaluaciones = () => {
+        // Verificar que todos los estudiantes tengan calificación y comentario
+        const faltanDatos = estudiantes.some(estudiante => !estudiante.calificacion || !estudiante.comentario);
+
+        if (faltanDatos) {
+        alert("Por favor, asegúrate de que todos los estudiantes tengan una calificación y un comentario antes de guardar.");
+        return; // Detener la ejecución si falta algún dato
+        }
+        const nuevaEvaluacion = estudiantes.map(estudiante => ({
+            semana:selectedSemana ? semanas.find(semana => semana.inicio === selectedSemana)?.nombre:'',
+            idEstudiante:estudiante.idEstudiante,
+            Estudiante: estudiante.responsable, 
+            tarea:estudiante.titulo,
+            calificacion: estudiante.calificacion || '',
+            comentario: estudiante.comentario || '',
+            grupo:estudiante.HU_Sprint_GrupoEmpresa_idGrupoEmpresa,
+            fechaEntrega:estudiante.fechaEntrega,
+            idTarea:estudiante.idTarea,
+            HU_idHU:estudiante.HU_idHU,
+            HU_Sprint_idSprint:estudiante.HU_Sprint_idSprint,
+            HU_Sprint_GrupoEmpresa_idGrupoEmpresa:estudiante.HU_Sprint_GrupoEmpresa_idGrupoEmpresa
+        }));
+
+        // Guarda en el estado
+        setEvaluaciones(nuevaEvaluacion);
+        console.log("Evaluaciones guardadas:", nuevaEvaluacion);
+
+        fetch('http://localhost/proyectotis/backend/guardarEvaluaciones.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(nuevaEvaluacion),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                console.log(data.message);
+                alert("Se registro las evaluaciones de los estudiantes")
+                // Aquí puedes agregar lógica adicional, como cerrar el modal o mostrar un mensaje
+            } else {
+                console.error("Error al guardar evaluaciones:", data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Hubo un error al enviar la evaluación:", error);
+        });
+
+        
+    };
 
     return (
         <>
@@ -213,7 +292,7 @@ export default function RegistroEvSemanales() {
                                     <th className="py-2 px-4 border border-solid border-black">Links</th>
                                     <th className="py-2 px-4 border border-solid border-black">Fecha Entrega</th>
                                     <th className="py-2 px-4 border border-solid border-black">Calificación</th>
-                                    <th className="py-2 px-4 border border-solid border-black">Detalle</th>
+                                    <th className="py-2 px-4 border border-solid border-black">Comentario</th>
                                     <th className="py-2 px-4 border border-solid border-black">Edición</th>
                                 </tr>
                             </thead>
@@ -243,13 +322,60 @@ export default function RegistroEvSemanales() {
                                                 {estudiante.fechaEntrega}
                                             </td>
                                             <td className="py-2 px-4 border border-solid border-black">
-                                                
+                                                {editingIndex === index ? (
+                                                    <div className="flex items-center">
+                                                        <input
+                                                            type="text" // Cambiamos a tipo 'text'
+                                                            name="calificacion"
+                                                            value={editedValues.calificacion}
+                                                            onChange={(e) => {
+                                                                // Convertimos el valor a número, aseguramos que sea entre 0 y 100
+                                                                let numericValue = parseInt(e.target.value.replace(/\D/g, ''), 10); // Elimina todo lo que no sea número
+                                                                if (isNaN(numericValue)) numericValue = 0; // Valor por defecto si no es un número
+                                                                numericValue = Math.max(0, Math.min(100, numericValue)); // Limita entre 0 y 100
+                                                            
+                                                                // Actualizamos el estado con el valor transformado
+                                                                handleInputChange({
+                                                                    target: {
+                                                                        name: e.target.name,
+                                                                        value: numericValue,
+                                                                    },
+                                                                });
+                                                            }}
+                                                            className="px-2 py-1 border border-gray-300 rounded w-12" // Hacemos el input más pequeño con 'w-12'
+                                                        />
+                                                        <span className="ml-2">/100</span> {/* Texto al lado del input */}
+                                                    </div>
+                                                ) : (
+                                                    `${estudiante.calificacion || '0'}/100`
+                                                )}
+                                            </td>
+
+
+
+                                            <td className="py-2 px-4 border border-solid border-black">
+                                                {editingIndex === index ? (
+                                                    <input
+                                                        type="text"
+                                                        name="comentario"
+                                                        value={editedValues.comentario}
+                                                        onChange={handleInputChange}
+                                                        className="px-2 py-1 border border-gray-300 rounded"
+                                                    />
+                                                ) : (
+                                                    estudiante.comentario || ''
+                                                )}
                                             </td>
                                             <td className="py-2 px-4 border border-solid border-black">
-                                                
-                                            </td>
-                                            <td className="py-2 px-4 border border-solid border-black">
-                                                <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">Editar</button>
+                                                {editingIndex === index ? (
+                                                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded" onClick={() => handleSave(index)}>
+                                                        Guardar
+                                                    </button>
+                                                ) : (
+                                                    <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded" onClick={() => handleEdit(index)}>
+                                                        Editar
+                                                    </button>
+                                                )}
                                             </td>
                                         </tr>
                                     ))
@@ -263,6 +389,13 @@ export default function RegistroEvSemanales() {
                             </tbody>
 
                         </table>
+                        <div className="flex justify-end">
+                            <button 
+                                className="mt-3 px-4 py-2 bg-[#32569A] hover:bg-blue-500 text-white border border-[#32569A] rounded"
+                                onClick={handleGuardarEvaluaciones}>
+                                Guardar Todas las Evaluaciones
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
