@@ -193,7 +193,8 @@ export default function RegistroEvSemanales() {
             idTarea:estudiante.idTarea,
             HU_idHU:estudiante.HU_idHU,
             HU_Sprint_idSprint:estudiante.HU_Sprint_idSprint,
-            HU_Sprint_GrupoEmpresa_idGrupoEmpresa:estudiante.HU_Sprint_GrupoEmpresa_idGrupoEmpresa
+            HU_Sprint_GrupoEmpresa_idGrupoEmpresa:estudiante.HU_Sprint_GrupoEmpresa_idGrupoEmpresa,
+            idDocente:user.idDocente
         }));
 
         // Guarda en el estado
