@@ -5,7 +5,7 @@ import FormTarea from './FormTarea';
 import Modal from '../Modal';
 import {ModalEst} from './ModalEst'
 
-const HU = ({ hus }) => {
+const HU = ({ hus, nomSprint}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modal, setModal] = useState({
     show: false,
@@ -33,9 +33,8 @@ const HU = ({ hus }) => {
       pertenece: formDatos.pertenece,
       titulo: formDatos.titulo,
       responsable: formDatos.responsable,
-      fecha: formDatos.fecha
+      fecha: formDatos.fecha,
     };
-
     // Actualizar el estado de tareas con la nueva tarea
     setTareas((prevTareas) => [...prevTareas, nuevaTarea]);
     handleCloseModal(); // Cierra el modal al enviar
@@ -54,7 +53,7 @@ const HU = ({ hus }) => {
       <div>
         <ModalEst isOpen={isModalOpen} onClose={handleCloseModal}>
           <h2 className='titu'>Añadir actividad</h2>
-          <FormTarea onSubmit={handleSubmitTarea}></FormTarea>
+          <FormTarea onSubmit={handleSubmitTarea} nomSprint={nomSprint}></FormTarea>
         </ModalEst>
       </div>
       </div>

@@ -13,6 +13,8 @@ import RecuperarEvaluacion from './Paginas/RecuperarEvaluacion';
 import RecuperarEvaluacionScrum from './Paginas/RecuperarEvaluacionScrum';
 import RecuperarEvaluacionMiembro from './Paginas/RecuperarEvaluacionMiembro';
 import AvancesEstudiante from './Paginas/AvancesEstudiante';
+import SeguimientoSprints from './Paginas/SeguimientoSprints';
+import SeguimientoActividades from './Paginas/SeguimientoActividades'
 import RegistroEvSemanales from './Paginas/RegistroEvSemanales';
 import InicioDocente from './Paginas/InicioDocente';
 
@@ -32,6 +34,8 @@ function App() {
         <Route path="RecuperarEvaluacionScrum" element={<RecuperarEvaluacionScrum/>}/>
         <Route path="RecuperarEvaluacionMiembro" element={<RecuperarEvaluacionMiembro/>}/>
         <Route path="AvancesEstudiante" element={<AvancesEstudiante/>}/>
+        <Route path="SeguimientoSprints" element={<SeguimientoSprints/>}/>
+        <Route path="SeguimientoActividades/:idSprint/:nomSprint/:fechaInicio/:fechaFin/:idJefe" element={<SeguimientoActividades/>}/>
         <Route path="RegistroEvSemanales" element={<RegistroEvSemanales/>}/>
         <Route path="InicioDocente" element={<InicioDocente/>}/>
       </Routes>

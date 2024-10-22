@@ -25,7 +25,7 @@ if (
         $stmtcodSis->bindParam(':codSis', $data->codSis);
         $stmtcodSis->execute();
 
-        // Verificar si se encontró el sprint
+        // Verificar si se encontró el codigosis
         $codSisData = $stmtcodSis->fetch(PDO::FETCH_ASSOC);
         if (!$codSisData) {
             ob_end_clean();
@@ -34,7 +34,7 @@ if (
         }
         $idGrupoEmpresa = $codSisData['idGrupoEmpresa'];
 
-        $query = 'INSERT INTO public."Sprint"("fechaInicio", "fechaFin", "GrupoEmpresa_idGrupoEmpresa", "nomSprint")
+        $query = 'INSERT INTO "Sprint"("fechaInicio", "fechaFin", "GrupoEmpresa_idGrupoEmpresa", "nomSprint")
                   VALUES (:startDate, :endDate, :idGrupoEmpresa, :nomSprint)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':startDate', $data->fechaInicio);

@@ -15,6 +15,7 @@ export default function BarraLateral(){
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useUser();
     const [error, setError] = useState(null);
+    const [isPlanificado, setIsPlanificado] = useState(false);
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -44,6 +45,29 @@ export default function BarraLateral(){
         }
     };
     
+    useEffect(() => {
+        const fetchPlanificado = async () => {
+            try {
+                const response = await axios.post('http://localhost/proyectotis/backend/obtenerPlanificado.php', {
+                    idGrupoEmpresa: user.idGrupoEmpresa,
+                });
+                console.log('Data:', response);
+                if (response.data.success) {
+                    const planificado = response.data.planificado[0].planificado; // Suponiendo que el resultado está aquí
+                    setIsPlanificado(planificado === true); // Actualizar estado basado en el valor planificado
+                } else {
+                    setError('No se pudo obtener el estado de planificado.');
+                }
+            } catch (error) {
+                setError('Error al conectarse al servidor: ' + error.message);
+                console.error(error);
+            }
+        };
+
+        if (user.idGrupoEmpresa) { // Verifica que idGrupoEmpresa esté disponible
+            fetchPlanificado();
+        }
+    }, [user.idGrupoEmpresa]);
     
     
     return (
@@ -130,8 +154,9 @@ export default function BarraLateral(){
                     )}
                     {user.idGrupoEmpresa !== null && (
                         <>
-                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/PlanificacionEstudiante" />}>
-                                Planificación
+                            <MenuItem className="text-[#EFE7DC] font-bold" 
+                            component={<Link to={isPlanificado ? "/SeguimientoSprints" : "/PlanificacionEstudiante"} />}>
+                                {isPlanificado ? "Seguimiento" : "Planificación"}
                             </MenuItem>
                             {/* Nueva opción "Avance" */}
                             <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
