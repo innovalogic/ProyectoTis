@@ -5,17 +5,46 @@ import { useState } from 'react';
 import { useUser } from "./UserContext";
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom"; 
+
+
 
 export default function BarraLateral(){
 
     const { setUser } = useUser();
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useUser();
-    const [estudiantesData, setEstudiantesData] = useState([]); 
-    const [grupoData, setGrupoData] = useState([]); 
-    const [isPlanificado, setIsPlanificado] = useState(false);
     const [error, setError] = useState(null);
+    const [isPlanificado, setIsPlanificado] = useState(false);
+    const navigate = useNavigate();
 
+    const handleLogout = () => {
+        setUser(null); // Borra el contexto de usuario
+        alert('Has cerrado sesión.');
+    };
+
+    const handleMenuClick = async () => {
+        try {
+            const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
+                params: { idEstudiante: user.idEstudiante },
+            });
+            console.log('Respuesta del servidor:', responseEstudiantes.data, user.idEstudiante);
+    
+            if (responseEstudiantes.data && responseEstudiantes.data.success && Array.isArray(responseEstudiantes.data.datos) && responseEstudiantes.data.datos.length > 0) {
+                const grupoDatos = responseEstudiantes.data.datos[0];
+                if (grupoDatos.idEstudianteScrum === user.idEstudiante) {
+                    navigate('/RecuperarEvaluacionScrum', { state: { datosGrupo: grupoDatos } });
+                } else {
+                    navigate('/RecuperarEvaluacionMiembro');
+                }
+            } else {
+                navigate('/RecuperarEvaluacionMiembro');
+            }
+        } catch (error) {
+            console.error('Error al conectarse al servidor:', error.message);
+        }
+    };
+    
     useEffect(() => {
         const fetchPlanificado = async () => {
             try {
@@ -39,39 +68,7 @@ export default function BarraLateral(){
             fetchPlanificado();
         }
     }, [user.idGrupoEmpresa]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [responseEstudiantes, responseEvaluaciones] = await Promise.all([
-                    axios.get('http://localhost/proyectotis/backend/ObtenerEstudiante.php', {
-                        params: { idEstudiante: user.idEstudiante },
-                    }),
-                    axios.get('http://localhost/proyectotis/backend/ObtenerGrupo.php', {
-                        params: { idEstudiante: user.idEstudiante },
-                    })
-                ]);
     
-                if (responseEstudiantes.data.success) {
-                    setEstudiantesData(responseEstudiantes.data.datos);
-                } else {
-                    setError('No se pudo obtener los datos de estudiantes.');
-                }
-    
-                if (responseEvaluaciones.data.success) {
-                    setGrupoData(responseEvaluaciones.data.datos);
-                } else {
-                    setError('No se pudo obtener los datos de evaluaciones.');
-                }
-            } catch (error) {
-                setError('Error al conectarse al servidor: ' + error.message);
-                console.error(error);
-            }
-        };
-    
-        fetchData();
-    }, [user.idEstudiante]);
-
     
     return (
         <div className="flex h-[calc(100vh)]">
@@ -99,7 +96,6 @@ export default function BarraLateral(){
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Estudiante</h1>
-                    {/* Mostrar el nombre del estudiante si existe */}
                     {!collapsed && user && (
                         <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreEstudiante+" "+user.apellidoEstudiante}</h3>
                     )}
@@ -132,7 +128,7 @@ export default function BarraLateral(){
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
                     icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                    component={<Link to="/InicioEstudiante" />}
+                    onClick={handleMenuClick} 
                 >
                     Evaluaciones
                 </MenuItem>
@@ -175,13 +171,14 @@ export default function BarraLateral(){
 
 
                 <div className="mt-auto">
-                    <MenuItem
-                        className="text-[#EFE7DC] font-bold"
-                        onClick={() => alert('Has cerrado sesión.')}
-                        icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
-                    >
-                        Cerrar sesión
-                    </MenuItem>
+                            <MenuItem
+                                className="text-[#EFE7DC] font-bold"
+                                onClick={handleLogout} // Llama a la función de cierre de sesión
+                                icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
+                                component={<Link to="/" />}
+                            >
+                                Cerrar sesión
+                            </MenuItem>
                     </div>
                 </Menu>
              </div>

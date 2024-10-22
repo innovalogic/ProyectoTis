@@ -11,9 +11,10 @@ $idDocente = isset($_GET['idDocente']) ? $_GET['idDocente'] : null;
 
 if (!empty($idDocente)) {
     try {
-        $query = 'SELECT "idevaluacion", "semana", "idEstudiante", "estudiante", "tarea", "calificacion", "comentario", "grupo", "fechaEntrega", "idTarea", "HU_idHU", "HU_Sprint_idSprint", "HU_Sprint_GrupoEmpresa_idGrupoEmpresa", "idDocente" 
-                  FROM "evaluacionsemanal" 
-                  WHERE "idDocente" = :idDocente';
+        $query = 'SELECT distinct g."nombreCortoEmpresa",g."idGrupoEmpresa"
+                    FROM evaluacionsemanal e
+                    JOIN "GrupoEmpresa" g ON e.grupo = g."idGrupoEmpresa"
+                    WHERE e."idDocente" = :idDocente';
 
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':idDocente', $idDocente, PDO::PARAM_INT);
@@ -25,7 +26,7 @@ if (!empty($idDocente)) {
                 echo json_encode(['success' => true, 'datos' => $result]);
             } else {
                 ob_end_clean();
-                echo json_encode(['success' => false, 'message' => 'No se encontraron evaluaciones para el docente.']);
+                echo json_encode(['success' => false, 'message' => 'No se encontraron datos para el estudiante.']);
             }
         } else {
             ob_end_clean();

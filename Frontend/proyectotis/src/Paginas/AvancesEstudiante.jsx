@@ -3,6 +3,7 @@ import BarraCopyright from "../Componentes/BarraCopyright";
 import BarraLateral from "../Componentes/BarraLateralEstudiante";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import { useUser } from '../Componentes/UserContext'; 
+import ModalSubirAvance from '../Componentes/ModalSubirAvance';
 
 export default function InicioEstudiante() {
   const { user } = useUser(); // Obtener los datos del estudiante logueado
@@ -10,6 +11,13 @@ export default function InicioEstudiante() {
   const [Sprint, setSprint] = useState([]); // Estado para almacenar los sprints
   const [historiasDeUsuario, setHistoriasDeUsuario] = useState([]); // Estado para las HUs
   const [selectedSprint, setSelectedSprint] = useState(""); // Estado para el Sprint seleccionado
+  const [tarea, setTareas] = useState([]);// Estado para almacenar los tareas
+  const [selectedHu,setSelectedHu] = useState("");// Estado para el HU seleccionado
+  const [selectedTarea, setSelectedTarea] = useState("");
+  const [tabla, setTabla] = useState([]);
+
+  
+
 
   const idEstudiante = user ? user.idEstudiante : null;
 
@@ -69,6 +77,81 @@ export default function InicioEstudiante() {
       setHistoriasDeUsuario([]); // Resetear las HUs si no hay Sprint seleccionado
     }
   };
+  const handleHuChange = async (event) => {
+    const HuSeleccionado = event.target.value;
+    setSelectedHu(HuSeleccionado);
+    const sprintSeleccionado = selectedSprint; // Usa el sprint seleccionado previamente
+    setSelectedSprint(sprintSeleccionado);
+    console.log("HuSeleccionado:", HuSeleccionado);
+    console.log("sprintSeleccionado:", sprintSeleccionado);
+    console.log("idEstudiante:", idEstudiante);
+  
+    if (HuSeleccionado && sprintSeleccionado) {
+      try {
+        const response = await fetch('http://localhost/ProyectoTis/Backend/TareaAvances.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            HuSeleccionado,
+            sprintSeleccionado,
+            idEstudiante
+          })
+        });
+  
+        const text = await response.text();
+        console.log(text); // Aquí debes ver el texto completo de la respuesta
+  
+        const data = JSON.parse(text);
+        setTareas(data.tarea || []); // Verifica que 'tarea' es la propiedad correcta
+      } catch (error) {
+        console.error('Error al obtener las Tareas:', error);
+      }
+    } else {
+      setTareas([]); // Resetear las Tareas si no hay HU o Sprint seleccionado
+    }
+  };
+  const handleTareaChange = async (event) => {
+    const tareaSeleccionada = event.target.value;
+    setSelectedTarea(tareaSeleccionada);
+    const HuSeleccionado = selectedHu;
+    setSelectedHu(HuSeleccionado);
+    const sprintSeleccionado = selectedSprint; // Usa el sprint seleccionado previamente
+    setSelectedSprint(sprintSeleccionado);
+    console.log("tareaSeleccionada:", tareaSeleccionada);
+    console.log("HuSeleccionado:", HuSeleccionado);
+    console.log("sprintSeleccionado:", sprintSeleccionado);
+    console.log("idEstudiante:", idEstudiante)
+  };
+
+    const fetchTablaAvances = async () => {
+      if (idEstudiante) {
+        try {
+          const response = await fetch('http://localhost/ProyectoTis/Backend/tablaAvances.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ idEstudiante })
+          });
+   
+          const text = await response.text();
+          const data = JSON.parse(text);
+          console.log(data); // Verifica qué datos recibes
+          setTabla(data.tabla || []); // Usa data.tabla aquí
+        } catch (error) {
+          console.error('Error al obtener los datos:', error);
+        }
+      }
+    };
+
+    useEffect(() => {
+      fetchTablaAvances();
+    }, [idEstudiante]);
+
+
+
 
   const handleOpenModal = () => {
     setModalVisible(true);
@@ -78,12 +161,82 @@ export default function InicioEstudiante() {
     setModalVisible(false);
   };
 
-  // Función para manejar el envío del formulario
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Evitar que el formulario recargue la página
-    // Aquí puedes añadir la lógica para manejar la subida del archivo o enlace
-    console.log("Formulario enviado");
-  };
+ // Función para manejar el envío del formulario
+ const handleSubmit = async (event, nombreArchivo) => {
+  event.preventDefault(); // Evitar la recarga de la página
+
+  const formData = new FormData();
+
+  // Obtener el archivo del input 'file-upload'
+  const fileInput = document.querySelector('#file-upload');
+  let archivoSubido = false;
+  
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    const allowedExtensions = /(\.pdf|\.doc|\.docx)$/i;
+    if (!allowedExtensions.exec(file.name)) {
+      alert('Por favor selecciona un archivo válido (PDF o DOC)');
+      return;
+    }
+    formData.append("archivo", file); // Agregar el archivo solo una vez
+    archivoSubido = true; // Marcamos que se ha subido un archivo
+  }
+  // Adjunta el nombre del archivo si está disponible
+  if (nombreArchivo) {
+    formData.append("nombreArchivo", nombreArchivo);
+  }
+
+
+  // Obtener el enlace del input 'link-upload'
+  const linkInput = document.querySelector('#link-upload').value;
+  let enlaceProporcionado = false;
+  
+  if (linkInput.trim() !== "") {
+    formData.append("enlace", linkInput); // Agregar el enlace al FormData
+    enlaceProporcionado = true; // Marcamos que se ha proporcionado un enlace
+  }
+
+  // Verificar que al menos uno (archivo o enlace) esté presente
+  if (!archivoSubido && !enlaceProporcionado) {
+    alert('Por favor selecciona un archivo o proporciona un enlace.');
+    return;
+  }
+
+  // Verificar que los otros datos están completos
+  if (!selectedTarea || !selectedHu || !selectedSprint || !idEstudiante) {
+    alert('Por favor completa todos los campos requeridos.');
+    return;
+  }
+
+  formData.append("tareaSeleccionada", selectedTarea);
+  formData.append("HuSeleccionado", selectedHu);
+  formData.append("sprintSeleccionado", selectedSprint);
+  formData.append("idEstudiante", idEstudiante);
+
+  try {
+    const response = await fetch('http://localhost/ProyectoTis/Backend/subirArchivos.php', {
+      method: 'POST',
+      body: formData, // Enviar FormData
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la respuesta del servidor: ' + response.status);
+    }
+
+    const text = await response.text();
+    console.log(text); // Ver la respuesta del servidor
+
+    // Cerrar el modal si la carga fue exitosa
+    setModalVisible(false);
+    fetchTablaAvances();
+  } catch (error) {
+    console.error('Error al subir el archivo o enlace:', error);
+    alert('Ocurrió un error al intentar subir el archivo o enlace. Por favor, inténtalo de nuevo.');
+  }
+};
+
+
+  
 
   return (
     <>
@@ -115,10 +268,10 @@ export default function InicioEstudiante() {
               <label htmlFor="tarea-select" className="block mb-2 text-lg font-medium" style={{ color: "#1E3664" }}>
                 Historia de usuario:
               </label>
-              <select id="tarea-select" className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select id="tarea-select" className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"  onChange={handleHuChange}> 
               <option value="">Seleccionar HU</option>
                 {historiasDeUsuario.map((hu, index) => (
-                  <option key={index} value={hu.idHU}> {/* Asegúrate de que 'idHU' es el identificador correcto */}
+                  <option key={index} value={hu.titulo0}> {/* Asegúrate de que 'idHU' es el identificador correcto */}
                     {hu.titulo} {/* Asegúrate de que 'nombreHU' es el nombre que deseas mostrar */}
                   </option>
                 ))}
@@ -126,14 +279,57 @@ export default function InicioEstudiante() {
             </div>
           </div>
 
-          {/* Muro de noticias de avances */}
           <div className="mt-8">
-            <h2 className="text-2xl font-semibold mb-4" style={{ color: "#1E3664" }}>
-              Noticias de Avances:
-            </h2>
-            <div className="w-full h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm" style={{ height: "350px", backgroundColor: "#1E3664", borderRadius: "45px" }}>
-              {/* Aquí puedes agregar el contenido de las noticias */}
-            </div>
+          <h2 className="font-semibold text-3xl"style={{ color: "#1E3664" }}>Tabla de Avances:</h2>
+<div
+    className="w-full h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm"
+    style={{ height: "350px", backgroundColor: "#1E3664", borderRadius: "45px" }}
+>
+    {/* Tabla de Avances */}
+    <table className="w-full text-white">
+        <thead>
+            <tr>
+                <th className="p-2 border-b">Sprint</th>
+                <th className="p-2 border-b">Historia de Usuario</th>
+                <th className="p-2 border-b">Tarea</th>
+                <th className="p-2 border-b">Archivo</th>
+                <th className="p-2 border-b">Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            {tabla.length > 0 ? (
+                tabla.map((sprint, index) => (
+                    <tr key={index}>
+                        <td className="p-2 border-b">{sprint.Sprint}</td> {/* Nombre del sprint */}
+                        <td className="p-2 border-b">{sprint.HistoriaUsuario}</td> {/* Título de la historia de usuario */}
+                        <td className="p-2 border-b">{sprint.Tarea}</td> {/* Título de la tarea */}
+                        <td className="p-2 border-b">
+    <a 
+        href={`data:application/pdf;base64,${sprint.Archivo}`} 
+        download={sprint.NombreArchivo || 'archivo.pdf'} 
+        target="_blank" 
+        rel="noopener noreferrer"
+    >
+        {sprint.NombreArchivo }
+    </a>
+</td>
+                        <td className="p-2 border-b">
+                            <a href={sprint.Link} target="_blank" rel="noopener noreferrer">
+                                {sprint.Link} {/* Enlace al archivo o recurso */}
+                            </a>
+                        </td>
+                    </tr>
+                ))
+            ) : (
+                <tr>
+                    <td colSpan="5" className="p-2 border-b text-center">No hay datos disponibles</td>
+                </tr>
+            )}
+        </tbody>
+    </table>
+</div>
+
+
 
             {/* Botón para subir avance */}
             <div className="mt-4 flex justify-end" style={{ marginRight: "15px" }}>
@@ -147,93 +343,14 @@ export default function InicioEstudiante() {
 
       <BarraCopyright />
 
-      {/* Modal directamente implementado aquí */}
-      {modalVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="relative bg-custom-bg p-8 rounded-lg shadow-lg w-96">
-            {/* Botón de cerrar como una "X" en la parte superior derecha */}
-            <button
-              className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#1E3664] text-white flex items-center justify-center hover:bg-blue-700 transition duration-200"
-              onClick={handleCloseModal}
-              aria-label="Cerrar"
-            >
-              X
-            </button>
-            
-            {/* Título centrado */}
-            <h2
-              className="text-2xl font-bold mb-4 text-center"
-              style={{ color: "#1E3664" }}
-            >
-              SUBIR AVANCE
-            </h2>
-
-            {/* Nuevo Combobox para seleccionar Tarea */}
-            <div className="mb-4">
-              <label
-                htmlFor="tarea-select"
-                className="block mb-2 text-lg font-medium"
-                style={{ color: "#1E3664" }}
-              >
-                Seleccionar Tarea:
-              </label>
-              <select
-                id="tarea-select"
-                className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="">Seleccionar Tarea</option>
-                <option value="tarea1">Tarea 1</option>
-                <option value="tarea2">Tarea 2</option>
-                <option value="tarea3">Tarea 3</option>
-              </select>
-            </div>
-
-            {/* Formulario para subir archivos o enlaces */}
-            <form onSubmit={handleSubmit}> {/* Añadido el evento onSubmit */}
-              {/* Input para subir archivos */}
-              <div className="mb-4">
-                <label
-                  htmlFor="file-upload"
-                  className="block mb-2 text-lg font-medium"
-                  style={{ color: "#1E3664" }}
-                >
-                  Subir archivo (PDF o DOC):
-                </label>
-                <input
-                  type="file"
-                  id="file-upload"
-                  accept=".pdf,.doc,.docx"
-                  className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* Input para subir enlace */}
-              <div className="mb-4">
-                <label
-                  htmlFor="link-upload"
-                  className="block mb-2 text-lg font-medium"
-                  style={{ color: "#1E3664" }}
-                >
-                  Subir enlace:
-                </label>
-                <input
-                  type="text"
-                  id="link-upload"
-                  className="w-full border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* Botón para enviar */}
-              <button
-                type="submit"
-                className="bg-[#1E3664] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-200"
-              >
-                SUBIR
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* Usar el componente Modal */}
+      <ModalSubirAvance
+        modalVisible={modalVisible}
+        handleCloseModal={handleCloseModal}
+        tarea={tarea}
+        handleTareaChange={handleTareaChange}
+        handleSubmit={handleSubmit}
+      />
     </>
   );
 }

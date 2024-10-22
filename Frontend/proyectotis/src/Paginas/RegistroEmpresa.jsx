@@ -10,7 +10,7 @@ import { useUser } from "../Componentes/UserContext";
 
 
 export default function RegistroEmpresa() {
-    const { setUser } = useUser(); 
+    const { user,setUser } = useUser(); 
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [imageUrl, setImageUrl] = useState('');
@@ -71,7 +71,8 @@ export default function RegistroEmpresa() {
     
 
     const handleRegisterGroup = async (data) => {
-      const newData = { ...data, imageUrl: imageUrl , jefeId: jefeActual};
+      console.log(user.idDocente)
+      const newData = { ...data, imageUrl: imageUrl , jefeId: jefeActual,idDocente:user.idDocente};
       try {
           const response = await fetch('http://localhost/proyectotis/backend/registrarGrupo.php', {
               method: 'POST',

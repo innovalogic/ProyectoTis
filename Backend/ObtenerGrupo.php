@@ -26,7 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
  * @return array Resultado de la consulta.
  */
 function getEstudiantes($pdo) {
-    $query = 'SELECT "idEstudiante", "nombreEstudiante", "apellidoEstudiante", "telefonoEstudiante" FROM "Estudiante"';
+
+    $query = 'SELECT "idGrupoEmpresa","nombreEmpresa", "nombreCortoEmpresa", "correoEmpresa", "logoEmpresa", "idDocente","idEstudianteScrum" FROM "GrupoEmpresa" WHERE "idEstudianteScrum" = 1;';
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);

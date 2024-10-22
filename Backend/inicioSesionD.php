@@ -5,8 +5,6 @@ header("Access-Control-Allow-Headers: Content-Type");
 
 include_once 'db.php';
 
-$data = json_decode(file_get_contents("php://input"));
-
 try {
     // Crear una nueva conexión con PDO
     $conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $password);
@@ -15,14 +13,14 @@ try {
     // Verifica si la solicitud es POST
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Recoger los datos enviados desde el frontend
-        $correoDocente = $_POST["correoDocente"] ?? '';  // Cambié a 'correoDocente'
+        $correoDocente = $_POST["correoDocente"] ?? '';  
         $contraseña = $_POST['password'] ?? '';
 
         // Consulta para verificar si el correoDocente y la contraseña coinciden con un docente en la base de datos
         $sql = 'SELECT * FROM "Docente" WHERE "correoDocente" = :correoDocente AND "contraseñaDocente" = :password';
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':correoDocente', $correoDocente);  // Actualicé el parámetro
+        $stmt->bindParam(':correoDocente', $correoDocente);  
         $stmt->bindParam(':password', $contraseña);
 
         // Ejecutar la consulta
@@ -30,12 +28,15 @@ try {
 
         // Verificar si se encontró un usuario
         if ($stmt->rowCount() > 0) {
-            echo "Login successful";
+            // Obtener los datos del docente
+            $docente = $stmt->fetch(PDO::FETCH_ASSOC);
+            // Devolver los datos del docente como JSON
+            echo json_encode($docente);
         } else {
-            echo "Login failed: Invalid correoDocente or password";  // Mensaje actualizado
+            echo json_encode(["message" => "Login failed: Invalid correoDocente or password"]);
         }
     }
 } catch (PDOException $e) {
-    echo "Error en la conexión: " . $e->getMessage();
+    echo json_encode(["message" => "Error en la conexión: " . $e->getMessage()]);
 }
 ?>

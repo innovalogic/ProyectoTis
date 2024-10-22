@@ -17,7 +17,8 @@ if (
     !empty($data->codsiss) &&
     !empty($data->telefono) &&
     !empty($data->contrasena) &&
-    !empty($data->email)
+    !empty($data->email) &&
+    !empty($data->codigoDocente) // Verificar que el código de docente esté presente
 ) {
     try {
         // Verificar si el CodSISS ya existe
@@ -34,15 +35,33 @@ if (
             exit;
         }
 
-        // Si no existe, proceder con la inserción
+        // Verificar si el código de docente existe
+        $docenteQuery = 'SELECT "idDocente" FROM "Docente" WHERE "CodigoDocente" = :codigoDocente';
+        $docenteStmt = $pdo->prepare($docenteQuery);
+        $docenteStmt->bindParam(':codigoDocente', $data->codigoDocente);
+        $docenteStmt->execute();
+        $docente = $docenteStmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$docente) {
+            // Si el código de docente no existe, devolver un error
+            ob_end_clean();
+            echo json_encode(['success' => false, 'message' => 'El código del docente no existe.']);
+            exit;
+        }
+
+        // Obtener el ID del docente
+        $idDocente = $docente['idDocente'];
+
+        // Proceder con la inserción del estudiante
         $query = 'INSERT INTO "Estudiante" ("nombreEstudiante", "apellidoEstudiante", "codSis", "telefonoEstudiante", "contraseñaEstudiante", "idGrupoEmpresa", "idDocente", "emailEstudiante") 
-                  VALUES (:nombre, :apellido, :codsiss, :telefono, :contrasena, null, 2, :email)';
+                  VALUES (:nombre, :apellido, :codsiss, :telefono, :contrasena, null, :idDocente, :email)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':nombre', $data->nombre);
         $stmt->bindParam(':apellido', $data->apellido);
         $stmt->bindParam(':codsiss', $data->codsiss);
         $stmt->bindParam(':telefono', $data->telefono);
         $stmt->bindParam(':contrasena', $data->contrasena); 
+        $stmt->bindParam(':idDocente', $idDocente); // Usar el ID del docente obtenido
         $stmt->bindParam(':email', $data->email);
 
         if ($stmt->execute()) {

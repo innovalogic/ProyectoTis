@@ -7,16 +7,16 @@ header("Content-Type: application/json; charset=UTF-8");
 
 include_once 'db.php';
 
-$idDocente = isset($_GET['idDocente']) ? $_GET['idDocente'] : null;
+$idEstudiante = isset($_GET['idEstudiante']) ? $_GET['idEstudiante'] : null;
 
-if (!empty($idDocente)) {
+if (!empty($idEstudiante)) {
     try {
-        $query = 'SELECT "idevaluacion", "semana", "idEstudiante", "estudiante", "tarea", "calificacion", "comentario", "grupo", "fechaEntrega", "idTarea", "HU_idHU", "HU_Sprint_idSprint", "HU_Sprint_GrupoEmpresa_idGrupoEmpresa", "idDocente" 
-                  FROM "evaluacionsemanal" 
-                  WHERE "idDocente" = :idDocente';
+        $query = 'SELECT "idGrupoEmpresa", "nombreEmpresa", "nombreCortoEmpresa", "correoEmpresa", "logoEmpresa", "idDocente", "idEstudianteScrum"
+                  FROM "GrupoEmpresa" 
+                  WHERE "idEstudianteScrum" = :idEstudiante';
 
         $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':idDocente', $idDocente, PDO::PARAM_INT);
+        $stmt->bindParam(':idEstudiante', $idEstudiante, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -25,7 +25,7 @@ if (!empty($idDocente)) {
                 echo json_encode(['success' => true, 'datos' => $result]);
             } else {
                 ob_end_clean();
-                echo json_encode(['success' => false, 'message' => 'No se encontraron evaluaciones para el docente.']);
+                echo json_encode(['success' => false, 'message' => 'No se encontró ningún grupo.']);
             }
         } else {
             ob_end_clean();
