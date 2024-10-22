@@ -12,8 +12,8 @@ include_once 'db.php';
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Preparar la declaración SQL
-$sql = "INSERT INTO evaluacionsemanal (semana, \"idEstudiante\", estudiante, tarea, calificacion, comentario, grupo,\"fechaEntrega\", \"idTarea\", \"HU_idHU\", \"HU_Sprint_idSprint\", \"HU_Sprint_GrupoEmpresa_idGrupoEmpresa\") 
-        VALUES (:semana, :idEstudiante, :estudiante, :tarea, :calificacion, :comentario, :grupo,:fechaEntrega , :idTarea, :HU_idHU, :HU_Sprint_idSprint, :HU_Sprint_GrupoEmpresa_idGrupoEmpresa)";
+$sql = "INSERT INTO evaluacionsemanal (semana, \"idEstudiante\", estudiante, tarea, calificacion, comentario, grupo,\"fechaEntrega\", \"idTarea\", \"HU_idHU\", \"HU_Sprint_idSprint\", \"HU_Sprint_GrupoEmpresa_idGrupoEmpresa\",\"idDocente\") 
+        VALUES (:semana, :idEstudiante, :estudiante, :tarea, :calificacion, :comentario, :grupo,:fechaEntrega , :idTarea, :HU_idHU, :HU_Sprint_idSprint, :HU_Sprint_GrupoEmpresa_idGrupoEmpresa,:idDocente)";
 
 $stmt = $pdo->prepare($sql);
 
@@ -34,6 +34,7 @@ try {
         $stmt->bindParam(':HU_idHU', $evaluacion['HU_idHU']);
         $stmt->bindParam(':HU_Sprint_idSprint', $evaluacion['HU_Sprint_idSprint']);
         $stmt->bindParam(':HU_Sprint_GrupoEmpresa_idGrupoEmpresa', $evaluacion['HU_Sprint_GrupoEmpresa_idGrupoEmpresa']);
+        $stmt->bindParam(':idDocente', $evaluacion['idDocente']);
         
         // Ejecutar la consulta
         $stmt->execute();
