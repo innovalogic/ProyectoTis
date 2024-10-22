@@ -214,7 +214,7 @@ const Sprint = ({ title }) => {
         <div>
         {huVisible && (
           <div>
-            <HU hus={HUs} nomHU={formData.titulo}/>        
+            <HU hus={HUs} nomSprint={formData.nomSprint}/>        
           </div>
         )}       
         </div>

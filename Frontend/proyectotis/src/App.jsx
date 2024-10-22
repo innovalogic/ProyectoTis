@@ -12,6 +12,7 @@ import { UserProvider } from './Componentes/UserContext';
 import RecuperarEvaluacion from './Paginas/RecuperarEvaluacion';
 import AvancesEstudiante from './Paginas/AvancesEstudiante';
 import SeguimientoSprints from './Paginas/SeguimientoSprints';
+import SeguimientoActividades from './Paginas/SeguimientoActividades'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="RecuperarEvaluacion" element={<RecuperarEvaluacion/>}/>
         <Route path="AvancesEstudiante" element={<AvancesEstudiante/>}/>
         <Route path="SeguimientoSprints" element={<SeguimientoSprints/>}/>
+        <Route path="SeguimientoActividades/:idSprint/:nomSprint/:fechaInicio/:fechaFin/:idJefe" element={<SeguimientoActividades/>}/>
       </Routes>
     </Router>
     </UserProvider>

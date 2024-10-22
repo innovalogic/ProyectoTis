@@ -34,7 +34,7 @@ if (
         }
         $idGrupoEmpresa = $codSisData['idGrupoEmpresa'];
 
-        $query = 'INSERT INTO public."Sprint"("fechaInicio", "fechaFin", "GrupoEmpresa_idGrupoEmpresa", "nomSprint")
+        $query = 'INSERT INTO "Sprint"("fechaInicio", "fechaFin", "GrupoEmpresa_idGrupoEmpresa", "nomSprint")
                   VALUES (:startDate, :endDate, :idGrupoEmpresa, :nomSprint)';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':startDate', $data->fechaInicio);

@@ -134,7 +134,7 @@ export default function PlanificacionGE () {
         onClose={closeModal}
         title={modal.title}
         message={modal.message}
-      />
+        />
       </div> 
       
           <Copyright />

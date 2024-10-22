@@ -16,34 +16,34 @@ if (!isset($data->idGrupoEmpresa )) {
     echo json_encode(['error' => 'Falta idGrupoEmpresa']);
     exit();
 }
-if (!isset($data->Sprint_idSprint)) {
-    echo json_encode(['error' => 'Falta idSprint']);
+if (!isset($data->HU_idHU)) {
+    echo json_encode(['error' => 'Falta idHU']);
     exit();
 }
 
 $idGrupoEmpresa = $data->idGrupoEmpresa;
-$Sprint_idSprint = $data->Sprint_idSprint;
+$HU_idHU = $data->HU_idHU;
 
 try {
     // Consulta para obtener los HU filtradas por idGrupoEmpresa
-    $stmt3 = $pdo->prepare('SELECT "idHU", titulo, responsable, "fechaEntrega", estado
-	                            FROM "HU"
-	                            where "Sprint_idSprint"= :Sprint_idSprint 
-                                and "Sprint_GrupoEmpresa_idGrupoEmpresa"= :idGrupoEmpresa');
+    $stmt3 = $pdo->prepare('SELECT "idTarea", titulo, responsable, "fechaEntrega", "HU_idHU", estado
+	                            FROM "Tarea"
+	                            where "HU_idHU"= :HU_idHU 
+                                and "HU_Sprint_GrupoEmpresa_idGrupoEmpresa"= :idGrupoEmpresa');
     $stmt3->bindParam(':idGrupoEmpresa', $idGrupoEmpresa, PDO::PARAM_INT);
-    $stmt3->bindParam(':Sprint_idSprint', $Sprint_idSprint, PDO::PARAM_INT);
+    $stmt3->bindParam(':HU_idHU', $HU_idHU, PDO::PARAM_INT);
     $stmt3->execute();
-    $hus = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+    $tareas = $stmt3->fetchAll(PDO::FETCH_ASSOC);
 
-    if (!$hus) {
-        echo json_encode(['success' => false, 'message' => 'No se encontraron HU']);
+    if (!$tareas) {
+        echo json_encode(['success' => false, 'message' => 'No se encontraron tareas']);
         exit();
     }
 
     // Respuesta en formato JSON
     echo json_encode([
         'success' => true, // Aquí incluimos la clave success
-        'HU'=> $hus
+        'Tarea'=> $tareas
     ]);
 } catch (PDOException $e) {
     echo json_encode(['success'=> false, 'error' => $e->getMessage()]);

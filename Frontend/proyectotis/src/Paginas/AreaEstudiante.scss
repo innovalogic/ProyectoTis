@@ -202,7 +202,7 @@ $azulfuerte:#1E3664;
         height: 100vh;  // Asegura que tome toda la altura de la pantalla
         overflow-y: auto;
         .TITULO{
-            font-size: 40px;
+            font-size: 45px;
             padding: 15px 0;
             font-style: italic;
             font-family: 'Times New Roman', Times, serif;
@@ -212,15 +212,79 @@ $azulfuerte:#1E3664;
             width: 100%;
         }
         .NOMgrupo{
-            padding-left: 20px;
+            padding-left: 50px;
             font-size: 30px;
             font-family: 'Times New Roman', Times, serif;
-            font-weight: 600;
+            font-weight: 500;
             color:#1E3664;
+            padding-bottom: 20px;
         }
-        .table{
-            
-        }
+        .table {
+            width: 90%; // Ajusta el ancho de la tabla
+            margin: 20px auto; // Centrar la tabla y agregar margen superior
+            border-collapse: collapse; // Asegura que los bordes se vean bien unidos
+          
+            th, td {
+              border: 1px solid $azulfuerte; // Borde alrededor de las celdas
+              padding: 12px; // Espaciado dentro de las celdas
+              text-align: center; // Centrar el contenido de las celdas
+
+            }
+          
+            th {
+              background-color:$azulPastel; // Cambia el color de fondo del encabezado
+              color:$crema; // Color de texto en el encabezado
+              text-transform: uppercase; // Texto en mayúsculas
+              font-size: 22px;
+            }
+            td{
+                background-color:  #7ea1d3;
+                font-size: 20px;
+                :hover {
+                    background-color:  #678bbe; // Color al hacer hover sobre una fila
+                }
+            }
+          
+            tr:nth-child(even) {
+              background-color:  #7ea1d3; // Color de fondo alternativo para filas pares
+            }
+          
+            tr:hover {
+              background-color:  #678bbe; // Color al hacer hover sobre una fila
+            }
+          
+            // Estilo del botón dentro de la tabla
+            .btn-link {
+              background: none;
+              border: none;
+              color: $azulfuerte;
+              cursor: pointer;
+              text-decoration: underline;
+              font-size: 20px;
+
+          
+              &:hover {
+                color:#2a3b53 ; // Cambia el color al hacer hover
+              }
+            }
+            .estado{
+                background-color:  #7ea1d3;
+            }
+          
+            // Estilo del botón de editar
+            .btn-primary {
+              background-color:$azulfuerte;
+              border: none;
+              padding: 6px 12px;
+              color: $crema;
+              cursor: pointer;
+          
+              &:hover {
+                background-color: #1976D2;
+              }
+            }
+          }
+          
     }
 }
  
