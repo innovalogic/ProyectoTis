@@ -119,28 +119,51 @@ export default function RegistroEvSemanales() {
     };
 
     useEffect(() => {
-        if (selectedGrupo && selectedSprint && selectedSemana) {
-            console.log(selectedGrupo, selectedSprint, selectedSemana);
-            
-            fetch(`http://localhost/proyectotis/backend/buscarEstudiantesdelgrupo.php?grupo=${selectedGrupo}&sprint=${selectedSprint}&semana=${selectedSemana}`)
-                .then(response => {
-                    console.log("Respuesta del servidor:", response); // Añade esta línea
+        const fetchEstudiantesConEvaluaciones = async () => {
+            if (selectedGrupo && selectedSprint && selectedSemana) {
+                console.log(selectedGrupo, selectedSprint, selectedSemana);
+                
+                try {
+                    const response = await fetch(`http://localhost/proyectotis/backend/buscarEstudiantesdelgrupo.php?grupo=${selectedGrupo}&sprint=${selectedSprint}&semana=${selectedSemana}`);
+                    console.log("Respuesta del servidor:", response); 
+    
                     if (!response.ok) {
                         throw new Error('Error al obtener los estudiantes');
                     }
-                    return response.json();
-                })
-                .then(data => {
+    
+                    const data = await response.json();
                     console.log(data);
-                    setEstudiantes(data);
-                })
-                .catch(error => {
+    
+                    // Verificamos si cada estudiante tiene evaluaciones anteriores
+                    const estudiantesConEvaluaciones = await Promise.all(data.map(async estudiante => {
+                        console.log(estudiante.idEstudiante,selectedSemana)
+                        const response = await fetch(`http://localhost/proyectotis/backend/buscarEvaluacionAnterior.php?idEstudiante=${estudiante.idEstudiante}&semana=${selectedSemana ? semanas.find(semana => semana.inicio === selectedSemana)?.nombre:''}`);
+                        const text = await response.text(); // Verificamos el contenido en texto puro
+                        console.log("Respuesta cruda:", text); // Mostramos la respuesta cruda
+                    
+                        const evaluacion = JSON.parse(text); // Intentamos convertirla a JSON
+                        console.log(evaluacion);
+                    
+                        // Agregar la evaluación anterior si existe, de lo contrario dejar los campos vacíos
+                        return {
+                            ...estudiante,
+                            calificacion: evaluacion?.calificacion || '', 
+                            comentario: evaluacion?.comentario || ''
+                        };
+                    }));
+    
+                    setEstudiantes(estudiantesConEvaluaciones);
+                } catch (error) {
                     console.error("Hubo un error al obtener los estudiantes:", error);
-                });
-        } else {
-            setEstudiantes([]); // Limpiar evaluaciones si no se seleccionan todos los valores
-        }
+                }
+            } else {
+                setEstudiantes([]); // Limpiar estudiantes si no se seleccionan todos los valores
+            }
+        };
+    
+        fetchEstudiantesConEvaluaciones();
     }, [selectedGrupo, selectedSprint, selectedSemana]);
+    
     
     
     const handleOpenModal = (estudiante) => {
