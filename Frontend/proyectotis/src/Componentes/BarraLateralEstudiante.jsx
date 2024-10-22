@@ -34,13 +34,10 @@ export default function BarraLateral(){
                 if (grupoDatos.idEstudianteScrum === user.idEstudiante) {
                     navigate('/RecuperarEvaluacionScrum', { state: { datosGrupo: grupoDatos } });
                 } else {
-                    const datosMiembro = await cargarDatosMiembro(user.idEstudiante);
-                    navigate('/RecuperarEvaluacionMiembro', { state: { datosGrupo: datosMiembro } });
-                    console.log('Respuesta del servidor:', { state: { datosGrupo: datosMiembro } });
+                    navigate('/RecuperarEvaluacionMiembro');
                 }
             } else {
-                const datosMiembro = await cargarDatosMiembro(user.idEstudiante);
-                navigate('/RecuperarEvaluacionMiembro', { state: { datosGrupo: datosMiembro } });
+                navigate('/RecuperarEvaluacionMiembro');
             }
         } catch (error) {
             console.error('Error al conectarse al servidor:', error.message);

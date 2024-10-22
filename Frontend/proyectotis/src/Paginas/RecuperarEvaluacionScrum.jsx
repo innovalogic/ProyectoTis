@@ -163,9 +163,9 @@ export default function RecuperarEvaluacionScrum() {
                     </div>
 
                     <div className="bg-[#c2d2e9] border border-[#c2d2e9] rounded-lg p-4">
-                    <table className="min-w-full bg-[#e1d7b7] border-collapse rounded-lg">
+                    <table className="min-w-full bg-[#c2d2e9] border-collapse rounded-lg">
                             <thead>
-                                <tr className="bg-[#e1d7b7] text-black">
+                                <tr className="bg-[#c2d2e9] text-black">
                                     <th className="py-2 px-4 border border-solid border-black">Fecha Entrega</th>
                                     <th className="py-2 px-4 border border-solid border-black">Estudiante</th>
                                     <th className="py-2 px-4 border border-solid border-black">HU</th>
