@@ -8,7 +8,8 @@ import { useUser } from "../Componentes/UserContext";
 export default function RecuperarEvaluacion() {
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [error, setError] = useState(null);
-
+    const { setUser } = useUser();
+    const { user } = useUser();
     const [filteredData, setFilteredData] = useState([]);
     const [grupoFilter, setGrupoFilter] = useState('');
     const [estudianteFilter, setEstudianteFilter] = useState('');
@@ -32,7 +33,7 @@ export default function RecuperarEvaluacion() {
         const fetchEstudiantes = async () => {
             try {
                 const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluaciones.php', {
-                    params: { idDocente: 2 },
+                    params: { idDocente: user.idDocente  }
                 });
                 if (response.data.success === true) {
                     setEstudiantesData(response.data.datos);
@@ -72,6 +73,7 @@ export default function RecuperarEvaluacion() {
     useEffect(() => {
         cargarDatosGrupo(2); 
     }, []);
+
 
     const applyFilters = () => {
         let filtered = estudiantesData;
