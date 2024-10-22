@@ -13,7 +13,7 @@ if (!empty($idEstudiante)) {
     try {
         $query = 'SELECT g."idevaluacion", g."semana", g."idEstudiante", g."estudiante", g."tarea", g."calificacion", g."comentario", g."grupo", g."fechaEntrega", g."idTarea", g."HU_idHU", g."HU_Sprint_idSprint", g."HU_Sprint_GrupoEmpresa_idGrupoEmpresa"
                   FROM "Estudiante" e
-                  JOIN "GrupoEmpresa" g ON e."idGrupoEmpresa" = g."grupo"
+                  JOIN "evaluacionsemanal" g ON e."idEstudiante" = g."idEstudiante"
                   WHERE e."idEstudiante" = :idEstudiante';
 
         $stmt = $pdo->prepare($query);
@@ -40,4 +40,5 @@ if (!empty($idEstudiante)) {
     ob_end_clean();
     echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
 }
+
 ?>
