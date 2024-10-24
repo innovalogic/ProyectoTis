@@ -1,8 +1,8 @@
 import BarraCopyright from "../Componentes/BarraCopyright";
-import BarraLateral from "../Componentes/BarraLateralEstudiante";
+import BarraLateral from "../Componentes/BarraLateralDocente";
 //import './AreaEstudiante.scss';
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
-export default function InicioEstudiante() {
+export default function InicioDocente() {
       return (
         <>
         <NavbarInicioDeSesion />

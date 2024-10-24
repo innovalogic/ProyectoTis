@@ -9,7 +9,7 @@ export default function RegistroEstudiante() {
         nombre: '',
         apellido: '',
         codsiss: '',
-        codigoGrupo: '',
+        codigoDocente: '',
         telefono: '',
         contrasena: '',
         confirmarContrasena: '',
@@ -36,7 +36,7 @@ export default function RegistroEstudiante() {
         }
 
         // Validación para CodSISS y teléfono (solo números)
-        if (id === "codsiss" || id === "telefono" ||id==="codigoGrupo") {
+        if (id === "codsiss" || id === "telefono" ||id==="codigoDocente") {
             const regex = /^[0-9]*$/; // Permite solo números
             if (!regex.test(value)) {
                 return; // Si el valor no cumple la regex, no hace nada
@@ -93,7 +93,7 @@ export default function RegistroEstudiante() {
     }
 
     // Validación de Código de Grupo
-    if (formData.codigoGrupo.length !== 4) {
+    if (formData.codigoDocente.length !== 4) {
         setModal({
             show: true,
             title: 'Error',
@@ -154,7 +154,7 @@ export default function RegistroEstudiante() {
             nombre: '',
             apellido: '',
             codsiss: '',
-            codigoGrupo: '',
+            codigoDocente: '',
             telefono: '',
             contrasena: '',
             confirmarContrasena: '',
@@ -185,8 +185,8 @@ export default function RegistroEstudiante() {
                         </div>
                         <div className="flex flex-wrap justify-between mb-6">
                             <div className="w-full md:w-1/3 px-2 mb-6 md:mb-0">
-                                <label htmlFor="codigoGrupo" className="text-base mb-1 text-[#1E3664] font-bold">Código de Grupo</label>
-                                <input type="text" id="codigoGrupo" value={formData.codigoGrupo} onChange={handleChange} placeholder="Código de Grupo" className="w-full p-2 border border-gray-300 rounded-lg" />
+                                <label htmlFor="codigoDocente" className="text-base mb-1 text-[#1E3664] font-bold">Codigo de Docente</label>
+                                <input type="text" id="codigoDocente" value={formData.codigoDocente} onChange={handleChange} placeholder="codigoDocente" className="w-full p-2 border border-gray-300 rounded-lg" />
                             </div>
                             <div className="w-full md:w-1/3 px-2 mb-6 md:mb-0">
                                 <label htmlFor="contrasena" className="text-base mb-1 text-[#1E3664] font-bold">Contraseña</label>

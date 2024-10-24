@@ -15,25 +15,25 @@ if (
     !empty($data->NombreEmpresa) &&
     !empty($data->NombreCorto) &&
     !empty($data->CorreoEmpresa) &&
-    !empty($data->NombreRepresentante) &&
-    !empty($data->NumeroRepresentante) &&
-    !empty($data->imageUrl)
+    !empty($data->jefeId) &&
+    !empty($data->imageUrl) &&
+    !empty($data->idDocente) // Verificar que el idDocente esté presente
 ) {
     try {
         $query = 'INSERT INTO "GrupoEmpresa" (
             "nombreEmpresa",
             "nombreCortoEmpresa",
             "correoEmpresa",
-            "nombreRepresentante",
-            "numeroRepresentante",
-            "logoEmpresa"
+            "logoEmpresa",
+            "idEstudianteScrum",
+            "idDocente"  
         ) VALUES (
             :NombreEmpresa,
             :NombreCorto,
             :CorreoEmpresa,
-            :NombreRepresentante,
-            :NumeroRepresentante,
-            :imageUrl
+            :imageUrl,
+            :jefeId,
+            :idDocente  
         )';
 
         $stmt = $pdo->prepare($query);
@@ -41,9 +41,9 @@ if (
         $stmt->bindParam(':NombreEmpresa', $data->NombreEmpresa);
         $stmt->bindParam(':NombreCorto', $data->NombreCorto);
         $stmt->bindParam(':CorreoEmpresa', $data->CorreoEmpresa);
-        $stmt->bindParam(':NombreRepresentante', $data->NombreRepresentante);
-        $stmt->bindParam(':NumeroRepresentante', $data->NumeroRepresentante);
         $stmt->bindParam(':imageUrl', $data->imageUrl);
+        $stmt->bindParam(':jefeId', $data->jefeId);
+        $stmt->bindParam(':idDocente', $data->idDocente); // Asegurarse de que el idDocente se registre
 
         if ($stmt->execute()) {
             $lastUserId = $pdo->lastInsertId();
@@ -57,7 +57,7 @@ if (
         ob_end_clean();
         echo json_encode(['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()]);
     }
-}else{
+} else {
     ob_end_clean();
     echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
 }

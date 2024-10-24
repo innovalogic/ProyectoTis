@@ -17,9 +17,36 @@ if (!isset($data->idGrupoEmpresa)) {
     exit();
 }
 
+if (!isset($data->nomSprint)) {
+    echo json_encode(['error' => 'Falta nombre Sprint']);
+    exit();
+}
+
 $idGrupoEmpresa = $data->idGrupoEmpresa;
+$nomSprint =  $data->nomSprint;
 
 try {
+
+
+    $querysprint = "SELECT \"idSprint\"
+                FROM \"Sprint\"
+                WHERE \"GrupoEmpresa_idGrupoEmpresa\"=:idGrupoEmpresa and \"nomSprint\"=:nomSprint";
+        $stmtsprint = $pdo->prepare($querysprint);
+        $stmtsprint->bindParam(':idGrupoEmpresa', $idGrupoEmpresa);
+        $stmtsprint->bindParam(':nomSprint', $nomSprint);
+        $stmtsprint->execute();
+
+        // Verificar si se encontró el codigosis
+        $sprintData = $stmtsprint->fetch(PDO::FETCH_ASSOC);
+        if (!$sprintData) {
+            ob_end_clean();
+            echo json_encode(['success' => false, 'message' => 'idSprint no encontrado']);
+            exit();
+        }
+        $Sprint_idSprint = $sprintData['idSprint'];
+
+
+
     // Consulta para obtener los responsables filtrados por idGrupoEmpresa
     $stmt1 = $pdo->prepare('SELECT CONCAT("nombreEstudiante", \' \', "apellidoEstudiante") AS nombre_completo
                             FROM "Estudiante"
@@ -29,12 +56,14 @@ try {
     $responsables = $stmt1->fetchAll(PDO::FETCH_ASSOC);
 
     // Consulta para obtener las actividades filtradas por idGrupoEmpresa
-    $stmt2 = $pdo->prepare('SELECT titulo, "Sprint_idSprint"
+    $stmt2 = $pdo->prepare('SELECT "idHU", titulo, responsable, "fechaEntrega" 
                             FROM "HU"
-                            WHERE "Sprint_GrupoEmpresa_idGrupoEmpresa" = :idGrupoEmpresa');
+                            WHERE "Sprint_GrupoEmpresa_idGrupoEmpresa" = :idGrupoEmpresa and "Sprint_idSprint" = :Sprint_idSprint ');
     $stmt2->bindParam(':idGrupoEmpresa', $idGrupoEmpresa, PDO::PARAM_INT);
+    $stmt2->bindParam(':Sprint_idSprint', $Sprint_idSprint, PDO::PARAM_INT);
     $stmt2->execute();
     $historiasdeu = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+
 
     // Respuesta en formato JSON
     echo json_encode([

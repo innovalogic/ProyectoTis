@@ -31,13 +31,18 @@ const FormHU = ({ onSubmit , children}) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      const dataToSend = {
+        idGrupoEmpresa: user.idGrupoEmpresa,
+        nomSprint: children,
+      };
+      console.log('datos:', dataToSend);
       try {
         const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/llamadas.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ idGrupoEmpresa: idGrupoEmpresa }) // Enviar idGrupoEmpresa
+          body: JSON.stringify(dataToSend) // Enviar idGrupoEmpresa
         });
         const text = await response.text(); // Obtener la respuesta como texto
         console.log(text); // Ver el texto que devuelve el servidor
@@ -69,7 +74,7 @@ const FormHU = ({ onSubmit , children}) => {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(Datos)
+          body: JSON.stringify(dataToSend)
         });
 
         if (!response.ok) {

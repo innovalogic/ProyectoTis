@@ -1,13 +1,74 @@
-import React from 'react';
+
 import { Sidebar, Menu, MenuItem,SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useUser } from "../Componentes/UserContext";
+import { useUser } from "./UserContext";
+import React, { useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom"; 
+
+
 
 export default function BarraLateral(){
-    
+
+    const { setUser } = useUser();
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useUser();
+    const [error, setError] = useState(null);
+    const [isPlanificado, setIsPlanificado] = useState(false);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        setUser(null); // Borra el contexto de usuario
+        alert('Has cerrado sesión.');
+    };
+
+    const handleMenuClick = async () => {
+        try {
+            const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
+                params: { idEstudiante: user.idEstudiante },
+            });
+            console.log('Respuesta del servidor:', responseEstudiantes.data, user.idEstudiante);
+    
+            if (responseEstudiantes.data && responseEstudiantes.data.success && Array.isArray(responseEstudiantes.data.datos) && responseEstudiantes.data.datos.length > 0) {
+                const grupoDatos = responseEstudiantes.data.datos[0];
+                if (grupoDatos.idEstudianteScrum === user.idEstudiante) {
+                    navigate('/RecuperarEvaluacionScrum', { state: { datosGrupo: grupoDatos } });
+                } else {
+                    navigate('/RecuperarEvaluacionMiembro');
+                }
+            } else {
+                navigate('/RecuperarEvaluacionMiembro');
+            }
+        } catch (error) {
+            console.error('Error al conectarse al servidor:', error.message);
+        }
+    };
+    
+    useEffect(() => {
+        const fetchPlanificado = async () => {
+            try {
+                const response = await axios.post('http://localhost/proyectotis/backend/obtenerPlanificado.php', {
+                    idGrupoEmpresa: user.idGrupoEmpresa,
+                });
+                console.log('Data:', response);
+                if (response.data.success) {
+                    const planificado = response.data.planificado[0].planificado; // Suponiendo que el resultado está aquí
+                    setIsPlanificado(planificado === true); // Actualizar estado basado en el valor planificado
+                } else {
+                    setError('No se pudo obtener el estado de planificado.');
+                }
+            } catch (error) {
+                setError('Error al conectarse al servidor: ' + error.message);
+                console.error(error);
+            }
+        };
+
+        if (user.idGrupoEmpresa) { // Verifica que idGrupoEmpresa esté disponible
+            fetchPlanificado();
+        }
+    }, [user.idGrupoEmpresa]);
+    
     
     return (
         <div className="flex h-[calc(100vh)]">
@@ -35,7 +96,6 @@ export default function BarraLateral(){
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Estudiante</h1>
-                    {/* Mostrar el nombre del estudiante si existe */}
                     {!collapsed && user && (
                         <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreEstudiante+" "+user.apellidoEstudiante}</h3>
                     )}
@@ -67,8 +127,13 @@ export default function BarraLateral(){
 
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
+<<<<<<< HEAD:Frontend/proyectotis/src/Componentes/BarraLateral.jsx
                     icon={<img src="/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
                     component={<Link to="/InicioEstudiante" />}
+=======
+                    icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
+                    onClick={handleMenuClick} 
+>>>>>>> df0e127f6d96392baf21359a8b24b886797a2f5c:Frontend/proyectotis/src/Componentes/BarraLateralEstudiante.jsx
                 >
                     Evaluaciones
                 </MenuItem>
@@ -82,7 +147,7 @@ export default function BarraLateral(){
                 </MenuItem>
 
                 <SubMenu
-                    title="Empresa"
+                    label="Empresa"
                     className="bg-[#32569A] text-[#EFE7DC] font-bold"
                     style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
                     icon={<img src="/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
@@ -93,16 +158,25 @@ export default function BarraLateral(){
                         </MenuItem>
                     )}
                     {user.idGrupoEmpresa !== null && (
-                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/PlanificacionGe" />}>
-                        Planificación
-                    </MenuItem>
+                        <>
+                            <MenuItem className="text-[#EFE7DC] font-bold" 
+                            component={<Link to={isPlanificado ? "/SeguimientoSprints" : "/PlanificacionEstudiante"} />}>
+                                {isPlanificado ? "Seguimiento" : "Planificación"}
+                            </MenuItem>
+                            {/* Nueva opción "Avance" */}
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
+                                Avance
+                            </MenuItem>
+                        </>
                     )}
                     <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
                         Información
                     </MenuItem>
                 </SubMenu>
 
+
                 <div className="mt-auto">
+<<<<<<< HEAD:Frontend/proyectotis/src/Componentes/BarraLateral.jsx
                     <MenuItem
                         className="text-[#EFE7DC] font-bold"
                         onClick={() => alert('Has cerrado sesión.')}
@@ -110,6 +184,16 @@ export default function BarraLateral(){
                     >
                         Cerrar sesión
                     </MenuItem>
+=======
+                            <MenuItem
+                                className="text-[#EFE7DC] font-bold"
+                                onClick={handleLogout} // Llama a la función de cierre de sesión
+                                icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
+                                component={<Link to="/" />}
+                            >
+                                Cerrar sesión
+                            </MenuItem>
+>>>>>>> df0e127f6d96392baf21359a8b24b886797a2f5c:Frontend/proyectotis/src/Componentes/BarraLateralEstudiante.jsx
                     </div>
                 </Menu>
              </div>
