@@ -1,11 +1,11 @@
 <?php
 
 // Conexión a la base de datos PostgreSQL
-$host = "localhost";
-$port = "5432";
-$dbname = "BDFinal"; // Cambia esto al nombre de tu base de datos
-$user = "postgres"; // Usuario de la base de datos
-$password = ""; // Contraseña de PostgreSQL
+$host = "aws-0-sa-east-1.pooler.supabase.com";
+$port = "6543";
+$dbname = "postgres"; // Cambia esto al nombre de tu base de datos
+$user = "postgres.hcdrqbslrxbupukzfyhj"; // Usuario de la base de datos
+$password = "tisINGL2024$"; // Contraseña de PostgreSQL
 
 try {
     // Crear una nueva conexión PDO

@@ -127,13 +127,8 @@ export default function BarraLateral(){
 
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
-<<<<<<< HEAD:Frontend/proyectotis/src/Componentes/BarraLateral.jsx
-                    icon={<img src="/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                    component={<Link to="/InicioEstudiante" />}
-=======
                     icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
                     onClick={handleMenuClick} 
->>>>>>> df0e127f6d96392baf21359a8b24b886797a2f5c:Frontend/proyectotis/src/Componentes/BarraLateralEstudiante.jsx
                 >
                     Evaluaciones
                 </MenuItem>
@@ -176,15 +171,6 @@ export default function BarraLateral(){
 
 
                 <div className="mt-auto">
-<<<<<<< HEAD:Frontend/proyectotis/src/Componentes/BarraLateral.jsx
-                    <MenuItem
-                        className="text-[#EFE7DC] font-bold"
-                        onClick={() => alert('Has cerrado sesión.')}
-                        icon={<img src="/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
-                    >
-                        Cerrar sesión
-                    </MenuItem>
-=======
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
                                 onClick={handleLogout} // Llama a la función de cierre de sesión
@@ -193,7 +179,6 @@ export default function BarraLateral(){
                             >
                                 Cerrar sesión
                             </MenuItem>
->>>>>>> df0e127f6d96392baf21359a8b24b886797a2f5c:Frontend/proyectotis/src/Componentes/BarraLateralEstudiante.jsx
                     </div>
                 </Menu>
              </div>

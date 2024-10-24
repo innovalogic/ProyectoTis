@@ -169,13 +169,8 @@ export default function RegistroEmpresa() {
     useEffect(() => {
       const fetchEstudiantes = async () => {
           try {
-<<<<<<< HEAD
-              const response = await axios.get('https://tis-1d05d6f982d1.herokuapp.com/RecuperarEstudiante.php');
-              console.log(response.data.success); // Ver toda la respuesta
-=======
               const response = await axios.get('http://localhost/proyectotis/backend/RecuperarEstudiante.php');
               console.log(response.data.success); 
->>>>>>> df0e127f6d96392baf21359a8b24b886797a2f5c
               if (response.data.success === true) {
                   setEstudiantesData(response.data.datos); 
                   console.log(response.data.datos); 
