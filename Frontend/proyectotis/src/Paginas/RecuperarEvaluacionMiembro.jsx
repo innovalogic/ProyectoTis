@@ -36,7 +36,7 @@ export default function RecuperarEvaluacionMiembro() {
     useEffect(() => {
         const fetchEstudiantesYMiembro = async () => {
             try {
-                const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/CargarEvaluacionEstudiante.php', {
+                const responseEstudiantes = await axios.get('https://tis-0c3180bcccbd.herokuapp.com/CargarEvaluacionEstudiante.php', {
                     params: { idEstudiante: user.idEstudiante },
                 });
     
@@ -59,7 +59,7 @@ export default function RecuperarEvaluacionMiembro() {
     
     const cargarDatosMiembro = async (idEstudiante) => {
         try {
-            const response = await axios.get('http://localhost/proyectotis/backend/CargarGrupo.php', {
+            const response = await axios.get('https://tis-0c3180bcccbd.herokuapp.com/CargarGrupo.php', {
                 params: { idEstudiante }
             });
     

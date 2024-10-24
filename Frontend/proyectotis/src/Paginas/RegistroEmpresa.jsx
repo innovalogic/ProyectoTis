@@ -169,7 +169,7 @@ export default function RegistroEmpresa() {
     useEffect(() => {
       const fetchEstudiantes = async () => {
           try {
-              const response = await axios.get('http://localhost/proyectotis/backend/RecuperarEstudiante.php');
+              const response = await axios.get('https://tis-0c3180bcccbd.herokuapp.com/RecuperarEstudiante.php');
               console.log(response.data.success); 
               if (response.data.success === true) {
                   setEstudiantesData(response.data.datos); 

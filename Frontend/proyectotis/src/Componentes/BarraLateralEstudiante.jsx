@@ -25,7 +25,7 @@ export default function BarraLateral(){
 
     const handleMenuClick = async () => {
         try {
-            const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
+            const responseEstudiantes = await axios.get('https://tis-0c3180bcccbd.herokuapp.com/ObtenerJefe.php', {
                 params: { idEstudiante: user.idEstudiante },
             });
             console.log('Respuesta del servidor:', responseEstudiantes.data, user.idEstudiante);
@@ -48,7 +48,7 @@ export default function BarraLateral(){
     useEffect(() => {
         const fetchPlanificado = async () => {
             try {
-                const response = await axios.post('http://localhost/proyectotis/backend/obtenerPlanificado.php', {
+                const response = await axios.post('https://tis-0c3180bcccbd.herokuapp.com/obtenerPlanificado.php', {
                     idGrupoEmpresa: user.idGrupoEmpresa,
                 });
                 console.log('Data:', response);
@@ -92,7 +92,7 @@ export default function BarraLateral(){
                         </button>
                     </div>
                     <div className="text-center mt-4">
-                        <img src="/Imagenes/Estudiante.png" alt="Logo" className="w-16 h-16 inline-block" />
+                        <img src="/Imagenes/estudiante.png" alt="Logo" className="w-16 h-16 inline-block" />
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Estudiante</h1>
@@ -127,7 +127,7 @@ export default function BarraLateral(){
 
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
-                    icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
+                    icon={<img src="/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
                     onClick={handleMenuClick} 
                 >
                     Evaluaciones
@@ -174,7 +174,7 @@ export default function BarraLateral(){
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
                                 onClick={handleLogout} // Llama a la función de cierre de sesión
-                                icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
+                                icon={<img src="/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
                                 component={<Link to="/" />}
                             >
                                 Cerrar sesión

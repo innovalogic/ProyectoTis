@@ -22,7 +22,7 @@ export default function InicioSesionEstudiante() {
     formData.append('password', Contraseña);
 
     try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/inicioSesion.php", {
+      const response = await fetch("https://tis-0c3180bcccbd.herokuapp.com/inicioSesion.php", {
         method: "POST",
         body: formData,
       });

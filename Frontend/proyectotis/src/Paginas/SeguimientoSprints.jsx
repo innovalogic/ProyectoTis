@@ -34,7 +34,7 @@ export default function SeguimientoSprints() {
 
   const fetchSprints = async () => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerSprint.php', {
+      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/obtenerSprint.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export default function SeguimientoSprints() {
 
   const fetchHU = async (sprintId) => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerHU.php', {
+      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/obtenerHU.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export default function SeguimientoSprints() {
 
   const fetchGrupo = async () => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerGrupoEmpresa.php', {
+      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/obtenerGrupoEmpresa.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -211,7 +211,7 @@ export default function SeguimientoSprints() {
     };
     console.log('datos:', dataToSend);
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/estadoSprint.php', {
+      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/estadoSprint.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -264,7 +264,7 @@ export default function SeguimientoSprints() {
       return;
     }else{
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/modificarSprint.php', {
+      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/modificarSprint.php', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json' ,

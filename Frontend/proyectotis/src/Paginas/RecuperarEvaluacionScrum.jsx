@@ -37,7 +37,7 @@ export default function RecuperarEvaluacionScrum() {
     useEffect(() => {
         const fetchEstudiantesYMiembro = async () => {
             try {
-                const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/CargarEvaluacionesScrum.php', {
+                const responseEstudiantes = await axios.get('https://tis-0c3180bcccbd.herokuapp.com/CargarEvaluacionesScrum.php', {
                     params: { idEstudiante: user.idEstudiante },
                 });
     

@@ -25,7 +25,7 @@ export default function InicioEstudiante() {
     const fetchData = async () => {
       if (idEstudiante) { // Solo hacer la solicitud si el idEstudiante está definido
         try {
-          const response = await fetch('http://localhost/ProyectoTis/Backend/Avances.php', {
+          const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com//Avances.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function InicioEstudiante() {
   
     if (sprintSeleccionado) {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/HuAvances.php', {
+        const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/HuAvances.php', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ export default function InicioEstudiante() {
   
     if (HuSeleccionado && sprintSeleccionado) {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/TareaAvances.php', {
+        const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/TareaAvances.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -128,7 +128,7 @@ export default function InicioEstudiante() {
     const fetchTablaAvances = async () => {
       if (idEstudiante) {
         try {
-          const response = await fetch('http://localhost/ProyectoTis/Backend/tablaAvances.php', {
+          const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/tablaAvances.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -214,7 +214,7 @@ export default function InicioEstudiante() {
   formData.append("idEstudiante", idEstudiante);
 
   try {
-    const response = await fetch('http://localhost/ProyectoTis/Backend/subirArchivos.php', {
+    const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/subirArchivos.php', {
       method: 'POST',
       body: formData, // Enviar FormData
     });

@@ -23,7 +23,7 @@ export default function RegistroEvSemanales() {
 
     useEffect(() => {
         // Hacer una solicitud al backend para obtener los grupos empresa
-        fetch(`http://localhost/proyectotis/backend/obtenergruposevsem.php?idDocente=${user.idDocente}`)
+        fetch(`https://tis-0c3180bcccbd.herokuapp.com/obtenergruposevsem.php?idDocente=${user.idDocente}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error al obtener los grupos');
@@ -43,7 +43,7 @@ export default function RegistroEvSemanales() {
     useEffect(() => {
         console.log(selectedGrupo)
         if (selectedGrupo) {
-            fetch(`http://localhost/proyectotis/backend/obtenergruposevsemsprints.php?idGrupo=${selectedGrupo}`) // Cambia la ruta según tu estructura
+            fetch(`https://tis-0c3180bcccbd.herokuapp.com/obtenergruposevsemsprints.php?idGrupo=${selectedGrupo}`) // Cambia la ruta según tu estructura
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error al obtener los sprints');
@@ -124,7 +124,7 @@ export default function RegistroEvSemanales() {
                 console.log(selectedGrupo, selectedSprint, selectedSemana);
                 
                 try {
-                    const response = await fetch(`http://localhost/proyectotis/backend/buscarEstudiantesdelgrupo.php?grupo=${selectedGrupo}&sprint=${selectedSprint}&semana=${selectedSemana}`);
+                    const response = await fetch(`https://tis-0c3180bcccbd.herokuapp.com/buscarEstudiantesdelgrupo.php?grupo=${selectedGrupo}&sprint=${selectedSprint}&semana=${selectedSemana}`);
                     console.log("Respuesta del servidor:", response); 
     
                     if (!response.ok) {
@@ -137,7 +137,7 @@ export default function RegistroEvSemanales() {
                     // Verificamos si cada estudiante tiene evaluaciones anteriores
                     const estudiantesConEvaluaciones = await Promise.all(data.map(async estudiante => {
                         console.log(estudiante.idEstudiante,selectedSemana)
-                        const response = await fetch(`http://localhost/proyectotis/backend/buscarEvaluacionAnterior.php?idEstudiante=${estudiante.idEstudiante}&semana=${selectedSemana ? semanas.find(semana => semana.inicio === selectedSemana)?.nombre:''}`);
+                        const response = await fetch(`https://tis-0c3180bcccbd.herokuapp.com/buscarEvaluacionAnterior.php?idEstudiante=${estudiante.idEstudiante}&semana=${selectedSemana ? semanas.find(semana => semana.inicio === selectedSemana)?.nombre:''}`);
                         const text = await response.text(); // Verificamos el contenido en texto puro
                         console.log("Respuesta cruda:", text); // Mostramos la respuesta cruda
                     
@@ -224,7 +224,7 @@ export default function RegistroEvSemanales() {
         setEvaluaciones(nuevaEvaluacion);
         console.log("Evaluaciones guardadas:", nuevaEvaluacion);
 
-        fetch('http://localhost/proyectotis/backend/guardarEvaluaciones.php', {
+        fetch('https://tis-0c3180bcccbd.herokuapp.com/guardarEvaluaciones.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
