@@ -16,11 +16,11 @@ const PerfilDocente = () => {
           <div className="bg-[#1E3664] rounded-[75px] p-12 text-white w-[98%] md:w-[90%] lg:w-[80%] h-[70vh] shadow-2xl flex flex-col">
             <h2 className="text-center font-bold text-3xl">PERFIL DOCENTE</h2>
             <div className="flex flex-col mt-6 ml-24 pt-8">
-              <div className="mb-4 text-2xl font-bold">NOMBRE: <span className="font-light ml-2">{user.nombreEstudiante}</span></div>
-              <div className="mb-4 text-2xl font-bold">APELLIDO: <span className="font-light ml-2">{user.apellidoEstudiante}</span></div>
-              <div className="mb-4 text-2xl font-bold">CODSIS: <span className="font-light ml-2">{user.codSis}</span></div>
-              <div className="mb-4 text-2xl font-bold">TELEFONO: <span className="font-light ml-2">{user.telefonoEstudiante}</span></div>
-              <div className="mb-4 text-2xl font-bold">CORREO: <span className="font-light ml-2">{user.emailEstudiante}</span></div>
+              <div className="mb-4 text-2xl font-bold">NOMBRE: <span className="font-light ml-2">{user.nombreDocente}</span></div>
+              <div className="mb-4 text-2xl font-bold">APELLIDO: <span className="font-light ml-2">{user.apellidoDocente}</span></div>
+              <div className="mb-4 text-2xl font-bold">TELEFONO: <span className="font-light ml-2">{user.telefonoDocente}</span></div>
+              <div className="mb-4 text-2xl font-bold">CORREO: <span className="font-light ml-2">{user.correoDocente}</span></div>
+              <div className="mb-4 text-2xl font-bold">CODIGO DOCENTE: <span className="font-light ml-2">{user.CodigoDocente}</span></div>
             </div>
           </div>
         </div>
