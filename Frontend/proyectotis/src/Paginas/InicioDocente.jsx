@@ -8,9 +8,35 @@ import { useUser } from "../Componentes/UserContext";
 export default function InicioDocente() {
   const [notificacionData, setNotificacionData] = useState([]);
   const [error, setError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const { user } = useUser();
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [filePreview, setFilePreview] = useState('');
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      // Previsualiza solo imágenes, de lo contrario, muestra el nombre del archivo
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFilePreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setFilePreview(file.name);
+      }
+    }
+  };
+
+  const removeFile = () => {
+    setSelectedFile(null);
+    setFilePreview('');
+    document.getElementById('file-upload').value = ''; // Limpia el input de archivo
+  };
 
   useEffect(() => {
     const fetchEstudiantes = async () => {
@@ -44,6 +70,7 @@ export default function InicioDocente() {
           {/* Contenido de notificaciones */}
           {notificacionData.length > 0 && (
             <div className="bg-[#32569A] text-white p-4 rounded-md flex items-center justify-center">
+              <h2 className="text-xl font-bold mb-2">TALLER DE INGENIERIA DE SOFTWARE</h2>
               <p>{notificacionData[0].nombreDocente} {notificacionData[0].apellidoDocente}</p>
               <p>{notificacionData[0].Grupo}</p>
             </div>
@@ -72,34 +99,67 @@ export default function InicioDocente() {
           </button>
 
           {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-md shadow-lg w-80">
-              <h2 className="text-xl font-bold mb-4">Compartir con la clase:</h2>
-              <form>
-                <label className="block mb-2">
-                  Campo 1:
-                  <input type="text" className="border p-2 rounded-md w-full" />
-                </label>
-                <label className="block mb-4">
-                  Campo 2:
-                  <input type="text" className="border p-2 rounded-md w-full" />
-                </label>
-                <div className="flex justify-end space-x-2">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-md shadow-lg max-w-lg w-full">
+            <h2 className="text-xl font-bold mb-4">Compartir con la clase:</h2>
+            <form>
+              <label className="block mb-2">
+                Campo 1:
+                <input type="text" className="border p-2 rounded-md w-full" />
+              </label>
+              <div className="flex items-center mb-4">
+                <input
+                  type="file"
+                  accept=".doc,.pdf,.png,.jpeg"
+                  className="hidden"
+                  id="file-upload"
+                  onChange={handleFileChange} // Maneja el archivo seleccionado
+                />
+                <button
+                  type="button"
+                  onClick={() => document.getElementById('file-upload').click()}
+                  className="bg-blue-500 text-white px-4 py-2 rounded-md mr-2"
+                >
+                  Añadir
+                </button>
+              </div>
+              {/* Previsualización del archivo */}
+              {selectedFile && (
+                <div className="flex items-center mb-4">
+                  {filePreview.startsWith('data:image/') ? ( // Si es una imagen
+                    <img src={filePreview} alt="Vista previa" className="max-w-full h-auto rounded-md" />
+                  ) : (
+                    <div className="border p-2 rounded-md bg-gray-100">
+                      <p className="mr-2">{filePreview}</p>
+                    </div>
+                  )}
                   <button
                     type="button"
-                    onClick={() => setShowModal(false)}
-                    className="bg-gray-400 text-white px-4 py-2 rounded-md"
+                    onClick={removeFile}
+                    className="text-red-500 ml-2"
                   >
-                    Cancelar
-                  </button>
-                  <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
-                    Guardar
+                    &times;
                   </button>
                 </div>
-              </form>
-            </div>
+              )}
+              <div className="flex justify-end space-x-2">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="bg-gray-400 text-white px-4 py-2 rounded-md"
+                >
+                  Cancelar
+                </button>
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md">
+                  Guardar
+                </button>
+              </div>
+            </form>
           </div>
-        )}
+        </div>
+      )}
+
+
       </div>
       <BarraCopyright />
     </>
