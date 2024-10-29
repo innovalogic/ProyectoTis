@@ -4,13 +4,19 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useUser } from "../Componentes/UserContext";
 
-export default function BarraLateral() {
+export default function BarraLateral({ onCollapseChange }) {
     const [collapsed, setCollapsed] = useState(false);
-    const { user, setUser } = useUser(); // Añadir setUser para poder actualizar el usuario
+    const { user, setUser } = useUser();
 
     const handleLogout = () => {
-        setUser(null); // Borra el contexto de usuario
+        setUser(null);
         alert('Has cerrado sesión.');
+    };
+
+    const toggleCollapse = () => {
+        const newCollapsedState = !collapsed;
+        setCollapsed(newCollapsedState);
+        onCollapseChange(newCollapsedState); // Llamar a la función para notificar el cambio
     };
 
     return (
@@ -24,7 +30,7 @@ export default function BarraLateral() {
                     <div className="flex items-center justify-between p-4">
                         <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl`}>Menú</h1>
                         <button
-                            onClick={() => setCollapsed(!collapsed)}
+                            onClick={toggleCollapse}
                             className="bg-[#32569A] text-[#EFE7DC] p-2 rounded flex items-center justify-center"
                         >
                             <img
@@ -39,7 +45,6 @@ export default function BarraLateral() {
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Docente</h1>
-                    {/* Mostrar el nombre del docente si existe */}
                     {!collapsed && user && (
                         <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreDocente + " " + user.apellidoDocente}</h3>
                     )}
@@ -64,7 +69,7 @@ export default function BarraLateral() {
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
                             icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/InicioEstudiante" />}
+                            component={<Link to="/InicioDocente" />}
                         >
                             Inicio
                         </MenuItem>
@@ -91,13 +96,13 @@ export default function BarraLateral() {
                             icon={<img src="/src/Imagenes/Grupo.png" alt="Calendario" className="w-8 h-8 inline-block" />}
                             component={<Link to="/RecuperarEvaluacion" />}
                         >
-                            Empresa
+                            Evaluaciones Pasadas
                         </MenuItem>
 
                         <div className="mt-auto">
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
-                                onClick={handleLogout} // Llama a la función de cierre de sesión
+                                onClick={handleLogout}
                                 icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
                                 component={<Link to="/" />}
                             >
