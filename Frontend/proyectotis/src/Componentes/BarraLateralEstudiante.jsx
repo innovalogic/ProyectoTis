@@ -165,7 +165,7 @@ export default function BarraLateral() {
                         {/* Opción de Perfil */}
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Estudiante.png" alt="Perfil" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/src/Imagenes/Estudiante.png" alt="PerfilEstudiante" className="w-8 h-8 inline-block" />}
                             component={<Link to="/PerfilEstudiante" />}
                         >
                             Perfil

@@ -18,7 +18,7 @@ import SeguimientoActividades from './Paginas/SeguimientoActividades'
 import RegistroEvSemanales from './Paginas/RegistroEvSemanales';
 import InicioDocente from './Paginas/InicioDocente';
 import PerfilEstudiante from './Paginas/PerfilEstudiante';
-
+import PerfilDocente from './Paginas/PerfilDocente';
 function App() {
   return (
     <UserProvider>
@@ -40,6 +40,7 @@ function App() {
         <Route path="RegistroEvSemanales" element={<RegistroEvSemanales/>}/>
         <Route path="InicioDocente" element={<InicioDocente/>}/>
         <Route path="PerfilEstudiante" element={<PerfilEstudiante/>}/>
+        <Route path="PerfilDocente" element={<PerfilDocente/>}/>
       </Routes>
     </Router>
     </UserProvider>

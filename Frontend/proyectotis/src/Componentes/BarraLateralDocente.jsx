@@ -35,7 +35,7 @@ export default function BarraLateral() {
                         </button>
                     </div>
                     <div className="text-center mt-4">
-                        <img src="/src/Imagenes/Teacher.png" alt="Logo" className="w-32 h-auto inline-block" />
+                        <img src="/src/Imagenes/docente.png" alt="Logo" className="w-32 h-auto inline-block" />
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Docente</h1>
@@ -92,6 +92,15 @@ export default function BarraLateral() {
                             component={<Link to="/RecuperarEvaluacion" />}
                         >
                             Empresa
+                        </MenuItem>
+
+                        {/* Opción de Perfil */}
+                        <MenuItem
+                            className="text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/docente.png" alt="PerfilDocente" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/PerfilDocente" />}
+                        >
+                            Perfil
                         </MenuItem>
 
                         <div className="mt-auto">
