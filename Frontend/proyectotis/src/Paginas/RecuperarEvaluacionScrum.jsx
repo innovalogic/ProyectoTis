@@ -9,7 +9,8 @@ import { useLocation } from 'react-router-dom';
 export default function RecuperarEvaluacionScrum() {
 
     const { setUser } = useUser();
-    
+    const { user } = useUser();
+    const [error, setError] = useState(null);
     const [estudiantesData, setEstudiantesData] = useState([]); 
     const [filteredData, setFilteredData] = useState([]);
     const [grupoFilter, setGrupoFilter] = useState('');
@@ -34,19 +35,25 @@ export default function RecuperarEvaluacionScrum() {
     };
 
     useEffect(() => {
-        const fetchEstudiantes = async () => {
+        const fetchEstudiantesYMiembro = async () => {
             try {
-                const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluacionesScrum.php');
-                if (response.data.success) {
-                    setEstudiantesData(response.data.datos);
-                    setFilteredData(response.data.datos);
-                    console.log(datosGrupo)
+                const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/CargarEvaluacionesScrum.php', {
+                    params: { idEstudiante: user.idEstudiante },
+                });
+    
+                if (responseEstudiantes.data.success === true) {
+                    setEstudiantesData(responseEstudiantes.data.datos);
+                    setFilteredData(responseEstudiantes.data.datos);
+                } else {
+                    setError('No se pudo obtener los datos de estudiantes.');
                 }
+    
             } catch (error) {
-                console.error('Error al conectarse al servidor:', error.message);
+                setError('Error al conectarse al servidor: ' + error.message);
             }
         };
-        fetchEstudiantes();
+    
+        fetchEstudiantesYMiembro();
     }, []);
 
 
