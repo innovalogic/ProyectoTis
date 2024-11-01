@@ -2,7 +2,6 @@ import BarraCopyright from "../Componentes/BarraCopyright";
 import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import LogoInformatica from "../Imagenes/logoInformatica.png"; // Asegúrate de que la ruta sea correcta
-import './AreaEstudiante.scss'; // Asegúrate de importar el archivo donde está bg-custom
 
 export default function InicioAdministrador() {
     return (
