@@ -21,7 +21,8 @@ import PerfilEstudiante from './Paginas/PerfilEstudiante';
 import PerfilDocente from './Paginas/PerfilDocente';
 import InicioSesionAdministrador from './Paginas/InicioSesionAdministrador';
 import InicioAdministrador from './Paginas/InicioAdministrador';
-
+import BusquedaEstudiantes from './Paginas/BusquedaEstudiantes';
+import BusquedaDocentes from './Paginas/BusquedaDocentes';
 
 function App() {
   return (
@@ -47,6 +48,8 @@ function App() {
         <Route path="PerfilDocente" element={<PerfilDocente/>}/>
         <Route path="InicioSesionAdministrador" element={<InicioSesionAdministrador/>}/>
         <Route path="InicioAdministrador" element={<InicioAdministrador/>}/>
+        <Route path="BusquedaEstudiantes" element={<BusquedaEstudiantes/>}/>
+        <Route path="BusquedaDocentes" element={<BusquedaDocentes/>}/>
       </Routes>
     </Router>
     </UserProvider>

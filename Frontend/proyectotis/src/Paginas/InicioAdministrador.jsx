@@ -7,7 +7,7 @@ export default function InicioAdministrador() {
     return (
         <>
             <NavbarInicioDeSesion />
-            <div className="bg-custom" style={{ display: 'flex', height: '100%', marginTop: '70px', position: 'relative' }}>
+            <div className="bg-custom-bg" style={{ display: 'flex', height: '100%', marginTop: '70px', position: 'relative' }}>
                 <BarraLateral />
                 {/* Contenedor para la imagen principal */}
                 <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
