@@ -76,48 +76,49 @@ const PerfilDocente = () => {
 
   return (
     <>
-      <Navbar /> {/* Componente de navegación */}
+      <Navbar />
       <div className="bg-custom-bg flex" style={{ height: '100vh', marginTop: '70px' }}>
-        <BarraLateral /> {/* Componente de la barra lateral */}
+        <BarraLateral />
         <div className="flex justify-center items-center w-full mt-[-100px]">
-          <div className="bg-[#1E3664] rounded-[75px] p-12 text-white w-[98%] md:w-[90%] lg:w-[80%] h-[70vh] shadow-2xl flex flex-col">
-          <div className="flex flex-col mt-6 lg:mt-0">
-            <h2 className="text-center font-bold text-3xl">PERFIL DOCENTE</h2>
-            <div className="flex flex-col mt-6 ml-24 pt-8">
-              <div className="mb-4 text-2xl font-bold">NOMBRE: <span className="font-light ml-2">{user.nombreDocente}</span></div>
-              <div className="mb-4 text-2xl font-bold">APELLIDO: <span className="font-light ml-2">{user.apellidoDocente}</span></div>
-              <div className="mb-4 text-2xl font-bold">TELEFONO: <span className="font-light ml-2">{user.telefonoDocente}</span></div>
-              <div className="mb-4 text-2xl font-bold">CORREO: <span className="font-light ml-2">{user.correoDocente}</span></div>
-              <div className="mb-4 text-2xl font-bold">CODIGO DOCENTE: <span className="font-light ml-2">{user.CodigoDocente}</span></div>
+          <div className="bg-[#1E3664] rounded-[75px] p-12 text-white w-[98%] md:w-[90%] lg:w-[80%] h-[70vh] shadow-2xl flex flex-col lg:flex-row justify-between relative">
+            <h2 className="font-bold text-3xl absolute left-1/2 transform -translate-x-1/2 top-8">PERFIL DOCENTE</h2>
+            <div className="flex flex-col items-center justify-center w-full lg:w-auto mt-16 lg:mt-0">
+              <div className="flex flex-col ml-6 lg:ml-0">
+                <div className="mb-4 text-2xl font-bold">NOMBRE: <span className="font-light ml-2">{user.nombreDocente}</span></div>
+                <div className="mb-4 text-2xl font-bold">APELLIDO: <span className="font-light ml-2">{user.apellidoDocente}</span></div>
+                <div className="mb-4 text-2xl font-bold">TELEFONO: <span className="font-light ml-2">{user.telefonoDocente}</span></div>
+                <div className="mb-4 text-2xl font-bold">CORREO: <span className="font-light ml-2">{user.correoDocente}</span></div>
+                <div className="mb-4 text-2xl font-bold">CODIGO DOCENTE: <span className="font-light ml-2">{user.CodigoDocente}</span></div>
+              </div>
             </div>
+            <div className="flex flex-col items-center mt-8 lg:mt-0 relative" style={{ left: '-70px' }}>
+              <div className="mt-28">
+                <img 
+                  src={imageUrl || user.imageUrl}
+                  alt="Foto de perfil" 
+                  className="w-40 h-40 object-cover shadow-lg mb-4"
+                />
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={handleFileUpload} 
+                  className="hidden" 
+                  id="upload-button"
+                />
+                <button 
+                  onClick={() => document.getElementById('upload-button').click()}
+                  className="bg-slate-500 text-white text-sm font-bold px-12 py-1 rounded-md hover:bg-blue-600 transition mt-1"
+                >
+                  CAMBIAR<br/> FOTO
+                </button>
+              </div>
             </div>
           </div>
-          <div className="flex flex-col items-center mt-6 lg:mt-0">
-              <img 
-                src={imageUrl || user.imageUrl} // Usa `imageUrl` o una imagen por defecto
-
-                alt="Foto de perfil" 
-                className="w-40 h-40 object-cover shadow-lg mb-4" // Cuadro de 40x40 (puedes ajustar el tamaño si prefieres)
-              />
-              <input 
-                type="file" 
-                accept="image/*" 
-                onChange={handleFileUpload} 
-                className="hidden" // Oculta el input de archivo
-                id="upload-button"
-              />
-              <button 
-                onClick={() => document.getElementById('upload-button').click()} // Activa el input de archivo
-                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition"
-              >
-                Subir Imagen
-              </button>
-            </div>
         </div>
       </div>
       <BarraCopyright />
     </>
-  );    
+  );
 }
 
 export default PerfilDocente;
