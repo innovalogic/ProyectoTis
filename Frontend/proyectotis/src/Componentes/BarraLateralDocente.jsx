@@ -77,15 +77,10 @@ export default function BarraLateral() {
                             <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/RegistroEvSemanales" />}>
                                 Evaluacion Semanal
                             </MenuItem>
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/RegistroEvFinal" />}>
+                                Evaluacion Final
+                            </MenuItem>
                         </SubMenu>
-
-                        <MenuItem
-                            className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/InicioEstudiante" />}
-                        >
-                            Calendario
-                        </MenuItem>
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
                             icon={<img src="/src/Imagenes/Grupo.png" alt="Calendario" className="w-8 h-8 inline-block" />}
