@@ -23,6 +23,7 @@ import InicioSesionAdministrador from './Paginas/InicioSesionAdministrador';
 import InicioAdministrador from './Paginas/InicioAdministrador';
 import BusquedaEstudiantes from './Paginas/BusquedaEstudiantes';
 import BusquedaDocentes from './Paginas/BusquedaDocentes';
+import RegistroDocente from './Paginas/RegistroDocente';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route path="InicioAdministrador" element={<InicioAdministrador/>}/>
         <Route path="BusquedaEstudiantes" element={<BusquedaEstudiantes/>}/>
         <Route path="BusquedaDocentes" element={<BusquedaDocentes/>}/>
+        <Route path="RegistroDocente" element={<RegistroDocente/>}/>
       </Routes>
     </Router>
     </UserProvider>
