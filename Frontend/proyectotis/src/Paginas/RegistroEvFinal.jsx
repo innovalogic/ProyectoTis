@@ -11,7 +11,7 @@ export default function RegistroEvFinal() {
             <div className="flex h-full w-screen mt-[70px] bg-[#32569A]">
                 <BarraLateralDocente />
                 <div className="w-screen bg-[#efe7dc] p-4">
-                    <h1 className="text-4xl font-bold text-[#32569A] text-center mb-4">Registrar Evaluaciones Semanales</h1>
+                    <h1 className="text-4xl font-bold text-[#32569A] text-center mb-4">Registrar Evaluaciones Finales</h1>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center">
                         <CardEmpresa nombreEmpresa="Innovalogic" logoUrl="" />
                         <CardEmpresa nombreEmpresa="Error 404" logoUrl="" />
