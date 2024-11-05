@@ -26,6 +26,7 @@ export default function BarraLateral() {
             });
             console.log('Respuesta del servidor:', responseEstudiantes.data, user.idEstudiante);
 
+
             if (responseEstudiantes.data && responseEstudiantes.data.success && Array.isArray(responseEstudiantes.data.datos) && responseEstudiantes.data.datos.length > 0) {
                 const grupoDatos = responseEstudiantes.data.datos[0];
                 if (grupoDatos.idEstudianteScrum === user.idEstudiante) {
@@ -40,6 +41,7 @@ export default function BarraLateral() {
             console.error('Error al conectarse al servidor:', error.message);
         }
     };
+
 
     useEffect(() => {
         const fetchPlanificado = async () => {
@@ -64,6 +66,7 @@ export default function BarraLateral() {
             fetchPlanificado();
         }
     }, [user.idGrupoEmpresa]);
+
 
     return (
         <div className="flex h-[calc(100vh)]">
@@ -123,10 +126,32 @@ export default function BarraLateral() {
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
                             icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                            onClick={handleMenuClick}
+                            onClick={handleMenuClick} 
                         >
                             Evaluaciones
                         </MenuItem>
+
+                        <SubMenu
+                            label="Evaluaciones"
+                            className="bg-[#32569A] text-[#EFE7DC] font-bold"
+                            style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
+                            icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
+                        >
+                            <MenuItem className="text-white font-bold" onClick={handleMenuClick} >
+                                Recuperar evaluaciones
+                            </MenuItem>
+                            <MenuItem className="text-[#EFE7DC] font-bold" 
+                                component={<Link to="/Autoevaluacion" />}>
+                                Evaluación final
+                            </MenuItem>
+                                {/* Nueva opción "Avance" */}
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
+                                Avance
+                            </MenuItem>       
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
+                                Información
+                            </MenuItem>
+                        </SubMenu>
 
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
@@ -170,7 +195,6 @@ export default function BarraLateral() {
                         >
                             Perfil
                         </MenuItem>
-
                         <div className="mt-auto">
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"

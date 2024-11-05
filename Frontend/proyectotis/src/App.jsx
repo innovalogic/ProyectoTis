@@ -23,8 +23,6 @@ import InicioSesionAdministrador from './Paginas/InicioSesionAdministrador';
 import InicioAdministrador from './Paginas/InicioAdministrador';
 import BusquedaEstudiantes from './Paginas/BusquedaEstudiantes';
 import BusquedaDocentes from './Paginas/BusquedaDocentes';
-import RegistroEvFinal from './Paginas/RegistroEvFinal';
-import RegistroEvFinalGrupo from './Paginas/RegistroEvFinalGrupo';
 
 function App() {
   return (
@@ -52,6 +50,8 @@ function App() {
         <Route path="InicioAdministrador" element={<InicioAdministrador/>}/>
         <Route path="BusquedaEstudiantes" element={<BusquedaEstudiantes/>}/>
         <Route path="BusquedaDocentes" element={<BusquedaDocentes/>}/>
+        <Route path="RegistroDocente" element={<RegistroDocente/>}/>
+        <Route path="Autoevaluacion" element={<Autoevaluación/>}/>
         <Route path="RegistroEvFinal" element={<RegistroEvFinal/>}/>
         <Route path="RegistroEvFinalGrupo" element={<RegistroEvFinalGrupo/>}/>
       </Routes>

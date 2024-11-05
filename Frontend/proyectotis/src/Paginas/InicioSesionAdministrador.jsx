@@ -16,31 +16,25 @@ export default function InicioSesionAdministrador() {
   const handleSubmit = async (e) => {
     e.preventDefault(); 
 
-    const formData = new FormData();
-    formData.append('correoDocente', correoDocente);  
-    formData.append('password', Contraseña);
+    // Define las credenciales fijas
+    const CORREO_VALIDO = "samitomonti@gmail.com"; 
+    const CONTRASENA_VALIDA = "sammymonty"; 
 
-    try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/inicioSesionD.php", {
-        method: "POST",
-        body: formData,
-      });
+    if (correoDocente === CORREO_VALIDO && Contraseña === CONTRASENA_VALIDA) {
+        // Aquí puedes simular un objeto de usuario si es necesario
+        const user = {
+            correo: correoDocente,
+            nombre: "Samuel Montaño", 
+        };
 
-      const result = await response.json(); // Cambiado a json()
-      
-      if (result.message) {
-        alert(result.message);
-      } else {
-        // Guarda los datos completos del docente en el contexto
-        setUser(result); // Almacena todos los datos del docente en el contexto
-        console.log(result); // Para verificar los datos del docente
+        setUser(user); // Almacena los datos del docente en el contexto
         alert("Inicio de sesión exitoso!!");
         navigate("/InicioAdministrador");
-      }
-    } catch (error) {
-      console.error("Error:", error);
+    } else {
+        alert("Correo o contraseña incorrectos. Por favor, intenta de nuevo.");
     }
-  };
+};
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

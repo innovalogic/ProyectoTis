@@ -5,12 +5,18 @@ import UMSS from "/src/Imagenes/UMSS.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../Componentes/UserContext";
+import Modal from '../Componentes/Modal'
 
 export default function InicioSesionEstudiante() {
   const [codSis, setCodSis] = useState("");
   const [Contraseña, setContraseña] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [modal, setModal] = useState({
+    show: false,
+    title: '',
+    message: ''
+  });
   
   const { setUser } = useUser(); // Obtén la función setUser del contexto
 
@@ -32,10 +38,20 @@ export default function InicioSesionEstudiante() {
         // Guarda los datos completos del estudiante en el contexto
         setUser(result); // Aquí se almacenan todos los datos del estudiante
         console.log(result);
-        alert("Inicio de sesión exitoso!!");
-        navigate('/InicioEstudiante');
+        setModal({
+          show: true,
+          title: 'Inicio de sesión exitoso',
+          message: 'Se inicio sesión exitosamente!!'
+        });
+        return;
+        
       } else {
-        alert(result.message || "Error en el inicio de sesión :(");
+        setModal({
+          show: true,
+          title: 'Error',
+          message: 'Error en el inicio de sesión.'
+        });
+        return;
       }
     } catch (error) {
       console.error("Error:", error);
@@ -45,6 +61,16 @@ export default function InicioSesionEstudiante() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const closeModal = () => {
+    setModal({
+        ...modal,
+        show: false
+    });
+    if (modal.title === 'Inicio de sesión exitoso') {
+      navigate('/InicioEstudiante');
+  }
+};
 
   return (
     <div className="bg-cover bg-center h-screen flex flex-col justify-between" style={{ backgroundImage: `url(${UMSS})` }}>
@@ -102,6 +128,12 @@ export default function InicioSesionEstudiante() {
           </form>
         </div>
       </div>
+      <Modal
+        show={modal.show}
+        onClose={closeModal}
+        title={modal.title}
+        message={modal.message}
+        />
       <Copyright />
     </div>
   );
