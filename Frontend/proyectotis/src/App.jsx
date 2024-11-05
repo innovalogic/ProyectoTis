@@ -23,6 +23,10 @@ import InicioSesionAdministrador from './Paginas/InicioSesionAdministrador';
 import InicioAdministrador from './Paginas/InicioAdministrador';
 import BusquedaEstudiantes from './Paginas/BusquedaEstudiantes';
 import BusquedaDocentes from './Paginas/BusquedaDocentes';
+import RegistroDocente from './Paginas/RegistroDocente';
+import RegistroEvFinal from './Paginas/RegistroEvFinal';
+import Autoevaluación from './Paginas/Autoevaluación';
+import RegistroEvFinalGrupo from './Paginas/RegistroEvFinalGrupo';
 
 function App() {
   return (
