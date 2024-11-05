@@ -35,14 +35,10 @@ export default function BarraLateral() {
                         </button>
                     </div>
                     <div className="text-center mt-4">
-                        <img src="/src/Imagenes/docente.png" alt="Logo" className="w-32 h-auto inline-block" />
+                        <img src="/src/Imagenes/Admin.png" alt="Logo" className="w-32 h-auto inline-block" />
                     </div>
 
-                    <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Docente</h1>
-                    {/* Mostrar el nombre del docente si existe */}
-                    {!collapsed && user && (
-                        <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreDocente + " " + user.apellidoDocente}</h3>
-                    )}
+                    <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>ADMINISTRADOR</h1>
 
                     <Menu
                         menuItemStyles={{
@@ -64,43 +60,36 @@ export default function BarraLateral() {
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
                             icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/InicioEstudiante" />}
+                            component={<Link to="/InicioAdministrador" />}
                         >
                             Inicio
                         </MenuItem>
 
-                        <SubMenu
-                            label="Evaluacion"
-                            className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                        >
-                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/RegistroEvSemanales" />}>
-                                Evaluacion Semanal
-                            </MenuItem>
-                        </SubMenu>
 
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/InicioEstudiante" />}
+                            icon={<img src="/src/Imagenes/estudiante.png" alt="Estudiantes" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/BusquedaEstudiantes" />}
                         >
-                            Calendario
-                        </MenuItem>
-                        <MenuItem
-                            className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Grupo.png" alt="Calendario" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/RecuperarEvaluacion" />}
-                        >
-                            Empresa
+                            Estudiantes
                         </MenuItem>
 
-                        {/* Opción de Perfil */}
+
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/docente.png" alt="PerfilDocente" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/PerfilDocente" />}
+                            icon={<img src="/src/Imagenes/docente.png" alt="Docentes" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/BusquedaDocentes" />}
                         >
-                            Perfil
+                            Docentes
+                        </MenuItem>
+
+
+                        <MenuItem
+                            className="text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/mas.png" alt="Registrar Docente" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/RegistroDocente" />}
+                        >
+                            Registrar Docente
                         </MenuItem>
 
                         <div className="mt-auto">

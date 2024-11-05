@@ -17,6 +17,13 @@ import SeguimientoSprints from './Paginas/SeguimientoSprints';
 import SeguimientoActividades from './Paginas/SeguimientoActividades'
 import RegistroEvSemanales from './Paginas/RegistroEvSemanales';
 import InicioDocente from './Paginas/InicioDocente';
+import PerfilEstudiante from './Paginas/PerfilEstudiante';
+import PerfilDocente from './Paginas/PerfilDocente';
+import InicioSesionAdministrador from './Paginas/InicioSesionAdministrador';
+import InicioAdministrador from './Paginas/InicioAdministrador';
+import BusquedaEstudiantes from './Paginas/BusquedaEstudiantes';
+import BusquedaDocentes from './Paginas/BusquedaDocentes';
+import RegistroDocente from './Paginas/RegistroDocente';
 import Autoevaluación from './Paginas/Autoevaluación';
 
 function App() {
@@ -39,6 +46,13 @@ function App() {
         <Route path="SeguimientoActividades/:idSprint/:nomSprint/:fechaInicio/:fechaFin/:idJefe" element={<SeguimientoActividades/>}/>
         <Route path="RegistroEvSemanales" element={<RegistroEvSemanales/>}/>
         <Route path="InicioDocente" element={<InicioDocente/>}/>
+        <Route path="PerfilEstudiante" element={<PerfilEstudiante/>}/>
+        <Route path="PerfilDocente" element={<PerfilDocente/>}/>
+        <Route path="InicioSesionAdministrador" element={<InicioSesionAdministrador/>}/>
+        <Route path="InicioAdministrador" element={<InicioAdministrador/>}/>
+        <Route path="BusquedaEstudiantes" element={<BusquedaEstudiantes/>}/>
+        <Route path="BusquedaDocentes" element={<BusquedaDocentes/>}/>
+        <Route path="RegistroDocente" element={<RegistroDocente/>}/>
         <Route path="Autoevaluacion" element={<Autoevaluación/>}/>
       </Routes>
     </Router>
