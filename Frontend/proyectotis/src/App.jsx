@@ -17,6 +17,7 @@ import SeguimientoSprints from './Paginas/SeguimientoSprints';
 import SeguimientoActividades from './Paginas/SeguimientoActividades'
 import RegistroEvSemanales from './Paginas/RegistroEvSemanales';
 import InicioDocente from './Paginas/InicioDocente';
+import Autoevaluación from './Paginas/Autoevaluación';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="SeguimientoActividades/:idSprint/:nomSprint/:fechaInicio/:fechaFin/:idJefe" element={<SeguimientoActividades/>}/>
         <Route path="RegistroEvSemanales" element={<RegistroEvSemanales/>}/>
         <Route path="InicioDocente" element={<InicioDocente/>}/>
+        <Route path="Autoevaluacion" element={<Autoevaluación/>}/>
       </Routes>
     </Router>
     </UserProvider>

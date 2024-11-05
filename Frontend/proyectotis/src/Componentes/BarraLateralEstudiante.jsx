@@ -133,6 +133,28 @@ export default function BarraLateral(){
                     Evaluaciones
                 </MenuItem>
 
+                <SubMenu
+                    label="Evaluaciones"
+                    className="bg-[#32569A] text-[#EFE7DC] font-bold"
+                    style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
+                    icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
+                >
+                    <MenuItem className="text-white font-bold" onClick={handleMenuClick} >
+                        Recuperar evaluaciones
+                    </MenuItem>
+                    <MenuItem className="text-[#EFE7DC] font-bold" 
+                        component={<Link to="/Autoevaluacion" />}>
+                        Evaluación final
+                    </MenuItem>
+                        {/* Nueva opción "Avance" */}
+                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
+                        Avance
+                    </MenuItem>       
+                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
+                        Información
+                    </MenuItem>
+                </SubMenu>
+
                 <MenuItem
                     className="text-[#EFE7DC] font-bold"
                     icon={<img src="/src/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}

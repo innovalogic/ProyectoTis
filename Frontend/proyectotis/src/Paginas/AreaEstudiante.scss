@@ -287,4 +287,47 @@ $azulfuerte:#1E3664;
           
     }
 }
- 
+.evaluacion{
+    display: relative;
+    flex-direction: row;
+    width: 100vw;
+    height:100vh;
+    background-color: #C2D2E9;
+    .BarraLateral{
+        width: 20vw;
+        min-width: 250px;
+    }
+    .final{
+        flex-grow: 1;
+        background-color: $fondoEst;
+        background-size: cover;
+        height: 100vh;  // Asegura que tome toda la altura de la pantalla
+        overflow-y: auto;
+        .tit{
+            font-size: 45px;
+            padding: 15px 0;
+            font-style: italic;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 700;
+            color: #1E3664;
+            text-align: center;
+            width: 100%;
+        }
+        .descripcion{
+            padding-left: 50px;
+            font-size: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 500;
+            color:#1E3664;
+            padding-bottom: 20px;
+        }
+        .casillas{
+            padding-left: 50px;
+            font-size: 20px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 500;
+            color:#1E3664;
+            padding-bottom: 20px;
+        }
+    }
+}
