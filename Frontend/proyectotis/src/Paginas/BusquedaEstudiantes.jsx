@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from "../Componentes/NavbarInicio";
 import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import BarraCopyright from "../Componentes/BarraCopyright";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const BusquedaEstudiantes = () => {
   const [tabla, setTabla] = useState([]);
@@ -76,24 +77,31 @@ const BusquedaEstudiantes = () => {
       <div className="bg-custom-bg flex" style={{ height: '100vh', marginTop: '70px' }}>
         <BarraLateral />
         <div className="mt-8 flex-1">
-          <h2 className="font-semibold text-3xl" style={{ color: "#1E3664" }}>
-            Tabla de Estudiantes:
-          </h2>
-          <div className="mt-4">
-            <input
-              type="text"
-              placeholder="Buscar estudiante..."
-              value={estudianteFilter}
-              onChange={(e) => setEstudianteFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded w-full"
-            />
+          <div className="w-3/4 mx-auto">
+            <h2 className="font-semibold text-3xl" style={{ color: "#1E3664" }}>
+              Tabla de Estudiantes:
+            </h2>
+          </div>
+          <div className="mt-4 px-4">
+            <div className="relative w-3/4 mx-auto">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <i className="fas fa-search"></i>
+              </span>
+              <input
+                type="text"
+                placeholder="Buscar estudiante..."
+                value={estudianteFilter}
+                onChange={(e) => setEstudianteFilter(e.target.value)}
+                className="px-10 py-2 border border-gray-300 rounded w-full"
+              />
+            </div>
           </div>
           {error && (
             <p className="text-red-500 mt-2">{error}</p>
           )}
           <div
-            className="w-full h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm mt-4"
-            style={{ height: "350px", backgroundColor: "#1E3664", borderRadius: "45px" }}
+            className="mx-auto w-3/4 h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm mt-4"
+            style={{ height: "500px", backgroundColor: "#1E3664", borderRadius: "45px" }}
           >
             <table className="w-full text-white">
               <thead>

@@ -3,6 +3,8 @@ import { useUser } from "../Componentes/UserContext"; // Asegúrate de que la ru
 import Navbar from "../Componentes/NavbarInicio"; // Verifica el nombre del archivo
 import BarraLateral from "../Componentes/BarraLateralAdministrador"; // Asegúrate de que la ruta y nombre sean correctos
 import BarraCopyright from "../Componentes/BarraCopyright";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 const BusquedaDocentes = () => {
   const [tabla, setTabla] = useState([]);
@@ -86,22 +88,26 @@ const BusquedaDocentes = () => {
             </h2>
           </div>
           <div className="mt-4 px-4">
-            <div className="relative w-3/4 mx-auto">
-              <input
-                type="text"
-                placeholder="Buscar docente..."
-                value={docenteFilter}
-                onChange={(e) => setDocenteFilter(e.target.value)}
-                className="px-4 py-2 pl-12 border border-gray-300 rounded w-full"
-              />
-            </div>
+          <div className="relative w-3/4 mx-auto">
+            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <i className="fas fa-search"></i> {/* Ícono de lupa de Font Awesome */}
+            </span>
+            <input
+              type="text"
+              placeholder="Buscar docente..."
+              value={docenteFilter}
+              onChange={(e) => setDocenteFilter(e.target.value)}
+              className="px-10 py-2 border border-gray-300 rounded w-full" // Espacio extra para el ícono
+            />
+          </div>
+          
           </div>
           {error && (
             <p className="text-red-500 mt-2 text-center">{error}</p>
           )}
           <div
             className="mx-auto w-3/4 h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm mt-4"
-            style={{ height: "350px", backgroundColor: "#1E3664", borderRadius: "45px" }}
+            style={{ height: "500px", backgroundColor: "#1E3664", borderRadius: "45px" }}
           >
             <table className="w-full text-white">
               <thead>
