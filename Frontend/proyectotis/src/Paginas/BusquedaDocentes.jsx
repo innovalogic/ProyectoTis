@@ -71,30 +71,36 @@ const BusquedaDocentes = () => {
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-
   return (
     <>
       <Navbar /> {/* Componente de navegación */}
       <div className="bg-custom-bg flex" style={{ height: '100vh', marginTop: '70px' }}>
         <BarraLateral /> {/* Componente de la barra lateral */}
         <div className="mt-8 flex-1">
-          <h2 className="font-semibold text-3xl" style={{ color: "#1E3664" }}>
-            Tabla de Docente:
-          </h2>
-          <div className="mt-4">
-            <input
-              type="text"
-              placeholder="Buscar docente..."
-              value={docenteFilter}
-              onChange={(e) => setDocenteFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded w-full"
-            />
+          <div className="w-3/4 mx-auto">
+            <h2
+              className="font-semibold text-3xl"
+              style={{ color: "#1E3664" }}
+            >
+              Tabla de Docente:
+            </h2>
+          </div>
+          <div className="mt-4 px-4">
+            <div className="relative w-3/4 mx-auto">
+              <input
+                type="text"
+                placeholder="Buscar docente..."
+                value={docenteFilter}
+                onChange={(e) => setDocenteFilter(e.target.value)}
+                className="px-4 py-2 pl-12 border border-gray-300 rounded w-full"
+              />
+            </div>
           </div>
           {error && (
-            <p className="text-red-500 mt-2">{error}</p>
+            <p className="text-red-500 mt-2 text-center">{error}</p>
           )}
           <div
-            className="w-full h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm mt-4"
+            className="mx-auto w-3/4 h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm mt-4"
             style={{ height: "350px", backgroundColor: "#1E3664", borderRadius: "45px" }}
           >
             <table className="w-full text-white">
