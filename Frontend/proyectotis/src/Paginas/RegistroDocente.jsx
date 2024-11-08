@@ -128,6 +128,7 @@ export default function RegistroDocente() {
             nombre: '',
             apellido: '',
             codsiss: '',
+            correo: '',
             codigoDocente: '',
             telefono: '',
             contrasena: '',
@@ -194,7 +195,7 @@ export default function RegistroDocente() {
                                     Confirmar contraseña<span style={{ color: 'red' }}>*</span>
                                     <input type="password" id="confirmarContrasena" value={formData.confirmarContrasena} onChange={handleChange} required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
                                 </label>
-                                <button type="submit" style={{ backgroundColor: '#1E3664', color: '#FFFFFF', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>
+                                <button type="submit" style={{ backgroundColor: '#1E3664', color: '#FFFFFF', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer', fontWeight: 'bold', marginRight: '20px' }}>
                                     Registrar Docente
                                 </button>
                                 <button type="submit" style={{ backgroundColor: '#1E3664', color: '#FFFFFF', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }} onClick={handleCancel}>
