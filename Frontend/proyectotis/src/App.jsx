@@ -23,6 +23,12 @@ import InicioSesionAdministrador from './Paginas/InicioSesionAdministrador';
 import InicioAdministrador from './Paginas/InicioAdministrador';
 import BusquedaEstudiantes from './Paginas/BusquedaEstudiantes';
 import BusquedaDocentes from './Paginas/BusquedaDocentes';
+import RegistroDocente from './Paginas/RegistroDocente';
+import RegistroEvFinal from './Paginas/RegistroEvFinal';
+import Autoevaluación from './Paginas/Autoevaluación';
+import RegistroEvFinalGrupo from './Paginas/RegistroEvFinalGrupo';
+import AdministradorEstudiante from './Paginas/AdministradorEstudiante';
+import AdministradorDocente from './Paginas/AdministradorDocente';
 
 function App() {
   return (
@@ -50,6 +56,12 @@ function App() {
         <Route path="InicioAdministrador" element={<InicioAdministrador/>}/>
         <Route path="BusquedaEstudiantes" element={<BusquedaEstudiantes/>}/>
         <Route path="BusquedaDocentes" element={<BusquedaDocentes/>}/>
+        <Route path="RegistroDocente" element={<RegistroDocente/>}/>
+        <Route path="Autoevaluacion" element={<Autoevaluación/>}/>
+        <Route path="RegistroEvFinal" element={<RegistroEvFinal/>}/>
+        <Route path="RegistroEvFinalGrupo" element={<RegistroEvFinalGrupo/>}/>
+        <Route path="AdministradorEstudiante" element={<AdministradorEstudiante/>}/>
+        <Route path="AdministradorDocente" element={<AdministradorDocente/>}/>
       </Routes>
     </Router>
     </UserProvider>
