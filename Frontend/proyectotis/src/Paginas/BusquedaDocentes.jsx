@@ -3,6 +3,7 @@ import { useUser } from "../Componentes/UserContext"; // Asegúrate de que la ru
 import Navbar from "../Componentes/NavbarInicio"; // Verifica el nombre del archivo
 import BarraLateral from "../Componentes/BarraLateralAdministrador"; // Asegúrate de que la ruta y nombre sean correctos
 import BarraCopyright from "../Componentes/BarraCopyright";
+import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
@@ -128,11 +129,19 @@ const BusquedaDocentes = () => {
                       <td className="p-2 border-b">{Docente.apellidoDocente}</td>
                       <td className="p-2 border-b">{Docente.correoDocente}</td>
                       <td className="p-2 border-b">
+                      <Link to="../AdministradorDocente" state={{ data: { idDocente:Docente.idDocente, 
+                                                                 nombreDocente:Docente.nombreDocente,
+                                                                 apellidoDocente:Docente.apellidoDocente,
+                                                                 codigoDocente:Docente.CodigoDocente,
+                                                                 telefonoDocente:Docente.telefonoDocente,
+                                                                 contraseñaDocente:Docente.contraseñaDocente,
+                                                                 correoDocente:Docente.correoDocente} }}>
                         <button
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
                         >
                           Ver Perfil
                         </button>
+                        </Link>
                       </td>
                     </tr>
                   ))

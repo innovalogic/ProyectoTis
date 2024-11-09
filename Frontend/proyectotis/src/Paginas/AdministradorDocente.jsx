@@ -1,7 +1,16 @@
 import BarraCopyright from "../Componentes/BarraCopyright";
 import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import Navbar from "../Componentes/NavbarInicio";
+import { useLocation } from "react-router-dom";
 export default function AdministradorDocente() {
+  const location = useLocation();
+  const { nombreDocente, apellidoDocente, codigoDocente, telefonoDocente, contraseñaDocente, correoDocente} = location.state?.data || {};
+  const perfil = {nombre: nombreDocente,
+    apellido: apellidoDocente,
+    codigo:codigoDocente,
+    telefono:telefonoDocente,
+    contraseña:contraseñaDocente,
+    email:correoDocente}
     return (
         <>
           <Navbar />
@@ -12,11 +21,12 @@ export default function AdministradorDocente() {
                 <h2 className="font-bold text-3xl absolute left-1/2 transform -translate-x-1/2 top-8">PERFIL DOCENTE</h2>
                 <div className="flex flex-col items-center justify-center w-full lg:w-auto mt-16 lg:mt-0">
                   <div className="flex flex-col ml-6 lg:ml-0">
-                    <div className="mb-4 text-2xl font-bold">NOMBRE:</div>
-                    <div className="mb-4 text-2xl font-bold">APELLIDO:</div>
-                    <div className="mb-4 text-2xl font-bold">TELEFONO:</div>
-                    <div className="mb-4 text-2xl font-bold">CORREO:</div>
-                    <div className="mb-4 text-2xl font-bold">CODIGO DOCENTE:</div>
+                    <div className="mb-4 text-2xl font-bold">NOMBRE: <span className="font-light ml-2">{perfil.nombre}</span></div>
+                    <div className="mb-4 text-2xl font-bold">APELLIDO: <span className="font-light ml-2">{perfil.apellido}</span></div>
+                    <div className="mb-4 text-2xl font-bold">TELEFONO: <span className="font-light ml-2">{perfil.telefono}</span></div>
+                    <div className="mb-4 text-2xl font-bold">CORREO: <span className="font-light ml-2">{perfil.email}</span></div>
+                    <div className="mb-4 text-2xl font-bold">CONTRASEÑA: <span className="font-light ml-2">{perfil.contraseña}</span></div>
+                    <div className="mb-4 text-2xl font-bold">CODIGO DOCENTE: <span className="font-light ml-2">{perfil.codigo}</span></div>
                   </div>
                 </div>
               </div>
