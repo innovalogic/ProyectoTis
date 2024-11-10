@@ -9,6 +9,12 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json; charset=UTF-8");
 
 include_once 'db.php';
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 // Manejar solicitudes OPTIONS preflight
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -24,14 +30,33 @@ function getCorreosEstudiantes($pdo) {
     return $stmt->fetchAll(PDO::FETCH_COLUMN); // Devuelve solo los correos
 }
 
-// Función para enviar correos electrónicos
+// Función para enviar correos electrónicos usando PHPMailer
 function enviarCorreo($destinatario, $asunto, $mensaje) {
-    $headers = "From: notificaciones@ejemplo.com\r\n";
-    $headers .= "Reply-To: no-reply@ejemplo.com\r\n";
-    $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $mail = new PHPMailer(true);
+    try {
+        // Configuración del servidor SMTP
+        $mail->isSMTP();
+        $mail->Host = 'smtp.ejemplo.com'; // Cambia esto al host de tu SMTP
+        $mail->SMTPAuth = true;
+        $mail->Username = 'notificaciones@ejemplo.com'; // Cambia esto al usuario SMTP
+        $mail->Password = 'password'; // Cambia esto a la contraseña SMTP
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
 
-    // Envía el correo y retorna el resultado
-    return mail($destinatario, $asunto, $mensaje, $headers);
+        // Configuración del correo
+        $mail->setFrom('notificaciones@ejemplo.com', 'Notificaciones');
+        $mail->addAddress($destinatario);
+        $mail->isHTML(true);
+        $mail->Subject = $asunto;
+        $mail->Body = $mensaje;
+
+        // Enviar el correo
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        error_log("No se pudo enviar el correo a $destinatario: {$mail->ErrorInfo}");
+        return false;
+    }
 }
 
 try {
@@ -74,4 +99,3 @@ try {
     echo json_encode(['success' => false, 'message' => 'Error inesperado: ' . $e->getMessage()]);
 }
 ?>
-
