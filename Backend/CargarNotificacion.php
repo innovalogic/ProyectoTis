@@ -12,21 +12,20 @@ $idDocente = isset($_GET['idDocente']) ? $_GET['idDocente'] : null;
 if (!empty($idDocente)) {
     try {
         $query = 'SELECT 
-            "Notificacion"."idNotificacion",
-            "Notificacion"."mensaje",
-            "Notificacion"."enlace",
-            "Notificacion"."fecha",
-            "Notificacion"."hora",
-            "Notificacion"."idDocente",
+            "notificacion"."idnotificacion",
+            "notificacion"."mensaje",
+            "notificacion"."fecha",
+            "notificacion"."hora",
+            "notificacion"."iddocente",
             "Docente"."nombreDocente",
             "Docente"."apellidoDocente",
             "Docente"."Grupo" 
             FROM 
-            "Notificacion"
+            "notificacion"
             JOIN 
-            "Docente" ON "Notificacion"."idDocente" = "Docente"."idDocente"
+            "Docente" ON "notificacion"."iddocente" = "Docente"."idDocente"
             WHERE 
-            "Notificacion"."idDocente" = :idDocente';
+            "notificacion"."iddocente" = :idDocente';
 
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':idDocente', $idDocente, PDO::PARAM_INT);

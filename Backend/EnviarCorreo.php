@@ -37,8 +37,8 @@ function enviarCorreo($destinatario, $asunto, $mensaje) {
         $mail->SMTPAuth = true;
         $mail->Username = 'innovalogicoficial@gmail.com'; 
         $mail->Password = 'yievvnsolbpsabso';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = 587;
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
 
         $mail->setFrom('innovalogicoficial@gmail.com', 'Notificaciones');
         $mail->addAddress($destinatario);
@@ -46,7 +46,6 @@ function enviarCorreo($destinatario, $asunto, $mensaje) {
         $mail->Subject = $asunto;
         $mail->Body = $mensaje;
 
-        // Enviar el correo
         $mail->send();
         return true;
     } catch (Exception $e) {

@@ -18,7 +18,7 @@ if (
     !empty($data->idDocente) 
 ) {
     try {
-        $query = 'INSERT INTO "Notificacion" ("mensaje", "fecha", "hora", "idDocente") VALUES (:campo1, :fecha, :hora, :idDocente)';
+        $query = 'INSERT INTO "notificacion" ("mensaje", "fecha", "hora", "iddocente") VALUES (:campo1, :fecha, :hora, :idDocente)';
         $stmt = $pdo->prepare($query);
 
         $stmt->bindParam(':campo1', $data->campo1);
@@ -30,14 +30,20 @@ if (
             $notificacionId = $pdo->lastInsertId();
 
             if (!empty($data->links)) {
-                $linkSql = 'INSERT INTO "Notificacion_Links" ("idNotificacionLink", "enlace") VALUES (:idNotificacionLink, :enlace)';
-                $linkStmt = $pdo->prepare($linkSql);
-
-                foreach ($data->links as $link) {
-                    $linkStmt->bindValue(':idNotificacionLink', $notificacionId);
-                    $linkStmt->bindValue(':enlace', $link);
-                    $linkStmt->execute();
+                try{
+                    $linkSql = 'INSERT INTO "notificacion_links" ("idnotificacion", "enlace") VALUES (:notificacionId, :enlace)';
+                    $linkStmt = $pdo->prepare($linkSql);
+    
+                    foreach ($data->links as $link) {
+                        $linkStmt->bindValue(':notificacionId', $notificacionId);
+                        $linkStmt->bindValue(':enlace', $link);
+                        $linkStmt->execute();
+                    }
+                }catch (PDOException $e) {
+                    ob_end_clean();
+                    echo json_encode(['success' => false, 'message' => 'Error de base de datos: ' . $e->getMessage()]);
                 }
+                
             }
 
             ob_end_clean();
