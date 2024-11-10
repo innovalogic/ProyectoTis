@@ -143,6 +143,13 @@ export default function SeguimientoSprints() {
       });  
     }
   };
+
+  const handleLinkChange = (sprint, newLink) => {
+    const updatedSprints = sprints.map(s =>
+      s.idSprint === sprint.idSprint ? { ...s, linkInforme: newLink } : s
+    );
+    setSprints(updatedSprints);
+  };
   
   const idJefe=  grupoEmpresa ? grupoEmpresa.idEstudianteScrum : null;
 
@@ -186,13 +193,54 @@ export default function SeguimientoSprints() {
       }
       const PreviosCompletados = SprintsAnteriores.every(s => s.estado === 'Terminado');
       if (!PreviosCompletados) {
-        alert('Todos los sprints anteriores deben estar en estado "Terminado" para cambiar este sprint a "En progreso".');
+        setModal({
+          show: true,
+          title: 'Error',
+          message: 'Todos los sprints anteriores deben estar en estado "Terminado" para cambiar este sprint a "En progreso".'
+      });
         return;
       }
+    }
+    if (newState === 'Terminado' && !sprint.linkInforme) {
+      setModal({
+        show: true,
+        title: 'Estado inválido',
+        message: 'Debe subir un enlace del informe final para marcar el sprint como "Terminado".'
+      });
+      return;
     }
     setSelectedSprint({ ...sprint, estado: newState });
     setShowStateModal(true); 
     fetchSprints();
+  };
+
+  const saveLinkInforme = async (sprint) => {
+    try {
+      const response = await fetch('http://localhost/ProyectoTis/Backend/guardarInformeSprint.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Sprint_idSprint: sprint.idSprint,
+          enlace: sprint.linkInforme,
+          Sprint_GrupoEmpresa_idGrupoEmpresa: user.idGrupoEmpresa,
+        }),
+      });
+      const result = await response.json();
+        console.log(result);
+      if (result.success) {
+        setModal({
+          show: true,
+          title: 'Informe guardado',
+          message: 'El enlace del informe final se guardó correctamente.',
+        });
+      } else {
+        throw new Error('Error al guardar el enlace del informe.');
+      }
+    } catch (error) {
+      console.error('Error al guardar el informe:', error);
+    }
   };
 
   // Función para manejar la edición de un sprint
@@ -308,7 +356,7 @@ export default function SeguimientoSprints() {
   return (
     <>
       <NavbarInicioDeSesion />
-      <div style={{ display: 'flex', height: '100%', marginTop: '70px'}}>   
+      <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px'}}>   
         <BarraLateral />
         <div className='seguimiento'>
           <div className='SeguiSprint'>
@@ -326,6 +374,7 @@ export default function SeguimientoSprints() {
                   <th>Progreso</th>
                   <th>Inicio</th>
                   <th>Fin</th>
+                  <th>Informe Final</th>
                   <th>Modificar</th>
                 </tr>
               </thead>
@@ -354,6 +403,15 @@ export default function SeguimientoSprints() {
                     <td>{sprint.progreso} HU</td>
                     <td>{sprint.fechaInicio}</td>
                     <td>{sprint.fechaFin}</td>
+                    <td>
+                      <input
+                        type="url"
+                        placeholder="Agregar enlace"
+                        value={sprint.linkInforme || ''}
+                        onChange={(e) => handleLinkChange(sprint, e.target.value)}
+                      />
+                      <Button onClick={() => saveLinkInforme(sprint)}>Guardar</Button>
+                    </td>
                     <td>
                       <button className="btn btn-primary" onClick={() => handleEditClick(sprint)}>
                         <FaEdit />

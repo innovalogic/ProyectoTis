@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from "../Componentes/NavbarInicio";
 import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import BarraCopyright from "../Componentes/BarraCopyright";
+import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const BusquedaEstudiantes = () => {
@@ -122,11 +123,20 @@ const BusquedaEstudiantes = () => {
                       <td className="p-2 border-b">{estudiante.apellidoEstudiante}</td>
                       <td className="p-2 border-b">{estudiante.codSis}</td>
                       <td className="p-2 border-b">
+                      <Link to="../AdministradorEstudiante" state={{ data: { idEstudiante:estudiante.idEstudiante, 
+                                                                 nombreEstudiante:estudiante.nombreEstudiante,
+                                                                 apellidoEstudiante:estudiante.apellidoEstudiante,
+                                                                 codSis:estudiante.codSis,
+                                                                 telefonoEstudiante:estudiante.telefonoEstudiante,
+                                                                 contraseñaEstudiante:estudiante.contraseñaEstudiante,
+                                                                 idGrupoEmpresa:estudiante.idGrupoEmpresa,
+                                                                 emailEstudiante:estudiante.emailEstudiante} }}>
                         <button
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
                         >
                           Ver Perfil
                         </button>
+                        </Link>
                       </td>
                     </tr>
                   ))

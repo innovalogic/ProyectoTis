@@ -22,29 +22,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// Función para obtener los correos electrónicos de los estudiantes
 function getCorreosEstudiantes($pdo) {
     $query = 'SELECT "emailEstudiante" FROM "Estudiante"';
     $stmt = $pdo->prepare($query);
     $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_COLUMN); // Devuelve solo los correos
+    return $stmt->fetchAll(PDO::FETCH_COLUMN); 
 }
 
-// Función para enviar correos electrónicos usando PHPMailer
 function enviarCorreo($destinatario, $asunto, $mensaje) {
     $mail = new PHPMailer(true);
     try {
-        // Configuración del servidor SMTP
         $mail->isSMTP();
-        $mail->Host = 'smtp.ejemplo.com'; // Cambia esto al host de tu SMTP
+        $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'notificaciones@ejemplo.com'; // Cambia esto al usuario SMTP
-        $mail->Password = 'password'; // Cambia esto a la contraseña SMTP
-        $mail->SMTPSecure = 'tls';
+        $mail->Username = 'innovalogicoficial@gmail.com'; 
+        $mail->Password = 'yievvnsolbpsabso';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
-        // Configuración del correo
-        $mail->setFrom('notificaciones@ejemplo.com', 'Notificaciones');
+        $mail->setFrom('innovalogicoficial@gmail.com', 'Notificaciones');
         $mail->addAddress($destinatario);
         $mail->isHTML(true);
         $mail->Subject = $asunto;

@@ -5,6 +5,7 @@ import UMSS2 from "/src/Imagenes/UMSS2.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from "../Componentes/UserContext";
+import Modal from '../Componentes/Modal'
 
 export default function InicioSesionDocente() {
   const navigate = useNavigate();
@@ -12,6 +13,12 @@ export default function InicioSesionDocente() {
   const [Contraseña, setContraseña] = useState("");
   const [showPassword, setShowPassword] = useState(false); 
   const { setUser } = useUser(); // Obtén la función setUser del contexto
+  const [modal, setModal] = useState({
+    show: false,
+    title: '',
+    message: ''
+  });
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -28,14 +35,23 @@ export default function InicioSesionDocente() {
 
       const result = await response.json(); // Cambiado a json()
       
-      if (result.message) {
-        alert(result.message);
+      if (result.correoDocente) {
+        setUser(result); 
+        console.log(result);
+        setModal({
+          show: true,
+          title: 'Inicio de sesión exitoso',
+          message: 'Se inicio sesión exitosamente!!'
+        });
+        return;
+        
       } else {
-        // Guarda los datos completos del docente en el contexto
-        setUser(result); // Almacena todos los datos del docente en el contexto
-        console.log(result); // Para verificar los datos del docente
-        alert("Inicio de sesión exitoso!!");
-        navigate("/InicioDocente");
+        setModal({
+          show: true,
+          title: 'Error',
+          message: 'Error en el inicio de sesión.'
+        });
+        return;
       }
     } catch (error) {
       console.error("Error:", error);
@@ -45,6 +61,16 @@ export default function InicioSesionDocente() {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const closeModal = () => {
+    setModal({
+        ...modal,
+        show: false
+    });
+    if (modal.title === 'Inicio de sesión exitoso') {
+      navigate('/InicioDocente');
+  }
+};
 
   return (
     <div className="bg-cover bg-center h-screen flex flex-col justify-between" style={{ backgroundImage: `url(${UMSS2})` }}>
@@ -110,6 +136,12 @@ export default function InicioSesionDocente() {
           </form>
         </div>
       </div>
+      <Modal
+        show={modal.show}
+        onClose={closeModal}
+        title={modal.title}
+        message={modal.message}
+        />
       <Copyright />
     </div>
   );

@@ -50,6 +50,7 @@ export default function InicioDocente() {
       links: links,
       fecha: fecha,
       hora: hora,
+      idDocente: user.idDocente,
     };
   
     try {
