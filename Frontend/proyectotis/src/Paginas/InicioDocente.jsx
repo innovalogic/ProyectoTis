@@ -14,6 +14,65 @@ export default function InicioDocente() {
   const [showModal, setShowModal] = useState(false);
   const [links, setLinks] = useState([]); 
   const [link, setLink] = useState("");
+  const [mensaje, setMensaje] = useState("");
+
+  const handleEnviarNotificacion = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost/proyectotis/backend/EnviarCorreo.php', {
+        asunto: "materia-Tis", 
+        mensaje: mensaje,
+      });
+
+      if (response.data.success) {
+        console.log('Correos enviados exitosamente.');
+      } else {
+        console.log(response.data.message || 'Ocurrió un error al enviar algunos correos.');
+      }
+    } catch (error) {
+      console.log('Error al conectar con el servidor: ' + error.message);
+    } finally {
+      console.log(false);
+    }
+  };
+
+  const guardarNotificacion = async (e) => {
+    e.preventDefault();
+
+    const campo1Data = document.querySelector("#campo1").value;
+    const currentDateTime = new Date();
+    const fecha = currentDateTime.toISOString().split("T")[0]; // Solo fecha (YYYY-MM-DD)
+    const hora = currentDateTime.toTimeString().split(" ")[0]; // Solo hora (HH:MM:SS)
+  
+    const notificacionData = {
+      campo1: campo1Data,
+      links: links,
+      fecha: fecha,
+      hora: hora,
+    };
+  
+    try {
+      // Envía los datos al backend
+      const response = await axios.post('http://localhost/proyectotis/backend/GuardarNotificacion.php', notificacionData);
+      if (response.data.success) {
+        alert("Notificación guardada con éxito.");
+      } else {
+        alert("Error al guardar la notificación.");
+      }
+    } catch (error) {
+      console.error("Error al conectar con el servidor:", error);
+    }
+  
+    setLinks([]);
+    setShowModal(false);
+  };
+
+  const handlePublicarClick = (e) => {
+    e.preventDefault();
+    guardarNotificacion(e);
+    handleEnviarNotificacion(e);
+  };
 
   const handleLinkChange = (e) => {
     setLink(e.target.value);
@@ -105,9 +164,10 @@ export default function InicioDocente() {
               <form>
                 <label className="block mb-2">
                 <textarea
-                  className="p-2 rounded-md w-full bg-[#e1d7b7] border border-gray-300 h-24 resize-none"
-
-                />
+                    className="p-2 rounded-md w-full bg-[#e1d7b7] border border-gray-300 h-24 resize-none"
+                    value={mensaje}
+                    onChange={(e) => setMensaje(e.target.value)} // Actualiza el mensaje en el estado
+                  />
                 </label>
                 <label className="block mb-4">
                   Enlace:
@@ -154,8 +214,12 @@ export default function InicioDocente() {
                   >
                     Cancelar
                   </button>
-                  <button type="submit" className="bg-[#32569A] text-white px-4 py-2 rounded-md">
-                    Publicar
+                  <button
+                      type="button"
+                      onClick={handlePublicarClick}
+                      className="bg-[#32569A] text-white px-4 py-2 rounded-md"
+                    >
+                      Publicar
                   </button>
                 </div>
               </form>
