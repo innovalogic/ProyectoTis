@@ -24,7 +24,11 @@ import InicioAdministrador from './Paginas/InicioAdministrador';
 import BusquedaEstudiantes from './Paginas/BusquedaEstudiantes';
 import BusquedaDocentes from './Paginas/BusquedaDocentes';
 import RegistroDocente from './Paginas/RegistroDocente';
+import RegistroEvFinal from './Paginas/RegistroEvFinal';
 import Autoevaluación from './Paginas/Autoevaluación';
+import RegistroEvFinalGrupo from './Paginas/RegistroEvFinalGrupo';
+import AdministradorEstudiante from './Paginas/AdministradorEstudiante';
+import AdministradorDocente from './Paginas/AdministradorDocente';
 import AñadirCriterios from './Paginas/AñadirCriterios';
 import EvaluacionPares from './Paginas/EvaluacionPares';
 import EvaluacionCruzada from './Paginas/EvaluacionCruzada';
@@ -57,6 +61,10 @@ function App() {
         <Route path="BusquedaDocentes" element={<BusquedaDocentes/>}/>
         <Route path="RegistroDocente" element={<RegistroDocente/>}/>
         <Route path="Autoevaluacion" element={<Autoevaluación/>}/>
+        <Route path="RegistroEvFinal" element={<RegistroEvFinal/>}/>
+        <Route path="RegistroEvFinalGrupo" element={<RegistroEvFinalGrupo/>}/>
+        <Route path="AdministradorEstudiante" element={<AdministradorEstudiante/>}/>
+        <Route path="AdministradorDocente" element={<AdministradorDocente/>}/>
         <Route path="EvaluacionPares" element={<EvaluacionPares/>}/>
         <Route path="EvaluacionCruzada" element={<EvaluacionCruzada/>}/>
         <Route path="AñadirCriterios" element={<AñadirCriterios/>}/>

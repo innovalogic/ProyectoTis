@@ -1,8 +1,141 @@
 import BarraCopyright from "../Componentes/BarraCopyright";
 import BarraLateral from "../Componentes/BarraLateralAdministrador";
+import { useNavigate } from "react-router-dom";
+import Modal from "../Componentes/Modal";
+import { useState } from "react";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio"; // Asegúrate de que la ruta sea correcta
 
 export default function RegistroDocente() {
+    const [formData, setFormData] = useState({
+        nombre: '',
+        apellido: '',
+        correo: '',
+        codigoDocente: '',
+        telefono: '',
+        contrasena: '',
+        confirmarContrasena: '',
+    });
+    const [modal, setModal] = useState({
+        show: false,
+        title: '',
+        message: ''
+    });
+    const navigate = useNavigate();
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+
+        // Validación para nombre y apellido (solo letras y espacios)
+        if (id === "nombre" || id === "apellido") {
+            const regex = /^[a-zA-Z\s]*$/; // Permite solo letras y espacios
+            if (!regex.test(value)) {
+                return; // Si el valor no cumple la regex, no hace nada
+            }
+        }
+
+        // Validación para CodSISS y teléfono (solo números)
+        if ( id === "telefono" ||id==="codigoDocente") {
+            const regex = /^[0-9]*$/; // Permite solo números
+            if (!regex.test(value)) {
+                return; // Si el valor no cumple la regex, no hace nada
+            }
+        }
+
+
+        setFormData(prevState => ({
+            ...prevState,
+            [id]: value
+        }));
+
+    };
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (formData.contrasena.length < 8 || formData.contrasena.length > 20) {
+            setModal({
+                show: true,
+                title: 'Error',
+                message: 'La contraseña debe tener entre 8 y 20 caracteres.'
+            });
+            return;
+        }
+    
+        // Validación de Confirmar Contraseña
+        if (formData.contrasena !== formData.confirmarContrasena) {
+            setModal({
+                show: true,
+                title: 'Error',
+                message: 'Las contraseñas no coinciden.'
+            });
+            return;
+        }
+    
+        // Validación de Código de Grupo
+        if (formData.codigoDocente.length !== 4) {
+            setModal({
+                show: true,
+                title: 'Error',
+                message: 'El código de grupo debe tener exactamente 4 dígitos.'
+            });
+            return;
+        }
+        try {
+            const response = await fetch('http://localhost/proyectotis/backend/registroDocente.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error("Error en la respuesta del servidor.");
+            }
+
+            const result = await response.json();
+            if (result.success) {
+                setModal({
+                    show: true,
+                    title: 'Registro exitoso',
+                    message: 'El docente ha sido registrado exitosamente.'
+                });
+            } else {
+                setModal({
+                    show: true,
+                    title: 'Error en el registro',
+                    message: result.message
+                });
+            }
+        } catch (error) {
+            setModal({
+                show: true,
+                title: 'Error',
+                message: 'Hubo un problema al registrar el docente.'
+            });
+        }
+    };
+    const closeModal = () => {
+        setModal({
+            ...modal,
+            show: false
+        });
+
+        if (modal.title === 'Registro exitoso') {
+            navigate('/InicioSesionDocente');
+        }
+    };
+    const handleCancel = () => {
+        setFormData({
+            nombre: '',
+            apellido: '',
+            codsiss: '',
+            correo: '',
+            codigoDocente: '',
+            telefono: '',
+            contrasena: '',
+            confirmarContrasena: '',
+            email: ''
+        });
+    };
     return (
         <>
             <NavbarInicioDeSesion />
@@ -33,37 +166,40 @@ export default function RegistroDocente() {
                             alignItems: 'center'
                         }}>
                             {/* Formulario */}
-                            <form style={{ width: '100%', maxWidth: '400px' }}>
+                            <form style={{ width: '100%', maxWidth: '400px' }}onSubmit={handleSubmit}>
                                 <label style={{ color: '#1E3664', fontWeight: 'bold', marginBottom: '10px', display: 'block' }}>
                                     Nombres<span style={{ color: 'red' }}>*</span>
-                                    <input type="text" required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
+                                    <input type="text" id="nombre" value={formData.nombre} onChange={handleChange} required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
                                 </label>
                                 <label style={{ color: '#1E3664', fontWeight: 'bold', marginBottom: '10px', display: 'block' }}>
                                     Apellidos<span style={{ color: 'red' }}>*</span>
-                                    <input type="text" required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
+                                    <input type="text" id="apellido" value={formData.apellido} onChange={handleChange} required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
                                 </label>
                                 <label style={{ color: '#1E3664', fontWeight: 'bold', marginBottom: '10px', display: 'block' }}>
                                     Correo<span style={{ color: 'red' }}>*</span>
-                                    <input type="email" required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
+                                    <input type="email" id="correo" value={formData.correo} onChange={handleChange} required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
                                 </label>
                                 <label style={{ color: '#1E3664', fontWeight: 'bold', marginBottom: '10px', display: 'block' }}>
                                     Código de docente<span style={{ color: 'red' }}>*</span>
-                                    <input type="text" required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
+                                    <input type="text" id="codigoDocente" value={formData.codigoDocente} onChange={handleChange} required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
                                 </label>
                                 <label style={{ color: '#1E3664', fontWeight: 'bold', marginBottom: '10px', display: 'block' }}>
                                     Teléfono<span style={{ color: 'red' }}>*</span>
-                                    <input type="tel" required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
+                                    <input type="tel" id="telefono" value={formData.telefono} onChange={handleChange} required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
                                 </label>
                                 <label style={{ color: '#1E3664', fontWeight: 'bold', marginBottom: '10px', display: 'block' }}>
                                     Contraseña<span style={{ color: 'red' }}>*</span>
-                                    <input type="password" required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
+                                    <input type="password" id="contrasena" value={formData.contrasena} onChange={handleChange} required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
                                 </label>
                                 <label style={{ color: '#1E3664', fontWeight: 'bold', marginBottom: '20px', display: 'block' }}>
                                     Confirmar contraseña<span style={{ color: 'red' }}>*</span>
-                                    <input type="password" required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
+                                    <input type="password" id="confirmarContrasena" value={formData.confirmarContrasena} onChange={handleChange} required style={{ width: '100%', padding: '5px', borderRadius: '5px', marginTop: '5px', border: '1px solid #1E3664', height: '30px' }} />
                                 </label>
-                                <button type="submit" style={{ backgroundColor: '#1E3664', color: '#FFFFFF', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }}>
+                                <button type="submit" style={{ backgroundColor: '#1E3664', color: '#FFFFFF', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer', fontWeight: 'bold', marginRight: '20px' }}>
                                     Registrar Docente
+                                </button>
+                                <button type="submit" style={{ backgroundColor: '#1E3664', color: '#FFFFFF', padding: '10px 20px', borderRadius: '5px', border: 'none', cursor: 'pointer', fontWeight: 'bold' }} onClick={handleCancel}>
+                                    Cancelar
                                 </button>
                             </form>
                         </div>
@@ -75,6 +211,7 @@ export default function RegistroDocente() {
                     </div>
                 </div>
             </div>
+            <Modal show={modal.show} onClose={closeModal} title={modal.title} message={modal.message} />
             <BarraCopyright />
         </>
     );
