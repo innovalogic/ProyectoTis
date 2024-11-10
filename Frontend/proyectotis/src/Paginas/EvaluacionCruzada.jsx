@@ -6,7 +6,7 @@ import BarraLateral from '../Componentes/BarraLateralEstudiante';
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Modal from '../Componentes/Modal';
 
-export default function Autoevaluacion() {
+export default function EvaluacionCruzada() {
   const { user } = useUser();
   const [tiposEvaluaciones, setTiposEvaluaciones] = useState([]);
   const [criterios, setCriterios] = useState([]);
@@ -33,7 +33,7 @@ export default function Autoevaluacion() {
           .then((response) => response.json())
           .then((data) => {
               if (data.success) {
-                const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
+                const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Evaluación cruzada");
                 if (tipoAutoEvaluacion) {
                   const criteriosAutoEvaluacion = data.criterios.filter(
                     criterio => criterio.tipoevaluacion_idtipoevaluacion === tipoAutoEvaluacion.idtipoevaluacion
@@ -63,7 +63,7 @@ export default function Autoevaluacion() {
     const promedio = total / criterios.length;
     const notaFinal = (promedio / 5) * 100; // Escala sobre 100
 
-    const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
+    const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Evaluación cruzada");
 
     try {
       const response = await fetch("http://localhost/ProyectoTis/Backend/guardarNotaFinal.php", {
@@ -72,7 +72,7 @@ export default function Autoevaluacion() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          idevaluador: user.idEstudiante,
+          idevaluador: user.idGrupoEmpresa,
           notaPromedio: notaFinal,
           tipoevaluacion_idtipoevaluacion: tipoAutoEvaluacion?.idtipoevaluacion,
           grupoempresa_idgrupoempresa: user.idGrupoEmpresa
@@ -122,13 +122,13 @@ export default function Autoevaluacion() {
             </div>
             <div>
               <h2 className='descripcion'>
-                Para la evaluación final de la empresa el docente designo la AUTOEVALUACIÓN, por lo cual deberas evaluarte bajo los criterios de la siguiente planilla.
+                Su empresa fué designada para evaluar el producto de la empresa " " como evaluación final (EVALUACIÓN CRUZADA) bajo la siguiente planilla.
               </h2>
               <h2 className='descripcion'>
-                La planilla usa una escala de frecuencia en la que debe guiarse con el trabajo que realizaste a lo largo del proyecto para calificar los diferentes criterios de la evaluación; se usaran las siguientes casillas:
+                La planilla muestra el enlace del producto finalizado, un cuadro con los promedios de cada sprint calificados por el docente y enlaces a los diferente informes finales de cada sprint entregados por el equipo a evaluar. Éstos deben ser usados como guia para calificar los diferentes criterios de la evaluación; se usara una escala de calidad de trabajo con las siguientes casillas:
               </h2>
               <h2 className='casillas'>
-                1: Nunca | 2: Raramente | 3: A veces | 4: Frecuentemente | 5: Siempre
+                1: Muy pobre | 2: Pobre | 3: Adecuado | 4: Bueno | 5: Excelente
               </h2>
             </div>
             <table className="table">

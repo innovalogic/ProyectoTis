@@ -14,13 +14,13 @@ export default function BarraLateral() {
     };
 
     return (
-        <div className="flex h-[calc(100vh)]">
+        <div className="flex "  style={{ height: 'calc(-110px + 100vh)' }}>
             <Sidebar
                 collapsed={collapsed}
                 className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"
-                style={{ width: collapsed ? '80px' : '250px', height: '100vh' }}
+                style={{ width: collapsed ? '80px' : '250px', height: 'calc(-110px + 100vh)' }}
             >
-                <div className="flex flex-col h-full bg-[#32569A]">
+                <div className="flex flex-col bg-[#32569A]"  style={{ height: 'calc(-110px + 100vh)' }}>
                     <div className="flex items-center justify-between p-4">
                         <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl`}>Menú</h1>
                         <button
@@ -76,6 +76,10 @@ export default function BarraLateral() {
                         >
                             <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/RegistroEvSemanales" />}>
                                 Evaluacion Semanal
+                            </MenuItem>
+                            <MenuItem className="text-[#EFE7DC] font-bold" 
+                                component={<Link to="/AñadirCriterios" />}>
+                                Añadir criterios
                             </MenuItem>
                         </SubMenu>
 

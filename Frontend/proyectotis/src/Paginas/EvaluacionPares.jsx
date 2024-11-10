@@ -6,7 +6,7 @@ import BarraLateral from '../Componentes/BarraLateralEstudiante';
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Modal from '../Componentes/Modal';
 
-export default function Autoevaluacion() {
+export default function EvaluacionPares() {
   const { user } = useUser();
   const [tiposEvaluaciones, setTiposEvaluaciones] = useState([]);
   const [criterios, setCriterios] = useState([]);
@@ -33,7 +33,7 @@ export default function Autoevaluacion() {
           .then((response) => response.json())
           .then((data) => {
               if (data.success) {
-                const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
+                const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Evaluación en pares");
                 if (tipoAutoEvaluacion) {
                   const criteriosAutoEvaluacion = data.criterios.filter(
                     criterio => criterio.tipoevaluacion_idtipoevaluacion === tipoAutoEvaluacion.idtipoevaluacion
@@ -63,7 +63,7 @@ export default function Autoevaluacion() {
     const promedio = total / criterios.length;
     const notaFinal = (promedio / 5) * 100; // Escala sobre 100
 
-    const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
+    const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Evaluación en pares");
 
     try {
       const response = await fetch("http://localhost/ProyectoTis/Backend/guardarNotaFinal.php", {
@@ -122,10 +122,10 @@ export default function Autoevaluacion() {
             </div>
             <div>
               <h2 className='descripcion'>
-                Para la evaluación final de la empresa el docente designo la AUTOEVALUACIÓN, por lo cual deberas evaluarte bajo los criterios de la siguiente planilla.
+              Para la evaluación final de la empresa el docente designo el tipo de EVALUACIÓN EN PARES, por lo cual fué designado a evaluar a " " miembro de su grupo bajo la diguiente planilla.
               </h2>
               <h2 className='descripcion'>
-                La planilla usa una escala de frecuencia en la que debe guiarse con el trabajo que realizaste a lo largo del proyecto para calificar los diferentes criterios de la evaluación; se usaran las siguientes casillas:
+                La planilla usa una escala de frecuencia en la que debe guiarse con el trabajo que se realizo a lo largo del proyecto para calificar los diferentes criterios de la evaluación; se usaran las siguientes casillas:
               </h2>
               <h2 className='casillas'>
                 1: Nunca | 2: Raramente | 3: A veces | 4: Frecuentemente | 5: Siempre

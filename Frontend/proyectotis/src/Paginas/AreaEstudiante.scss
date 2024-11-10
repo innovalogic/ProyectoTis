@@ -189,7 +189,7 @@ $azulfuerte:#1E3664;
     display: relative;
     flex-direction: row;
     width: 100vw;
-    height:100vh;
+    height:calc(-110px + 100vh);
     background-color: #C2D2E9;
     .BarraLateral{
         width: 20vw;
@@ -199,7 +199,7 @@ $azulfuerte:#1E3664;
         flex-grow: 1;
         background-color: $fondoEst;
         background-size: cover;
-        height: 100vh;  // Asegura que tome toda la altura de la pantalla
+        height: calc(-110px + 100vh);  // Asegura que tome toda la altura de la pantalla
         overflow-y: auto;
         .TITULO{
             font-size: 45px;
@@ -291,8 +291,11 @@ $azulfuerte:#1E3664;
     display: relative;
     flex-direction: row;
     width: 100vw;
-    height:100vh;
+    height:calc(-110px + 100vh);
     background-color: #C2D2E9;
+    overflow-y: auto;
+    background-size: cover;
+    padding-bottom: 20px;
     .BarraLateral{
         width: 20vw;
         min-width: 250px;
@@ -301,8 +304,7 @@ $azulfuerte:#1E3664;
         flex-grow: 1;
         background-color: $fondoEst;
         background-size: cover;
-        height: 100vh;  // Asegura que tome toda la altura de la pantalla
-        overflow-y: auto;
+        height: calc(-110px + 100vh);  // Asegura que tome toda la altura de la pantalla
         .tit{
             font-size: 45px;
             padding: 15px 0;
@@ -329,5 +331,166 @@ $azulfuerte:#1E3664;
             color:#1E3664;
             padding-bottom: 20px;
         }
+        .table {
+            width: -webkit-fill-available;
+            margin-right: 50px;
+            border-collapse: collapse; // Colapsa los bordes para una apariencia más limpia
+            margin-top: 20px; // Margen superior para separación
+            margin-left: 50px;
+            th, td {
+              border: 1px solid $azulfuerte; // Borde alrededor de las celdas
+              padding: 12px; // Espaciado dentro de las celdas
+              text-align: center; // Centrar el contenido de las celdas
+
+            }
+          
+            th {
+              background-color:$azulPastel; // Cambia el color de fondo del encabezado
+              color:$crema; // Color de texto en el encabezado
+              text-transform: uppercase; // Texto en mayúsculas
+              font-size: 22px;
+            }
+            td{
+                background-color:  #7ea1d3;
+                font-size: 20px;
+                :hover {
+                    background-color:  #678bbe; // Color al hacer hover sobre una fila
+                }
+            }
+          
+            tr:nth-child(even) {
+              background-color:  #7ea1d3; // Color de fondo alternativo para filas pares
+            }
+          
+            tr:hover {
+              background-color:  #678bbe; // Color al hacer hover sobre una fila
+            }
+        }
+        .boton{
+            justify-items: end;
+            padding-right: 50px;
+            .submit-button{
+                margin-left: 20px;
+                align-items: center;
+                display: flex;
+                border-radius: 5px;
+                background-color: #1E3664;                
+                color: #EFE7DC;
+                font-size: 20px;
+                justify-content: center;
+                padding-left: 10px;
+                padding-right: 10px;
+                :hover{
+                    cursor: pointer;
+                } 
+            }
+            .submit-button:disabled {
+                background-color: #ccc; /* Color de fondo del botón cuando está deshabilitado */
+                cursor: not-allowed; /* Indicador de que no se puede hacer clic cuando está deshabilitado */
+              }
+        }
     }
+}
+
+.PageAñadir{
+    display: relative;
+    flex-direction: row;
+    width: 100vw;
+    height:calc(-110px + 100vh);
+    background-color: #efe7dc;
+    overflow-y: auto;
+    background-size: cover;
+    padding-bottom: 20px;
+    .BarraLateral{
+        width: 20vw;
+        min-width: 250px;
+    }
+    .titulocriterio{
+        font-size: 45px;
+            padding: 15px 0;
+            font-style: italic;
+            font-weight: 700;
+            color: $azulPastel;
+            text-align: center;
+            width: 100%;
+    }
+    .subtitulo{
+        padding-left: 50px;
+            font-size: 25px;
+            font-weight: 500;
+            color:$azulPastel;
+            padding-bottom: 5px;
+    }
+    .tipo{
+        display: block;
+        background-color: $azulPastel; // Fondo azul
+        color: $crema; // Letras crema
+        margin-left: 50px; // Ajusta según el margen que necesites
+        padding: 8px; // Para que el select sea un poco más grande
+        font-size: 20px; // Aumenta el tamaño del texto
+        border: none;
+        border-radius: 4px;
+    }
+    .criterio{
+        display: block;
+        background-color: $crema; // Fondo azul
+        color: $azulPastel; // Letras crema
+        margin-left: 50px; // Ajusta según el margen que necesites
+        padding: 8px; // Para que el select sea un poco más grande
+        font-size: 20px; // Aumenta el tamaño del texto
+        border-radius: 4px;
+        border: 2px solid $azulfuerte;
+        width: -webkit-fill-available;
+        margin-right: 50px;
+
+    }
+    .guardarC{
+        margin-top: 15px;
+        margin-left: 50px;
+        border-radius: 5px;
+        background-color: $azulPastel;
+        display: flex;
+        align-items: center;
+        color: $crema;
+        padding: 8px;
+        font-size: 20px;
+    }
+    .segundaparte{
+        margin-top: 15px;
+        .tabla-criterios {
+            width: -webkit-fill-available;
+            margin-right: 50px;
+            border-collapse: collapse; // Colapsa los bordes para una apariencia más limpia
+            margin-top: 20px; // Margen superior para separación
+            margin-left: 50px;
+
+            th, td {
+                border: 1px solid $azulfuerte; // Borde azul para celdas
+                padding: 12px; // Espaciado interno
+                text-align: left; // Alinear texto a la izquierda
+            }
+        
+            // Estilos para el encabezado
+            .tabla-encabezado {
+                background-color: $azulPastel; // Color de fondo para el encabezado
+                color: $crema; // Color del texto en el encabezado
+                font-size: 20px;
+            }
+        
+            // Estilos para las celdas
+            td{
+                background-color:  $crema;
+                font-size: 18px;
+                :hover {
+                    background-color:  #678bbe; // Color al hacer hover sobre una fila
+                }
+            }
+        
+            // Estilo para las filas
+            tr:nth-child(even) {
+                background-color: $crema; // Color de fondo para filas pares
+            }
+        }
+    }
+    
 }

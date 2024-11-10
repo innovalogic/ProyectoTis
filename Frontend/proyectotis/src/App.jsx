@@ -25,6 +25,9 @@ import BusquedaEstudiantes from './Paginas/BusquedaEstudiantes';
 import BusquedaDocentes from './Paginas/BusquedaDocentes';
 import RegistroDocente from './Paginas/RegistroDocente';
 import Autoevaluación from './Paginas/Autoevaluación';
+import AñadirCriterios from './Paginas/AñadirCriterios';
+import EvaluacionPares from './Paginas/EvaluacionPares';
+import EvaluacionCruzada from './Paginas/EvaluacionCruzada';
 
 function App() {
   return (
@@ -54,6 +57,9 @@ function App() {
         <Route path="BusquedaDocentes" element={<BusquedaDocentes/>}/>
         <Route path="RegistroDocente" element={<RegistroDocente/>}/>
         <Route path="Autoevaluacion" element={<Autoevaluación/>}/>
+        <Route path="EvaluacionPares" element={<EvaluacionPares/>}/>
+        <Route path="EvaluacionCruzada" element={<EvaluacionCruzada/>}/>
+        <Route path="AñadirCriterios" element={<AñadirCriterios/>}/>
       </Routes>
     </Router>
     </UserProvider>
