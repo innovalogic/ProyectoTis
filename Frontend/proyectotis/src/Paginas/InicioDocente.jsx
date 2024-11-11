@@ -185,8 +185,24 @@ export default function InicioDocente() {
             {notificacionData.length > 0 ? (
               <div className="space-y-4 mt-4">
                 {notificacionData.map((notificacion, index) => (
-                  <div key={index} className="bg-[#32569A] text-white p-4 rounded-md shadow-md">
-                    <p>{notificacion.mensaje}</p>
+
+                      <div
+                      key={index}
+                      className="bg-[#4A76B8] text-white p-4 rounded-md border-4"
+                      style={{ borderColor: '#32569A' }}
+                      >
+                          <div className="flex items-center justify-between">
+                 <div className="flex items-center space-x-2">
+                   <img src="/src/Imagenes/docente.png" className="w-6 h-6" alt="Docente Logo" />
+                   <span className="font-bold text-lg">{notificacion.nombreDocente} {notificacion.apellidoDocente}</span>
+                 </div>
+                 <img src="/src/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
+               </div>
+               <br />
+               <p className="text-xl">{notificacion.mensaje}</p> 
+               <a href={notificacion.enlace} target="_blank" rel="noopener noreferrer" className="text-yellow-500 underline">
+                  {notificacion.enlace}
+                </a>
                     <p>{notificacion.fecha}</p>
                   </div>
                 ))}
@@ -198,12 +214,13 @@ export default function InicioDocente() {
         </form>
 
         <button
-          onClick={() => setShowModal(true)}
-          className="fixed bottom-4 bg-[#32569A] text-white p-4 rounded-full shadow-lg"
-          style={{ left: sidebarCollapsed ? '90px' : '260px', transition: 'left 0.3s' }}
-        >
-          Agregar Notificación
-        </button>
+            onClick={() => setShowModal(true)}
+            className="fixed bottom-4 bg-[#32569A] text-white p-4 rounded-full shadow-lg flex items-center space-x-2"
+            style={{ left: sidebarCollapsed ? '90px' : '260px', transition: 'left 0.3s' }}
+          >
+            <img src="/src/Imagenes/plus.png" className="w-6 h-6" alt="mas" />
+            <span>Agregar Notificación</span>
+          </button>
 
         <AgregarNotificacionModal
           showModal={showModal}
