@@ -65,7 +65,10 @@ export default function InicioEstudiante() {
                  <img src="/src/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
                </div>
                <br />
-               <p className="text-xl">{notificacion.mensaje}</p> {/* Texto más grande para el mensaje */}
+               <p className="text-xl">{notificacion.mensaje}</p> 
+               <a href={notificacion.enlace} target="_blank" rel="noopener noreferrer" className="text-yellow-500 underline">
+                  {notificacion.enlace}
+                </a>
                <p>{notificacion.fecha}</p>
              </div>
            ))}

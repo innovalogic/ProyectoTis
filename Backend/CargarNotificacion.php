@@ -17,6 +17,7 @@ if (!empty($idDocente)) {
             "notificacion"."fecha",
             "notificacion"."hora",
             "notificacion"."iddocente",
+            "notificacion_links"."enlace",
             "Docente"."nombreDocente",
             "Docente"."apellidoDocente",
             "Docente"."Grupo" 
@@ -24,6 +25,8 @@ if (!empty($idDocente)) {
             "notificacion"
             JOIN 
             "Docente" ON "notificacion"."iddocente" = "Docente"."idDocente"
+            LEFT JOIN 
+            "notificacion_links" ON "notificacion"."idnotificacion" = "notificacion_links"."idnotificacion"
             WHERE 
             "notificacion"."iddocente" = :idDocente';
 
