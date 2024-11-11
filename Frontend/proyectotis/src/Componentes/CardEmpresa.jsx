@@ -1,14 +1,14 @@
 // CardEmpresa.jsx
 import { useNavigate } from 'react-router-dom';
 
-export default function CardEmpresa({ nombreEmpresa, logoUrl }) {
+export default function CardEmpresa({ nombreEmpresa, logoUrl ,idGrupoEmpresa,nombreCortoEmpresa }) {
     const navigate = useNavigate();
     const getInitials = (name) => {
         return name.split(" ").map(word => word[0]).join("").toUpperCase();
     };
 
     const handleRegistrarClick = () => {
-        navigate('/RegistroEvFinalGrupo'); // Cambia esta ruta según sea necesario
+        navigate('/RegistroEvFinalGrupo', { state: { idGrupoEmpresa,logoUrl,nombreEmpresa,nombreCortoEmpresa } }); // Cambia esta ruta según sea necesario
     };
 
     return (
