@@ -27,7 +27,7 @@ try {
     }
 
 } catch (PDOException $e) {
-    echo json_encode(['success'=> false, 'error' => $e->getMessage()]);
+    echo json_encode(['success'=> false, 'error' => $e->getMessage(),'trace' => $e->getTraceAsString()]);
     exit();
 }
 ?>

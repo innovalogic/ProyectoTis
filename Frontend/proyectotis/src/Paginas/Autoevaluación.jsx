@@ -19,13 +19,21 @@ export default function Autoevaluacion() {
 
   useEffect(() => {
     fetch("http://localhost/ProyectoTis/Backend/obtenerTipoEvaluacion.php")
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.success) {
-              setTiposEvaluaciones(data.tiposEvaluaciones);
-            }
-        })
-        .catch((error) => console.error("Error al cargar tipos de evaluación:", error));
+      .then((response) => response.text())  // Cambiado a .text() para ver el contenido raw
+      .then((data) => {
+        console.log("Respuesta del servidor:", data);  // Ver qué está devolviendo el servidor
+        try {
+          const parsedData = JSON.parse(data);  // Intentamos parsear manualmente
+          if (parsedData.success) {
+            setTiposEvaluaciones(parsedData.tiposEvaluaciones);
+          } else {
+            console.error("Error:", parsedData.message);
+          }
+        } catch (e) {
+          console.error("Error al parsear JSON:", e);
+        }
+      })
+      .catch((error) => console.error("Error al cargar tipos de evaluación:", error));
   }, []);
 
   const cargarCriterios = () => {
