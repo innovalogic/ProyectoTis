@@ -112,7 +112,7 @@ export default function InicioDocente() {
         params: { idDocente: user.idDocente }
       });
       if (response.data.success) {
-        const sortedData = response.data.datos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+        const sortedData = response.data.datos.sort((a, b) => b.idnotificacion - a.idnotificacion);
         setNotificacionData(sortedData);
       } else {
         setError('No se pudo obtener los datos.');
@@ -121,6 +121,7 @@ export default function InicioDocente() {
       setError('Error al conectarse al servidor: ' + error.message);
     }
   };
+
   const guardarNotificacion = async (mensaje, links) => {
     const currentDateTime = new Date();
     const fecha = currentDateTime.toISOString().split("T")[0];
@@ -134,7 +135,8 @@ export default function InicioDocente() {
         hora: hora,
         idDocente: user.idDocente,
       });
-      if (!response.data.success) alert("Error al guardar la notificación.");
+      if (!response.data.success) 
+        console.log("Error al guardar la notificación.");
     } catch (error) {
       console.error("Error al conectar con el servidor:", error);
     }
@@ -159,11 +161,28 @@ export default function InicioDocente() {
 
   useEffect(() => {
     fetchNotificaciones();
+    const interval = setInterval(fetchNotificaciones, 5000); // Actualiza cada 5 segundos
+    return () => clearInterval(interval); // Limpia el intervalo al desmontar el componente
   }, [user.idDocente]);
 
   const handleSidebarCollapseChange = (collapsed) => {
     setSidebarCollapsed(collapsed);
   };
+
+  const groupedNotifications = notificacionData.reduce((acc, curr) => {
+    const id = curr.idnotificacion;
+    if (!acc[id]) {
+      acc[id] = {
+        ...curr,
+        enlaces: curr.enlace ? [curr.enlace] : [], // Initialize enlaces array
+      };
+    } else if (curr.enlace) {
+      acc[id].enlaces.push(curr.enlace); // Add additional links if any
+    }
+    return acc;
+  }, {});
+  
+  const notificationsArray = Object.values(groupedNotifications);
 
   return (
     <>
@@ -182,27 +201,37 @@ export default function InicioDocente() {
           )}
           <div className="bg-[#e1d7b7] border border-black rounded-lg p-4">
             <h2 className="text-[#32569A] font-bold mb-2">NOTIFICACIONES DE TALLER DE INGENIERIA DE SOFTWARE</h2>
-            {notificacionData.length > 0 ? (
+            {notificationsArray.length > 0 ? (
               <div className="space-y-4 mt-4">
-                {notificacionData.map((notificacion, index) => (
-
-                      <div
-                      key={index}
-                      className="bg-[#4A76B8] text-white p-4 rounded-md border-4"
-                      style={{ borderColor: '#32569A' }}
-                      >
-                          <div className="flex items-center justify-between">
-                 <div className="flex items-center space-x-2">
-                   <img src="/src/Imagenes/docente.png" className="w-6 h-6" alt="Docente Logo" />
-                   <span className="font-bold text-lg">{notificacion.nombreDocente} {notificacion.apellidoDocente}</span>
-                 </div>
-                 <img src="/src/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
-               </div>
-               <br />
-               <p className="text-xl">{notificacion.mensaje}</p> 
-               <a href={notificacion.enlace} target="_blank" rel="noopener noreferrer" className="text-yellow-500 underline">
-                  {notificacion.enlace}
-                </a>
+                {notificationsArray.map((notificacion, index) => (
+                  <div
+                    key={index}
+                    className="bg-[#4A76B8] text-white p-4 rounded-md border-4"
+                    style={{ borderColor: '#32569A' }}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <img src="/src/Imagenes/docente.png" className="w-6 h-6" alt="Docente Logo" />
+                        <span className="font-bold text-lg">
+                          {notificacion.nombreDocente} {notificacion.apellidoDocente}
+                        </span>
+                      </div>
+                      <img src="/src/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
+                    </div>
+                    <br />
+                    <p className="text-xl">{notificacion.mensaje}</p>
+                    {notificacion.enlaces.length > 0 ? (
+                      <div className="space-y-2">
+                        {notificacion.enlaces.map((enlace, i) => (
+                          <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className="text-yellow-500 underline block">
+                            {enlace}
+                          </a>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-400">Sin enlaces adjuntos.</p>
+                    )}
+                    
                     <p>{notificacion.fecha}</p>
                   </div>
                 ))}

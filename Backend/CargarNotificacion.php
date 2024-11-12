@@ -17,7 +17,9 @@ if (!empty($idDocente)) {
             "notificacion"."fecha",
             "notificacion"."hora",
             "notificacion"."iddocente",
+            "notificacion_links"."idnotificacionlink",
             "notificacion_links"."enlace",
+            "notificacion_links"."idnotificacion",
             "Docente"."nombreDocente",
             "Docente"."apellidoDocente",
             "Docente"."Grupo" 

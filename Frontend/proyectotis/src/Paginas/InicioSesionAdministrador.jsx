@@ -68,7 +68,7 @@ export default function InicioSesionAdministrador() {
                 className="border-2 border-gray-300 rounded-lg p-3"
                 value={correoDocente}
                 onChange={(e) => setCorreoDocente(e.target.value)}
-                placeholder="docente@gmail.com"
+                placeholder="usuario@gmail.com"
                 required
               />
             </div>
