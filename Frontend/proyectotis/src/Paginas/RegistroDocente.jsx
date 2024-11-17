@@ -120,7 +120,7 @@ export default function RegistroDocente() {
         });
 
         if (modal.title === 'Registro exitoso') {
-            navigate('/InicioSesionDocente');
+            navigate('/InicioSesionEstudiante');
         }
     };
     const handleCancel = () => {

@@ -45,18 +45,12 @@ const NavbarInicioDeSesion = () => {
                 Registrarse
               </NavLink>
 
-              <NavDropdown 
-                title={<span className="text-xl no-underline hover:bg-[#1E3664] hover:text-white p-2 rounded-lg transition duration-300">Iniciar Sesión</span>} 
-                id="basic-nav-dropdown" 
-                className="text-custom-bg no-underline"
+              <NavLink 
+                to="/InicioSesionEstudiante"  // Asegúrate de que la ruta es absoluta
+                className="text-custom-bg hover:bg-[#1E3664] hover:text-white p-2 rounded-lg text-xl no-underline transition duration-300"
               >
-                <NavDropdown.Item as={NavLink} to="/InicioSesionEstudiante" className="nav-link">
-                  Estudiante
-                </NavDropdown.Item>
-                <NavDropdown.Item as={NavLink} to="/InicioSesionDocente" className="nav-link">
-                  Docente
-                </NavDropdown.Item>
-              </NavDropdown>
+                Inicio Sesion
+              </NavLink>
             </>
           )}
 

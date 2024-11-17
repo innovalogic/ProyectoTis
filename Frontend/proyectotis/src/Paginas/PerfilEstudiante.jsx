@@ -3,6 +3,7 @@ import { useUser } from "../Componentes/UserContext"; // Asegúrate de que la ru
 import Navbar from "../Componentes/NavbarInicio"; // Verifica el nombre del archivo
 import BarraLateral from "../Componentes/BarraLateralEstudiante"; // Asegúrate de que la ruta y nombre sean correctos
 import BarraCopyright from "../Componentes/BarraCopyright";
+import { Link } from 'react-router-dom';
 
 const PerfilEstudiante = () => {
   const { user } = useUser();
@@ -114,6 +115,14 @@ return (
               >
                 CAMBIAR<br/> FOTO
               </button>
+              <Link to="../VistaPerfilDo" state={{ data: { idDocente:user.idDocente} }}>
+              <button 
+  className="bg-blue-600 text-white text-sm font-bold px-12 py-1 rounded-md hover:bg-blue-800 transition mt-4"
+>
+  VER PERFIL DOCENTE
+</button>
+</Link>
+
             </div>
           </div>
         </div>
