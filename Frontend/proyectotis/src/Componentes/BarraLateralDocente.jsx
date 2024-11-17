@@ -106,6 +106,13 @@ export default function BarraLateral({ onCollapseChange }) {
                         >
                             Perfil
                         </MenuItem>
+                        <MenuItem
+                            className="text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/estudiante.png" alt="Estudiantes" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/BusquedaEstudiantesDoc" />}
+                        >
+                            Estudiantes
+                        </MenuItem>
 
                         <div className="mt-auto">
                             <MenuItem

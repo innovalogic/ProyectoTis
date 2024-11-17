@@ -6,7 +6,6 @@ import InicioSesionEstudiante from './Paginas/InicioSesionEstudiante';
 import RegistroEstudiante from './Paginas/RegistroEstudiante';
 import RegistroEmpresa from './Paginas/RegistroEmpresa';
 import InicioEstudiante from './Paginas/InicioEstudiante';
-import InicioSesionDocente from './Paginas/InicioSesionDocente';
 import PlanificacionEstudiante  from './Paginas/PlanificacionEstudiante';
 import { UserProvider } from './Componentes/UserContext'; 
 import RecuperarEvaluacion from './Paginas/RecuperarEvaluacion';
@@ -32,6 +31,9 @@ import AdministradorDocente from './Paginas/AdministradorDocente';
 import AñadirCriterios from './Paginas/AñadirCriterios';
 import EvaluacionPares from './Paginas/EvaluacionPares';
 import EvaluacionCruzada from './Paginas/EvaluacionCruzada';
+import VistaPerfilDo from './Paginas/VistaPerfilDo';
+import VistaPerfilEs from './Paginas/VistaPerfilEs';
+import BusquedaEstudiantesDoc from './Paginas/BusquedaEstudiantesDoc';
 
 function App() {
   return (
@@ -43,7 +45,6 @@ function App() {
         <Route path="RegistroEstudiante" element={<RegistroEstudiante/>}/>
         <Route path="RegistroEmpresa" element={<RegistroEmpresa/>}/>
         <Route path="InicioEstudiante" element={<InicioEstudiante/>}/>
-        <Route path="InicioSesionDocente" element={<InicioSesionDocente/>}/>
         <Route path="PlanificacionEstudiante" element={<PlanificacionEstudiante/>}/>
         <Route path="RecuperarEvaluacion" element={<RecuperarEvaluacion/>}/>
         <Route path="RecuperarEvaluacionScrum" element={<RecuperarEvaluacionScrum/>}/>
@@ -68,6 +69,9 @@ function App() {
         <Route path="EvaluacionPares" element={<EvaluacionPares/>}/>
         <Route path="EvaluacionCruzada" element={<EvaluacionCruzada/>}/>
         <Route path="AñadirCriterios" element={<AñadirCriterios/>}/>
+        <Route path="VistaPerfilDo" element={<VistaPerfilDo/>}/>
+        <Route path="VistaPerfilEs" element={<VistaPerfilEs/>}/>
+        <Route path="BusquedaEstudiantesDoc" element={<BusquedaEstudiantesDoc/>}/>
       </Routes>
     </Router>
     </UserProvider>
