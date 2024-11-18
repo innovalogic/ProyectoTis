@@ -1,30 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import { useUser } from "../Componentes/UserContext";
 
-export default function BarraLateral() {
+export default function BarraLateral({ onCollapseChange }) {
     const [collapsed, setCollapsed] = useState(false);
-    const { user, setUser } = useUser(); // Añadir setUser para poder actualizar el usuario
+    const { user, setUser } = useUser();
 
     const handleLogout = () => {
-        setUser(null); // Borra el contexto de usuario
+        setUser(null);
         alert('Has cerrado sesión.');
     };
 
+    const toggleCollapse = () => {
+        const newCollapsedState = !collapsed;
+        setCollapsed(newCollapsedState);
+        onCollapseChange(newCollapsedState); // Llamar a la función para notificar el cambio
+    };
+
     return (
-        <div className="flex "  style={{ height: 'calc(-110px + 100vh)' }}>
+        <div className="flex" style={{ height: '100vh' }}>
             <Sidebar
                 collapsed={collapsed}
                 className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"
-                style={{ width: collapsed ? '80px' : '250px', height: 'calc(-110px + 100vh)' }}
+                style={{
+                    width: collapsed ? '80px' : '250px',
+                    height: '100vh', // Asegúrate de que tenga toda la altura de la pantalla
+                    overflowY: 'auto', // Permite el desplazamiento si el contenido excede la altura
+                }}
             >
-                <div className="flex flex-col bg-[#32569A]"  style={{ height: 'calc(-110px + 100vh)' }}>
+                <div className="flex flex-col bg-[#32569A]" style={{ height: '100vh' }}>
                     <div className="flex items-center justify-between p-4">
-                        <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl`}>Menú</h1>
+                        <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl`}>
+                            Menú
+                        </h1>
                         <button
-                            onClick={() => setCollapsed(!collapsed)}
+                            onClick={toggleCollapse}
                             className="bg-[#32569A] text-[#EFE7DC] p-2 rounded flex items-center justify-center"
                         >
                             <img
@@ -38,10 +49,13 @@ export default function BarraLateral() {
                         <img src="/src/Imagenes/docente.png" alt="Logo" className="w-32 h-auto inline-block" />
                     </div>
 
-                    <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Docente</h1>
-                    {/* Mostrar el nombre del docente si existe */}
+                    <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>
+                        Docente
+                    </h1>
                     {!collapsed && user && (
-                        <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreDocente + " " + user.apellidoDocente}</h3>
+                        <h3 className="text-[#EFE7DC] text-center font-medium mt-2">
+                            {user.nombreDocente + " " + user.apellidoDocente}
+                        </h3>
                     )}
 
                     <Menu
@@ -64,7 +78,7 @@ export default function BarraLateral() {
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
                             icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/InicioEstudiante" />}
+                            component={<Link to="/InicioDocente" />}
                         >
                             Inicio
                         </MenuItem>
@@ -80,8 +94,7 @@ export default function BarraLateral() {
                             <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/RegistroEvFinal" />}>
                                 Evaluacion Final
                             </MenuItem>
-                            <MenuItem className="text-[#EFE7DC] font-bold" 
-                                component={<Link to="/AñadirCriterios" />}>
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AñadirCriterios" />}>
                                 Añadir criterios
                             </MenuItem>
                         </SubMenu>
@@ -90,7 +103,7 @@ export default function BarraLateral() {
                             icon={<img src="/src/Imagenes/Grupo.png" alt="Calendario" className="w-8 h-8 inline-block" />}
                             component={<Link to="/RecuperarEvaluacion" />}
                         >
-                            Empresa
+                            Evaluaciones Pasadas
                         </MenuItem>
 
                         {/* Opción de Perfil */}
@@ -101,11 +114,18 @@ export default function BarraLateral() {
                         >
                             Perfil
                         </MenuItem>
+                        <MenuItem
+                            className="text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/estudiante.png" alt="Estudiantes" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/BusquedaEstudiantesDoc" />}
+                        >
+                            Estudiantes
+                        </MenuItem>
 
                         <div className="mt-auto">
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
-                                onClick={handleLogout} // Llama a la función de cierre de sesión
+                                onClick={handleLogout}
                                 icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
                                 component={<Link to="/" />}
                             >

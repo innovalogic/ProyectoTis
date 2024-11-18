@@ -3,9 +3,9 @@
 // Conexión a la base de datos PostgreSQL
 $host = "localhost";
 $port = "5432";
-$dbname = "BDFinal"; // Cambia esto al nombre de tu base de datos
+$dbname = "bdtis"; // Cambia esto al nombre de tu base de datos
 $user = "postgres"; // Usuario de la base de datos
-$password = ""; // Contraseña de PostgreSQL
+$password = "admin"; // Contraseña de PostgreSQL
 
 try {
     // Crear una nueva conexión PDO
@@ -15,5 +15,3 @@ try {
 } catch (PDOException $e) {
     die("Error en la conexión: " . $e->getMessage());
 }
-
-

@@ -1,10 +1,9 @@
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from "./UserContext";
-import React, { useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 export default function BarraLateral() {
     const { setUser } = useUser();
@@ -15,7 +14,7 @@ export default function BarraLateral() {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        setUser(null); // Borra el contexto de usuario
+        setUser(null);
         alert('Has cerrado sesión.');
     };
 
@@ -25,7 +24,6 @@ export default function BarraLateral() {
                 params: { idEstudiante: user.idEstudiante },
             });
             console.log('Respuesta del servidor:', responseEstudiantes.data, user.idEstudiante);
-
 
             if (responseEstudiantes.data && responseEstudiantes.data.success && Array.isArray(responseEstudiantes.data.datos) && responseEstudiantes.data.datos.length > 0) {
                 const grupoDatos = responseEstudiantes.data.datos[0];
@@ -41,7 +39,6 @@ export default function BarraLateral() {
             console.error('Error al conectarse al servidor:', error.message);
         }
     };
-
 
     useEffect(() => {
         const fetchPlanificado = async () => {
@@ -67,15 +64,14 @@ export default function BarraLateral() {
         }
     }, [user.idGrupoEmpresa]);
 
-
     return (
-        <div className="flex"  style={{ height: 'calc(-110px + 100vh)' }}>
+        <div className="flex" style={{ height: '100vh' }}>
             <Sidebar
                 collapsed={collapsed}
                 className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"
-                style={{ width: collapsed ? '80px' : '250px', height: 'calc(-110px + 100vh)' }}
+                style={{ width: collapsed ? '80px' : '250px', height: '100vh' }}
             >
-                <div className="flex flex-col bg-[#32569A]" style={{ height: 'calc(-110px + 100vh)' }}>
+                <div className="flex flex-col h-full bg-[#32569A]">
                     <div className="flex items-center justify-between p-4">
                         <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl`}>Menú</h1>
                         <button
@@ -126,30 +122,22 @@ export default function BarraLateral() {
                         <SubMenu
                             label="Evaluaciones"
                             className="bg-[#32569A] text-[#EFE7DC] font-bold"
-                            style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
                             icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
                         >
                             <MenuItem className="text-white font-bold" onClick={handleMenuClick} >
                                 Recuperar evaluaciones
                             </MenuItem>
-                            <MenuItem className="text-[#EFE7DC] font-bold" 
-                                component={<Link to="/Autoevaluacion" />}>
-                                Autoevaluacion
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/Autoevaluacion" />}>
+                                Autoevaluación
                             </MenuItem>
-                            <MenuItem className="text-[#EFE7DC] font-bold" 
-                                component={<Link to="/EvaluacionPares" />}>
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/EvaluacionPares" />}>
                                 Evaluación en pares
                             </MenuItem>
-                            <MenuItem className="text-[#EFE7DC] font-bold" 
-                                component={<Link to="/EvaluacionCruzada" />}>
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/EvaluacionCruzada" />}>
                                 Evaluación cruzada
                             </MenuItem>
-                                {/* Nueva opción "Avance" */}
                             <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
                                 Avance
-                            </MenuItem>       
-                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
-                                Información
                             </MenuItem>
                         </SubMenu>
 
@@ -161,40 +149,14 @@ export default function BarraLateral() {
                             Calendario
                         </MenuItem>
 
-                        <SubMenu
-                            label="Empresa"
-                            className="bg-[#32569A] text-[#EFE7DC] font-bold"
-                            style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
-                            icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
-                        >
-                            {user.idGrupoEmpresa === null && (
-                                <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
-                                    Registrar
-                                </MenuItem>
-                            )}
-                            {user.idGrupoEmpresa !== null && (
-                                <>
-                                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to={isPlanificado ? "/SeguimientoSprints" : "/PlanificacionEstudiante"} />}>
-                                        {isPlanificado ? "Seguimiento" : "Planificación"}
-                                    </MenuItem>
-                                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
-                                        Avance
-                                    </MenuItem>
-                                </>
-                            )}
-                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
-                                Información
-                            </MenuItem>
-                        </SubMenu>
-
-                        {/* Opción de Perfil */}
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Estudiante.png" alt="PerfilEstudiante" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/src/Imagenes/Estudiante.png" alt="Perfil" className="w-8 h-8 inline-block" />}
                             component={<Link to="/PerfilEstudiante" />}
                         >
                             Perfil
                         </MenuItem>
+
                         <div className="mt-auto">
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
