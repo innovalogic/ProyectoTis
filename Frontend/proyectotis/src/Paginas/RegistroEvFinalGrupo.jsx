@@ -4,6 +4,7 @@ import Copyright from '../Componentes/BarraCopyright';
 import BarraLateralDocente from '../Componentes/BarraLateralDocente';
 import { useLocation,useNavigate } from 'react-router-dom';
 import { useUser } from "../Componentes/UserContext";
+import Modal from "../Componentes/Modal";
 
 
 
@@ -17,6 +18,17 @@ export default function RegistroEvFinalGrupo() {
     const [grupos,setGrupos]=useState([]);
     const [grupoEvaluadorCruzado, setGrupoEvaluadorCruzado] = useState(); // Estado para el tipo de evaluación seleccionado
     const [evaluadores, setEvaluadores] = useState({}); 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalTitle, setModalTitle] = useState("");
+    const [modalMessage, setModalMessage] = useState("");
+    const [shouldNavigate, setShouldNavigate] = useState(false);
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        if (shouldNavigate) {
+            navigate('/RegistroEvFinal'); // Navegar solo si se indicó
+        }
+    };
 
     const handleEvaluadorChange = (estudianteId, evaluadorId) => {
         setEvaluadores(prevEvaluadores => ({
@@ -102,15 +114,21 @@ export default function RegistroEvFinalGrupo() {
             const data = responseText ? JSON.parse(responseText) : { success: false, message: "No response data" };
     
             if (data.success) {
-                alert("Evaluación Final guardada exitosamente");
-                navigate('/RegistroEvFinal');
+                setModalTitle("Éxito");
+                setModalMessage("Evaluación Final guardada exitosamente.");
+                setIsModalOpen(true);
+                setShouldNavigate(true); 
                 // Aquí puedes realizar cualquier acción adicional, como redirigir o limpiar el formulario
             } else {
-                alert("Hubo un error al guardar la evaluación. " + data.message);
+                setModalTitle("Error");
+                setModalMessage(`Hubo un error al guardar la evaluación. ${data.message}`);
+                setIsModalOpen(true);
             }
         } catch (error) {
             console.error("Error al guardar la evaluación:", error);
-            alert("Hubo un error al guardar la evaluación.");
+            setModalTitle("Error");
+            setModalMessage("Hubo un error al guardar la evaluación.");
+            setIsModalOpen(true);
         }
     };
     
@@ -144,15 +162,21 @@ export default function RegistroEvFinalGrupo() {
             const data = responseText ? JSON.parse(responseText) : { success: false, message: "No response data" };
     
             if (data.success) {
-                alert("Evaluación Final guardada exitosamente");
-                navigate('/RegistroEvFinal');
+                setModalTitle("Éxito");
+                setModalMessage("Evaluación Final guardada exitosamente.");
+                setIsModalOpen(true);
+                setShouldNavigate(true); 
                 // Aquí puedes realizar cualquier acción adicional, como redirigir o limpiar el formulario
             } else {
-                alert("Hubo un error al guardar la evaluación. " + data.message);
+                setModalTitle("Error");
+                setModalMessage(`Hubo un error al guardar la evaluación. ${data.message}`);
+                setIsModalOpen(true);
             }
         } catch (error) {
             console.error("Error al guardar la evaluación:", error);
-            alert("Hubo un error al guardar la evaluación.");
+            setModalTitle("Error");
+            setModalMessage("Hubo un error al guardar la evaluación.");
+            setIsModalOpen(true);
         }
     };
 
@@ -160,12 +184,21 @@ export default function RegistroEvFinalGrupo() {
         // Generamos el objeto de datos con el id del estudiante y el id del evaluador
         const dataToSend = estudiantes.map(estudiante => ({
             tipoEvaluacionAutoevaluacion: 2, // Tipo fijo
-            idGrupoEmpresa: idGrupoEmpresa, 
-            idDocente: user.idDocente, 
-            idEstudiante: estudiante.idEstudiante, 
+            idGrupoEmpresa: idGrupoEmpresa,
+            idDocente: user.idDocente,
+            idEstudiante: estudiante.idEstudiante,
             idEvaluador: evaluadores[estudiante.idEstudiante], // Usamos el evaluador seleccionado para ese estudiante
-            tipoevaluador:"Estudiante",
+            tipoevaluador: "Estudiante",
         }));
+    
+        // Verificar si hay algún evaluador sin asignar
+        const tieneEvaluadoresInvalidos = dataToSend.some(item => !item.idEvaluador);
+        if (tieneEvaluadoresInvalidos) {
+            setModalTitle("Error");
+            setModalMessage("Por favor, asegúrate de asignar un evaluador para todos los estudiantes.");
+            setIsModalOpen(true);
+            return; // Salir de la función si hay evaluadores sin asignar
+        }
     
         console.log("Datos a enviar:", dataToSend);
     
@@ -186,16 +219,23 @@ export default function RegistroEvFinalGrupo() {
             const data = responseText ? JSON.parse(responseText) : { success: false, message: "No response data" };
     
             if (data.success) {
-                alert("Evaluación Final guardada exitosamente");
-                navigate('/RegistroEvFinal');
+                setModalTitle("Éxito");
+                setModalMessage("Evaluación Final guardada exitosamente.");
+                setIsModalOpen(true);
+                setShouldNavigate(true); 
             } else {
-                alert("Hubo un error al guardar la evaluación. " + data.message);
+                setModalTitle("Error");
+                setModalMessage(`Hubo un error al guardar la evaluación. ${data.message}`);
+                setIsModalOpen(true);
             }
         } catch (error) {
             console.error("Error al guardar la evaluación:", error);
-            alert("Hubo un error al guardar la evaluación.");
+            setModalTitle("Error");
+            setModalMessage("Hubo un error al guardar la evaluación.");
+            setIsModalOpen(true);
         }
     };
+    
     useEffect(() => {
         console.log(evaluadores);
     }, [evaluadores]);
@@ -343,6 +383,12 @@ export default function RegistroEvFinalGrupo() {
                 </div>
             </div>
             <Copyright />
+            <Modal
+                show={isModalOpen}
+                onClose={handleCloseModal}
+                title={modalTitle}
+                message={modalMessage}
+            />
         </>
     );
 }
