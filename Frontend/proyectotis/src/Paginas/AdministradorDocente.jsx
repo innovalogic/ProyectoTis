@@ -119,22 +119,23 @@ export default function AdministradorDocente() {
             </h2>
             <div className="flex flex-col items-center justify-center w-full lg:w-auto mt-16 lg:mt-0">
               <div className="flex flex-col ml-6 lg:ml-0">
-                {Object.entries(perfil).map(([key2, value]) => (
-                  <div key={key2} className="mb-4 text-2xl font-bold">
-                    {key2.toUpperCase()}:
-                    {editMode ? (
-                      <input
-                        type="text"
-                        name={key2}
-                        value={value}
-                        onChange={handleInputChange}
-                        className="ml-2 p-1 text-black rounded"
-                      />
-                    ) : (
-                      <span className="font-light ml-2">{value}</span>
-                    )}
-                  </div>
-                ))}
+              {Object.entries(perfil).map(([key2, value]) => (
+                <div key={key2} className="mb-2 text-2xl font-bold">
+                  {key2.toUpperCase()}:
+                  {editMode ? (
+                    <input
+                      type="text"
+                      name={key2}
+                      value={value}
+                      onChange={handleInputChange}
+                      className="ml-2 p-1 text-black rounded w-64" // Puedes ajustar el tamaño aquí
+                    />
+                  ) : (
+                    <span className="font-light ml-2">{value}</span>
+                  )}
+                </div>
+              ))}
+
                 <div className="flex justify-center mt-4">
                   {editMode ? (
                     <>

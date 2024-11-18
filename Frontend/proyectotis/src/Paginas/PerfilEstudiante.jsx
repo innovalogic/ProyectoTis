@@ -95,10 +95,10 @@ return (
               <div className="mb-4 text-2xl font-bold">CORREO: <span className="font-light ml-2">{user.emailEstudiante}</span></div>
             </div>
           </div>
-          <div className="flex flex-col items-center mt-8 lg:mt-0 relative" style={{ left: '-70px' }}> {/* Ajuste de posición hacia la izquierda */}
+          <div className="flex flex-col items-center mt-8 lg:mt-0 relative" style={{ left: '-70px' }}>
             <div className="mt-28">
               <img 
-                src={imageUrl || user.imageUrl} // Usa `imageUrl` o una imagen por defecto
+                src={imageUrl || user.imageUrl} 
                 alt="Foto de perfil" 
                 className="w-40 h-40 object-cover shadow-lg mb-4"
               />
@@ -109,22 +109,26 @@ return (
                 className="hidden" 
                 id="upload-button"
               />
-              <button 
-                onClick={() => document.getElementById('upload-button').click()}
-                className="bg-slate-500 text-white text-sm font-bold px-12 py-1 rounded-md hover:bg-blue-600 transition mt-1"
-              >
-                CAMBIAR<br/> FOTO
-              </button>
-              <Link to="../VistaPerfilDo" state={{ data: { idDocente:user.idDocente} }}>
-              <button 
-  className="bg-blue-600 text-white text-sm font-bold px-12 py-1 rounded-md hover:bg-blue-800 transition mt-4"
->
-  VER PERFIL DOCENTE
-</button>
-</Link>
+              
+              <div className="flex flex-col items-center space-y-6">  {/* Usamos flex-col y espacio entre los botones */}
+                <button 
+                  onClick={() => document.getElementById('upload-button').click()}
+                  className="bg-slate-500 text-white text-sm font-bold px-12 py-1 rounded-md hover:bg-blue-600 transition"
+                >
+                  CAMBIAR<br/> FOTO
+                </button>
 
+                <Link to="../VistaPerfilDo" state={{ data: { idDocente: user.idDocente } }}>
+                  <button 
+                    className="bg-slate-500 text-white text-sm font-bold px-12 py-1 rounded-md hover:bg-blue-600 transition"
+                  >
+                    VER PERFIL<br/> DOCENTE
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
