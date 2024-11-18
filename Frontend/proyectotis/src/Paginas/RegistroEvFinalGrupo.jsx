@@ -21,7 +21,7 @@ export default function RegistroEvFinalGrupo() {
     const handleEvaluadorChange = (estudianteId, evaluadorId) => {
         setEvaluadores(prevEvaluadores => ({
             ...prevEvaluadores,
-            [estudianteId]: evaluadorId // Actualiza el evaluador para el estudiante correspondiente
+            [estudianteId]: parseInt(evaluadorId, 10) // Actualiza el evaluador para el estudiante correspondiente
         }));
     };
 
@@ -103,6 +103,7 @@ export default function RegistroEvFinalGrupo() {
     
             if (data.success) {
                 alert("Evaluación Final guardada exitosamente");
+                navigate('/RegistroEvFinal');
                 // Aquí puedes realizar cualquier acción adicional, como redirigir o limpiar el formulario
             } else {
                 alert("Hubo un error al guardar la evaluación. " + data.message);
@@ -144,6 +145,7 @@ export default function RegistroEvFinalGrupo() {
     
             if (data.success) {
                 alert("Evaluación Final guardada exitosamente");
+                navigate('/RegistroEvFinal');
                 // Aquí puedes realizar cualquier acción adicional, como redirigir o limpiar el formulario
             } else {
                 alert("Hubo un error al guardar la evaluación. " + data.message);
@@ -185,6 +187,7 @@ export default function RegistroEvFinalGrupo() {
     
             if (data.success) {
                 alert("Evaluación Final guardada exitosamente");
+                navigate('/RegistroEvFinal');
             } else {
                 alert("Hubo un error al guardar la evaluación. " + data.message);
             }
@@ -193,6 +196,9 @@ export default function RegistroEvFinalGrupo() {
             alert("Hubo un error al guardar la evaluación.");
         }
     };
+    useEffect(() => {
+        console.log(evaluadores);
+    }, [evaluadores]);
     
 
     return (
@@ -224,7 +230,9 @@ export default function RegistroEvFinalGrupo() {
                         <option value="" hidden>Seleccionar Tipo de Evaluación</option>
                         <option value="Cruzada" className="bg-white text-black border-2 border--[#32569A] rounded-md">Evaluación 1: Cruzada</option>
                         <option value="AutoEvaluacion" className="bg-white text-black border-2 border--[#32569A] rounded-md">Evaluación 2: Autoevaluación</option>
+                        {estudiantes.length % 2 === 0 && (
                         <option value="Pares" className="bg-white text-black border-2 border--[#32569A] rounded-md">Evaluación 3: Pares</option>
+                        )}
                     </select>
                     </div>
                     <div className='w-1/3 flex items-center justify-center'>
@@ -290,23 +298,28 @@ export default function RegistroEvFinalGrupo() {
                                         <td className="py-2 px-4 border border-solid border-black">{estudiante.idEstudiante}</td>
                                         <td className="py-2 px-4 border border-solid border-black">{estudiante.nombreEstudiante+" "+estudiante.apellidoEstudiante}</td>
                                         <td className="py-2 px-4 border border-solid border-black">
-                                        <select 
+                                        <select
                                             className="px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded w-full"
-                                            onChange={(e) => handleEvaluadorChange(estudiante.idEstudiante, e.target.value)} 
-                                            >
-                                        <option value="" hidden>Seleccionar Estudiante Evaluador</option>
-                                        {estudiantes
-                                            .filter(evaluador => evaluador.idEstudiante !== estudiante.idEstudiante)
-                                            .map(evaluador => (
-                                            <option
-                                             key={evaluador.idEstudiante} 
-                                             value={evaluador.idEstudiante} 
-                                             className="bg-white text-black border-2 border--[#32569A] rounded-md">
-                                             {evaluador.nombreEstudiante + " " + evaluador.apellidoEstudiante}
-                                            </option>
-                                            ))}
+                                                                                    value={evaluadores[estudiante.idEstudiante] || ""} // Mostrar la selección actual para este estudiante
+                                            onChange={(e) => handleEvaluadorChange(estudiante.idEstudiante, e.target.value)}
+                                        >
+                                            <option value="" >Seleccionar Estudiante Evaluador</option>
+                                            {estudiantes
+                                                .filter(evaluador => 
+                                                    evaluador.idEstudiante !== estudiante.idEstudiante && // Excluir al estudiante actual
+                                                    (evaluador.idEstudiante === evaluadores[estudiante.idEstudiante] || // Mostrar el evaluador seleccionado
+                                                    !Object.values(evaluadores).includes(evaluador.idEstudiante)) // Filtrar evaluadores no seleccionados
+                                                )
+                                                .map(evaluador => (
+                                                    <option
+                                                        key={evaluador.idEstudiante}
+                                                        value={evaluador.idEstudiante}
+                                                        className="bg-white text-black border-2 border-[#32569A] rounded-md"
+                                                    >
+                                                        {evaluador.nombreEstudiante + " " + evaluador.apellidoEstudiante}
+                                                    </option>
+                                                ))}
                                         </select>
-    
                                         </td>
                                        </tr> 
                                     ))}
