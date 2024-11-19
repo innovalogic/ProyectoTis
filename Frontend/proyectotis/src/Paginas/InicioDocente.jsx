@@ -36,7 +36,6 @@ function AgregarNotificacionModal({ showModal, setShowModal, onPublicarClick, gr
 
   if (!showModal) return null;
 
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-[#efe7dc] p-6 rounded-md shadow-lg max-w-lg w-full">
@@ -48,7 +47,7 @@ function AgregarNotificacionModal({ showModal, setShowModal, onPublicarClick, gr
           className="p-2 rounded-md w-full bg-[#e1d7b7] border border-gray-300"
           onChange={(e) => setGrupo(e.target.value)} 
         >
-          <option value="">Todos los Estudiantes</option>
+          <option value="NULL">Todos los Estudiantes</option>
           {grupo.length > 0 ? (
             grupo.map((g, index) => (
               <option key={index} value={g.idGrupoEmpresa}>
@@ -177,13 +176,7 @@ export default function InicioDocente() {
         params: { idDocente: user.idDocente }
       });
       if (response.data.success) {
-        const sortedData = response.data.datos.sort((a, b) => {
-          const dateA = new Date(`${a.fecha}T${a.hora}`);
-          const dateB = new Date(`${b.fecha}T${b.hora}`);
-        
-          return dateB - dateA;
-        });
-
+        const sortedData = response.data.datos;
         setNotificacionData(sortedData);
       } else {
         setError('No se pudo obtener los datos.');
@@ -194,20 +187,20 @@ export default function InicioDocente() {
   };
 
   const guardarNotificacion = async (mensaje, links) => {
-    const currentDateTime = new Date();
-    const fecha = currentDateTime.toISOString().split("T")[0];
-    const hora = currentDateTime.toTimeString().split(" ")[0];
-
+    const currentDateTime = new Date().toISOString().split(".")[0] + "Z";
+console.log(currentDateTime);
+  
     try {
       const response = await axios.post('http://localhost/proyectotis/backend/GuardarNotificacion.php', {
         campo1: mensaje,
         links: links,
-        fecha: fecha,
-        hora: hora,
+        fechaHora: currentDateTime, // Un único campo para fecha y hora
         idDocente: user.idDocente,
       });
-      if (!response.data.success) 
+  
+      if (!response.data.success) {
         console.log("Error al guardar la notificación.");
+      }
     } catch (error) {
       console.error("Error al conectar con el servidor:", error);
     }
@@ -229,9 +222,10 @@ export default function InicioDocente() {
     }
   };
 
-  const handlePublicarClick = (mensaje, links, grupoElegido) => {
-    guardarNotificacion(mensaje, links);
-    handleEnviarNotificacion(mensaje, grupoElegido); 
+  const handlePublicarClick  = async (mensaje, links, grupoElegido) => {
+    await guardarNotificacion(mensaje, links); // Asegúrate de que esta operación termine
+  await handleEnviarNotificacion(mensaje, grupoElegido); // Asegúrate de que esta operación termine
+  await fetchNotificaciones();
   };
 
   useEffect(() => {
@@ -308,7 +302,7 @@ export default function InicioDocente() {
                       </div>
                     )}
 
-                    <p className="text-sm mt-2">{notificacion.fecha}</p>
+                    <p className="text-sm mt-2">{notificacion.fechaHora}</p>
                   </div>
                 ))}
               </div>

@@ -14,8 +14,7 @@ if (!empty($idDocente)) {
         $query = 'SELECT 
             "notificacion"."idnotificacion",
             "notificacion"."mensaje",
-            "notificacion"."fecha",
-            "notificacion"."hora",
+            "notificacion"."fechaHora",
             "notificacion"."iddocente",
             "notificacion_links"."idnotificacionlink",
             "notificacion_links"."enlace",
@@ -30,7 +29,9 @@ if (!empty($idDocente)) {
             LEFT JOIN 
             "notificacion_links" ON "notificacion"."idnotificacion" = "notificacion_links"."idnotificacion"
             WHERE 
-            "notificacion"."iddocente" = :idDocente';
+            "notificacion"."iddocente" = :idDocente
+            ORDER BY 
+             "notificacion"."fechaHora" DESC ';
 
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':idDocente', $idDocente, PDO::PARAM_INT);

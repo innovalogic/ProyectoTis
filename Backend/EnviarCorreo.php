@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 function getCorreosEstudiantes($pdo, $idDocente, $idGrupoEmpresa) {
-    $query = 'SELECT "emailEstudiante" FROM "Estudiante" WHERE "idDocente" = :idDocente AND "idGrupoEmpresa" = :idGrupoEmpresa';
+    $query = 'SELECT "emailEstudiante" FROM "Estudiante" WHERE "idDocente" = :idDocente AND ("idGrupoEmpresa" = COALESCE(:idGrupoEmpresa, "idGrupoEmpresa"));';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':idDocente', $idDocente, PDO::PARAM_INT);
     $stmt->bindParam(':idGrupoEmpresa', $idGrupoEmpresa, PDO::PARAM_INT);

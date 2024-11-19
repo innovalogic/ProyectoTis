@@ -18,12 +18,7 @@ export default function InicioEstudiante() {
         params: { idDocente: user.idDocente }
       });
       if (response.data.success) {
-        const sortedData = response.data.datos.sort((a, b) => {
-          const dateA = new Date(`${a.fecha}T${a.hora}`);
-          const dateB = new Date(`${b.fecha}T${b.hora}`);
-        
-          return dateB - dateA;
-        });
+        const sortedData = response.data.datos;
 
         setNotificacionData(sortedData);
       } else {
@@ -99,7 +94,7 @@ export default function InicioEstudiante() {
                       </div>
                     )}
 
-                    <p className="text-sm mt-2">{notificacion.fecha}</p>
+                    <p className="text-sm mt-2">{notificacion.fechaHora}</p>
                   </div>
                 ))}
               </div>
