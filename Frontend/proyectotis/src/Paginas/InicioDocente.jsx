@@ -129,6 +129,27 @@ export default function InicioDocente() {
   const [showModal, setShowModal] = useState(false);
   const { user } = useUser();
   const [grupo, setGrupo] = useState([]);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  function SuccessModal({ show, onClose }) {
+    if (!show) return null;
+  
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="bg-[#efe7dc] p-6 rounded-md shadow-lg max-w-lg w-full">
+          <h2 className="text-[#32569A] font-bold mb-4">Notificación Enviada</h2>
+          <p className="mb-4">La notificación fue enviada con éxito.</p>
+          <div className="flex justify-end space-x-2">
+            <button
+              onClick={onClose}
+              className="bg-[#32569A] text-white px-4 py-2 rounded-md"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const cargarDatosGrupo = async (idDocente) => {
     try {
@@ -201,6 +222,7 @@ export default function InicioDocente() {
         idDocente: user.idDocente,
         idGrupoEmpresa: grupoElegido
       });
+      setShowSuccessModal(true);
       if (!response.data.success) console.log(response.data.message || 'Ocurrió un error al enviar algunos correos.');
     } catch (error) {
       console.log('Error al conectar con el servidor: ' + error.message);
@@ -304,6 +326,11 @@ export default function InicioDocente() {
             <img src="/src/Imagenes/plus.png" className="w-6 h-6" alt="mas" />
             <span>Agregar Notificación</span>
           </button>
+
+          <SuccessModal
+          show={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)} // Close the success modal
+        />
 
         <AgregarNotificacionModal
           showModal={showModal}
