@@ -93,31 +93,47 @@ export default function AñadirCriterios() {
     };
 
     // Eliminar un criterio
-    const handleEliminarCriterio = (id) => {
-        fetch(`http://localhost/ProyectoTis/Backend/eliminarCriterio.php?id=${id}`, {
-            method: "DELETE",
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                if (data.success) {
-                    setModal({
-                        show: true,
-                        title: 'Éxito',
-                        message: 'Criterio eliminado con éxito'
-                      });
-                    cargarCriterios();
-                    return;
-                } else {
-                    setModal({
-                        show: true,
-                        title: 'Error al guardar el criterio',
-                        message: data.message
-                      });
-                      return;
-                }
-            })
-            .catch((error) => console.error("Error al eliminar el criterio:", error));
+    const handleEliminarCriterio = async (id) => {
+        try {
+            const response = await fetch(`http://localhost/ProyectoTis/Backend/eliminarCriterio.php?id=${id}`, {
+                method: 'DELETE',
+            });
+    
+            // Verificar si la respuesta del servidor es válida
+            if (!response.ok) {
+                const errorText = await response.text(); // Obtener el texto de error
+                console.error('Error en la respuesta del servidor:', errorText);
+                throw new Error("Error en la respuesta del servidor.");
+            }
+    
+            const result = await response.json();
+            console.log('Resultado:', result);
+    
+            // Evaluar el resultado de la respuesta
+            if (result.success) {
+                cargarCriterios(); // Recargar la lista de criterios
+                setModal({
+                    show: true,
+                    title: 'Éxito',
+                    message: 'Criterio eliminado con éxito',
+                });
+            } else {
+                setModal({
+                    show: true,
+                    title: 'Error al eliminar el criterio',
+                    message: result.message,
+                });
+            }
+        } catch (error) {
+            console.error('Error al eliminar el criterio:', error);
+            setModal({
+                show: true,
+                title: 'Error',
+                message: 'Ocurrió un error al procesar la solicitud. Por favor, inténtalo de nuevo.',
+            });
+        }
     };
+    
     const closeModal = () => {
         setModal({
             ...modal,
@@ -177,12 +193,12 @@ export default function AñadirCriterios() {
                             </thead>
                             <tbody>
                                 {criterios.map((item) => (
-                                    <tr key={item.id}>
+                                    <tr key={item.idcriterios}>
                                         <td className="border p-2">{item.nombreevaluación}</td>
                                         <td className="border p-2">{item.criterio}</td>
                                         <td className="border p-2">
                                             <button
-                                                onClick={() => handleEliminarCriterio(item.id)}
+                                                onClick={() => handleEliminarCriterio(item.idcriterios)}
                                                 className="bg-red-500 text-white p-1"
                                             >
                                                 Eliminar

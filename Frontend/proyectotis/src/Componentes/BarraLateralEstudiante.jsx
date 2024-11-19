@@ -11,11 +11,48 @@ export default function BarraLateral() {
     const { user } = useUser();
     const [error, setError] = useState(null);
     const [isPlanificado, setIsPlanificado] = useState(false);
+    const [evaluaciones, setEvaluaciones] = useState([]);
     const navigate = useNavigate();
 
     const handleLogout = () => {
         setUser(null);
         alert('Has cerrado sesión.');
+    };
+
+    useEffect(() => {
+        const fetchEvaluaciones = async () => {
+            console.log("GrupoEmpresa ID: ", user.idGrupoEmpresa);  // Verificar si tiene el valor correcto
+            try {
+                const response = await axios.post('http://localhost/proyectotis/backend/obtenerEvaluacionFinal.php', {
+                    grupoempresa_idgrupoempresa: user.idGrupoEmpresa,
+                });
+                console.log("Respuesta de la API:", response.data);  // Ver la respuesta de la API
+                if (response.data.success) {
+                    setEvaluaciones(response.data.evaluacionFinal);
+                } else {
+                    console.log('No se encontraron evaluaciones.');
+                }
+            } catch (error) {
+                console.error('Error al obtener evaluaciones:', error.message);
+            }
+        };
+    
+        if (user.idGrupoEmpresa) {
+            fetchEvaluaciones();
+        }
+    }, [user.idGrupoEmpresa]);
+
+    const handleEvaluacionFinal = (tipoEvaluacion, idEvaluado) => {
+        if (tipoEvaluacion === 3) {
+            // Autoevaluación
+            navigate('/Autoevaluacion');
+        } else if (tipoEvaluacion === 2) {
+            // Evaluación en pares
+            navigate('/EvaluacionPares', { state: { idEvaluado } });
+        } else if (tipoEvaluacion === 1) {
+            // Evaluación cruzada
+            navigate('/EvaluacionCruzada', { state: { idEvaluado } });
+        }
     };
 
     const handleMenuClick = async () => {
@@ -127,15 +164,22 @@ export default function BarraLateral() {
                             <MenuItem className="text-white font-bold" onClick={handleMenuClick} >
                                 Recuperar evaluaciones
                             </MenuItem>
-                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/Autoevaluacion" />}>
-                                Autoevaluación
-                            </MenuItem>
-                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/EvaluacionPares" />}>
-                                Evaluación en pares
-                            </MenuItem>
-                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/EvaluacionCruzada" />}>
-                                Evaluación cruzada
-                            </MenuItem>
+                            <SubMenu
+                                label="Evaluación Final"
+                                className="bg-[#32569A] text-[#EFE7DC] font-bold"
+                            >
+                                {evaluaciones.slice(0, 1).map((evaluacion) => (
+                                    <MenuItem
+                                        key={evaluacion.idevaluacionfinal}
+                                        className="text-[#EFE7DC] font-bold"
+                                        onClick={() => handleEvaluacionFinal(evaluacion.tipoevaluacion_idtipoevaluacion, evaluacion.idevaluado)}
+                                    >
+                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 1 && 'Autoevaluación'}
+                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 2 && 'Evaluación en Pares'}
+                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 3 && 'Evaluación Cruzada'}
+                                    </MenuItem>
+                                ))}
+                            </SubMenu>
                             <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
                                 Avance
                             </MenuItem>
@@ -148,6 +192,34 @@ export default function BarraLateral() {
                         >
                             Calendario
                         </MenuItem>
+
+                        <SubMenu
+                            label="Empresa"
+                            className="bg-[#32569A] text-[#EFE7DC] font-bold"
+                            style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
+                            icon={<img src="/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
+                        >
+                            {user.idGrupoEmpresa === null && (
+                                <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
+                                    Registrar
+                                </MenuItem>
+                            )}
+                            {user.idGrupoEmpresa !== null && (
+                                <>
+                                    <MenuItem className="text-[#EFE7DC] font-bold" 
+                                    component={<Link to={isPlanificado ? "/SeguimientoSprints" : "/PlanificacionEstudiante"} />}>
+                                        {isPlanificado ? "Seguimiento" : "Planificación"}
+                                    </MenuItem>
+                                    {/* Nueva opción "Avance" */}
+                                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
+                                        Avance
+                                    </MenuItem>
+                                </>
+                            )}
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
+                                Información
+                            </MenuItem>
+                        </SubMenu>
 
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
