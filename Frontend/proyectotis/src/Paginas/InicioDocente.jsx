@@ -5,10 +5,11 @@ import BarraCopyright from "../Componentes/BarraCopyright";
 import BarraLateral from "../Componentes/BarraLateralDocente";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 
-function AgregarNotificacionModal({ showModal, setShowModal, onPublicarClick }) {
+function AgregarNotificacionModal({ showModal, setShowModal, onPublicarClick, grupo}) {
   const [mensaje, setMensaje] = useState("");
   const [link, setLink] = useState("");
   const [links, setLinks] = useState([]);
+  const [grupoElegido, setGrupo] = useState("");
 
   const handleLinkChange = (e) => setLink(e.target.value);
   
@@ -29,15 +30,36 @@ function AgregarNotificacionModal({ showModal, setShowModal, onPublicarClick }) 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onPublicarClick(mensaje, links);
+    onPublicarClick(mensaje, links, grupoElegido);
     handleModalClose();
   };
 
   if (!showModal) return null;
 
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-[#efe7dc] p-6 rounded-md shadow-lg max-w-lg w-full">
+      <h2 className="text-[#32569A] font-bold mb-4">Seleccionar Grupo:</h2>
+      <select
+          id="grupo"
+          name="grupo"
+          value={grupoElegido}
+          className="p-2 rounded-md w-full bg-[#e1d7b7] border border-gray-300"
+          onChange={(e) => setGrupo(e.target.value)} 
+        >
+          <option value="">Todos los Estudiantes</option>
+          {grupo.length > 0 ? (
+            grupo.map((g, index) => (
+              <option key={index} value={g.idGrupoEmpresa}>
+                {g.nombreEmpresa}
+              </option>
+            ))
+          ) : (
+            <option disabled>No hay grupos disponibles</option>
+          )}
+        </select>
+
         <h2 className="text-[#32569A] font-bold mb-4">Compartir con la clase:</h2>
         <form onSubmit={handleSubmit}>
           <textarea
@@ -100,11 +122,33 @@ function AgregarNotificacionModal({ showModal, setShowModal, onPublicarClick }) 
 }
 
 export default function InicioDocente() {
+  
   const [notificacionData, setNotificacionData] = useState([]);
   const [error, setError] = useState(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { user } = useUser();
+  const [grupo, setGrupo] = useState([]);
+
+  const cargarDatosGrupo = async (idDocente) => {
+    try {
+        const response = await axios.get('http://localhost/proyectotis/backend/CargarGrupoDoc.php', {
+            params: { idDocente }
+        });
+
+        if (response.data && response.data.success && Array.isArray(response.data.datos)) {
+            setGrupo(response.data.datos.map(dato => ({
+                idGrupoEmpresa: dato.idGrupoEmpresa,
+                nombreEmpresa: dato.nombreEmpresa
+            })));
+        } else {
+            setGrupo([]); 
+        }
+    } catch (error) {
+        console.error('Error al cargar los datos del grupo:', error.message);
+        setGrupo([]); 
+    }
+};
 
   const fetchNotificaciones = async () => {
     try {
@@ -112,7 +156,13 @@ export default function InicioDocente() {
         params: { idDocente: user.idDocente }
       });
       if (response.data.success) {
-        const sortedData = response.data.datos.sort((a, b) => b.idnotificacion - a.idnotificacion);
+        const sortedData = response.data.datos.sort((a, b) => {
+          const dateA = new Date(`${a.fecha}T${a.hora}`);
+          const dateB = new Date(`${b.fecha}T${b.hora}`);
+        
+          return dateB - dateA;
+        });
+
         setNotificacionData(sortedData);
       } else {
         setError('No se pudo obtener los datos.');
@@ -142,11 +192,14 @@ export default function InicioDocente() {
     }
   };
 
-  const handleEnviarNotificacion = async (mensaje) => {
+  const handleEnviarNotificacion = async (mensaje,grupoElegido) => {
     try {
+      console.log(mensaje, user.idDocente,grupoElegido)
       const response = await axios.post('http://localhost/proyectotis/backend/EnviarCorreo.php', {
-        asunto: "materia-Tis",
+        asunto: "Materia-Taller de ingenieria de software",
         mensaje: mensaje,
+        idDocente: user.idDocente,
+        idGrupoEmpresa: grupoElegido
       });
       if (!response.data.success) console.log(response.data.message || 'Ocurrió un error al enviar algunos correos.');
     } catch (error) {
@@ -154,15 +207,15 @@ export default function InicioDocente() {
     }
   };
 
-  const handlePublicarClick = (mensaje, links) => {
+  const handlePublicarClick = (mensaje, links, grupoElegido) => {
     guardarNotificacion(mensaje, links);
-    handleEnviarNotificacion(mensaje);
+    handleEnviarNotificacion(mensaje, grupoElegido); 
   };
 
   useEffect(() => {
     fetchNotificaciones();
-    const interval = setInterval(fetchNotificaciones, 5000); // Actualiza cada 5 segundos
-    return () => clearInterval(interval); // Limpia el intervalo al desmontar el componente
+    cargarDatosGrupo(user.idDocente);
+
   }, [user.idDocente]);
 
   const handleSidebarCollapseChange = (collapsed) => {
@@ -170,19 +223,19 @@ export default function InicioDocente() {
   };
 
   const groupedNotifications = notificacionData.reduce((acc, curr) => {
-    const id = curr.idnotificacion;
-    if (!acc[id]) {
-      acc[id] = {
+    const key = `${curr.idnotificacion}-${curr.mensaje}`; // Combina ID y mensaje para hacerlos únicos
+    if (!acc[key]) {
+      acc[key] = {
         ...curr,
-        enlaces: curr.enlace ? [curr.enlace] : [], // Initialize enlaces array
+        enlaces: curr.enlace ? [curr.enlace] : [],
       };
     } else if (curr.enlace) {
-      acc[id].enlaces.push(curr.enlace); // Add additional links if any
+      acc[key].enlaces.push(curr.enlace);
     }
     return acc;
   }, {});
-  
   const notificationsArray = Object.values(groupedNotifications);
+  
 
   return (
     <>
@@ -218,21 +271,22 @@ export default function InicioDocente() {
                       </div>
                       <img src="/src/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
                     </div>
+
                     <br />
+
                     <p className="text-xl">{notificacion.mensaje}</p>
-                    {notificacion.enlaces.length > 0 ? (
-                      <div className="space-y-2">
+
+                    {notificacion.enlaces.length > 0 && (
+                      <div className="space-y-2 mt-2">
                         {notificacion.enlaces.map((enlace, i) => (
                           <a key={i} href={enlace} target="_blank" rel="noopener noreferrer" className="text-yellow-500 underline block">
                             {enlace}
                           </a>
                         ))}
                       </div>
-                    ) : (
-                      <p className="text-gray-400">Sin enlaces adjuntos.</p>
                     )}
-                    
-                    <p>{notificacion.fecha}</p>
+
+                    <p className="text-sm mt-2">{notificacion.fecha}</p>
                   </div>
                 ))}
               </div>
@@ -255,6 +309,7 @@ export default function InicioDocente() {
           showModal={showModal}
           setShowModal={setShowModal}
           onPublicarClick={handlePublicarClick}
+          grupo={grupo}
         />
       </div>
       <BarraCopyright />

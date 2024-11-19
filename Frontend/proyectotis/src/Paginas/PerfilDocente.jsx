@@ -77,6 +77,7 @@ const PerfilDocente = () => {
   return (
     <>
       <Navbar />
+      
       <div className="bg-custom-bg flex" style={{ height: '100vh', marginTop: '70px' }}>
         <BarraLateral />
         <div className="flex justify-center items-center w-full mt-[-100px]">

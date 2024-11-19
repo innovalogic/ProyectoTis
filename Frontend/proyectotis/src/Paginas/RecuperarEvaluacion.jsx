@@ -71,7 +71,7 @@ export default function RecuperarEvaluacion() {
     };
 
     useEffect(() => {
-        cargarDatosGrupo(2); 
+        cargarDatosGrupo(user.idDocente); 
     }, []);
 
 
