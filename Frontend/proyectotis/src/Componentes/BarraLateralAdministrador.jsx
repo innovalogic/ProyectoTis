@@ -39,6 +39,12 @@ export default function BarraLateral() {
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>ADMINISTRADOR</h1>
+                    {!collapsed && user && (
+                        <h3 className="text-[#EFE7DC] text-center font-medium mt-2">
+                            {user.nombre}
+                        </h3>
+                    )}
+                    
 
                     <Menu
                         menuItemStyles={{

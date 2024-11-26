@@ -4,9 +4,11 @@ import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import Navbar from "../Componentes/NavbarInicio";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { useUser } from "../Componentes/UserContext";
 
 export default function AdministradorEstudiante() {
   const location = useLocation();
+  const { user } = useUser();
   const navigate = useNavigate();
   const {
     idEstudiante,
@@ -30,6 +32,9 @@ export default function AdministradorEstudiante() {
     grupo: idGrupoEmpresa,
     email: emailEstudiante,
   });
+  if (!user) {
+    return <Navigate to="/" replace />; // Redirige a la página de login
+}
 
   const [editMode, setEditMode] = useState(false); // Estado para alternar el modo de edición
   useEffect(() => {
