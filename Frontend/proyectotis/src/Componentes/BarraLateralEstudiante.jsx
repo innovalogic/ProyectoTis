@@ -174,9 +174,9 @@ export default function BarraLateral() {
                                         className="text-[#EFE7DC] font-bold"
                                         onClick={() => handleEvaluacionFinal(evaluacion.tipoevaluacion_idtipoevaluacion, evaluacion.idevaluado)}
                                     >
-                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 1 && 'Autoevaluación'}
+                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 1 && 'Evaluación Cruzada'}
                                         {evaluacion.tipoevaluacion_idtipoevaluacion === 2 && 'Evaluación en Pares'}
-                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 3 && 'Evaluación Cruzada'}
+                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 3 && 'Autoevaluación'}
                                     </MenuItem>
                                 ))}
                             </SubMenu>
