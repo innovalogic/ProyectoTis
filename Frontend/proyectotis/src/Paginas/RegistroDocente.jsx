@@ -3,9 +3,11 @@ import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Componentes/Modal";
 import { useState } from "react";
+import { useUser } from "../Componentes/UserContext";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio"; // Asegúrate de que la ruta sea correcta
 
 export default function RegistroDocente() {
+    const { user } = useUser();
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
@@ -15,12 +17,16 @@ export default function RegistroDocente() {
         contrasena: '',
         confirmarContrasena: '',
     });
+    
     const [modal, setModal] = useState({
         show: false,
         title: '',
         message: ''
     });
     const navigate = useNavigate();
+    if (!user) {
+        return <Navigate to="/" replace />; // Redirige a la página de login
+    }
     const handleChange = (e) => {
         const { id, value } = e.target;
 

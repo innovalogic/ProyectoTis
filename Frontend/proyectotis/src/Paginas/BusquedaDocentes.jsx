@@ -8,6 +8,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
 const BusquedaDocentes = () => {
+  const { user } = useUser();
   const [tabla, setTabla] = useState([]);
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
@@ -18,6 +19,9 @@ const BusquedaDocentes = () => {
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = startIdx + itemsPerPage;
   const docentesDataPaginated = filteredData.slice(startIdx, endIdx);
+  if (!user) {
+    return <Navigate to="/" replace />; // Redirige a la página de login
+}
 
   const fetchTablaAvances = async () => {
     try {

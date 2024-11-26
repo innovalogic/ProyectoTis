@@ -3,9 +3,11 @@ import Navbar from "../Componentes/NavbarInicio";
 import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import BarraCopyright from "../Componentes/BarraCopyright";
 import { Link } from 'react-router-dom';
+import { useUser } from "../Componentes/UserContext";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const BusquedaEstudiantes = () => {
+  const { user } = useUser();
   const [tabla, setTabla] = useState([]);
   const [error, setError] = useState(null);
   const [filteredData, setFilteredData] = useState([]);
@@ -16,6 +18,9 @@ const BusquedaEstudiantes = () => {
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = startIdx + itemsPerPage;
   const estudiantesDataPaginated = filteredData.slice(startIdx, endIdx);
+  if (!user) {
+    return <Navigate to="/" replace />; // Redirige a la página de login
+}
 
   const fetchTablaAvances = async () => {
     try {
