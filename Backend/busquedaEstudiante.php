@@ -20,12 +20,6 @@ try {
      $stmt2->execute();
      $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
 
-     // Consulta para obtener todos los estudiantes
-     $query2 = 'SELECT * FROM "Docente"';
-     $stmt2 = $pdo->prepare($query2);
-     $stmt2->execute();
-     $result2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-
     // Enviar respuesta en formato JSON
     echo json_encode([
         'success' => true,

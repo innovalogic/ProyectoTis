@@ -5,17 +5,29 @@ import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import Navbar from "../Componentes/NavbarInicio";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+
 export default function AdministradorDocente() {
   const { user } = useUser();
   const location = useLocation();
   const navigate = useNavigate();
-  const { nombreDocente, apellidoDocente, codigoDocente, telefonoDocente, contraseñaDocente, correoDocente,idDocente} = location.state?.data || {};
+  const { 
+    idDocente = "N/A",
+    nombreDocente = "N/A", 
+    apellidoDocente = "N/A", 
+    codigoDocente = "N/A", 
+    telefonoDocente = "N/A", 
+    contrasenaDocente = "N/A", 
+    correoDocente = "N/A",
+  } = location.state?.data || {};
+
+
   const [perfil, setPerfil] = useState({
+    idDocente: idDocente,
     nombre: nombreDocente,
     apellido: apellidoDocente,
     codigo:codigoDocente,
     telefono:telefonoDocente,
-    contraseña:contraseñaDocente,
+    contraseña:contrasenaDocente,
     email:correoDocente,
   });
   if (!user) {
@@ -39,15 +51,13 @@ export default function AdministradorDocente() {
   };
   const handleSave = async () => {
     const updateDocente={
-     idDocente:idDocente,
+     idDocente: idDocente,
      nombreDocente: perfil.nombre,
      apellidoDocente: perfil.apellido,
      codigoDocente: parseInt(perfil.codigo),
      telefonoDocente: String(perfil.telefono),
      contrasenaDocente: String(perfil.contraseña),
      emailDocente: perfil.email,
- 
- 
     };  
     console.log("Datos enviados al backend:", updateDocente);
      try {
@@ -75,12 +85,13 @@ export default function AdministradorDocente() {
   const handleCancel = () => {
     // Restablece los valores originales y desactiva el modo de edición
     setPerfil({
+      idDocente: idDocente,
       nombre: nombreDocente,
-    apellido: apellidoDocente,
-    codigo:codigoDocente,
-    telefono:telefonoDocente,
-    contraseña:contraseñaDocente,
-    email:correoDocente
+      apellido: apellidoDocente,
+      codigo:codigoDocente,
+      telefono:telefonoDocente,
+      contraseña:contraseñaDocente,
+      email:correoDocente
     });
     setEditMode(false);
   };
@@ -93,7 +104,7 @@ export default function AdministradorDocente() {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ idDocente:idDocente }),
+          body: JSON.stringify({ idDocente: perfil.idDocente }),
         });
 
         if (response.ok) {

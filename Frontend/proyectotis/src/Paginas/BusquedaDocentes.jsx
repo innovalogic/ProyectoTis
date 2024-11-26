@@ -6,7 +6,6 @@ import BarraCopyright from "../Componentes/BarraCopyright";
 import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
-
 const BusquedaDocentes = () => {
   const { user } = useUser();
   const [tabla, setTabla] = useState([]);
@@ -86,26 +85,23 @@ const BusquedaDocentes = () => {
         <div className="mt-8 flex-1">
           <div className="w-3/4 mx-auto">
             <h2
-              className="font-semibold text-3xl"
-              style={{ color: "#1E3664" }}
-            >
+              className="font-semibold text-3xl" style={{ color: "#1E3664" }}>
               Tabla de Docente:
             </h2>
           </div>
           <div className="mt-4 px-4">
-          <div className="relative w-3/4 mx-auto">
-            <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-              <i className="fas fa-search"></i> {/* Ícono de lupa de Font Awesome */}
-            </span>
-            <input
-              type="text"
-              placeholder="Buscar docente..."
-              value={docenteFilter}
-              onChange={(e) => setDocenteFilter(e.target.value)}
-              className="px-10 py-2 border border-gray-300 rounded w-full" // Espacio extra para el ícono
-            />
-          </div>
-          
+            <div className="relative w-3/4 mx-auto">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                <i className="fas fa-search"></i> {/* Ícono de lupa de Font Awesome */}
+              </span>
+              <input
+                type="text"
+                placeholder="Buscar docente..."
+                value={docenteFilter}
+                onChange={(e) => setDocenteFilter(e.target.value)}
+                className="px-10 py-2 border border-gray-300 rounded w-full" // Espacio extra para el ícono
+              />
+            </div>
           </div>
           {error && (
             <p className="text-red-500 mt-2 text-center">{error}</p>
@@ -138,7 +134,7 @@ const BusquedaDocentes = () => {
                                                                  apellidoDocente:Docente.apellidoDocente,
                                                                  codigoDocente:Docente.CodigoDocente,
                                                                  telefonoDocente:Docente.telefonoDocente,
-                                                                 contraseñaDocente:Docente.contraseñaDocente,
+                                                                 contrasenaDocente:Docente.contraseñaDocente,
                                                                  correoDocente:Docente.correoDocente} }}>
                         <button
                           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded"
