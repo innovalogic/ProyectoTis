@@ -24,9 +24,7 @@ export default function RegistroDocente() {
         message: ''
     });
     const navigate = useNavigate();
-    if (!user) {
-        return <Navigate to="/" replace />; // Redirige a la página de login
-    }
+    
     const handleChange = (e) => {
         const { id, value } = e.target;
 

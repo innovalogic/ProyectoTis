@@ -13,6 +13,9 @@ export default function BarraLateral() {
     const [isPlanificado, setIsPlanificado] = useState(false);
     const [evaluaciones, setEvaluaciones] = useState([]);
     const navigate = useNavigate();
+    if (!user || !user.idEstudiante) {
+        return <Navigate to="/" replace />; // Redirige a la página de login
+      }
 
     const handleLogout = () => {
         setUser(null);

@@ -18,16 +18,28 @@ export default function AdministradorDocente() {
     contraseña:contraseñaDocente,
     email:correoDocente,
   });
-  if (!user) {
-    return <Navigate to="/" replace />; // Redirige a la página de login
-}
+ 
   const [editMode, setEditMode] = useState(false); // Estado para alternar el modo de edición
   useEffect(() => {
-    const storedPerfil = JSON.parse(localStorage.getItem('AdministradorDocente'));
-    if (storedPerfil) {
-      setPerfil(storedPerfil);
+    // Verifica si hay datos en location.state y priorízalos
+    if (location.state?.data) {
+      setPerfil({
+        nombre: nombreDocente,
+        apellido: apellidoDocente,
+        codigo: codigoDocente,
+        telefono: telefonoDocente,
+        contraseña: contraseñaDocente,
+        email: correoDocente,
+      });
+    } else {
+      // Si no hay datos en location.state, carga desde localStorage
+      const storedPerfil = JSON.parse(localStorage.getItem('AdministradorDocente'));
+      if (storedPerfil) {
+        setPerfil(storedPerfil);
+      }
     }
-  }, []);
+  }, [location.state]);  // Asegura que se ejecuta solo cuando cambia location.state
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
