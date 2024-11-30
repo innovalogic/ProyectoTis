@@ -22,32 +22,41 @@ const BusquedaEstudiantesDoc = () => {
     const idDocente = user.idDocente;
   
     useEffect(() => {
-        const fetchData = async () => {
+      const fetchData = async () => {
           if (idDocente) { // Verifica que idDocente esté definido
-            try {
-              const response = await fetch('http://localhost/ProyectoTis/Backend/Estudiante.php', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ idDocente }) // Pasando idDocente en el cuerpo de la solicitud
-              });
-    
-              const data = await response.json(); // Se asume que el backend devuelve un JSON
-    
-              if (data.error) {
-                console.error('Error:', data.error); // En caso de error, muestra el mensaje
-              } else {
-                setTabla(data.estudianteData || []);
+              try {
+                  const response = await fetch('http://localhost/ProyectoTis/Backend/Estudiante.php', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ idDocente }) // Pasando idDocente en el cuerpo de la solicitud
+                  });
+  
+                  const data = await response.json(); // Se asume que el backend devuelve un JSON
+  
+                  if (data.error) {
+                      console.error('Error:', data.error); // En caso de error, muestra el mensaje
+                  } else {
+                      // Verifica si la propiedad estudianteData existe y es un array
+                      if (Array.isArray(data.estudianteData)) {
+                          // Ordena los estudiantes por idEstudiante de manera ascendente
+                          const sortedData = data.estudianteData.sort((a, b) => a.idEstudiante - b.idEstudiante);
+                          setTabla(sortedData);
+                      } else {
+                          setTabla([]); // Evita errores si no es un array
+                          console.error('No se encontraron datos de estudiantes.');
+                      }
+                  }
+              } catch (error) {
+                  console.error('Error al obtener los datos:', error);
               }
-            } catch (error) {
-              console.error('Error al obtener los datos:', error);
-            }
           }
-        };
-        
-        fetchData();
-      }, [idDocente]);
+      };
+  
+      fetchData();
+  }, [idDocente]); // Se ejecuta cada vez que idDocente cambia
+  
     
   
    
