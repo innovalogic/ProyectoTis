@@ -5,46 +5,116 @@ import UMSS from "/Imagenes/UMSS.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../Componentes/UserContext";
+import Modal from '../Componentes/Modal'
 
 export default function InicioSesionEstudiante() {
   const [codSis, setCodSis] = useState("");
   const [Contraseña, setContraseña] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [modal, setModal] = useState({
+    show: false,
+    title: '',
+    message: ''
+  });
   
   const { setUser } = useUser(); // Obtén la función setUser del contexto
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    const form = {
+      codSis: codSis,
+      password: Contraseña,
+    };
+  
 
-    const formData = new FormData();
-    formData.append('codSis', codSis);
-    formData.append('password', Contraseña);
-
+  
     try {
+<<<<<<< HEAD
       const response = await fetch("https://tis-0c3180bcccbd.herokuapp.com/inicioSesion.php", {
+=======
+      const responseEstudiante = await fetch("http://localhost/ProyectoTis/Backend/inicioSesion.php", {
+>>>>>>> 214c83c7909e6788d752583a19c365a596041d12
         method: "POST",
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
       });
-
-      const result = await response.json(); // Parsear la respuesta JSON
-      if (result.codSis) {
-        // Guarda los datos completos del estudiante en el contexto
-        setUser(result); // Aquí se almacenan todos los datos del estudiante
-        console.log(result);
-        alert("Inicio de sesión exitoso!!");
-        navigate('/InicioEstudiante');
+  
+      const resultEstudiante = await responseEstudiante.json();
+  
+      if (resultEstudiante.Usuario === "Estudiante") {
+        // Si es estudiante, redirige a la página correspondiente
+        setUser(resultEstudiante.Datos);
+        setModal({
+          show: true,
+          title: 'Inicio de sesión exitoso como Estudiante',
+          message: 'Se inicio sesión exitosamente!!'
+        });
+        return;
+      }
+  
+      // Si no es estudiante, intentar como docente
+      const responseDocente = await fetch("http://localhost/ProyectoTis/Backend/inicioSesionD.php", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(form),
+      });
+  
+      const resultDocente = await responseDocente.json();
+  
+      if (resultDocente.Usuario === "Docente") {
+        // Si es docente, redirige a la página correspondiente
+        setUser(resultDocente.Datos);
+        setModal({
+          show: true,
+          title: 'Inicio de sesión exitoso como Docente',
+          message: 'Se inicio sesión exitosamente!!'
+        });
       } else {
-        alert(result.message || "Error en el inicio de sesión :(");
+        // Si no es ni estudiante ni docente
+        console.log("Error en el inicio de sesión:", resultDocente.message || "Credenciales inválidas");
+        setModal({
+          show: true,
+          title: 'Error',
+          message: 'Credenciales inválidas. Por favor, verifica tu información.',
+        });
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error al procesar la solicitud:", error);
+      setModal({
+        show: true,
+        title: 'Error',
+        message: 'Ocurrió un error al procesar la solicitud.',
+      });
     }
   };
+
+
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const closeModal = () => {
+    setModal({
+      ...modal,
+      show: false,
+    });
+  
+    // Verifica el tipo de usuario y redirige
+    if (modal.title === 'Inicio de sesión exitoso como Estudiante') {
+      navigate('/InicioEstudiante');
+    } else if (modal.title === 'Inicio de sesión exitoso como Docente') {
+      navigate('/InicioDocente');
+    }
+  };
+
 
   return (
     <div className="bg-cover bg-center h-screen flex flex-col justify-between" style={{ backgroundImage: `url(${UMSS})` }}>
@@ -53,17 +123,16 @@ export default function InicioSesionEstudiante() {
         <div className="bg-custom-bg bg-opacity-90 p-12 flex flex-col items-center justify-center"
              style={{ width: "60%", minWidth: "500px", height: "80%", maxWidth: "600px", borderRadius: "5rem", boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)" }}>
           <div className="text-center mt-0">
-            <span className="text-5xl font-plex font-bold" style={{ color: "#1E3664" }}>Inicio Sesión Estudiante</span>
+            <span className="text-5xl font-plex font-bold" style={{ color: "#1E3664" }}>Inicio Sesión </span>
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col space-y-6 mt-8 w-full max-w-sm">
             <div className="flex flex-col">
-              <label className="text-lg font-medium mb-2" style={{ color: "#32569A" }}>CodSis <span style={{ color: "red" }}>*</span></label>
+              <label className="text-lg font-medium mb-2" style={{ color: "#32569A" }}>Usuario <span style={{ color: "red" }}>*</span></label>
               <input type="text"
                      className="border-2 border-gray-300 rounded-lg p-3"
                      value={codSis}
                      onChange={(e) => setCodSis(e.target.value)}
-                     placeholder="12345678"
                      required
                      maxLength={50}
                      minLength={3} />
@@ -76,7 +145,6 @@ export default function InicioSesionEstudiante() {
                        className="border-2 border-gray-300 rounded-lg p-3 w-full pr-10"
                        value={Contraseña}
                        onChange={(e) => setContraseña(e.target.value)}
-                       placeholder="••••••••"
                        required
                        maxLength={50}
                        minLength={3} />
@@ -102,6 +170,12 @@ export default function InicioSesionEstudiante() {
           </form>
         </div>
       </div>
+      <Modal
+        show={modal.show}
+        onClose={closeModal}
+        title={modal.title}
+        message={modal.message}
+        />
       <Copyright />
     </div>
   );

@@ -31,7 +31,7 @@ try {
     }
 
     // Consulta para obtener los grupos empresa del docente específico
-    $query = 'SELECT "idGrupoEmpresa", "nombreEmpresa" FROM "GrupoEmpresa" WHERE "idDocente" = :idDocente';
+    $query = 'SELECT "idGrupoEmpresa", "nombreEmpresa","logoEmpresa","nombreCortoEmpresa" FROM "GrupoEmpresa" WHERE "idDocente" = :idDocente';
     $stmt = $pdo->prepare($query);
     $stmt->bindParam(':idDocente', $idDocente, PDO::PARAM_INT); // Asegúrate de que sea el tipo correcto
     $stmt->execute();

@@ -1,26 +1,61 @@
-
-import { Sidebar, Menu, MenuItem,SubMenu } from 'react-pro-sidebar';
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from "./UserContext";
-import React, { useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
-
-
-export default function BarraLateral(){
-
+export default function BarraLateral() {
     const { setUser } = useUser();
     const [collapsed, setCollapsed] = useState(false);
     const { user } = useUser();
     const [error, setError] = useState(null);
     const [isPlanificado, setIsPlanificado] = useState(false);
+    const [evaluaciones, setEvaluaciones] = useState([]);
     const navigate = useNavigate();
+    if (!user || !user.idEstudiante) {
+        return <Navigate to="/" replace />; // Redirige a la página de login
+      }
 
     const handleLogout = () => {
-        setUser(null); // Borra el contexto de usuario
+        setUser(null);
         alert('Has cerrado sesión.');
+    };
+
+    useEffect(() => {
+        const fetchEvaluaciones = async () => {
+            console.log("GrupoEmpresa ID: ", user.idGrupoEmpresa);  // Verificar si tiene el valor correcto
+            try {
+                const response = await axios.post('http://localhost/proyectotis/backend/obtenerEvaluacionFinal.php', {
+                    grupoempresa_idgrupoempresa: user.idGrupoEmpresa,
+                });
+                console.log("Respuesta de la API:", response.data);  // Ver la respuesta de la API
+                if (response.data.success) {
+                    setEvaluaciones(response.data.evaluacionFinal);
+                } else {
+                    console.log('No se encontraron evaluaciones.');
+                }
+            } catch (error) {
+                console.error('Error al obtener evaluaciones:', error.message);
+            }
+        };
+    
+        if (user.idGrupoEmpresa) {
+            fetchEvaluaciones();
+        }
+    }, [user.idGrupoEmpresa]);
+
+    const handleEvaluacionFinal = (tipoEvaluacion, idEvaluado) => {
+        if (tipoEvaluacion === 3) {
+            // Autoevaluación
+            navigate('/Autoevaluacion');
+        } else if (tipoEvaluacion === 2) {
+            // Evaluación en pares
+            navigate('/EvaluacionPares', { state: { idEvaluado } });
+        } else if (tipoEvaluacion === 1) {
+            // Evaluación cruzada
+            navigate('/EvaluacionCruzada', { state: { idEvaluado } });
+        }
     };
 
     const handleMenuClick = async () => {
@@ -29,7 +64,7 @@ export default function BarraLateral(){
                 params: { idEstudiante: user.idEstudiante },
             });
             console.log('Respuesta del servidor:', responseEstudiantes.data, user.idEstudiante);
-    
+
             if (responseEstudiantes.data && responseEstudiantes.data.success && Array.isArray(responseEstudiantes.data.datos) && responseEstudiantes.data.datos.length > 0) {
                 const grupoDatos = responseEstudiantes.data.datos[0];
                 if (grupoDatos.idEstudianteScrum === user.idEstudiante) {
@@ -44,7 +79,7 @@ export default function BarraLateral(){
             console.error('Error al conectarse al servidor:', error.message);
         }
     };
-    
+
     useEffect(() => {
         const fetchPlanificado = async () => {
             try {
@@ -53,8 +88,8 @@ export default function BarraLateral(){
                 });
                 console.log('Data:', response);
                 if (response.data.success) {
-                    const planificado = response.data.planificado[0].planificado; // Suponiendo que el resultado está aquí
-                    setIsPlanificado(planificado === true); // Actualizar estado basado en el valor planificado
+                    const planificado = response.data.planificado[0].planificado;
+                    setIsPlanificado(planificado === true);
                 } else {
                     setError('No se pudo obtener el estado de planificado.');
                 }
@@ -64,14 +99,13 @@ export default function BarraLateral(){
             }
         };
 
-        if (user.idGrupoEmpresa) { // Verifica que idGrupoEmpresa esté disponible
+        if (user.idGrupoEmpresa) {
             fetchPlanificado();
         }
     }, [user.idGrupoEmpresa]);
-    
-    
+
     return (
-        <div className="flex h-[calc(100vh)]">
+        <div className="flex" style={{ height: '100vh' }}>
             <Sidebar
                 collapsed={collapsed}
                 className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"
@@ -97,91 +131,119 @@ export default function BarraLateral(){
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Estudiante</h1>
                     {!collapsed && user && (
-                        <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreEstudiante+" "+user.apellidoEstudiante}</h3>
+                        <h3 className="text-[#EFE7DC] text-center font-medium mt-2">{user.nombreEstudiante + " " + user.apellidoEstudiante}</h3>
                     )}
 
-            <Menu
-                menuItemStyles={{
-                    button: {
-                        backgroundColor: '#32569A',
-                        color: 'white',
-                        fontWeight: 'bold',
-                        transition: 'background-color 0.3s ease',
-                        [`&:hover`]: {
-                            backgroundColor: '#1F3A75', 
-                            color: 'white',  
-                        },
-                        [`&.active`]: {
-                            backgroundColor: '#1E3664',
-                        },
-                    },
-                }}
-            >
-                <MenuItem
-                    className="text-[#EFE7DC] font-bold"
-                    icon={<img src="/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
-                    component={<Link to="/InicioEstudiante" />}
-                >
-                    Inicio
-                </MenuItem>
-
-                <MenuItem
-                    className="text-[#EFE7DC] font-bold"
-                    icon={<img src="/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                    onClick={handleMenuClick} 
-                >
-                    Evaluaciones
-                </MenuItem>
-
-                <MenuItem
-                    className="text-[#EFE7DC] font-bold"
-                    icon={<img src="/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
-                    component={<Link to="/InicioEstudiante" />}
-                >
-                    Calendario
-                </MenuItem>
-
-                <SubMenu
-                    label="Empresa"
-                    className="bg-[#32569A] text-[#EFE7DC] font-bold"
-                    style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
-                    icon={<img src="/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
-                >
-                    {user.idGrupoEmpresa === null && (
-                        <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
-                            Registrar
+                    <Menu
+                        menuItemStyles={{
+                            button: {
+                                backgroundColor: '#32569A',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                transition: 'background-color 0.3s ease',
+                                [`&:hover`]: {
+                                    backgroundColor: '#1F3A75',
+                                    color: 'white',
+                                },
+                                [`&.active`]: {
+                                    backgroundColor: '#1E3664',
+                                },
+                            },
+                        }}
+                    >
+                        <MenuItem
+                            className="text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/InicioEstudiante" />}
+                        >
+                            Inicio
                         </MenuItem>
-                    )}
-                    {user.idGrupoEmpresa !== null && (
-                        <>
-                            <MenuItem className="text-[#EFE7DC] font-bold" 
-                            component={<Link to={isPlanificado ? "/SeguimientoSprints" : "/PlanificacionEstudiante"} />}>
-                                {isPlanificado ? "Seguimiento" : "Planificación"}
+
+                        <SubMenu
+                            label="Evaluaciones"
+                            className="bg-[#32569A] text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
+                        >
+                            <MenuItem className="text-white font-bold" onClick={handleMenuClick} >
+                                Recuperar evaluaciones
                             </MenuItem>
-                            {/* Nueva opción "Avance" */}
+                            <SubMenu
+                                label="Evaluación Final"
+                                className="bg-[#32569A] text-[#EFE7DC] font-bold"
+                            >
+                                {evaluaciones.slice(0, 1).map((evaluacion) => (
+                                    <MenuItem
+                                        key={evaluacion.idevaluacionfinal}
+                                        className="text-[#EFE7DC] font-bold"
+                                        onClick={() => handleEvaluacionFinal(evaluacion.tipoevaluacion_idtipoevaluacion, evaluacion.idevaluado)}
+                                    >
+                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 1 && 'Evaluación Cruzada'}
+                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 2 && 'Evaluación en Pares'}
+                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 3 && 'Autoevaluación'}
+                                    </MenuItem>
+                                ))}
+                            </SubMenu>
                             <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
                                 Avance
                             </MenuItem>
-                        </>
-                    )}
-                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
-                        Información
-                    </MenuItem>
-                </SubMenu>
+                        </SubMenu>
 
+                        <MenuItem
+                            className="text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/InicioEstudiante" />}
+                        >
+                            Calendario
+                        </MenuItem>
 
-                <div className="mt-auto">
+                        <SubMenu
+                            label="Empresa"
+                            className="bg-[#32569A] text-[#EFE7DC] font-bold"
+                            style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
+                            icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
+                        >
+                            {user.idGrupoEmpresa === null && (
+                                <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
+                                    Registrar
+                                </MenuItem>
+                            )}
+                            {user.idGrupoEmpresa !== null && (
+                                <>
+                                    <MenuItem className="text-[#EFE7DC] font-bold" 
+                                    component={<Link to={isPlanificado ? "/SeguimientoSprints" : "/PlanificacionEstudiante"} />}>
+                                        {isPlanificado ? "Seguimiento" : "Planificación"}
+                                    </MenuItem>
+                                    {/* Nueva opción "Avance" */}
+                                    <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
+                                        Avance
+                                    </MenuItem>
+                                </>
+                            )}
+                            <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/InicioEstudiante" />}>
+                                Información
+                            </MenuItem>
+                        </SubMenu>
+
+                        <MenuItem
+                            className="text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/Estudiante.png" alt="Perfil" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/PerfilEstudiante" />}
+                        >
+                            Perfil
+                        </MenuItem>
+
+                        <div className="mt-auto">
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
-                                onClick={handleLogout} // Llama a la función de cierre de sesión
-                                icon={<img src="/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
+                                onClick={handleLogout}
+                                icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
                                 component={<Link to="/" />}
                             >
                                 Cerrar sesión
                             </MenuItem>
-                    </div>
-                </Menu>
-             </div>
+                        </div>
+                    </Menu>
+                </div>
             </Sidebar>
         </div>
     );

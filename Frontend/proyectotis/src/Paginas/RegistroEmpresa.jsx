@@ -158,8 +158,8 @@ export default function RegistroEmpresa() {
           });
     
           const uploadedImage = await res.json();
-          console.log("Imagen subida:", uploadedImage.url);
-          setImageUrl(uploadedImage.url);
+          console.log("Imagen subida:", uploadedImage.url); 
+          setImageUrl(uploadedImage.url); 
       } catch (error) {
           console.error("Error al subir la imagen:", error);
           throw error;

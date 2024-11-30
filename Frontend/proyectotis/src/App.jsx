@@ -6,7 +6,6 @@ import InicioSesionEstudiante from './Paginas/InicioSesionEstudiante';
 import RegistroEstudiante from './Paginas/RegistroEstudiante';
 import RegistroEmpresa from './Paginas/RegistroEmpresa';
 import InicioEstudiante from './Paginas/InicioEstudiante';
-import InicioSesionDocente from './Paginas/InicioSesionDocente';
 import PlanificacionEstudiante  from './Paginas/PlanificacionEstudiante';
 import { UserProvider } from './Componentes/UserContext'; 
 import RecuperarEvaluacion from './Paginas/RecuperarEvaluacion';
@@ -17,6 +16,24 @@ import SeguimientoSprints from './Paginas/SeguimientoSprints';
 import SeguimientoActividades from './Paginas/SeguimientoActividades'
 import RegistroEvSemanales from './Paginas/RegistroEvSemanales';
 import InicioDocente from './Paginas/InicioDocente';
+import PerfilEstudiante from './Paginas/PerfilEstudiante';
+import PerfilDocente from './Paginas/PerfilDocente';
+import InicioSesionAdministrador from './Paginas/InicioSesionAdministrador';
+import InicioAdministrador from './Paginas/InicioAdministrador';
+import BusquedaEstudiantes from './Paginas/BusquedaEstudiantes';
+import BusquedaDocentes from './Paginas/BusquedaDocentes';
+import RegistroDocente from './Paginas/RegistroDocente';
+import RegistroEvFinal from './Paginas/RegistroEvFinal';
+import Autoevaluación from './Paginas/Autoevaluación';
+import RegistroEvFinalGrupo from './Paginas/RegistroEvFinalGrupo';
+import AdministradorEstudiante from './Paginas/AdministradorEstudiante';
+import AdministradorDocente from './Paginas/AdministradorDocente';
+import AñadirCriterios from './Paginas/AñadirCriterios';
+import EvaluacionPares from './Paginas/EvaluacionPares';
+import EvaluacionCruzada from './Paginas/EvaluacionCruzada';
+import VistaPerfilDo from './Paginas/VistaPerfilDo';
+import VistaPerfilEs from './Paginas/VistaPerfilEs';
+import BusquedaEstudiantesDoc from './Paginas/BusquedaEstudiantesDoc';
 
 function App() {
   return (
@@ -28,7 +45,6 @@ function App() {
         <Route path="RegistroEstudiante" element={<RegistroEstudiante/>}/>
         <Route path="RegistroEmpresa" element={<RegistroEmpresa/>}/>
         <Route path="InicioEstudiante" element={<InicioEstudiante/>}/>
-        <Route path="InicioSesionDocente" element={<InicioSesionDocente/>}/>
         <Route path="PlanificacionEstudiante" element={<PlanificacionEstudiante/>}/>
         <Route path="RecuperarEvaluacion" element={<RecuperarEvaluacion/>}/>
         <Route path="RecuperarEvaluacionScrum" element={<RecuperarEvaluacionScrum/>}/>
@@ -38,6 +54,24 @@ function App() {
         <Route path="SeguimientoActividades/:idSprint/:nomSprint/:fechaInicio/:fechaFin/:idJefe" element={<SeguimientoActividades/>}/>
         <Route path="RegistroEvSemanales" element={<RegistroEvSemanales/>}/>
         <Route path="InicioDocente" element={<InicioDocente/>}/>
+        <Route path="PerfilEstudiante" element={<PerfilEstudiante/>}/>
+        <Route path="PerfilDocente" element={<PerfilDocente/>}/>
+        <Route path="InicioSesionAdministrador" element={<InicioSesionAdministrador/>}/>
+        <Route path="InicioAdministrador" element={<InicioAdministrador/>}/>
+        <Route path="BusquedaEstudiantes" element={<BusquedaEstudiantes/>}/>
+        <Route path="BusquedaDocentes" element={<BusquedaDocentes/>}/>
+        <Route path="RegistroDocente" element={<RegistroDocente/>}/>
+        <Route path="Autoevaluacion" element={<Autoevaluación/>}/>
+        <Route path="RegistroEvFinal" element={<RegistroEvFinal/>}/>
+        <Route path="RegistroEvFinalGrupo" element={<RegistroEvFinalGrupo/>}/>
+        <Route path="AdministradorEstudiante" element={<AdministradorEstudiante/>}/>
+        <Route path="AdministradorDocente" element={<AdministradorDocente/>}/>
+        <Route path="EvaluacionPares" element={<EvaluacionPares/>}/>
+        <Route path="EvaluacionCruzada" element={<EvaluacionCruzada/>}/>
+        <Route path="AñadirCriterios" element={<AñadirCriterios/>}/>
+        <Route path="VistaPerfilDo" element={<VistaPerfilDo/>}/>
+        <Route path="VistaPerfilEs" element={<VistaPerfilEs/>}/>
+        <Route path="BusquedaEstudiantesDoc" element={<BusquedaEstudiantesDoc/>}/>
       </Routes>
     </Router>
     </UserProvider>
