@@ -135,11 +135,14 @@ export default function RegistroEvFinalGrupo() {
     
 
     const handleGuardarEvaluacionAutoevaluacionClick = async () => {
-        const dataToSend = {
-            tipoEvaluacionAutoevaluacion: 3, // Si es un tipo fijo, se mantiene
-            idGrupoEmpresa: idGrupoEmpresa, // Asegúrate de que esta variable esté definida
-            idDocente: user.idDocente, // Asegúrate de que user.idDocente esté disponible
-        };
+        const dataToSend = estudiantes.map(estudiante => ({
+            tipoEvaluacionAutoevaluacion: 3, // Tipo fijo
+            idGrupoEmpresa: idGrupoEmpresa,
+            idDocente: user.idDocente,
+            idEstudiante: estudiante.idEstudiante,
+            idEvaluador: estudiante.idEstudiante, // Usamos el evaluador seleccionado para ese estudiante
+            tipoevaluador: "Estudiante",
+        }));
     
         console.log("Datos a enviar:", dataToSend);
     

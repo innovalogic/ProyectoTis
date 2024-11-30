@@ -106,6 +106,9 @@ export default function EvaluacionPares() {
       ...modal,
       show: false
     });
+    if (modal.title === 'Nota guardada') {
+      navigate('/InicioEstudiante');
+    }
   };
 
   const allAnswered = respuestas.every((respuesta) => respuesta !== null);

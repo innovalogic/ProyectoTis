@@ -126,7 +126,7 @@ export default function RegistroDocente() {
         });
 
         if (modal.title === 'Registro exitoso') {
-            navigate('/InicioSesionEstudiante');
+            navigate('/BusquedaDocentes');
         }
     };
     const handleCancel = () => {

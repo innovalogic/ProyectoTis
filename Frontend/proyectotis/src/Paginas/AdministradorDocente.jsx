@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
 export default function AdministradorDocente() {
-  const { user } = useUser();
+  
   const location = useLocation();
   const navigate = useNavigate();
   const { 
@@ -16,7 +16,7 @@ export default function AdministradorDocente() {
     apellidoDocente = "N/A", 
     codigoDocente = "N/A", 
     telefonoDocente = "N/A", 
-    contrasenaDocente = "N/A", 
+    contraseñaDocente = "N/A", 
     correoDocente = "N/A",
   } = location.state?.data || {};
 
@@ -27,12 +27,10 @@ export default function AdministradorDocente() {
     apellido: apellidoDocente,
     codigo:codigoDocente,
     telefono:telefonoDocente,
-    contraseña:contrasenaDocente,
+    contraseña:contraseñaDocente,
     email:correoDocente,
   });
-  if (!user) {
-    return <Navigate to="/" replace />; // Redirige a la página de login
-}
+  
   const [editMode, setEditMode] = useState(false); // Estado para alternar el modo de edición
   useEffect(() => {
     const storedPerfil = JSON.parse(localStorage.getItem('AdministradorDocente'));

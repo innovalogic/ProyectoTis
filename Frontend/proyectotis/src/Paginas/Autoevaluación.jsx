@@ -74,13 +74,12 @@ export default function Autoevaluacion() {
     const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
 
     try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/guardarNotaFinalAutoEvaluacion.php", {
+      const response = await fetch("http://localhost/ProyectoTis/Backend/guardarNotaFinal.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          idevaluado: user.idEstudiante,
           idevaluador: user.idEstudiante,
           notaPromedio: notaFinal,
           tipoevaluacion_idtipoevaluacion: tipoAutoEvaluacion?.idtipoevaluacion,
@@ -115,6 +114,10 @@ export default function Autoevaluacion() {
       ...modal,
       show: false
     });
+
+    if (modal.title === "Nota guardada") {
+      navigate('/InicioEstudiante');
+    }
   };
 
   const allAnswered = respuestas.every((respuesta) => respuesta !== null);
