@@ -7,6 +7,9 @@ import { useUser } from "../Componentes/UserContext";
 export default function BarraLateral() {
     const [collapsed, setCollapsed] = useState(false);
     const { user, setUser } = useUser(); // Añadir setUser para poder actualizar el usuario
+    if (!user || !user.correo) {
+        return <Navigate to="/" replace />; // Redirige a la página de login
+      }
 
     const handleLogout = () => {
         setUser(null); // Borra el contexto de usuario

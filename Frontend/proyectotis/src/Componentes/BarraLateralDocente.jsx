@@ -6,6 +6,9 @@ import { useUser } from "../Componentes/UserContext";
 export default function BarraLateral({ onCollapseChange }) {
     const [collapsed, setCollapsed] = useState(false);
     const { user, setUser } = useUser();
+    if (!user || !user.idEstudiante) {
+        return <Navigate to="/" replace />; // Redirige a la página de login
+      }
 
     const handleLogout = () => {
         setUser(null);

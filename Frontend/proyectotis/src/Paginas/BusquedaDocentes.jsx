@@ -18,9 +18,7 @@ const BusquedaDocentes = () => {
   const startIdx = (currentPage - 1) * itemsPerPage;
   const endIdx = startIdx + itemsPerPage;
   const docentesDataPaginated = filteredData.slice(startIdx, endIdx);
-  if (!user) {
-    return <Navigate to="/" replace />; // Redirige a la página de login
-}
+  
 
   const fetchTablaAvances = async () => {
     try {
