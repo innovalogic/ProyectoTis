@@ -18,7 +18,7 @@ export default function Autoevaluacion() {
   });
 
   useEffect(() => {
-    fetch("http://localhost/ProyectoTis/Backend/obtenerTipoEvaluacion.php")
+    fetch("https://tis-e8f3f498eaee.herokuapp.com/obtenerTipoEvaluacion.php")
       .then((response) => response.text())  // Cambiado a .text() para ver el contenido raw
       .then((data) => {
         console.log("Respuesta del servidor:", data);  // Ver qué está devolviendo el servidor
@@ -37,7 +37,7 @@ export default function Autoevaluacion() {
   }, []);
 
   const cargarCriterios = () => {
-      fetch("http://localhost/ProyectoTis/Backend/obtenerCriterios.php")
+      fetch("https://tis-e8f3f498eaee.herokuapp.com/obtenerCriterios.php")
           .then((response) => response.json())
           .then((data) => {
               if (data.success) {
@@ -74,7 +74,7 @@ export default function Autoevaluacion() {
     const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
 
     try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/guardarNotaFinalAutoEvaluacion.php", {
+      const response = await fetch("https://tis-e8f3f498eaee.herokuapp.com/guardarNotaFinalAutoEvaluacion.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

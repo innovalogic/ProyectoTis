@@ -18,7 +18,7 @@ export default function EvaluacionCruzada() {
   });
 
   useEffect(() => {
-    fetch("http://localhost/ProyectoTis/Backend/obtenerTipoEvaluacion.php")
+    fetch("https://tis-e8f3f498eaee.herokuapp.com/obtenerTipoEvaluacion.php")
         .then((response) => response.json())
         .then((data) => {
             if (data.success) {
@@ -29,7 +29,7 @@ export default function EvaluacionCruzada() {
   }, []);
 
   const cargarCriterios = () => {
-      fetch("http://localhost/ProyectoTis/Backend/obtenerCriterios.php")
+      fetch("https://tis-e8f3f498eaee.herokuapp.com/obtenerCriterios.php")
           .then((response) => response.json())
           .then((data) => {
               if (data.success) {
@@ -66,7 +66,7 @@ export default function EvaluacionCruzada() {
     const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Evaluación cruzada");
 
     try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/guardarNotaFinal.php", {
+      const response = await fetch("https://tis-e8f3f498eaee.herokuapp.com/guardarNotaFinal.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

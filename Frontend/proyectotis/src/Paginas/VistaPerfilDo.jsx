@@ -15,7 +15,7 @@ const VistaPerfilDo = () => {
     const fetchData = async () => {
       if (idDocente) { // Verifica que idDocente esté definido
         try {
-          const response = await fetch('http://localhost/ProyectoTis/Backend/Docente.php', {
+          const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/Docente.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

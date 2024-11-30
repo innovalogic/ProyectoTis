@@ -14,7 +14,7 @@ export default function InicioEstudiante() {
 
   const fetchNotificaciones = async () => {
     try {
-      const response = await axios.get('http://localhost/proyectotis/backend/CargarNotificacion.php', {
+      const response = await axios.get('https://tis-e8f3f498eaee.herokuapp.com/CargarNotificacion.php', {
         params: { idDocente: user.idDocente }
       });
       if (response.data.success) {

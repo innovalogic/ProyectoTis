@@ -38,7 +38,7 @@ export default function SeguimientoActividades() {
 
   const fetchHU = async () => {
     try {
-      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/obtenerHU.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/obtenerHU.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export default function SeguimientoActividades() {
     try {
       let allTareas = [];
       for (const huId of huIds) {
-        const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/obtenerTarea.php', {
+        const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/obtenerTarea.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export default function SeguimientoActividades() {
     };
     console.log('datos:', dataToSend);
     try {
-      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/llamadas.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/llamadas.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ export default function SeguimientoActividades() {
     };
     console.log('datos:', dataToSend);
     try {
-      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/estadoHU.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/estadoHU.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ export default function SeguimientoActividades() {
     };
     console.log('datos:', dataToSend);
     try {
-      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/estadoTarea.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/estadoTarea.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ export default function SeguimientoActividades() {
 
   const saveEditHU = async () => {
     try {
-      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/modificarHU.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/modificarHU.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idHU: selectedHU.idHU, titulo: selectedHU.titulo, fechaEntrega: selectedHU.fechaEntrega, responsable: selectedHU.responsable }),
@@ -253,7 +253,7 @@ export default function SeguimientoActividades() {
 
   const saveEditTarea = async () => {
     try {
-      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/modificarTarea.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/modificarTarea.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idTarea: selectedTarea.idTarea, titulo: selectedTarea.titulo, fechaEntrega: selectedTarea.fechaEntrega, responsable: selectedTarea.responsable }),

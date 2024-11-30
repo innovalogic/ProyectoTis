@@ -16,7 +16,7 @@ const PerfilEstudiante = () => {
      // Agrega el console.log aquí
      console.log("Datos enviados:", JSON.stringify(newData));
     try {
-      const response = await fetch('http://localhost/proyectotis/backend/subirFotoPerfil.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/subirFotoPerfil.php', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

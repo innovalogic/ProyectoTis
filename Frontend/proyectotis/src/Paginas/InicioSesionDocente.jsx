@@ -21,7 +21,7 @@ export default function InicioSesionDocente() {
     formData.append('password', Contraseña);
 
     try {
-      const response = await fetch("https://tis-0c3180bcccbd.herokuapp.com/inicioSesionD.php", {
+      const response = await fetch("https://tis-e8f3f498eaee.herokuapp.com/inicioSesionD.php", {
         method: "POST",
         body: formData,
       });

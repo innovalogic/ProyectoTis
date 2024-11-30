@@ -25,7 +25,7 @@ const BusquedaEstudiantesDoc = () => {
       const fetchData = async () => {
           if (idDocente) { // Verifica que idDocente esté definido
               try {
-                  const response = await fetch('http://localhost/ProyectoTis/Backend/Estudiante.php', {
+                  const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/Estudiante.php', {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json',

@@ -216,7 +216,7 @@ export default function SeguimientoSprints() {
 
   const saveLinkInforme = async (sprint) => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/guardarInformeSprint.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/guardarInformeSprint.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

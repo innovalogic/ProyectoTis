@@ -83,7 +83,7 @@ export default function RegistroDocente() {
             return;
         }
         try {
-            const response = await fetch('http://localhost/proyectotis/backend/registroDocente.php', {
+            const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/registroDocente.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

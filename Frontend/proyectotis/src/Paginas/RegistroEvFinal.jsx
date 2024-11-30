@@ -12,7 +12,7 @@ export default function RegistroEvFinal() {
 
     useEffect(() => {
         // Hacer una solicitud al backend para obtener los grupos empresa
-        fetch(`http://localhost/proyectotis/backend/obtenergruposfinal.php?idDocente=${user.idDocente}`)
+        fetch(`https://tis-e8f3f498eaee.herokuapp.com/obtenergruposfinal.php?idDocente=${user.idDocente}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error al obtener los grupos');

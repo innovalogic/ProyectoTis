@@ -152,7 +152,7 @@ export default function InicioDocente() {
 
   const cargarDatosGrupo = async (idDocente) => {
     try {
-        const response = await axios.get('http://localhost/proyectotis/backend/CargarGrupoDoc.php', {
+        const response = await axios.get('https://tis-e8f3f498eaee.herokuapp.com/CargarGrupoDoc.php', {
             params: { idDocente }
         });
 
@@ -172,7 +172,7 @@ export default function InicioDocente() {
 
   const fetchNotificaciones = async () => {
     try {
-      const response = await axios.get('http://localhost/proyectotis/backend/CargarNotificacion.php', {
+      const response = await axios.get('https://tis-e8f3f498eaee.herokuapp.com/CargarNotificacion.php', {
         params: { idDocente: user.idDocente }
       });
       if (response.data.success) {
@@ -191,7 +191,7 @@ export default function InicioDocente() {
 console.log(currentDateTime);
   
     try {
-      const response = await axios.post('http://localhost/proyectotis/backend/GuardarNotificacion.php', {
+      const response = await axios.post('https://tis-e8f3f498eaee.herokuapp.com/GuardarNotificacion.php', {
         campo1: mensaje,
         links: links,
         fechaHora: currentDateTime, // Un único campo para fecha y hora
@@ -209,7 +209,7 @@ console.log(currentDateTime);
   const handleEnviarNotificacion = async (mensaje,grupoElegido) => {
     try {
       console.log(mensaje, user.idDocente,grupoElegido)
-      const response = await axios.post('http://localhost/proyectotis/backend/EnviarCorreo.php', {
+      const response = await axios.post('https://tis-e8f3f498eaee.herokuapp.com/EnviarCorreo.php', {
         asunto: "Materia-Taller de ingenieria de software",
         mensaje: mensaje,
         idDocente: user.idDocente,

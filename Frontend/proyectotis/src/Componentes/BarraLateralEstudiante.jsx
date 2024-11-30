@@ -26,7 +26,7 @@ export default function BarraLateral() {
         const fetchEvaluaciones = async () => {
             console.log("GrupoEmpresa ID: ", user.idGrupoEmpresa);  // Verificar si tiene el valor correcto
             try {
-                const response = await axios.post('http://localhost/proyectotis/backend/obtenerEvaluacionFinal.php', {
+                const response = await axios.post('https://tis-e8f3f498eaee.herokuapp.com/obtenerEvaluacionFinal.php', {
                     grupoempresa_idgrupoempresa: user.idGrupoEmpresa,
                 });
                 console.log("Respuesta de la API:", response.data);  // Ver la respuesta de la API
@@ -60,7 +60,7 @@ export default function BarraLateral() {
 
     const handleMenuClick = async () => {
         try {
-            const responseEstudiantes = await axios.get('https://tis-0c3180bcccbd.herokuapp.com/ObtenerJefe.php', {
+            const responseEstudiantes = await axios.get('https://tis-e8f3f498eaee.herokuapp.com/ObtenerJefe.php', {
                 params: { idEstudiante: user.idEstudiante },
             });
             console.log('Respuesta del servidor:', responseEstudiantes.data, user.idEstudiante);
@@ -83,7 +83,7 @@ export default function BarraLateral() {
     useEffect(() => {
         const fetchPlanificado = async () => {
             try {
-                const response = await axios.post('https://tis-0c3180bcccbd.herokuapp.com/obtenerPlanificado.php', {
+                const response = await axios.post('https://tis-e8f3f498eaee.herokuapp.com/obtenerPlanificado.php', {
                     idGrupoEmpresa: user.idGrupoEmpresa,
                 });
                 console.log('Data:', response);

@@ -36,7 +36,7 @@ export default function PlanificacionGE () {
     e.preventDefault();
     console.log('idgrupo:', idGrupo);
     try {
-      const response = await fetch('https://tis-0c3180bcccbd.herokuapp.com/planificaciontrue.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/planificaciontrue.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

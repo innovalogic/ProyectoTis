@@ -22,7 +22,7 @@ const BusquedaEstudiantes = () => {
 
   const fetchTablaAvances = async () => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/busquedaEstudiante.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/busquedaEstudiante.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

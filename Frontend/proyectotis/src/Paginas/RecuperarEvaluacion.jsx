@@ -32,7 +32,7 @@ export default function RecuperarEvaluacion() {
     useEffect(() => {
         const fetchEstudiantes = async () => {
             try {
-                const response = await axios.get('https://tis-0c3180bcccbd.herokuapp.com/CargarEvaluaciones.php', {
+                const response = await axios.get('https://tis-e8f3f498eaee.herokuapp.com/CargarEvaluaciones.php', {
                     params: { idDocente: user.idDocente  }
                 });
                 if (response.data.success === true) {
@@ -51,7 +51,7 @@ export default function RecuperarEvaluacion() {
 
     const cargarDatosGrupo = async (idDocente) => {
         try {
-            const response = await axios.get('https://tis-0c3180bcccbd.herokuapp.com/CargarGrupoDocente.php', {
+            const response = await axios.get('https://tis-e8f3f498eaee.herokuapp.com/CargarGrupoDocente.php', {
                 params: { idDocente }
             });
 

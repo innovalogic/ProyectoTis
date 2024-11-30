@@ -31,7 +31,7 @@ export default function InicioSesionEstudiante() {
 
   
     try {
-      const responseEstudiante = await fetch("http://localhost/ProyectoTis/Backend/inicioSesion.php", {
+      const responseEstudiante = await fetch("https://tis-e8f3f498eaee.herokuapp.com/inicioSesion.php", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function InicioSesionEstudiante() {
       }
   
       // Si no es estudiante, intentar como docente
-      const responseDocente = await fetch("http://localhost/ProyectoTis/Backend/inicioSesionD.php", {
+      const responseDocente = await fetch("https://tis-e8f3f498eaee.herokuapp.com/inicioSesionD.php", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

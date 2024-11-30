@@ -103,7 +103,7 @@ export default function RegistroEstudiante() {
     }
 
         try {
-            const response = await fetch('https://tis-1d05d6f982d1.herokuapp.com/registerStudent.php', {
+            const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/registerStudent.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

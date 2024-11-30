@@ -80,7 +80,7 @@ export default function AdministradorEstudiante() {
     };
     console.log("Datos enviados al backend:", updateEstudiante);
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/actualizarPerfil.php', {
+      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/actualizarPerfil.php', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ export default function AdministradorEstudiante() {
     const confirmation = window.confirm("¿Estás seguro de que quieres eliminar este estudiante?");
     if (confirmation) {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/eliminar.php', {
+        const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/eliminar.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
