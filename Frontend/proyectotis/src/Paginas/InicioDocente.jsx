@@ -280,12 +280,12 @@ console.log(currentDateTime);
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <img src="/src/Imagenes/docente.png" className="w-6 h-6" alt="Docente Logo" />
+                        <img src="/Imagenes/docente.png" className="w-6 h-6" alt="Docente Logo" />
                         <span className="font-bold text-lg">
                           {notificacion.nombreDocente} {notificacion.apellidoDocente}
                         </span>
                       </div>
-                      <img src="/src/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
+                      <img src="/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
                     </div>
 
                     <br />
@@ -317,7 +317,7 @@ console.log(currentDateTime);
             className="fixed bottom-4 bg-[#32569A] text-white p-4 rounded-full shadow-lg flex items-center space-x-2"
             style={{ left: sidebarCollapsed ? '90px' : '260px', transition: 'left 0.3s' }}
           >
-            <img src="/src/Imagenes/plus.png" className="w-6 h-6" alt="mas" />
+            <img src="/Imagenes/plus.png" className="w-6 h-6" alt="mas" />
             <span>Agregar Notificación</span>
           </button>
 

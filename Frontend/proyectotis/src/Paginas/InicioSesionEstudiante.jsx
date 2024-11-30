@@ -31,11 +31,7 @@ export default function InicioSesionEstudiante() {
 
   
     try {
-<<<<<<< HEAD
-      const response = await fetch("https://tis-0c3180bcccbd.herokuapp.com/inicioSesion.php", {
-=======
       const responseEstudiante = await fetch("http://localhost/ProyectoTis/Backend/inicioSesion.php", {
->>>>>>> 214c83c7909e6788d752583a19c365a596041d12
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

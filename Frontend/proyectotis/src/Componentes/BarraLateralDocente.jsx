@@ -6,7 +6,7 @@ import { useUser } from "../Componentes/UserContext";
 export default function BarraLateral({ onCollapseChange }) {
     const [collapsed, setCollapsed] = useState(false);
     const { user, setUser } = useUser();
-    if (!user || !user.idEstudiante) {
+    if (!user || !user.idDocente) {
         return <Navigate to="/" replace />; // Redirige a la página de login
       }
 
@@ -49,11 +49,7 @@ export default function BarraLateral({ onCollapseChange }) {
                         </button>
                     </div>
                     <div className="text-center mt-4">
-<<<<<<< HEAD
-                        <img src="/Imagenes/Teacher.png" alt="Logo" className="w-32 h-auto inline-block" />
-=======
-                        <img src="/src/Imagenes/docente.png" alt="Logo" className="w-32 h-auto inline-block" />
->>>>>>> 214c83c7909e6788d752583a19c365a596041d12
+                        <img src="/Imagenes/docente.png" alt="Logo" className="w-32 h-auto inline-block" />
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>
@@ -84,13 +80,8 @@ export default function BarraLateral({ onCollapseChange }) {
                     >
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-<<<<<<< HEAD
                             icon={<img src="/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/InicioEstudiante" />}
-=======
-                            icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
                             component={<Link to="/InicioDocente" />}
->>>>>>> 214c83c7909e6788d752583a19c365a596041d12
                         >
                             Inicio
                         </MenuItem>
@@ -110,17 +101,6 @@ export default function BarraLateral({ onCollapseChange }) {
                                 Añadir criterios
                             </MenuItem>
                         </SubMenu>
-<<<<<<< HEAD
-
-                        <MenuItem
-                            className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/InicioEstudiante" />}
-                        >
-                            Calendario
-                        </MenuItem>
-=======
->>>>>>> 214c83c7909e6788d752583a19c365a596041d12
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
                             icon={<img src="/Imagenes/Grupo.png" alt="Calendario" className="w-8 h-8 inline-block" />}
@@ -132,14 +112,14 @@ export default function BarraLateral({ onCollapseChange }) {
                         {/* Opción de Perfil */}
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/docente.png" alt="PerfilDocente" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/docente.png" alt="PerfilDocente" className="w-8 h-8 inline-block" />}
                             component={<Link to="/PerfilDocente" />}
                         >
                             Perfil
                         </MenuItem>
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/estudiante.png" alt="Estudiantes" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/estudiante.png" alt="Estudiantes" className="w-8 h-8 inline-block" />}
                             component={<Link to="/BusquedaEstudiantesDoc" />}
                         >
                             Estudiantes
@@ -148,13 +128,8 @@ export default function BarraLateral({ onCollapseChange }) {
                         <div className="mt-auto">
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
-<<<<<<< HEAD
-                                onClick={handleLogout} // Llama a la función de cierre de sesión
-                                icon={<img src="/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
-=======
                                 onClick={handleLogout}
-                                icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
->>>>>>> 214c83c7909e6788d752583a19c365a596041d12
+                                icon={<img src="/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
                                 component={<Link to="/" />}
                             >
                                 Cerrar sesión

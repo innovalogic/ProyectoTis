@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from "../Componentes/BarraCopyright";
-import UMSSADMIN from "/src/Imagenes/UMSSADMIN.jpg";
+import UMSSADMIN from "/Imagenes/UMSSADMIN.jpg";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../Componentes/UserContext";

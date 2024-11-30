@@ -3,9 +3,9 @@
 // Conexión a la base de datos PostgreSQL
 $host = "localhost";
 $port = "5432";
-$dbname = "emanuel"; // Cambia esto al nombre de tu base de datos
+$dbname = "innovalogic"; // Cambia esto al nombre de tu base de datos
 $user = "postgres"; // Usuario de la base de datos
-$password = "admin"; // Contraseña de PostgreSQL
+$password = "sammy123"; // Contraseña de PostgreSQL
 
 
 try {

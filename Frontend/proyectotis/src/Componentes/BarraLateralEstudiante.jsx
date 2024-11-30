@@ -153,7 +153,7 @@ export default function BarraLateral() {
                     >
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
                             component={<Link to="/InicioEstudiante" />}
                         >
                             Inicio
@@ -162,7 +162,7 @@ export default function BarraLateral() {
                         <SubMenu
                             label="Evaluaciones"
                             className="bg-[#32569A] text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
                         >
                             <MenuItem className="text-white font-bold" onClick={handleMenuClick} >
                                 Recuperar evaluaciones
@@ -190,7 +190,7 @@ export default function BarraLateral() {
 
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
                             component={<Link to="/InicioEstudiante" />}
                         >
                             Calendario
@@ -200,7 +200,7 @@ export default function BarraLateral() {
                             label="Empresa"
                             className="bg-[#32569A] text-[#EFE7DC] font-bold"
                             style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
-                            icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
                         >
                             {user.idGrupoEmpresa === null && (
                                 <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
@@ -226,7 +226,7 @@ export default function BarraLateral() {
 
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Estudiante.png" alt="Perfil" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/estudiante.png" alt="Perfil" className="w-8 h-8 inline-block" />}
                             component={<Link to="/PerfilEstudiante" />}
                         >
                             Perfil
@@ -236,7 +236,7 @@ export default function BarraLateral() {
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
                                 onClick={handleLogout}
-                                icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
+                                icon={<img src="/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
                                 component={<Link to="/" />}
                             >
                                 Cerrar sesión

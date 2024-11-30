@@ -1,8 +1,8 @@
 import BarraCopyright from "../Componentes/BarraCopyright";
 import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
-import LogoInformatica from "../Imagenes/logoInformatica.png"; // Asegúrate de que la ruta sea correcta
 import { useUser } from '../Componentes/UserContext';
+
 export default function InicioAdministrador() {
     const { user } = useUser();
     if (!user) {
@@ -17,17 +17,17 @@ export default function InicioAdministrador() {
                 {/* Contenedor para la imagen principal */}
                 <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <img 
-                        src="/src/Imagenes/Admin.png" // Cambia esta ruta por la correcta
+                        src="/Imagenes/Admin.png"  // Ruta correcta
                         alt="Administrador"
-                        style={{ width: '350px', height: 'auto', marginTop: '-50px' }} // Ajusta el margen superior
+                        style={{ width: '350px', height: 'auto', marginTop: '-50px' }} 
                     />
                 </div>
                 {/* Contenedor para el logo en la parte superior derecha */}
-                <div style={{ position: 'absolute', top: '60px', right: '55px' }}> {/* Ajusta 'right' para mover el logo a la izquierda */}
+                <div style={{ position: 'absolute', top: '60px', right: '55px' }}>
                     <img 
-                        src={LogoInformatica} // Usar la imagen importada
+                        src="/Imagenes/logoInformatica.png"  // Ruta correcta
                         alt="Logo Informática"
-                        style={{ width: '150px', height: 'auto' }} // Ajusta el tamaño según necesites
+                        style={{ width: '150px', height: 'auto' }} 
                     />
                 </div>
             </div>
