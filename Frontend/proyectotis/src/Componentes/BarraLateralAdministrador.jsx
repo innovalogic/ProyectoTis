@@ -101,6 +101,15 @@ export default function BarraLateral() {
                             Registrar Docente
                         </MenuItem>
 
+                        {/* Nueva sección de Bitácoras */}
+                        <MenuItem
+                            className="text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/tuerca.png" alt="Bitácoras" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/Bitacoras" />}
+                        >
+                            Bitácoras
+                        </MenuItem>
+
                         <div className="mt-auto">
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
