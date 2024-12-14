@@ -78,7 +78,7 @@ const BusquedaDocentes = () => {
   return (
     <>
       <Navbar /> {/* Componente de navegación */}
-      <div className="bg-custom-bg flex" style={{ height: '100vh', marginTop: '70px' }}>
+      <div className="bg-custom-bg flex" style={{ height: 'calc(-110px + 100vh)', marginTop: '70px' }}>
         <BarraLateral /> {/* Componente de la barra lateral */}
         <div className="mt-8 flex-1">
           <div className="w-3/4 mx-auto">
