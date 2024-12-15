@@ -45,16 +45,25 @@ export default function BarraLateral() {
         }
     }, [user.idGrupoEmpresa]);
 
-    const handleEvaluacionFinal = (tipoEvaluacion, idEvaluado) => {
-        if (tipoEvaluacion === 3) {
-            // Autoevaluación
-            navigate('/Autoevaluacion');
-        } else if (tipoEvaluacion === 2) {
-            // Evaluación en pares
-            navigate('/EvaluacionPares', { state: { idEvaluado } });
-        } else if (tipoEvaluacion === 1) {
-            // Evaluación cruzada
-            navigate('/EvaluacionCruzada', { state: { idEvaluado } });
+    const handleEvaluacionFinal = (tipoEvaluacion, ) => {
+        const evaluacionEncontrada = evaluaciones.find(
+            (evaluacion) => evaluacion.idevaluado === user.idEstudiante
+        );
+
+        const nota = evaluacionEncontrada ? evaluacionEncontrada.notaPromedio : null;
+
+        if (nota === null || nota === undefined) {
+            // Redirigir a una evaluación si no tiene una nota
+            if (tipoEvaluacion === 3) {
+                navigate('/Autoevaluacion');
+            } else if (tipoEvaluacion === 2) {
+                navigate('/EvaluacionPares');
+            } else if (tipoEvaluacion === 1) {
+                navigate('/EvaluacionCruzada');
+            }
+        } else {
+            // Redirigir a la página de mostrar la nota final
+            navigate('/MostrarNotaFinal');
         }
     };
 
@@ -159,12 +168,13 @@ export default function BarraLateral() {
                             Inicio
                         </MenuItem>
 
-                        <SubMenu
+                        {user.idGrupoEmpresa && (
+                            <SubMenu
                             label="Evaluaciones"
                             className="bg-[#32569A] text-[#EFE7DC] font-bold"
                             icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
-                        >
-                            <MenuItem className="text-white font-bold" onClick={handleMenuClick} >
+                            >
+                            <MenuItem className="text-white font-bold" onClick={handleMenuClick}>
                                 Recuperar evaluaciones
                             </MenuItem>
                             <SubMenu
@@ -172,21 +182,22 @@ export default function BarraLateral() {
                                 className="bg-[#32569A] text-[#EFE7DC] font-bold"
                             >
                                 {evaluaciones.slice(0, 1).map((evaluacion) => (
-                                    <MenuItem
-                                        key={evaluacion.idevaluacionfinal}
-                                        className="text-[#EFE7DC] font-bold"
-                                        onClick={() => handleEvaluacionFinal(evaluacion.tipoevaluacion_idtipoevaluacion, evaluacion.idevaluado)}
-                                    >
-                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 1 && 'Evaluación Cruzada'}
-                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 2 && 'Evaluación en Pares'}
-                                        {evaluacion.tipoevaluacion_idtipoevaluacion === 3 && 'Autoevaluación'}
-                                    </MenuItem>
+                                <MenuItem
+                                    key={evaluacion.idevaluacionfinal}
+                                    className="text-[#EFE7DC] font-bold"
+                                    onClick={() => handleEvaluacionFinal(evaluacion.tipoevaluacion_idtipoevaluacion, evaluacion.idevaluado)}
+                                >
+                                    {evaluacion.tipoevaluacion_idtipoevaluacion === 1 && 'Evaluación Cruzada'}
+                                    {evaluacion.tipoevaluacion_idtipoevaluacion === 2 && 'Evaluación en Pares'}
+                                    {evaluacion.tipoevaluacion_idtipoevaluacion === 3 && 'Autoevaluación'}
+                                </MenuItem>
                                 ))}
                             </SubMenu>
                             <MenuItem className="text-[#EFE7DC] font-bold" component={<Link to="/AvancesEstudiante" />}>
                                 Avance
                             </MenuItem>
-                        </SubMenu>
+                            </SubMenu>
+                        )}
 
                         <SubMenu
                             label="Empresa"

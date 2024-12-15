@@ -11,7 +11,7 @@ $azulfuerte:#1E3664;
 .FLEX {
     display: flex;
     width: 100%;
-    height: 100vh;
+    height: calc(-110px + 100vh);
 }
 .HomeE{
     display:flex;
@@ -33,7 +33,7 @@ $azulfuerte:#1E3664;
     display: relative;
     flex-direction: row;
     width: 100vw;
-    height:100vh;
+    height:calc(-110px + 100vh);
     background-color: #C2D2E9;
     .BarraLateral{
         width: 20vw;
@@ -43,7 +43,7 @@ $azulfuerte:#1E3664;
         flex-grow: 1;
         background-color: $fondoEst;
         background-size: cover;
-        height: 100vh;  // Asegura que tome toda la altura de la pantalla
+        height: calc(-110px + 100vh);  // Asegura que tome toda la altura de la pantalla
         overflow-y: auto;
         .titulo{
             font-size: 40px;
@@ -123,7 +123,7 @@ $azulfuerte:#1E3664;
         display: flex;
         .formS{
             width: 100vw;
-            height: 100vh;
+            height: calc(-110px + 100vh);
             top: 0;
             bottom: 0;
             position: fixed;

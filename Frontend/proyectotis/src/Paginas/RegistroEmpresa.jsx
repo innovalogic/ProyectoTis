@@ -273,7 +273,7 @@ export default function RegistroEmpresa() {
         <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px', backgroundColor: '#32569A' }}>
           <BarraLateral/>
 
-        <form onSubmit={handleSubmit(onSubmit)} className={`space-y-4 p-4 flex-1 bg-[#c2d2e9] rounded-md` }>
+        <form onSubmit={handleSubmit(onSubmit)} className={`space-y-4 p-4 flex-1 bg-[#c2d2e9] rounded-md`} style={{  overflowY: 'auto'  }} >
           <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Registro de Empresa</h1>
 
           <div className="flex flex-col md:flex-row md:space-x-4">
