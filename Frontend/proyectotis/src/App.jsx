@@ -35,6 +35,7 @@ import VistaPerfilDo from './Paginas/VistaPerfilDo';
 import VistaPerfilEs from './Paginas/VistaPerfilEs';
 import BusquedaEstudiantesDoc from './Paginas/BusquedaEstudiantesDoc';
 import Bitacoras from './Paginas/Bitacoras';
+import Backup from './Paginas/Backup';
 import MostrarNotaFinal from './Paginas/MostrarNotaFinal';
 
 function App() {
@@ -75,6 +76,7 @@ function App() {
         <Route path="VistaPerfilEs" element={<VistaPerfilEs/>}/>
         <Route path="BusquedaEstudiantesDoc" element={<BusquedaEstudiantesDoc/>}/>
         <Route path="Bitacoras" element={<Bitacoras/>}/>
+        <Route path="Backup" element={<Backup/>}/>
         <Route path="MostrarNotaFinal" element={<MostrarNotaFinal/>}/>
       </Routes>
     </Router>

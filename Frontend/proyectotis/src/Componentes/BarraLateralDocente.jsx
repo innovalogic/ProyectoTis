@@ -12,6 +12,9 @@ export default function BarraLateral({ onCollapseChange }) {
         setUser(null);
         alert('Has cerrado sesión.');
     };
+    if (!user || !user.idDocente) {
+        return <Navigate to="/" replace />; // Redirige a la página de login
+      }
 
     const toggleCollapse = () => {
         const newCollapsedState = !collapsed;
