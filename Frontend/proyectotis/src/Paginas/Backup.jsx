@@ -128,7 +128,7 @@ const Backup = () => {
                     </form>
                     <div
             className="mx-auto w-3/4 h-72 p-4 border border-gray-300 overflow-y-auto shadow-sm mt-4"
-            style={{ height: "500px", backgroundColor: "#1E3664", borderRadius: "45px" }}
+            style={{ height: "450px", backgroundColor: "#1E3664", borderRadius: "15px", boxSizing: "border-box" }}
           >
             <table className="w-full table-auto border-collapse">
     <thead className="bg-gray-700 text-white">
