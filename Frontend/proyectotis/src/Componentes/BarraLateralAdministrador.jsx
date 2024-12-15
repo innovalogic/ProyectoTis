@@ -109,6 +109,13 @@ export default function BarraLateral() {
                         >
                             Bitácoras
                         </MenuItem>
+                        <MenuItem
+                            className="text-[#EFE7DC] font-bold"
+                            icon={<img src="/src/Imagenes/tuerca.png" alt="Bitácoras" className="w-8 h-8 inline-block" />}
+                            component={<Link to="/Backup" />}
+                        >
+                            Backups
+                        </MenuItem>
 
                         <div className="mt-auto">
                             <MenuItem
