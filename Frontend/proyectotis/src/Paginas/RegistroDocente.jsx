@@ -3,9 +3,11 @@ import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import { useNavigate } from "react-router-dom";
 import Modal from "../Componentes/Modal";
 import { useState } from "react";
+import { useUser } from "../Componentes/UserContext";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio"; // Asegúrate de que la ruta sea correcta
 
 export default function RegistroDocente() {
+    const { user } = useUser();
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
@@ -15,12 +17,14 @@ export default function RegistroDocente() {
         contrasena: '',
         confirmarContrasena: '',
     });
+    
     const [modal, setModal] = useState({
         show: false,
         title: '',
         message: ''
     });
     const navigate = useNavigate();
+    
     const handleChange = (e) => {
         const { id, value } = e.target;
 
@@ -120,7 +124,7 @@ export default function RegistroDocente() {
         });
 
         if (modal.title === 'Registro exitoso') {
-            navigate('/InicioSesionEstudiante');
+            navigate('/BusquedaDocentes');
         }
     };
     const handleCancel = () => {
@@ -139,7 +143,7 @@ export default function RegistroDocente() {
     return (
         <>
             <NavbarInicioDeSesion />
-            <div className="bg-custom-bg" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', marginTop: '70px' }}>
+            <div className="bg-custom-bg" style={{ display: 'flex', flexDirection: 'column', marginTop: '70px', height: 'calc(-110px + 100vh)' }}>
                 <div style={{ display: 'flex', flex: 1 }}>
                     <BarraLateral />
                     <div style={{ flex: 1, padding: '20px' }}>

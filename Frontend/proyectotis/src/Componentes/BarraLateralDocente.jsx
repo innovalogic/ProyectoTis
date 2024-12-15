@@ -3,6 +3,7 @@ import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 import { Link } from 'react-router-dom';
 import { useUser } from "../Componentes/UserContext";
 
+
 export default function BarraLateral({ onCollapseChange }) {
     const [collapsed, setCollapsed] = useState(false);
     const { user, setUser } = useUser();
@@ -19,17 +20,17 @@ export default function BarraLateral({ onCollapseChange }) {
     };
 
     return (
-        <div className="flex" style={{ height: '100vh' }}>
+        <div className="flex" style={{ height: 'calc(-110px + 100vh)' }}>
             <Sidebar
                 collapsed={collapsed}
                 className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"
                 style={{
                     width: collapsed ? '80px' : '250px',
-                    height: '100vh', // Asegúrate de que tenga toda la altura de la pantalla
+                    height: 'calc(-110px + 100vh)', // Asegúrate de que tenga toda la altura de la pantalla
                     overflowY: 'auto', // Permite el desplazamiento si el contenido excede la altura
                 }}
             >
-                <div className="flex flex-col bg-[#32569A]" style={{ height: '100vh' }}>
+                <div className="flex flex-col bg-[#32569A]" style={{ height: 'calc(-110px + 100vh)' }}>
                     <div className="flex items-center justify-between p-4">
                         <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl`}>
                             Menú

@@ -4,9 +4,11 @@ import BarraLateral from "../Componentes/BarraLateralAdministrador";
 import Navbar from "../Componentes/NavbarInicio";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { useUser } from "../Componentes/UserContext";
 
 export default function AdministradorEstudiante() {
   const location = useLocation();
+  const { user } = useUser();
   const navigate = useNavigate();
   const {
     idEstudiante,
@@ -30,14 +32,31 @@ export default function AdministradorEstudiante() {
     grupo: idGrupoEmpresa,
     email: emailEstudiante,
   });
+  
 
   const [editMode, setEditMode] = useState(false); // Estado para alternar el modo de edición
   useEffect(() => {
-    const storedPerfil = JSON.parse(localStorage.getItem('AdministradorEstudiante'));
-    if (storedPerfil) {
-      setPerfil(storedPerfil);
+    // Verifica si location.state tiene datos válidos
+    if (location.state?.data) {
+      setPerfil({
+        idEstudiante: idEstudiante,
+        nombre: nombreEstudiante,
+        apellido: apellidoEstudiante,
+        codigoSis: codSis,
+        telefono: telefonoEstudiante,
+        contraseña: contraseñaEstudiante,
+        grupo: idGrupoEmpresa,
+        email: emailEstudiante,
+      });
+    } else {
+      // Si no hay datos en location.state, carga desde localStorage
+      const storedPerfil = JSON.parse(localStorage.getItem('AdministradorEstudiante'));
+      if (storedPerfil) {
+        setPerfil(storedPerfil);
+      }
     }
-  }, []);
+  }, [location.state]);  // Se ejecuta cuando cambia location.state
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -129,7 +148,7 @@ export default function AdministradorEstudiante() {
   return (
     <>
       <Navbar />
-      <div className="bg-custom-bg flex" style={{ height: "100vh", marginTop: "70px" }}>
+      <div className="bg-custom-bg flex" style={{ height: "calc(-110px + 100vh)", marginTop: "70px" }}>
         <BarraLateral />
         <div className="flex justify-center items-center w-full mt-[-100px]">
           <div className="bg-[#1E3664] rounded-[75px] p-12 text-white w-[98%] md:w-[90%] lg:w-[80%] h-[70vh] shadow-2xl flex flex-col lg:flex-row justify-between relative">

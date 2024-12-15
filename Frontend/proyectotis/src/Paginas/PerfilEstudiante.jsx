@@ -81,7 +81,7 @@ const PerfilEstudiante = () => {
 return (
   <>
     <Navbar /> {/* Componente de navegación */}
-    <div className="bg-custom-bg flex" style={{ height: '100vh', marginTop: '70px' }}>
+    <div className="bg-custom-bg flex" style={{ height: 'calc(-110px + 100vh)', marginTop: '70px' }}>
       <BarraLateral /> {/* Componente de la barra lateral */}
       <div className="flex justify-center items-center w-full mt-[-100px]">
         <div className="bg-[#1E3664] rounded-[75px] p-12 text-white w-[98%] md:w-[90%] lg:w-[80%] h-[70vh] shadow-2xl flex flex-col lg:flex-row justify-between relative">

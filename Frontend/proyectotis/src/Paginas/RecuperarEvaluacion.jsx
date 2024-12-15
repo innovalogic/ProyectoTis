@@ -135,7 +135,7 @@ export default function RecuperarEvaluacion() {
     return (
         <>
             <NavbarInicioDeSesion />
-            <div style={{ display: 'flex', height: '100%', marginTop: '70px', backgroundColor: '#32569A' }}>
+            <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px', backgroundColor: '#32569A' }}>
                 <BarraLateralDocente/>
                 <form className={`space-y-4 p-4 flex-1 bg-[#efe7dc] rounded-md`}>
                     <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones</h1>
