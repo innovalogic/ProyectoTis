@@ -251,7 +251,7 @@ export default function RegistroEvSemanales() {
     return (
         <>
             <NavbarInicioDeSesion />
-            <div className="flex h-full w-screen mt-[70px] bg-[#32569A]">
+            <div className="flex w-screen mt-[70px] bg-[#32569A]"  style={{ height: 'calc(-110px + 100vh)', marginTop: '70px' }}>
                 <BarraLateralDocente />
                 <div className="w-screen bg-[#efe7dc] p-4">
                     <h1 className="text-4xl font-bold text-[#32569A] text-center mb-4">Registrar Evaluaciones Semanales</h1>

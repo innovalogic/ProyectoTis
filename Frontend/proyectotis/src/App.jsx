@@ -34,6 +34,8 @@ import EvaluacionCruzada from './Paginas/EvaluacionCruzada';
 import VistaPerfilDo from './Paginas/VistaPerfilDo';
 import VistaPerfilEs from './Paginas/VistaPerfilEs';
 import BusquedaEstudiantesDoc from './Paginas/BusquedaEstudiantesDoc';
+import Bitacoras from './Paginas/Bitacoras';
+import Backup from './Paginas/Backup';
 
 function App() {
   return (
@@ -72,6 +74,8 @@ function App() {
         <Route path="VistaPerfilDo" element={<VistaPerfilDo/>}/>
         <Route path="VistaPerfilEs" element={<VistaPerfilEs/>}/>
         <Route path="BusquedaEstudiantesDoc" element={<BusquedaEstudiantesDoc/>}/>
+        <Route path="Bitacoras" element={<Bitacoras/>}/>
+        <Route path="Backup" element={<Backup/>}/>
       </Routes>
     </Router>
     </UserProvider>

@@ -124,7 +124,7 @@ export default function RegistroDocente() {
         });
 
         if (modal.title === 'Registro exitoso') {
-            navigate('/InicioSesionEstudiante');
+            navigate('/BusquedaDocentes');
         }
     };
     const handleCancel = () => {
@@ -143,7 +143,7 @@ export default function RegistroDocente() {
     return (
         <>
             <NavbarInicioDeSesion />
-            <div className="bg-custom-bg" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', marginTop: '70px' }}>
+            <div className="bg-custom-bg" style={{ display: 'flex', flexDirection: 'column', marginTop: '70px', height: 'calc(-110px + 100vh)' }}>
                 <div style={{ display: 'flex', flex: 1 }}>
                     <BarraLateral />
                     <div style={{ flex: 1, padding: '20px' }}>

@@ -121,7 +121,7 @@ export default function RecuperarEvaluacionMiembro() {
     return (
         <>
             <NavbarInicioDeSesion />
-            <div className="flex flex-col sm:flex-row h-full mt-16 bg-[#32569A]">
+            <div className="flex flex-col sm:flex-row h-full mt-16 bg-[#32569A]"  style={{ height: 'calc(-110px + 100vh)', marginTop: '70px'}}>
                 <BarraLateralEstudiante />
                 <form className="flex-1 p-4 bg-[#c2d2e9] rounded-md space-y-4">
                     <h1 className="text-2xl font-bold text-center text-[#32569A] mb-4">Recuperar Evaluaciones Miembro</h1>

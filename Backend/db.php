@@ -1,11 +1,11 @@
 <?php
 
 // Conexión a la base de datos PostgreSQL
-$host = "aws-0-sa-east-1.pooler.supabase.com";
-$port = "6543";
-$dbname = "postgres"; // Cambia esto al nombre de tu base de datos
-$user = "postgres.actayzsdgpprzxsrxauy"; // Usuario de la base de datos
-$password = "tisINGL2024"; // Contraseña de PostgreSQL
+$host = "localhost";
+$port = "5432";
+$dbname = "innovalogic"; // Cambia esto al nombre de tu base de datos
+$user = "postgres"; // Usuario de la base de datos
+$password = "sammy123"; // Contraseña de PostgreSQL
 
 
 try {

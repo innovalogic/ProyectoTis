@@ -286,7 +286,7 @@ export default function SeguimientoActividades() {
   return (
     <>
       <NavbarInicioDeSesion />
-      <div style={{ display: 'flex', height: '100%', marginTop: '70px'}}>   
+      <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px'}}>   
         <BarraLateral />
         <div className='seguimiento'>
           <div className='SeguiSprint'>

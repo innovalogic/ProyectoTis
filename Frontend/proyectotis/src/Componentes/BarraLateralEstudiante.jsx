@@ -105,11 +105,11 @@ export default function BarraLateral() {
     }, [user.idGrupoEmpresa]);
 
     return (
-        <div className="flex" style={{ height: '100vh' }}>
+        <div className="flex" style={{ height: 'calc(-110px + 100vh)' }}>
             <Sidebar
                 collapsed={collapsed}
                 className="bg-[#32569A] text-white transition-all duration-300 ease-in-out"
-                style={{ width: collapsed ? '80px' : '250px', height: '100vh' }}
+                style={{ width: collapsed ? '80px' : '250px', height: 'calc(-110px + 100vh)' }}
             >
                 <div className="flex flex-col h-full bg-[#32569A]">
                     <div className="flex items-center justify-between p-4">
@@ -187,14 +187,6 @@ export default function BarraLateral() {
                                 Avance
                             </MenuItem>
                         </SubMenu>
-
-                        <MenuItem
-                            className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/Imagenes/Calendar.png" alt="Calendario" className="w-8 h-8 inline-block" />}
-                            component={<Link to="/InicioEstudiante" />}
-                        >
-                            Calendario
-                        </MenuItem>
 
                         <SubMenu
                             label="Empresa"

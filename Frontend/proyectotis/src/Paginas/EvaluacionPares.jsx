@@ -4,10 +4,12 @@ import './AreaEstudiante.scss';
 import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateralEstudiante';
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
+import { useNavigate } from "react-router-dom";
 import Modal from '../Componentes/Modal';
 
 export default function EvaluacionPares() {
   const { user } = useUser();
+  const navigate = useNavigate();
   const [tiposEvaluaciones, setTiposEvaluaciones] = useState([]);
   const [criterios, setCriterios] = useState([]);
   const [respuestas, setRespuestas] = useState([]);
@@ -106,6 +108,9 @@ export default function EvaluacionPares() {
       ...modal,
       show: false
     });
+    if (modal.title === 'Nota guardada') {
+      navigate('/InicioEstudiante');
+    }
   };
 
   const allAnswered = respuestas.every((respuesta) => respuesta !== null);

@@ -4,10 +4,12 @@ import './AreaEstudiante.scss';
 import Copyright from '../Componentes/BarraCopyright';
 import BarraLateral from '../Componentes/BarraLateralEstudiante';
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
+import { useNavigate } from "react-router-dom";
 import Modal from '../Componentes/Modal';
 
 export default function Autoevaluacion() {
   const { user } = useUser();
+  const navigate = useNavigate();
   const [tiposEvaluaciones, setTiposEvaluaciones] = useState([]);
   const [criterios, setCriterios] = useState([]);
   const [respuestas, setRespuestas] = useState([]);
@@ -74,13 +76,12 @@ export default function Autoevaluacion() {
     const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
 
     try {
-      const response = await fetch("https://tis-e8f3f498eaee.herokuapp.com/guardarNotaFinalAutoEvaluacion.php", {
+      const response = await fetch("http://localhost/ProyectoTis/Backend/guardarNotaFinal.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          idevaluado: user.idEstudiante,
           idevaluador: user.idEstudiante,
           notaPromedio: notaFinal,
           tipoevaluacion_idtipoevaluacion: tipoAutoEvaluacion?.idtipoevaluacion,
@@ -115,6 +116,10 @@ export default function Autoevaluacion() {
       ...modal,
       show: false
     });
+
+    if (modal.title === "Nota guardada") {
+      navigate('/InicioEstudiante');
+    }
   };
 
   const allAnswered = respuestas.every((respuesta) => respuesta !== null);

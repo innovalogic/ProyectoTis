@@ -270,7 +270,7 @@ export default function RegistroEmpresa() {
   return (
     <>
         <NavbarInicioDeSesion />
-        <div style={{ display: 'flex', height: '100%', marginTop: '70px', backgroundColor: '#32569A' }}>
+        <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px', backgroundColor: '#32569A' }}>
           <BarraLateral/>
 
         <form onSubmit={handleSubmit(onSubmit)} className={`space-y-4 p-4 flex-1 bg-[#c2d2e9] rounded-md` }>

@@ -19,38 +19,63 @@ const BusquedaEstudiantes = () => {
   const endIdx = startIdx + itemsPerPage;
   const estudiantesDataPaginated = filteredData.slice(startIdx, endIdx);
   
-
-  const fetchTablaAvances = async () => {
-    try {
-      const response = await fetch('https://tis-e8f3f498eaee.herokuapp.com/busquedaEstudiante.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      const text = await response.text();
-      const data = JSON.parse(text);
-  
-      if (data?.estudiantes && Array.isArray(data.estudiantes)) {
-        // Ordena la tabla por idEstudiante
-        const sortedData = data.estudiantes.sort((a, b) => a.idEstudiante - b.idEstudiante);
-        setTabla(sortedData);
-        setFilteredData(sortedData); // Inicializa filteredData con los datos ordenados
-      } else {
-        setTabla([]);
-        setError("No se encontraron datos en la tabla.");
-      }
-    } catch (error) {
-      console.error('Error al obtener los datos:', error);
-      setError('Hubo un problema al cargar los datos.');
-    }
-  };
-  
-
   useEffect(() => {
-    fetchTablaAvances();
-  }, []);
+    const fetchTablaAvances = async () => {
+      try {
+        const response = await fetch('http://localhost/ProyectoTis/Backend/busquedaEstudiante.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
+        const text = await response.text();
+        const data = JSON.parse(text);
+    
+        if (data?.estudiantes && Array.isArray(data.estudiantes)) {
+          // Ordena la tabla por idEstudiante
+          const sortedData = data.estudiantes.sort((a, b) => a.idEstudiante - b.idEstudiante);
+          setTabla(sortedData);
+          setFilteredData(sortedData); // Inicializa filteredData con los datos ordenados
+        } else {
+          setTabla([]);
+          setError("No se encontraron datos en la tabla.");
+        }
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+        setError('Hubo un problema al cargar los datos.');
+      }
+    };
+  
+          const fetchRoles = async () => {
+              try {
+                  const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerJefes.php', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                      },
+                  });
+                  const data = await response.json();
+                  if (data.success) {
+                      const jefes = new Set(data.estudiantes.map(e => e.idEstudianteScrum));
+                      setTabla((prevTabla) =>
+                          prevTabla.map(estudiante => ({
+                              ...estudiante,
+                              rol: jefes.has(estudiante.idEstudiante) ? 'Jefe de Grupo' : 'Desarrollador',
+                          }))
+                      );
+                  } else {
+                      console.error('Error al obtener los roles:', data.message);
+                  }
+              } catch (error) {
+                  console.error('Error al obtener los roles:', error);
+              }
+          };
+
+          fetchTablaAvances().then(fetchRoles);
+      }, []);
+
+  
 
   const applyFilters = () => {
     let filtered = tabla;
@@ -78,7 +103,7 @@ const BusquedaEstudiantes = () => {
   return (
     <>
       <Navbar />
-      <div className="bg-custom-bg flex" style={{ height: '100vh', marginTop: '70px' }}>
+      <div className="bg-custom-bg flex" style={{ height: 'calc(-110px + 100vh)', marginTop: '70px' }}>
         <BarraLateral />
         <div className="mt-8 flex-1">
           <div className="w-3/4 mx-auto">
@@ -114,6 +139,7 @@ const BusquedaEstudiantes = () => {
                   <th className="p-2 border-b">Nombre</th>
                   <th className="p-2 border-b">Apellido</th>
                   <th className="p-2 border-b">Codigo Sis</th>
+                  <th className="p-2 border-b">Rol</th>
                   <th className="p-2 border-b">Acciones</th>
                 </tr>
               </thead>
@@ -125,6 +151,7 @@ const BusquedaEstudiantes = () => {
                       <td className="p-2 border-b">{estudiante.nombreEstudiante}</td>
                       <td className="p-2 border-b">{estudiante.apellidoEstudiante}</td>
                       <td className="p-2 border-b">{estudiante.codSis}</td>
+                      <td className="p-2 border-b">{estudiante.rol}</td>
                       <td className="p-2 border-b">
                       <Link to="../AdministradorEstudiante" state={{ data: { idEstudiante:estudiante.idEstudiante, 
                                                                  nombreEstudiante:estudiante.nombreEstudiante,

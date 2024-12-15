@@ -241,10 +241,10 @@ export default function InicioEstudiante() {
   return (
     <>
       <NavbarInicioDeSesion />
-      <div className="flex h-full mt-16 bg-custom-bg">
+      <div className="flex h-full mt-16 bg-custom-bg"  style={{ height: 'calc(-110px + 100vh)', marginTop: '70px'}}>
         <BarraLateral />
         <div className="flex-grow p-8">
-          <h1 className="text-4xl font-bold text-center mb-8" style={{ color: "#1E3664" }}>
+          <h1 className="text-4xl font-bold text-center mb-8" style={{ color: "#1E3664"}}>
             AVANCES
           </h1>
 

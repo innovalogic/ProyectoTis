@@ -49,9 +49,9 @@ export default function InicioEstudiante() {
   return (
     <>
       <NavbarInicioDeSesion />
-      <div style={{ display: 'flex', height: '100%', marginTop: '70px', backgroundColor: '#32569A' }}>
+      <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px', backgroundColor: '#32569A' }}>
         <BarraLateral />
-        <form className="space-y-4 p-4 flex-1 bg-[#c2d2e9] rounded-md">
+        <form className="space-y-4 p-4 flex-1 bg-[#c2d2e9] rounded-md" style={{  overflowY: 'auto'  }}>
           {notificacionData.length > 0 && (
             <div className="bg-[#32569A] text-white p-4 rounded-md">
             <h2 className="text-xl font-bold mb-2 text-left">TALLER DE INGENIERIA DE SOFTWARE</h2>
