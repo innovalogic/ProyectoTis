@@ -5,7 +5,7 @@ $host = "localhost";
 $port = "5432";
 $dbname = "Ultima"; // Cambia esto al nombre de tu base de datos
 $user = "postgres"; // Usuario de la base de datos
-$password = "123456"; // Contraseña de PostgreSQL
+$password = "sammy123"; // Contraseña de PostgreSQL
 
 
 try {
