@@ -75,6 +75,16 @@ const NavbarInicioDeSesion = () => {
               </NavLink>
             </>
           )}
+          {user?.correo && ( // Mostrar enlaces para el docente si está logueado como docente
+            <>
+              <NavLink 
+                to="/InicioAdministrador" 
+                className="text-custom-bg hover:bg-[#1E3664] hover:text-white p-2 rounded-lg text-xl no-underline transition duration-300"
+              >
+                Mi Área de Administrador
+              </NavLink>
+            </>
+          )}
 
         </div>
       </div>

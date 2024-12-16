@@ -10,7 +10,7 @@ include_once 'db.php';
 
 try {
     $stmt = $pdo->prepare('SELECT idcriterios, criterio, tipoevaluacion_idtipoevaluacion
-	FROM public.criterios');
+	FROM criterios');
 
     if ($stmt->execute()) {
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);

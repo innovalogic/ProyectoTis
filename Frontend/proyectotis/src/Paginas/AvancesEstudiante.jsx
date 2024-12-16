@@ -20,6 +20,8 @@ export default function InicioEstudiante() {
 
 
   const idEstudiante = user ? user.idEstudiante : null;
+  const nombre = `${user.nombreEstudiante} ${user.apellidoEstudiante}`.trim();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +63,8 @@ export default function InicioEstudiante() {
           // Combina ambos datos en un solo objeto
           body: JSON.stringify({
               sprintSeleccionado,
-              idEstudiante
+              idEstudiante,
+              nombre
           })
       });
 
@@ -133,7 +136,7 @@ export default function InicioEstudiante() {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ idEstudiante })
+            body: JSON.stringify({ idEstudiante, nombre })
           });
    
           const text = await response.text();
