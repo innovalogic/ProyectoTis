@@ -15,7 +15,7 @@ const Bitacoras = () => {
     const estudiantesDataPaginated = filteredData.slice(startIdx, endIdx);
    const fetchTablaAvances = async () => {
        try {
-         const response = await fetch('http://localhost/ProyectoTis/Backend/Bitacora.php', {
+         const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/Bitacora.php', {
            method: 'POST',
            headers: {
              'Content-Type': 'application/json',

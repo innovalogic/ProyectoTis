@@ -152,7 +152,7 @@ export default function InicioDocente() {
 
   const cargarDatosGrupo = async (idDocente) => {
     try {
-        const response = await axios.get('http://localhost/proyectotis/backend/CargarGrupoDoc.php', {
+        const response = await axios.get('http://innovalogic.tis.cs.umss.edu.bo/CargarGrupoDoc.php', {
             params: { idDocente }
         });
 
@@ -172,7 +172,7 @@ export default function InicioDocente() {
 
   const fetchNotificaciones = async () => {
     try {
-      const response = await axios.get('http://localhost/proyectotis/backend/CargarNotificacion.php', {
+      const response = await axios.get('http://innovalogic.tis.cs.umss.edu.bo/CargarNotificacion.php', {
         params: { idDocente: user.idDocente }
       });
       if (response.data.success) {
@@ -191,7 +191,7 @@ export default function InicioDocente() {
 console.log(currentDateTime);
   
     try {
-      const response = await axios.post('http://localhost/proyectotis/backend/GuardarNotificacion.php', {
+      const response = await axios.post('http://innovalogic.tis.cs.umss.edu.bo/GuardarNotificacion.php', {
         campo1: mensaje,
         links: links,
         fechaHora: currentDateTime, // Un único campo para fecha y hora
@@ -209,7 +209,7 @@ console.log(currentDateTime);
   const handleEnviarNotificacion = async (mensaje,grupoElegido) => {
     try {
       console.log(mensaje, user.idDocente,grupoElegido)
-      const response = await axios.post('http://localhost/proyectotis/backend/EnviarCorreo.php', {
+      const response = await axios.post('http://innovalogic.tis.cs.umss.edu.bo/EnviarCorreo.php', {
         asunto: "Materia-Taller de ingenieria de software",
         mensaje: mensaje,
         idDocente: user.idDocente,
@@ -280,12 +280,12 @@ console.log(currentDateTime);
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <img src="/src/Imagenes/docente.png" className="w-6 h-6" alt="Docente Logo" />
+                        <img src="/Imagenes/docente.png" className="w-6 h-6" alt="Docente Logo" />
                         <span className="font-bold text-lg">
                           {notificacion.nombreDocente} {notificacion.apellidoDocente}
                         </span>
                       </div>
-                      <img src="/src/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
+                      <img src="/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
                     </div>
 
                     <br />
@@ -317,7 +317,7 @@ console.log(currentDateTime);
             className="fixed bottom-4 bg-[#32569A] text-white p-4 rounded-full shadow-lg flex items-center space-x-2"
             style={{ left: sidebarCollapsed ? '90px' : '260px', transition: 'left 0.3s' }}
           >
-            <img src="/src/Imagenes/plus.png" className="w-6 h-6" alt="mas" />
+            <img src="/Imagenes/plus.png" className="w-6 h-6" alt="mas" />
             <span>Agregar Notificación</span>
           </button>
 

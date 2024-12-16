@@ -50,7 +50,7 @@ export default function RegistroEvFinalGrupo() {
 
     useEffect(() => {
         // Hacer una solicitud al backend para obtener los grupos empresa
-        fetch(`http://localhost/proyectotis/backend/obtenergruposevsem.php?idDocente=${user.idDocente}`)
+        fetch(`http://innovalogic.tis.cs.umss.edu.bo/obtenergruposevsem.php?idDocente=${user.idDocente}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error al obtener los grupos');
@@ -68,7 +68,7 @@ export default function RegistroEvFinalGrupo() {
 
     useEffect(() => {
         // Hacer una solicitud al backend para obtener los grupos empresa
-        fetch(`http://localhost/proyectotis/backend/obtenerestudiantesgrupofinal.php?idGrupoEmpresa=${idGrupoEmpresa}`)
+        fetch(`http://innovalogic.tis.cs.umss.edu.bo/obtenerestudiantesgrupofinal.php?idGrupoEmpresa=${idGrupoEmpresa}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error al obtener los grupos');
@@ -96,7 +96,7 @@ export default function RegistroEvFinalGrupo() {
         console.log("Datos a enviar:", dataToSend);
     
         try {
-            const response = await fetch("http://localhost/proyectotis/backend/guardarEvaluacionFinalCruzada.php", {
+            const response = await fetch("http://innovalogic.tis.cs.umss.edu.bo/guardarEvaluacionFinalCruzada.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -147,7 +147,7 @@ export default function RegistroEvFinalGrupo() {
         console.log("Datos a enviar:", dataToSend);
     
         try {
-            const response = await fetch("http://localhost/proyectotis/backend/guardarEvaluacionFinalAutoEvaluacion.php", {
+            const response = await fetch("http://innovalogic.tis.cs.umss.edu.bo/guardarEvaluacionFinalAutoEvaluacion.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -206,7 +206,7 @@ export default function RegistroEvFinalGrupo() {
         console.log("Datos a enviar:", dataToSend);
     
         try {
-            const response = await fetch("http://localhost/proyectotis/backend/guardarEvaluacionPares.php", {
+            const response = await fetch("http://innovalogic.tis.cs.umss.edu.bo/guardarEvaluacionPares.php", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

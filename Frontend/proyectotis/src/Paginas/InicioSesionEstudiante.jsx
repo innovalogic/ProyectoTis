@@ -1,7 +1,7 @@
 import { useState } from "react";
 import NavbarInicioDeSesion from "../Componentes/NavbarInicio";
 import Copyright from "../Componentes/BarraCopyright";
-import UMSS from "/src/Imagenes/UMSS.jpg";
+import UMSS from "/Imagenes/UMSS.jpg";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../Componentes/UserContext";
@@ -31,7 +31,7 @@ export default function InicioSesionEstudiante() {
 
   
     try {
-      const responseEstudiante = await fetch("http://localhost/ProyectoTis/Backend/inicioSesion.php", {
+      const responseEstudiante = await fetch("http://innovalogic.tis.cs.umss.edu.bo/inicioSesion.php", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export default function InicioSesionEstudiante() {
       }
   
       // Si no es estudiante, intentar como docente
-      const responseDocente = await fetch("http://localhost/ProyectoTis/Backend/inicioSesionD.php", {
+      const responseDocente = await fetch("http://innovalogic.tis.cs.umss.edu.bo/inicioSesionD.php", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',

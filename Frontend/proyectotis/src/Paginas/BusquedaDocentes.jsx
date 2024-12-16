@@ -22,7 +22,7 @@ const BusquedaDocentes = () => {
 
   const fetchTablaAvances = async () => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/busquedaEstudiante.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/busquedaEstudiante.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

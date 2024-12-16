@@ -14,7 +14,7 @@ export default function InicioEstudiante() {
 
   const fetchNotificaciones = async () => {
     try {
-      const response = await axios.get('http://localhost/proyectotis/backend/CargarNotificacion.php', {
+      const response = await axios.get('http://innovalogic.tis.cs.umss.edu.bo/CargarNotificacion.php', {
         params: { idDocente: user.idDocente }
       });
       if (response.data.success) {
@@ -72,12 +72,12 @@ export default function InicioEstudiante() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <img src="/src/Imagenes/docente.png" className="w-6 h-6" alt="Docente Logo" />
+                        <img src="/Imagenes/docente.png" className="w-6 h-6" alt="Docente Logo" />
                         <span className="font-bold text-lg">
                           {notificacion.nombreDocente} {notificacion.apellidoDocente}
                         </span>
                       </div>
-                      <img src="/src/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
+                      <img src="/Imagenes/campana.png" className="w-6 h-6" alt="Campana" />
                     </div>
 
                     <br />

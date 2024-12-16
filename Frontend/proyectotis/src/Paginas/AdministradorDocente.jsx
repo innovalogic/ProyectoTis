@@ -73,7 +73,7 @@ export default function AdministradorDocente() {
     };  
     console.log("Datos enviados al backend:", updateDocente);
      try {
-         const response = await fetch('http://localhost/ProyectoTis/Backend/actualizarPerfil.php', {
+         const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/actualizarPerfil.php', {
              method: 'POST',
              headers: { 
                  'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ export default function AdministradorDocente() {
     const confirmation = window.confirm("¿Estás seguro de que quieres eliminar este Docente?");
     if (confirmation) {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/eliminar.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/eliminar.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

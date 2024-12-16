@@ -17,7 +17,7 @@ export default function AñadirCriterios() {
       });
 
     useEffect(() => {
-        fetch("http://localhost/ProyectoTis/Backend/obtenerTipoEvaluacion.php")
+        fetch("http://innovalogic.tis.cs.umss.edu.bo/obtenerTipoEvaluacion.php")
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
@@ -28,7 +28,7 @@ export default function AñadirCriterios() {
     }, []);
 
     const cargarCriterios = () => {
-        fetch("http://localhost/ProyectoTis/Backend/obtenerCriterios.php")
+        fetch("http://innovalogic.tis.cs.umss.edu.bo/obtenerCriterios.php")
             .then((response) => response.json())
             .then((data) => {
                 if (data.success) {
@@ -56,7 +56,7 @@ export default function AñadirCriterios() {
         };
         console.log('datos de criterio a ingresar:', nuevoCriterio)
         try {
-            const response = await fetch('http://localhost/ProyectoTis/Backend/guardarCriterio.php', {
+            const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/guardarCriterio.php', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ export default function AñadirCriterios() {
     // Eliminar un criterio
     const handleEliminarCriterio = async (id) => {
         try {
-            const response = await fetch(`http://localhost/ProyectoTis/Backend/eliminarCriterio.php?id=${id}`, {
+            const response = await fetch(`http://innovalogic.tis.cs.umss.edu.bo/eliminarCriterio.php?id=${id}`, {
                 method: 'DELETE',
             });
     

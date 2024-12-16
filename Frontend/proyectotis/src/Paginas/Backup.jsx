@@ -9,7 +9,7 @@ const Backup = () => {
     const [tabla, setTabla] = useState([]);
     const fetchTablaAvances = async () => {
         try {
-            const response = await fetch('http://localhost/ProyectoTis/Backend/backup.php', {
+            const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/backup.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const Backup = () => {
         }
     
         try {
-            const response = await fetch('http://localhost/ProyectoTis/Backend/GuardarBackup.php', {
+            const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/GuardarBackup.php', {
                 method: 'POST',
                 body: formData
             });

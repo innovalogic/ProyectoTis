@@ -20,7 +20,7 @@ export default function Autoevaluacion() {
   });
 
   useEffect(() => {
-    fetch("http://localhost/ProyectoTis/Backend/obtenerTipoEvaluacion.php")
+    fetch("http://innovalogic.tis.cs.umss.edu.bo/obtenerTipoEvaluacion.php")
       .then((response) => response.text())  // Cambiado a .text() para ver el contenido raw
       .then((data) => {
         console.log("Respuesta del servidor:", data);  // Ver qué está devolviendo el servidor
@@ -39,7 +39,7 @@ export default function Autoevaluacion() {
   }, []);
 
   const cargarCriterios = () => {
-    fetch("http://localhost/ProyectoTis/Backend/obtenerCriterios.php")
+    fetch("http://innovalogic.tis.cs.umss.edu.bo/obtenerCriterios.php")
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
@@ -79,7 +79,7 @@ useEffect(() => {
     const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
 
     try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/guardarNotaFinal.php", {
+      const response = await fetch("http://innovalogic.tis.cs.umss.edu.bo/guardarNotaFinal.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

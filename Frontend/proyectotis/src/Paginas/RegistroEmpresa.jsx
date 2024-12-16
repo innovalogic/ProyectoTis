@@ -74,7 +74,7 @@ export default function RegistroEmpresa() {
       console.log(user.idDocente)
       const newData = { ...data, imageUrl: imageUrl , jefeId: jefeActual,idDocente:user.idDocente};
       try {
-          const response = await fetch('http://localhost/proyectotis/backend/registrarGrupo.php', {
+          const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/registrarGrupo.php', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -118,7 +118,7 @@ export default function RegistroEmpresa() {
           };
           console.log(idsEstudiantes, ultimoGrupo)
           try {
-              const response = await fetch('http://localhost/proyectotis/backend/actualizarGrupoEstudiantes.php', {
+              const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/actualizarGrupoEstudiantes.php', {
                   method: 'POST',
                   headers: {
                       'Content-Type': 'application/json',
@@ -169,7 +169,7 @@ export default function RegistroEmpresa() {
     useEffect(() => {
       const fetchEstudiantes = async () => {
           try {
-              const response = await axios.get('http://localhost/proyectotis/backend/RecuperarEstudiante.php');
+              const response = await axios.get('http://innovalogic.tis.cs.umss.edu.bo/RecuperarEstudiante.php');
               console.log(response.data.success); 
               if (response.data.success === true) {
                   setEstudiantesData(response.data.datos); 

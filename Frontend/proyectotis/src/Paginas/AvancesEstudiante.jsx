@@ -27,7 +27,7 @@ export default function InicioEstudiante() {
     const fetchData = async () => {
       if (idEstudiante) { // Solo hacer la solicitud si el idEstudiante está definido
         try {
-          const response = await fetch('http://localhost/ProyectoTis/Backend/Avances.php', {
+          const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/Avances.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export default function InicioEstudiante() {
   
     if (sprintSeleccionado) {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/HuAvances.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/HuAvances.php', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export default function InicioEstudiante() {
   
     if (HuSeleccionado && sprintSeleccionado) {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/TareaAvances.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/TareaAvances.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -130,7 +130,7 @@ export default function InicioEstudiante() {
     const fetchTablaAvances = async () => {
       if (idEstudiante) {
         try {
-          const response = await fetch('http://localhost/ProyectoTis/Backend/tablaAvances.php', {
+          const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/tablaAvances.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -216,7 +216,7 @@ export default function InicioEstudiante() {
   formData.append("idEstudiante", idEstudiante);
 
   try {
-    const response = await fetch('http://localhost/ProyectoTis/Backend/subirArchivos.php', {
+    const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/subirArchivos.php', {
       method: 'POST',
       body: formData, // Enviar FormData
     });

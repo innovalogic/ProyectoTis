@@ -103,7 +103,7 @@ const Sprint = ({ title }) => {
   
     if (areDatesValid()) {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/guardarSprint.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/guardarSprint.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

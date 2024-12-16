@@ -37,7 +37,7 @@ const FormHU = ({ onSubmit , children}) => {
       };
       console.log('datos:', dataToSend);
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/llamadas.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ const FormHU = ({ onSubmit , children}) => {
           fecha: formattedDate // Usar la fecha formateada
         };
 
-        const response = await fetch('http://localhost/ProyectoTis/Backend/guardarHU.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/guardarHU.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

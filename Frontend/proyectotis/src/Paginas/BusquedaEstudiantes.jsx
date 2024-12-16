@@ -22,7 +22,7 @@ const BusquedaEstudiantes = () => {
   useEffect(() => {
     const fetchTablaAvances = async () => {
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/busquedaEstudiante.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/busquedaEstudiante.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const BusquedaEstudiantes = () => {
   
           const fetchRoles = async () => {
               try {
-                  const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerJefes.php', {
+                  const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/obtenerJefes.php', {
                       method: 'POST',
                       headers: {
                           'Content-Type': 'application/json',

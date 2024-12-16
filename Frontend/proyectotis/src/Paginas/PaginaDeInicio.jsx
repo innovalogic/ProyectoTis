@@ -11,7 +11,7 @@ export default function PaginaDeInicio() {
                 <div className="relative">
                     {/* Imagen debajo del Navbar */}
                     <img 
-                        src="/src/Imagenes/M1.jpg" 
+                        src="/Imagenes/M1.jpg" 
                         alt="Paisaje" 
                         className="w-full h-[355px] mx-auto"
                     />
@@ -43,7 +43,7 @@ export default function PaginaDeInicio() {
                 <div className="flex justify-center space-x-16 mt-10">
                     <div className="w-48 h-48 bg-[#32569A] rounded-2xl flex flex-col justify-center items-center overflow-hidden">
                         <img 
-                            src="/src/Imagenes/I1.png" 
+                            src="/Imagenes/I1.png" 
                             alt="Planificacion" 
                             className="w-3/4 h-3/4 object-contain"
                         />
@@ -51,7 +51,7 @@ export default function PaginaDeInicio() {
                     </div>
                     <div className="w-48 h-48 bg-[#32569A] rounded-2xl flex flex-col justify-center items-center overflow-hidden">
                         <img 
-                            src="/src/Imagenes/I2.png" 
+                            src="/Imagenes/I2.png" 
                             alt="Verificacion" 
                             className="w-3/4 h-3/4 object-contain"
                         />
@@ -59,7 +59,7 @@ export default function PaginaDeInicio() {
                     </div>
                     <div className="w-48 h-48 bg-[#32569A] rounded-2xl flex flex-col justify-center items-center overflow-hidden">
                         <img 
-                            src="/src/Imagenes/I3.png" 
+                            src="/Imagenes/I3.png" 
                             alt="Seguimiento" 
                             className="w-3/4 h-3/4 object-contain"
                         />
@@ -67,7 +67,7 @@ export default function PaginaDeInicio() {
                     </div>
                     <div className="w-48 h-48 bg-[#32569A] rounded-2xl flex flex-col justify-center items-center overflow-hidden">
                         <img 
-                            src="/src/Imagenes/I4.png" 
+                            src="/Imagenes/I4.png" 
                             alt="Evaluacion" 
                             className="w-3/4 h-3/4 object-contain"
                         />
@@ -75,7 +75,7 @@ export default function PaginaDeInicio() {
                     </div>
                     <div className="w-48 h-48 bg-[#32569A] rounded-2xl flex flex-col justify-center items-center overflow-hidden">
                         <img 
-                            src="/src/Imagenes/I5.png" 
+                            src="/Imagenes/I5.png" 
                             alt="Comunicacion" 
                             className="w-3/4 h-3/4 object-contain"
                         />

@@ -30,7 +30,7 @@ export default function MostrarNotaFinal () {
     const fetchEvaluaciones = async () => {
       console.log("GrupoEmpresa ID: ", user.idGrupoEmpresa);  // Verificar si tiene el valor correcto
       try {
-          const response = await axios.post('http://localhost/proyectotis/backend/obtenerEvaluacionFinal.php', {
+          const response = await axios.post('http://innovalogic.tis.cs.umss.edu.bo/obtenerEvaluacionFinal.php', {
               grupoempresa_idgrupoempresa: user.idGrupoEmpresa,
           });
           console.log("Respuesta de la API:", response.data);

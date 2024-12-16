@@ -15,7 +15,7 @@ const PerfilDocente = () => {
      // Agrega el console.log aquí
      console.log("Datos enviados:", JSON.stringify(newData));
     try {
-      const response = await fetch('http://localhost/proyectotis/backend/subirFotoPerfil.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/subirFotoPerfil.php', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

@@ -38,7 +38,7 @@ export default function SeguimientoActividades() {
 
   const fetchHU = async () => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerHU.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/obtenerHU.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export default function SeguimientoActividades() {
     try {
       let allTareas = [];
       for (const huId of huIds) {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerTarea.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/obtenerTarea.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export default function SeguimientoActividades() {
     };
     console.log('datos:', dataToSend);
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/llamadas.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -162,7 +162,7 @@ export default function SeguimientoActividades() {
     };
     console.log('datos:', dataToSend);
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/estadoHU.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/estadoHU.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -197,7 +197,7 @@ export default function SeguimientoActividades() {
     };
     console.log('datos:', dataToSend);
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/estadoTarea.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/estadoTarea.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -235,7 +235,7 @@ export default function SeguimientoActividades() {
 
   const saveEditHU = async () => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/modificarHU.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/modificarHU.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idHU: selectedHU.idHU, titulo: selectedHU.titulo, fechaEntrega: selectedHU.fechaEntrega, responsable: selectedHU.responsable }),
@@ -253,7 +253,7 @@ export default function SeguimientoActividades() {
 
   const saveEditTarea = async () => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/modificarTarea.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/modificarTarea.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ idTarea: selectedTarea.idTarea, titulo: selectedTarea.titulo, fechaEntrega: selectedTarea.fechaEntrega, responsable: selectedTarea.responsable }),

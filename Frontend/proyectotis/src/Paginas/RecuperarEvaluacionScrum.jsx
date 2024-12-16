@@ -37,7 +37,7 @@ export default function RecuperarEvaluacionScrum() {
     useEffect(() => {
         const fetchEstudiantesYMiembro = async () => {
             try {
-                const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/CargarEvaluacionesScrum.php', {
+                const responseEstudiantes = await axios.get('http://innovalogic.tis.cs.umss.edu.bo/CargarEvaluacionesScrum.php', {
                     params: { idEstudiante: user.idEstudiante },
                 });
     

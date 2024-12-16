@@ -34,7 +34,7 @@ export default function SeguimientoSprints() {
 
   const fetchSprints = async () => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerSprint.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/obtenerSprint.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export default function SeguimientoSprints() {
 
   const fetchHU = async (sprintId) => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerHU.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/obtenerHU.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +106,7 @@ export default function SeguimientoSprints() {
 
   const fetchGrupo = async () => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/obtenerGrupoEmpresa.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/obtenerGrupoEmpresa.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -216,7 +216,7 @@ export default function SeguimientoSprints() {
 
   const saveLinkInforme = async (sprint) => {
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/guardarInformeSprint.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/guardarInformeSprint.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -259,7 +259,7 @@ export default function SeguimientoSprints() {
     };
     console.log('datos:', dataToSend);
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/estadoSprint.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/estadoSprint.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -312,7 +312,7 @@ export default function SeguimientoSprints() {
       return;
     }else{
     try {
-      const response = await fetch('http://localhost/ProyectoTis/Backend/modificarSprint.php', {
+      const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/modificarSprint.php', {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json' ,

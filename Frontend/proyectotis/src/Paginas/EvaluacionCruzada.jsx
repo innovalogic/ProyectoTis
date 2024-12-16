@@ -20,7 +20,7 @@ export default function EvaluacionCruzada() {
   });
 
   useEffect(() => {
-    fetch("http://localhost/ProyectoTis/Backend/obtenerTipoEvaluacion.php")
+    fetch("http://innovalogic.tis.cs.umss.edu.bo/obtenerTipoEvaluacion.php")
         .then((response) => response.json())
         .then((data) => {
             if (data.success) {
@@ -31,7 +31,7 @@ export default function EvaluacionCruzada() {
   }, []);
 
   const cargarCriterios = () => {
-      fetch("http://localhost/ProyectoTis/Backend/obtenerCriterios.php")
+      fetch("http://innovalogic.tis.cs.umss.edu.bo/obtenerCriterios.php")
           .then((response) => response.json())
           .then((data) => {
               if (data.success) {
@@ -68,7 +68,7 @@ export default function EvaluacionCruzada() {
     const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Evaluación cruzada");
 
     try {
-      const response = await fetch("http://localhost/ProyectoTis/Backend/guardarNotaFinal.php", {
+      const response = await fetch("http://innovalogic.tis.cs.umss.edu.bo/guardarNotaFinal.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

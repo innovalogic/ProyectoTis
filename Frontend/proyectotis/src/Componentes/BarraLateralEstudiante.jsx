@@ -26,7 +26,7 @@ export default function BarraLateral() {
         const fetchEvaluaciones = async () => {
             console.log("GrupoEmpresa ID: ", user.idGrupoEmpresa);  // Verificar si tiene el valor correcto
             try {
-                const response = await axios.post('http://localhost/proyectotis/backend/obtenerEvaluacionFinal.php', {
+                const response = await axios.post('http://innovalogic.tis.cs.umss.edu.bo/obtenerEvaluacionFinal.php', {
                     grupoempresa_idgrupoempresa: user.idGrupoEmpresa,
                 });
                 console.log("Respuesta de la API:", response.data);  // Ver la respuesta de la API
@@ -69,7 +69,7 @@ export default function BarraLateral() {
 
     const handleMenuClick = async () => {
         try {
-            const responseEstudiantes = await axios.get('http://localhost/proyectotis/backend/ObtenerJefe.php', {
+            const responseEstudiantes = await axios.get('http://innovalogic.tis.cs.umss.edu.bo/ObtenerJefe.php', {
                 params: { idEstudiante: user.idEstudiante },
             });
             console.log('Respuesta del servidor:', responseEstudiantes.data, user.idEstudiante);
@@ -92,7 +92,7 @@ export default function BarraLateral() {
     useEffect(() => {
         const fetchPlanificado = async () => {
             try {
-                const response = await axios.post('http://localhost/proyectotis/backend/obtenerPlanificado.php', {
+                const response = await axios.post('http://innovalogic.tis.cs.umss.edu.bo/obtenerPlanificado.php', {
                     idGrupoEmpresa: user.idGrupoEmpresa,
                 });
                 console.log('Data:', response);
@@ -128,14 +128,14 @@ export default function BarraLateral() {
                             className="bg-[#32569A] text-[#EFE7DC] p-2 rounded flex items-center justify-center"
                         >
                             <img
-                                src="/src/Imagenes/Barra.png"
+                                src="/Imagenes/Barra.png"
                                 alt={collapsed ? 'Expandir' : 'Colapsar'}
                                 className="w-6 h-6"
                             />
                         </button>
                     </div>
                     <div className="text-center mt-4">
-                        <img src="/src/Imagenes/Estudiante.png" alt="Logo" className="w-16 h-16 inline-block" />
+                        <img src="/Imagenes/estudiante.png" alt="Logo" className="w-16 h-16 inline-block" />
                     </div>
 
                     <h1 className={`${collapsed ? 'hidden' : 'block'} text-[#EFE7DC] font-bold text-2xl text-center p-2 mt-4`}>Estudiante</h1>
@@ -162,7 +162,7 @@ export default function BarraLateral() {
                     >
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/Inicio.png" alt="Inicio" className="w-8 h-8 inline-block" />}
                             component={<Link to="/InicioEstudiante" />}
                         >
                             Inicio
@@ -172,7 +172,7 @@ export default function BarraLateral() {
                             <SubMenu
                             label="Evaluaciones"
                             className="bg-[#32569A] text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/Test.png" alt="Evaluaciones" className="w-8 h-8 inline-block" />}
                             >
                             <MenuItem className="text-white font-bold" onClick={handleMenuClick}>
                                 Recuperar evaluaciones
@@ -203,7 +203,7 @@ export default function BarraLateral() {
                             label="Empresa"
                             className="bg-[#32569A] text-[#EFE7DC] font-bold"
                             style={{ backgroundColor: '#32569A', color: '[#EFE7DC]' }}
-                            icon={<img src="/src/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/Grupo.png" alt="Empresa" className="w-8 h-8 inline-block" />}
                         >
                             {user.idGrupoEmpresa === null && (
                                 <MenuItem className="text-white font-bold" component={<Link to="/RegistroEmpresa" />}>
@@ -229,7 +229,7 @@ export default function BarraLateral() {
 
                         <MenuItem
                             className="text-[#EFE7DC] font-bold"
-                            icon={<img src="/src/Imagenes/Estudiante.png" alt="Perfil" className="w-8 h-8 inline-block" />}
+                            icon={<img src="/Imagenes/estudiante.png" alt="Perfil" className="w-8 h-8 inline-block" />}
                             component={<Link to="/PerfilEstudiante" />}
                         >
                             Perfil
@@ -239,7 +239,7 @@ export default function BarraLateral() {
                             <MenuItem
                                 className="text-[#EFE7DC] font-bold"
                                 onClick={handleLogout}
-                                icon={<img src="/src/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
+                                icon={<img src="/Imagenes/Logout.png" alt="Cerrar sesión" className="w-8 h-8 inline-block" />}
                                 component={<Link to="/" />}
                             >
                                 Cerrar sesión

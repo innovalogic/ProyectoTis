@@ -28,7 +28,7 @@ const FormTarea = ({ onSubmit, nomSprint }) => {
       };
       console.log('datos:', dataToSend);
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/llamadas.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const FormTarea = ({ onSubmit, nomSprint }) => {
       };
       console.log('datos:', dataToSend);
       try {
-        const response = await fetch('http://localhost/ProyectoTis/Backend/llamadas.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/llamadas.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ const FormTarea = ({ onSubmit, nomSprint }) => {
           fecha: formattedDate // Usar la fecha formateada
         };
 
-        const response = await fetch('http://localhost/ProyectoTis/Backend/guardarTarea.php', {
+        const response = await fetch('http://innovalogic.tis.cs.umss.edu.bo/guardarTarea.php', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

@@ -32,7 +32,7 @@ export default function RecuperarEvaluacion() {
     useEffect(() => {
         const fetchEstudiantes = async () => {
             try {
-                const response = await axios.get('http://localhost/proyectotis/backend/CargarEvaluaciones.php', {
+                const response = await axios.get('http://innovalogic.tis.cs.umss.edu.bo/CargarEvaluaciones.php', {
                     params: { idDocente: user.idDocente  }
                 });
                 if (response.data.success === true) {
@@ -51,7 +51,7 @@ export default function RecuperarEvaluacion() {
 
     const cargarDatosGrupo = async (idDocente) => {
         try {
-            const response = await axios.get('http://localhost/proyectotis/backend/CargarGrupoDocente.php', {
+            const response = await axios.get('http://innovalogic.tis.cs.umss.edu.bo/CargarGrupoDocente.php', {
                 params: { idDocente }
             });
 
