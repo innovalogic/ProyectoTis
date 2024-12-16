@@ -42,12 +42,15 @@ export default function Autoevaluacion() {
       fetch("http://localhost/ProyectoTis/Backend/obtenerCriterios.php")
           .then((response) => response.json())
           .then((data) => {
+              console.log(data);
               if (data.success) {
                 const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
+                console.log(tipoAutoEvaluacion);
                 if (tipoAutoEvaluacion) {
                   const criteriosAutoEvaluacion = data.criterios.filter(
                     criterio => criterio.tipoevaluacion_idtipoevaluacion === tipoAutoEvaluacion.idtipoevaluacion
                   );
+                  console.log(criteriosAutoEvaluacion)
                   setCriterios(criteriosAutoEvaluacion);
                   setRespuestas(Array(criteriosAutoEvaluacion.length).fill(null)); 
                 }
