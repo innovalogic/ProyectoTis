@@ -63,7 +63,8 @@ export default function InicioEstudiante() {
           // Combina ambos datos en un solo objeto
           body: JSON.stringify({
               sprintSeleccionado,
-              idEstudiante
+              idEstudiante,
+              nombre
           })
       });
 
