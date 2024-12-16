@@ -72,7 +72,6 @@ const Bitacoras = () => {
             <table className="w-full text-gray-200">
             <thead>
                 <tr>
-                  <th className="p-2 border-b">IdBitacora</th>
                   <th className="p-2 border-b">idUsuario</th>
                   <th className="p-2 border-b">Usuario</th>
                   <th className="p-2 border-b">Mensaje</th>
@@ -83,7 +82,6 @@ const Bitacoras = () => {
               {estudiantesDataPaginated.length > 0 ? (
                   estudiantesDataPaginated.map((bitacora, index) => (
                     <tr key={index} style={{ color: "white", border: "1px solid white" }}>
-                                          <td  className="p-2 border-b">{bitacora.idBitacora}</td>
                                           <td className="p-2 border-b">{bitacora.idUsuario}</td>
                                           <td className="p-2 border-b">{bitacora.Usuario}</td>
                                           <td className="p-2 border-b">{bitacora.Mensaje}</td>
