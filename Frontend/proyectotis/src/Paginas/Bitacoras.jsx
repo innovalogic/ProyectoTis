@@ -59,7 +59,7 @@ const Bitacoras = () => {
       <Navbar />
       <div className="bg-custom-bg flex" style={{ height: 'calc(-110px + 100vh)', marginTop: '70px' }}>
         <BarraLateral />
-        <div className="mt-8 flex-1">
+        <div className="mt-8 flex-1" style={{  overflowY: 'auto'  }}>
         <div className="w-3/4 mx-auto">
           <h2 className="font-semibold text-3xl" style={{ color: "#1E3664" }}>
               BITACORA

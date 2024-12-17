@@ -63,7 +63,7 @@ export default function EvaluacionCruzada() {
     // Calcular promedio y ajustar a escala de 100
     const total = respuestas.reduce((acc, val) => acc + (val || 0), 0);
     const promedio = total / criterios.length;
-    const notaFinal = (promedio / 5) * 100; // Escala sobre 100
+    const notaFinal = Math.round((promedio / 5) * 100); // Escala sobre 100 y redondeo
 
     const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Evaluación cruzada");
 
@@ -120,7 +120,7 @@ export default function EvaluacionCruzada() {
       <NavbarInicioDeSesion />
       <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px' }}>
         <BarraLateral />
-        <div className='evaluacion'>
+        <div className='evaluacion' style={{  overflowY: 'auto'  }}>  
           <div className='final'>
             <div>
               <h2 className='tit'>Evaluación final</h2>

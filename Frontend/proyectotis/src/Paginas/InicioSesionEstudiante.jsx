@@ -115,7 +115,7 @@ export default function InicioSesionEstudiante() {
   return (
     <div className="bg-cover bg-center h-screen flex flex-col justify-between" style={{ backgroundImage: `url(${UMSS})` }}>
       <NavbarInicioDeSesion />
-      <div className="flex-grow flex items-center justify-center mt-16">
+      <div className="flex-grow flex items-center justify-center mt-16" style={{  overflowY: 'auto'  }}>
         <div className="bg-custom-bg bg-opacity-90 p-12 flex flex-col items-center justify-center"
              style={{ width: "60%", minWidth: "500px", height: "80%", maxWidth: "600px", borderRadius: "5rem", boxShadow: "0 10px 15px rgba(0, 0, 0, 0.1)" }}>
           <div className="text-center mt-0">

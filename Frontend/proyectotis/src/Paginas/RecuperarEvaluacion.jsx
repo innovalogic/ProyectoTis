@@ -137,7 +137,7 @@ export default function RecuperarEvaluacion() {
             <NavbarInicioDeSesion />
             <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px', backgroundColor: '#32569A' }}>
                 <BarraLateralDocente/>
-                <form className={`space-y-4 p-4 flex-1 bg-[#efe7dc] rounded-md`}>
+                <form className={`space-y-4 p-4 flex-1 bg-[#efe7dc] rounded-md`} style={{  overflowY: 'auto'  }}>
                     <h1 className="text-2xl font-bold text-[#32569A] text-center mb-4">Recuperar Evaluaciones</h1>
 
                     <div className="flex flex-col sm:flex-row sm:space-x-4 mb-4">

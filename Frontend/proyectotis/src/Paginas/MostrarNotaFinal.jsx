@@ -66,7 +66,7 @@ export default function MostrarNotaFinal () {
       <NavbarInicioDeSesion />
       <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px'}}>   
       <BarraLateral/>
-        <div className='Plani'>
+        <div className='Plani' style={{  overflowY: 'auto'  }}>
           <div className='Planificacion'>
             <div className='titulo'>
               <h2>Nota Evaluación Final</h2>
