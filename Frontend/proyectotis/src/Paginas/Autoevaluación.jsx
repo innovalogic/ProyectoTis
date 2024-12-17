@@ -39,29 +39,7 @@ export default function Autoevaluacion() {
   }, []);
 
   const cargarCriterios = () => {
-    fetch("http://innovalogic.tis.cs.umss.edu.bo/obtenerCriterios.php")
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data);
-            if (data.success) {
-              const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
-              console.log(tipoAutoEvaluacion);
-              if (tipoAutoEvaluacion) {
-                const criteriosAutoEvaluacion = data.criterios.filter(
-                  criterio => criterio.tipoevaluacion_idtipoevaluacion === tipoAutoEvaluacion.idtipoevaluacion
-                );
-                console.log(criteriosAutoEvaluacion)
-                setCriterios(criteriosAutoEvaluacion);
-                setRespuestas(Array(criteriosAutoEvaluacion.length).fill(null)); 
-              }
-            }
-        })
-        .catch((error) => console.error("Error al cargar criterios:", error));
-} ;
-
-useEffect(() => {
-  cargarCriterios();
-      fetch("http://localhost/ProyectoTis/Backend/obtenerCriterios.php")
+      fetch("http://innovalogic.tis.cs.umss.edu.bo/obtenerCriterios.php")
           .then((response) => response.json())
           .then((data) => {
               console.log(data);
