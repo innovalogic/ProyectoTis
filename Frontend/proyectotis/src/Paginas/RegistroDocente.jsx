@@ -146,7 +146,7 @@ export default function RegistroDocente() {
             <div className="bg-custom-bg" style={{ display: 'flex', flexDirection: 'column', marginTop: '70px', height: 'calc(-110px + 100vh)' }}>
                 <div style={{ display: 'flex', flex: 1 }}>
                     <BarraLateral />
-                    <div style={{ flex: 1, padding: '20px' }}>
+                    <div style={{ flex: 1, padding: '20px', overflowY: 'auto' }}>
                         {/* Título centrado */}
                         <div style={{ 
                             marginBottom: '20px',

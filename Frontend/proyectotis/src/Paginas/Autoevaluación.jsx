@@ -61,6 +61,28 @@ export default function Autoevaluacion() {
 
 useEffect(() => {
   cargarCriterios();
+      fetch("http://localhost/ProyectoTis/Backend/obtenerCriterios.php")
+          .then((response) => response.json())
+          .then((data) => {
+              console.log(data);
+              if (data.success) {
+                const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
+                console.log(tipoAutoEvaluacion);
+                if (tipoAutoEvaluacion) {
+                  const criteriosAutoEvaluacion = data.criterios.filter(
+                    criterio => criterio.tipoevaluacion_idtipoevaluacion === tipoAutoEvaluacion.idtipoevaluacion
+                  );
+                  console.log(criteriosAutoEvaluacion)
+                  setCriterios(criteriosAutoEvaluacion);
+                  setRespuestas(Array(criteriosAutoEvaluacion.length).fill(null)); 
+                }
+              }
+          })
+          .catch((error) => console.error("Error al cargar criterios:", error));
+  } ;
+  
+  useEffect(() => {
+    cargarCriterios();
 }, [tiposEvaluaciones]);
 
   // Función para manejar la selección de radio buttons
@@ -74,7 +96,7 @@ useEffect(() => {
     // Calcular promedio y ajustar a escala de 100
     const total = respuestas.reduce((acc, val) => acc + (val || 0), 0);
     const promedio = total / criterios.length;
-    const notaFinal = (promedio / 5) * 100; // Escala sobre 100
+    const notaFinal = Math.round((promedio / 5) * 100); // Escala sobre 100 y redondeo
 
     const tipoAutoEvaluacion = tiposEvaluaciones.find(tipo => tipo.nombreevaluación === "Auto-evaluación");
 
@@ -132,7 +154,7 @@ useEffect(() => {
       <NavbarInicioDeSesion />
       <div style={{ display: 'flex', height: 'calc(-110px + 100vh)', marginTop: '70px' }}>
         <BarraLateral />
-        <div className='evaluacion'>
+        <div className='evaluacion' style={{  overflowY: 'auto'  }}>
           <div className='final'>
             <div>
               <h2 className='tit'>Evaluación final</h2>

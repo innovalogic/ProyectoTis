@@ -253,7 +253,7 @@ export default function RegistroEvSemanales() {
             <NavbarInicioDeSesion />
             <div className="flex w-screen mt-[70px] bg-[#32569A]"  style={{ height: 'calc(-110px + 100vh)', marginTop: '70px' }}>
                 <BarraLateralDocente />
-                <div className="w-screen bg-[#efe7dc] p-4">
+                <div className="w-screen bg-[#efe7dc] p-4" style={{  overflowY: 'auto'  }}>
                     <h1 className="text-4xl font-bold text-[#32569A] text-center mb-4">Registrar Evaluaciones Semanales</h1>
                     <select
                         className="flex-1 px-4 py-2 bg-[#32569A] text-white border border-[#32569A] rounded"

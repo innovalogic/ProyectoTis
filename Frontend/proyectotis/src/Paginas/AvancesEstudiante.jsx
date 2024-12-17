@@ -63,7 +63,8 @@ export default function InicioEstudiante() {
           // Combina ambos datos en un solo objeto
           body: JSON.stringify({
               sprintSeleccionado,
-              idEstudiante
+              idEstudiante,
+              nombre
           })
       });
 
@@ -245,7 +246,7 @@ export default function InicioEstudiante() {
       <NavbarInicioDeSesion />
       <div className="flex h-full mt-16 bg-custom-bg"  style={{ height: 'calc(-110px + 100vh)', marginTop: '70px'}}>
         <BarraLateral />
-        <div className="flex-grow p-8">
+        <div className="flex-grow p-8" style={{  overflowY: 'auto'  }}>
           <h1 className="text-4xl font-bold text-center mb-8" style={{ color: "#1E3664"}}>
             AVANCES
           </h1>

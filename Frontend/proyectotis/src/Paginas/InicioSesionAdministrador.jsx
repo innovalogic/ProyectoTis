@@ -73,7 +73,7 @@ export default function InicioSesionAdministrador() {
       style={{ backgroundImage: `url(${UMSSADMIN})` }}
     >
       <NavbarInicioDeSesion />
-      <div className="flex-grow flex items-center justify-center mt-16">
+      <div className="flex-grow flex items-center justify-center mt-16" style={{  overflowY: 'auto'  }}>
         <div
           className="bg-custom-bg bg-opacity-90 p-12 flex flex-col items-center justify-center"
           style={{

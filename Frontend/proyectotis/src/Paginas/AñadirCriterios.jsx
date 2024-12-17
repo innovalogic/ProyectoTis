@@ -146,7 +146,7 @@ export default function AñadirCriterios() {
             <NavbarInicioDeSesion />
             <div className="flex w-screen mt-[70px] bg-[#32569A]" style={{ height: 'calc(-110px + 100vh)' }}>
                 <BarraLateralDocente />
-                <div className="PageAñadir">
+                <div className="PageAñadir" style={{  overflowY: 'auto'  }}>
                     <h1 className="titulocriterio">Registro de Criterios de Evaluación</h1>
                     {/* Formulario para ingresar criterio */}
                     <div >
